@@ -1,6 +1,6 @@
 # Files-Driven Governance 完整说明书
 
-当前版本：`v0.2.0`
+当前版本：`v0.2.1`
 
 ## 1. 项目简介
 
@@ -125,6 +125,17 @@
 4. 不应让 `Skill` 反向承担角色 authority
 5. 不应让 `Agent` 收纳过多互不相关的任务技能
 
+### 4.1.2 五类核心对象的检索公理
+
+对 `policy_or_rules / object / workflow / skill / agent`，本技能默认要求：
+
+1. 有 canonical locator
+2. 有 current-version anchor
+3. 有跨工具稳定的 official retrieval order
+4. 有明确的 tool adapter surface
+
+如果一个项目只能通过某个工具入口才能找到这些对象，这说明治理还不够稳定。
+
 ### 4.2 四层文档视角
 
 在 source family 之外，本技能还要求把文档系统按这四层观察：
@@ -196,6 +207,24 @@
 - `sync trigger`：流程 gate 变化、状态转换、回滚
 - `conflict rule`：canonical source wins
 - `handoff packet`：当前目标、当前版本、阻塞点、下一步动作
+
+## 6.2 对象家族检索与适配
+
+本技能现在会单独检查五类核心对象的检索准备度：
+
+1. `policy_or_rules`
+2. `object`
+3. `workflow`
+4. `skill`
+5. `agent`
+
+每类对象都应回答：
+
+1. 真源在哪里
+2. 当前版本锚点在哪里
+3. 官方读取顺序是什么
+4. 哪些文件只是 tool adapter
+5. 哪些 adapter 只能 summarize，不能 define
 
 ## 7. 角色控制回路
 
@@ -331,6 +360,12 @@
    - `execution_object`
    - `status_projection`
 
+同时要求：
+
+1. 五类核心对象要有稳定的 official retrieval order
+2. tool adapter 只能作为 bootstrap、launcher、projection 或 compatibility shim
+3. tool adapter 不能成为唯一 locator
+
 ### 10.1 Claude Code / Codex / AntiGravity 的正确位置
 
 建议把它们理解为：
@@ -400,15 +435,19 @@ Use $files-driven to analyze this repo's rules, agents, workflows, skills, and d
 - [`classic-governance-flows.md`](../references/classic-governance-flows.md)
 - [`core-doctrine.md`](../references/core-doctrine.md)
 - [`cross-layer-sharing-contract.md`](../references/cross-layer-sharing-contract.md)
+- [`family-locator-contract.md`](../references/family-locator-contract.md)
+- [`official-retrieval-orders.md`](../references/official-retrieval-orders.md)
 - [`output-contract.md`](../references/output-contract.md)
 - [`scenario-playbooks.md`](../references/scenario-playbooks.md)
 - [`shared-patterns-from-aijournal-and-hqmdclaw.md`](../references/shared-patterns-from-aijournal-and-hqmdclaw.md)
 - [`strategy-selection-matrix.md`](../references/strategy-selection-matrix.md)
+- [`tool-adapter-matrix.md`](../references/tool-adapter-matrix.md)
 - [`tool-portable-team-practices.md`](../references/tool-portable-team-practices.md)
 
 ### 13.3 发布说明
 
 - [`RELEASE_NOTES_v0.2.0.md`](./RELEASE_NOTES_v0.2.0.md)
+- [`RELEASE_NOTES_v0.2.1.md`](./RELEASE_NOTES_v0.2.1.md)
 
 ## 14. 维护建议
 
@@ -431,6 +470,7 @@ Use $files-driven to analyze this repo's rules, agents, workflows, skills, and d
 - `CONTRIBUTING.md`
 - `SECURITY.md`
 - `docs/RELEASE_NOTES_v0.2.0.md`
+- `docs/RELEASE_NOTES_v0.2.1.md`
 - `docs/GITHUB_UPLOAD_CHECKLIST.md`
 - `docs/REPO_METADATA.md`
 - `.github` 模板

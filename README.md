@@ -1,6 +1,6 @@
 # Files-Driven Governance
 
-当前版本：`v0.2.0`
+当前版本：`v0.2.1`
 
 `files-driven` 是一个面向 `AI Agent` / `OpenClaw` / AI 驱动 workflow 项目的项目结构治理技能。
 
@@ -16,6 +16,17 @@
 - `display_projection`
 
 之间的真源、投影、同步顺序、共享协议、控制回路与经典流程库。
+
+## v0.2.1 补丁重点
+
+这一版补齐了前一轮遗漏的“对象家族检索与工具适配”层，把 `policy_or_rules / object / workflow / skill / agent` 的 locator、current-version anchor、official retrieval order 和 tool adapter surface 明确写成了正式 contract。
+
+本次补丁重点包括：
+
+1. 新增 family locator contract。
+2. 新增五类核心对象的官方检索顺序。
+3. 新增 tool adapter matrix，显式区分 canonical source 和 adapter surface。
+4. 把 `对象家族检索与适配策略` 升为输出必答区块。
 
 ## v0.2.0 升级重点
 
@@ -69,6 +80,12 @@
    - 绑定可复用 procedure
    - 绑定任务能力和操作方法
    - 不伪装成角色本体
+
+并增加一个显式的检索原则：
+
+1. `policy_or_rules / object / workflow / skill / agent` 都应有稳定 locator
+2. 先找 canonical family source，再看 tool adapter
+3. 官方读取顺序应跨工具保持稳定
 
 ## 主要能力
 
@@ -124,6 +141,11 @@
    - `proposal -> validation -> shadow/canary -> activation_or_rollback`
    - `skill_seed -> package_contract -> active_package`
    - `contract_gap -> closure_topic -> downstream_resume`
+8. 设计对象家族检索与适配策略：
+   - family locator
+   - current-version anchor
+   - official retrieval order
+   - tool adapter surface
 
 ## 仓库结构
 
@@ -138,15 +160,19 @@
 │   ├── classic-governance-flows.md
 │   ├── core-doctrine.md
 │   ├── cross-layer-sharing-contract.md
+│   ├── family-locator-contract.md
+│   ├── official-retrieval-orders.md
 │   ├── output-contract.md
 │   ├── scenario-playbooks.md
 │   ├── shared-patterns-from-aijournal-and-hqmdclaw.md
 │   ├── strategy-selection-matrix.md
+│   ├── tool-adapter-matrix.md
 │   └── tool-portable-team-practices.md
 ├── docs/
 │   ├── MANUAL.md
 │   ├── GITHUB_UPLOAD_CHECKLIST.md
 │   ├── RELEASE_NOTES_v0.2.0.md
+│   ├── RELEASE_NOTES_v0.2.1.md
 │   └── REPO_METADATA.md
 ├── .github/
 │   ├── ISSUE_TEMPLATE/
@@ -193,9 +219,10 @@ Use $files-driven to analyze this repo's rules, agents, workflows, skills, and d
 8. `推荐角色控制回路`
 9. `推荐入口/恢复链`
 10. `推荐版本与同步纪律`
-11. `工具可移植性约束`
-12. `推荐下一步实施顺序`
-13. `明确不建议的做法`
+11. `对象家族检索与适配策略`
+12. `工具可移植性约束`
+13. `推荐下一步实施顺序`
+14. `明确不建议的做法`
 
 ## 文档导航
 
@@ -203,6 +230,7 @@ Use $files-driven to analyze this repo's rules, agents, workflows, skills, and d
 - 版本记录：[`CHANGELOG.md`](./CHANGELOG.md)
 - 完整说明书：[`docs/MANUAL.md`](./docs/MANUAL.md)
 - `v0.2.0` 发布说明：[`docs/RELEASE_NOTES_v0.2.0.md`](./docs/RELEASE_NOTES_v0.2.0.md)
+- `v0.2.1` 发布说明：[`docs/RELEASE_NOTES_v0.2.1.md`](./docs/RELEASE_NOTES_v0.2.1.md)
 - 上传 GitHub 清单：[`docs/GITHUB_UPLOAD_CHECKLIST.md`](./docs/GITHUB_UPLOAD_CHECKLIST.md)
 - 仓库元数据建议：[`docs/REPO_METADATA.md`](./docs/REPO_METADATA.md)
 - 贡献方式：[`CONTRIBUTING.md`](./CONTRIBUTING.md)

@@ -53,23 +53,23 @@
 
 推荐 tag：
 
-`v0.2.0`
+`v0.2.1`
 
 推荐发布标题：
 
-`v0.2.0 - Flow library upgrade`
+`v0.2.1 - Retrieval and adapter patch`
 
 推荐发布说明：
 
 ```text
-v0.2.0 upgrades Files-Driven Governance from a project-structure governance skill into a project-governance skill with an explicit classic flow library.
+v0.2.1 patches Files-Driven Governance by adding family locator contracts, official retrieval orders, and tool adapter guidance for `policy_or_rules`, `object`, `workflow`, `skill`, and `agent`.
 
 This release includes:
-- classic governance flow library distilled from AIJournal and HQMDClaw
-- explicit adversarial inquiry / defense / convergence reference
-- upgraded output contract with a required recommended-flow section
-- updated manual, changelog, and release notes
-- continued support for multi-tool environments and portable governance design
+- family locator contract
+- official retrieval orders
+- tool adapter matrix
+- upgraded output contract with a required retrieval-and-adapter section
+- updated manual, changelog, and patch release notes
 
 Designed for AI agent projects, OpenClaw-style workflows, and multi-tool environments such as Claude Code, Codex, and AntiGravity.
 ```

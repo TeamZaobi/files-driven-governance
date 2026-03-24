@@ -35,6 +35,7 @@ System-level design choices:
 - Define `agent` as role contract and control-surface carrier.
 - Define `skill` as task capability and reusable procedure package.
 - Treat “role” and “task skill” as different kinds of structure unless there is strong evidence they must be merged.
+- Give `policy_or_rules`、`object`、`workflow`、`skill`、`agent` stable locators and retrieval anchors before trusting tool bootstraps.
 
 ## Information Lens
 

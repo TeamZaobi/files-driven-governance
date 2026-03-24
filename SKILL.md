@@ -60,6 +60,22 @@ For each family, determine:
 
 Only after this map is clear should you recommend any folder layout or file naming changes.
 
+For the five core structural families:
+
+- `policy_or_rules`
+- `object`
+- `workflow`
+- `skill`
+- `agent`
+
+also determine:
+
+6. current-version locator
+7. official retrieval order
+8. tool-specific adapter surfaces
+
+Read [family-locator-contract](references/family-locator-contract.md) and [official-retrieval-orders](references/official-retrieval-orders.md) when the repo has multiple entrypoints, registries, tool bootstraps, or ambiguous “current version” signals.
+
 ### 4. Design the cross-layer sharing contract
 
 Read [cross-layer-sharing-contract](references/cross-layer-sharing-contract.md) whenever the project involves multiple people, multiple agents, or multiple tools.
@@ -76,6 +92,7 @@ For each important family, define:
 
 If the project uses several tools, treat tool entrypoints as adapters or projections unless there is explicit evidence that they are canonical sources.
 Do not let `Claude Code`、`Codex`、`AntiGravity` or any other tool name stand in for a durable project role.
+Read [tool-adapter-matrix](references/tool-adapter-matrix.md) when you need to explain how the same family should be surfaced across different tools without duplicating canonical definitions.
 
 ### 5. Map four documentation layers across those families
 
@@ -189,6 +206,7 @@ Always include:
 - `推荐角色控制回路`
 - `推荐入口/恢复链`
 - `推荐版本与同步纪律`
+- `对象家族检索与适配策略`
 - `工具可移植性约束`
 - `推荐下一步实施顺序`
 - `明确不建议的做法`
@@ -275,6 +293,9 @@ Use [scenario-playbooks](references/scenario-playbooks.md) to sequence triage, s
 - Read [strategy-selection-matrix](references/strategy-selection-matrix.md) when choosing governance strength or method combinations.
 - Read [classic-governance-flows](references/classic-governance-flows.md) when selecting which reusable governance flows should be default, conditional, or explicitly deferred.
 - Read [adversarial-convergence-loop](references/adversarial-convergence-loop.md) when the project needs hostile inquiry, structured defense, or question-level convergence semantics.
+- Read [family-locator-contract](references/family-locator-contract.md) when the user needs family-specific source locators, current-version anchors, or fallback retrieval rules.
+- Read [official-retrieval-orders](references/official-retrieval-orders.md) when the user needs a stable read order for `policy_or_rules`、`object`、`workflow`、`skill`、`agent`.
+- Read [tool-adapter-matrix](references/tool-adapter-matrix.md) when the user needs adapter guidance across Claude Code, Codex, AntiGravity, MCP, CLI wrappers, or other tool entrypoints.
 - Read [cross-layer-sharing-contract](references/cross-layer-sharing-contract.md) when the user needs multi-role, multi-agent, or multi-tool collaboration rules.
 - Read [tool-portable-team-practices](references/tool-portable-team-practices.md) when the user needs portable operational habits, writing rules, or team workflow adjustments across tools.
 - Read [output-contract](references/output-contract.md) immediately before drafting the final answer.

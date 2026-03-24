@@ -2,6 +2,19 @@
 
 All notable changes to `files-driven` are recorded here.
 
+## v0.2.1 - 2026-03-24
+
+### Added
+
+- Added `references/family-locator-contract.md` to define canonical locators, current-version anchors, and fallback rules for `policy_or_rules`、`object`、`workflow`、`skill`、`agent`.
+- Added `references/official-retrieval-orders.md` to formalize cross-tool read order for the five core families.
+- Added `references/tool-adapter-matrix.md` to separate tool adapters from canonical family sources.
+- Added `docs/RELEASE_NOTES_v0.2.1.md` for the patch release notes.
+
+### Changed
+
+- Extended `SKILL.md`, `README.md`, `docs/MANUAL.md`, `references/output-contract.md`, and `references/core-doctrine.md` to make family retrieval readiness and tool-adapter design explicit.
+
 ## v0.2.0 - 2026-03-24
 
 ### Added

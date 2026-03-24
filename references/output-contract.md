@@ -132,7 +132,18 @@ Specify:
 - when promotion or review should happen
 - where family boundaries require stricter no-overwrite rules
 
-### 11. 工具可移植性约束
+### 11. 对象家族检索与适配策略
+
+For `policy_or_rules`、`object`、`workflow`、`skill`、`agent`, specify:
+
+- canonical source locator
+- current-version anchor
+- official retrieval order
+- tool-specific adapter surfaces
+- which adapter surfaces are allowed to summarize only
+- where retrieval readiness is currently weak
+
+### 12. 工具可移植性约束
 
 When the team uses more than one tool or may migrate tools later, specify:
 
@@ -141,13 +152,13 @@ When the team uses more than one tool or may migrate tools later, specify:
 - which practices depend on a tool capability and which are general rules
 - how to avoid duplicating role definitions across tools
 
-### 12. 推荐下一步实施顺序
+### 13. 推荐下一步实施顺序
 
 Provide a short ordered sequence.
 Keep it practical.
 Prioritize stabilization before refinement when drift is present.
 
-### 13. 明确不建议的做法
+### 14. 明确不建议的做法
 
 Call out the high-probability mistakes for this specific project.
 Examples:
@@ -174,6 +185,7 @@ Also answer:
 - where tool-specific entrypoints are acting like canonical sources
 - which classic flows are currently happening only by habit rather than by explicit contract
 - where hostile inquiry or validation ladders are missing, overused, or fake
+- which families currently cannot be reliably retrieved without tool-specific bootstraps
 
 ### Greenfield
 
@@ -187,6 +199,7 @@ Also answer:
 - what the first cross-layer sharing contract should be
 - what the first default flow set should be
 - which escalated flows should stay deferred
+- what the first official retrieval order should be for the five core families
 
 ### Recovery or Realignment
 
@@ -199,6 +212,7 @@ Also answer:
 - which family boundaries must be re-established before any cosmetic cleanup
 - which tool-specific conventions should be demoted to adapters during recovery
 - which flows should be frozen during triage and which can be reintroduced later
+- which family locators must be rebuilt before the repo is considered stable
 
 ## Reasoning Discipline
 
