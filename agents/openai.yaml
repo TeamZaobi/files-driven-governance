@@ -1,0 +1,4 @@
+interface:
+  display_name: "Files-Driven Governance"
+  short_description: "Design project structure governance for AI agent systems"
+  default_prompt: "Use $files-driven to analyze this repo's rules, agents, workflows, skills, and documents, then design a right-sized project structure governance strategy."
