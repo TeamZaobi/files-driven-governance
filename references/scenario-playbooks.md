@@ -24,6 +24,7 @@ Deliver:
 - a cross-layer sharing map
 - the main drift points
 - a recommended governance mode
+- a recommended flow set
 - a role-loop sketch
 - a short migration sequence
 
@@ -38,6 +39,20 @@ Deliver:
 ### Preferred First Move
 
 Map the current truth sources and demote untrusted projections before changing directory shape.
+
+### Preferred Flow Set
+
+Usually start with:
+
+- `low_token_recovery_chain`
+- `discussion -> decision_package -> task_or_decision`
+- `truth_source -> execution_object -> status_projection -> display_projection`
+- `mechanism_review` when governance objects are touched
+
+Add conditionally:
+
+- `adversarial_inquiry -> defense -> convergence` for high-disagreement or promotion-bound topics
+- `proposal -> validation -> shadow/canary -> activation_or_rollback` for governance or public-surface changes
 
 ## Greenfield
 
@@ -61,6 +76,7 @@ Deliver:
 - the first cross-layer sharing contract
 - the first entry and recovery chain
 - the first role loop
+- the first default flow set
 - the first review or promotion rule, if any
 
 ### Common Failure Modes
@@ -73,6 +89,20 @@ Deliver:
 ### Preferred First Move
 
 Define the smallest stable truth-source set and one clear work-and-recovery path.
+
+### Preferred Flow Set
+
+Usually start with:
+
+- `low_token_recovery_chain`
+- `discussion -> decision_package -> task_or_decision`
+- `truth_source -> execution_object -> status_projection -> display_projection`
+
+Usually defer:
+
+- adversarial convergence on every topic
+- rollout ladders for routine low-risk work
+- isolated multi-role deliberation unless direct promotion evidence is required
 
 ## Recovery or Realignment
 
@@ -94,6 +124,7 @@ Deliver:
 - the canonical source reset
 - the short-term status recovery chain
 - the minimum repaired sharing contract
+- the minimum repaired flow set
 - the long-term redesign direction
 
 ### Common Failure Modes
@@ -106,3 +137,17 @@ Deliver:
 ### Preferred First Move
 
 Stop new structural churn, choose the current truth baseline, and restore a usable handoff path before redesign.
+
+### Preferred Flow Set
+
+Start with:
+
+- `low_token_recovery_chain`
+- `truth_source -> execution_object -> status_projection -> display_projection`
+- `mechanism_review`
+
+Reintroduce later, once truth is trusted:
+
+- `adversarial_inquiry -> defense -> convergence`
+- `proposal -> validation -> shadow/canary -> activation_or_rollback`
+- `skill_seed -> package_contract -> active_package`

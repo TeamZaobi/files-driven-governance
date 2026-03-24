@@ -1,5 +1,7 @@
 # Files-Driven Governance 完整说明书
 
+当前版本：`v0.2.0`
+
 ## 1. 项目简介
 
 `files-driven` 是一个“项目结构治理技能”，不是单纯的文件命名或目录规划工具。
@@ -100,6 +102,29 @@
 
 这一步优先于目录规划。
 
+### 4.1.1 Agent 与 Skill 的设计公理
+
+本技能对 `agent` 和 `skill` 的区分采用一条明确公理：
+
+1. `Agent` 以角色来定义
+   - 定义职责
+   - 定义 authority
+   - 定义输入输出边界
+   - 定义它在控制回路里的位置
+2. `Skill` 以任务技能来定义
+   - 定义可复用 procedure
+   - 定义任务方法
+   - 定义执行 checklist、references、assets
+   - 定义适用边界与触发条件
+
+因此：
+
+1. 不应用工具名来定义长期 `Agent`
+2. 不应用单次任务名来定义长期 `Agent`
+3. 不应用人格或角色名来定义 `Skill`
+4. 不应让 `Skill` 反向承担角色 authority
+5. 不应让 `Agent` 收纳过多互不相关的任务技能
+
 ### 4.2 四层文档视角
 
 在 source family 之外，本技能还要求把文档系统按这四层观察：
@@ -192,6 +217,12 @@
 
 这些是责任模式，不是必须照抄的标题。
 
+补充约束：
+
+1. 角色模式应优先落到 `Agent`
+2. 任务能力模式应优先落到 `Skill`
+3. 如果一个设计同时像“角色说明书”又像“任务说明书”，默认先拆分，而不是继续混写
+
 ## 8. 方法组合建议
 
 ### 8.1 Spec-Driven
@@ -230,7 +261,62 @@
 - 用 Kanban 管理流动
 - 视阶段需要叠加 Sprint-like review 节奏
 
-## 9. 多工具环境的处理方式
+## 9. 经典流程库
+
+这一版 skill 不再只输出“结构图”，还会输出“建议沉淀的流程库”。
+
+这些流程分成两层：
+
+### 9.1 默认流程
+
+默认流程是大多数 AI Agent 项目都值得优先建立的最小治理回路：
+
+1. `low_token_recovery_chain`
+   - `status entry -> active object -> canonical source -> history on demand`
+2. `discussion -> decision_package -> task_or_decision`
+3. `truth_source -> execution_object -> status_projection -> display_projection`
+4. `mechanism_review -> repair_or_split`
+
+### 9.2 条件升级流程
+
+条件升级流程只有在项目风险、分歧、自动化程度或治理强度足够高时才建议启用：
+
+1. `adversarial_inquiry -> defense -> convergence`
+2. `isolated_multi_role_deliberation`
+3. `proposal -> validation -> shadow/canary -> activation_or_rollback`
+4. `skill_seed -> package_contract -> active_package`
+5. `contract_gap -> closure_topic -> downstream_resume`
+
+### 9.3 为什么要把流程也纳入 skill
+
+因为你要治理的不是静态目录，而是：
+
+- 主题如何从未决进入执行
+- 高风险争议如何被打磨到可接受
+- 机制缺口如何被独立拆出而不是偷偷补洞
+- 新 procedure 如何从 seed 变成 active package
+
+也就是说，结构设计和流程设计必须一起给。
+
+### 9.4 敌意质询的定位
+
+`敌意质询 -> 答辩 -> 收敛` 在本技能里已被升为显式高级流程。
+
+它适用于：
+
+1. 重要主题分歧较大
+2. 讨论结果将直接晋升为 `task / decision`
+3. 需要制度性反方或用户价值标杆位
+4. 团队已有“太快达成礼貌共识”的倾向
+
+其最小要求是：
+
+1. `question_id`
+2. 逐条应答
+3. `resolved / accepted / downgraded / deferred`
+4. 明确的 `closure_authority`
+
+## 10. 多工具环境的处理方式
 
 本技能默认支持多工具并存，但要求：
 
@@ -245,7 +331,7 @@
    - `execution_object`
    - `status_projection`
 
-### 9.1 Claude Code / Codex / AntiGravity 的正确位置
+### 10.1 Claude Code / Codex / AntiGravity 的正确位置
 
 建议把它们理解为：
 
@@ -260,9 +346,9 @@
 - 项目真源
 - 永久治理结构
 
-## 10. 使用方式
+## 11. 使用方式
 
-### 10.1 作为仓库诊断器
+### 11.1 作为仓库诊断器
 
 可直接使用：
 
@@ -270,19 +356,19 @@
 Use $files-driven to analyze this repo's rules, agents, workflows, skills, and documents, then design a right-sized project structure governance strategy.
 ```
 
-### 10.2 作为新项目设计器
+### 11.2 作为新项目设计器
 
 ```text
 请使用 $files-driven 为一个新的 AI Agent 项目设计项目结构治理方案，要求包含 source family、跨层共享矩阵、角色控制回路和最小恢复链。
 ```
 
-### 10.3 作为治理收口器
+### 11.3 作为治理收口器
 
 ```text
 请使用 $files-driven 诊断这个项目里 rules、README、状态页、任务卡和 workflow 漂移的问题，先给止血顺序，再给终态治理结构。
 ```
 
-## 11. 输出说明
+## 12. 输出说明
 
 标准输出区块如下：
 
@@ -291,23 +377,27 @@ Use $files-driven to analyze this repo's rules, agents, workflows, skills, and d
 3. `跨层共享矩阵`
 4. `当前主要失真或治理压力`
 5. `推荐治理模式`
-6. `推荐项目结构分层`
-7. `推荐角色控制回路`
-8. `推荐入口/恢复链`
-9. `推荐版本与同步纪律`
-10. `工具可移植性约束`
-11. `推荐下一步实施顺序`
-12. `明确不建议的做法`
+6. `推荐经典流程库`
+7. `推荐项目结构分层`
+8. `推荐角色控制回路`
+9. `推荐入口/恢复链`
+10. `推荐版本与同步纪律`
+11. `工具可移植性约束`
+12. `推荐下一步实施顺序`
+13. `明确不建议的做法`
 
-## 12. 仓库内文件说明
+## 13. 仓库内文件说明
 
-### 12.1 核心真源
+### 13.1 核心真源
 
 - [`SKILL.md`](../SKILL.md)
 - [`agents/openai.yaml`](../agents/openai.yaml)
+- [`CHANGELOG.md`](../CHANGELOG.md)
 
-### 12.2 参考资料
+### 13.2 参考资料
 
+- [`adversarial-convergence-loop.md`](../references/adversarial-convergence-loop.md)
+- [`classic-governance-flows.md`](../references/classic-governance-flows.md)
 - [`core-doctrine.md`](../references/core-doctrine.md)
 - [`cross-layer-sharing-contract.md`](../references/cross-layer-sharing-contract.md)
 - [`output-contract.md`](../references/output-contract.md)
@@ -316,7 +406,11 @@ Use $files-driven to analyze this repo's rules, agents, workflows, skills, and d
 - [`strategy-selection-matrix.md`](../references/strategy-selection-matrix.md)
 - [`tool-portable-team-practices.md`](../references/tool-portable-team-practices.md)
 
-## 13. 维护建议
+### 13.3 发布说明
+
+- [`RELEASE_NOTES_v0.2.0.md`](./RELEASE_NOTES_v0.2.0.md)
+
+## 14. 维护建议
 
 建议按以下节奏维护：
 
@@ -324,16 +418,19 @@ Use $files-driven to analyze this repo's rules, agents, workflows, skills, and d
 2. 只有当触发条件、核心工作流、输出契约变化时，再改 `SKILL.md`。
 3. 若对外定位变了，同步更新 `agents/openai.yaml`、`README.md`、GitHub 仓库元数据。
 4. 若新增工具适配，不要把工具文案写进 canonical role，优先写进跨工具实践说明。
+5. 若经典流程库发生变化，同步更新 `references/classic-governance-flows.md`、`references/adversarial-convergence-loop.md` 与 `CHANGELOG.md`。
 
-## 14. 发布建议
+## 15. 发布建议
 
 上传 GitHub 前，建议至少具备：
 
 - `README.md`
+- `CHANGELOG.md`
 - `LICENSE`
 - `.gitignore`
 - `CONTRIBUTING.md`
 - `SECURITY.md`
+- `docs/RELEASE_NOTES_v0.2.0.md`
 - `docs/GITHUB_UPLOAD_CHECKLIST.md`
 - `docs/REPO_METADATA.md`
 - `.github` 模板

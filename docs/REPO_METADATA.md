@@ -49,27 +49,27 @@
 
 `Use documentation as the governance substrate for rules, workflows, agents, skills, execution objects, and cross-layer collaboration.`
 
-## 5. 首发版本建议
+## 5. 当前发布版本建议
 
 推荐 tag：
 
-`v0.1.0`
+`v0.2.0`
 
 推荐发布标题：
 
-`v0.1.0 - Initial public release`
+`v0.2.0 - Flow library upgrade`
 
 推荐发布说明：
 
 ```text
-Initial public release of Files-Driven Governance.
+v0.2.0 upgrades Files-Driven Governance from a project-structure governance skill into a project-governance skill with an explicit classic flow library.
 
 This release includes:
-- core skill definition
-- doctrine and strategy references
-- cross-layer sharing contract
-- multi-tool team practices
-- GitHub publishing docs and templates
+- classic governance flow library distilled from AIJournal and HQMDClaw
+- explicit adversarial inquiry / defense / convergence reference
+- upgraded output contract with a required recommended-flow section
+- updated manual, changelog, and release notes
+- continued support for multi-tool environments and portable governance design
 
 Designed for AI agent projects, OpenClaw-style workflows, and multi-tool environments such as Claude Code, Codex, and AntiGravity.
 ```

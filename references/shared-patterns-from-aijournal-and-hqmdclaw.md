@@ -96,6 +96,66 @@ Folder refinement is useful only after:
 - recovery entrypoints are trustworthy
 - projections stop pretending to be canonical
 
+## Classic Flows Worth Preserving
+
+These flow shapes recur across both projects and are more transferable than any directory tree.
+
+### 1. Low-token recovery before deep reading
+
+Prefer:
+
+`workflow-state or start-here -> active work object -> canonical source -> history on demand`
+
+### 2. Discussion before promotion
+
+Prefer:
+
+`discussion -> minimal decision package -> task or decision`
+
+This keeps open topics from being smuggled straight into execution.
+
+### 3. Explicit sync order across layers
+
+Prefer:
+
+`truth_source -> execution_object -> status_projection -> display_projection`
+
+This keeps status and display layers derivative.
+
+### 4. Mechanism review after touching governance objects
+
+When `rules`, `agents`, `skills`, or `workflows` are touched, route findings into a repair loop rather than leaving them as informal retro comments.
+
+### 5. Adversarial inquiry for risky or disputed promotion topics
+
+Use an institutional opposition role, explicit `question_id`, explicit responses, and explicit convergence states when polite agreement is likely to hide weak thinking.
+
+### 6. Isolated multi-role deliberation when promotion evidence matters
+
+If one model or one person is simulating multiple formal roles, promotion-grade outputs need isolation evidence such as `context_manifest`, `context_receipt`, and structured issue tracking.
+
+### 7. Proposal, validation, rollout, activation, rollback
+
+For governance or runtime-affecting changes, bounded adoption is usually safer than instant defaulting.
+
+### 8. Skill seed package promotion
+
+Treat reusable procedures as governed packages, not as loose prompts.
+Keep `planned` distinct from `active`.
+
+### 9. Split contract-gap closure out of downstream drafts
+
+If a skill, agent, or workflow draft is compensating for an upstream contract gap, extract that gap into its own closure topic instead of silently hardcoding the workaround.
+
+## Development Arc
+
+The reusable evolution pattern is:
+
+1. `HQMDClaw` develops operational primitives under real collaboration pressure
+2. `AIJournal` generalizes those primitives into proposal, validation, rollout, and package-governance shells
+
+This means the transferable asset is not the local naming shell, but the operational flow beneath it.
+
 ## Patterns to Avoid Copying Literally
 
 Do not inherit these elements by default:

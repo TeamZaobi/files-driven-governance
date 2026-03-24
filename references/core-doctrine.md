@@ -32,6 +32,9 @@ System-level design choices:
 - Resist making one file serve every role.
 - Separate structural families before refining directory layout.
 - Make it clear which family defines facts and which family only consumes or projects them.
+- Define `agent` as role contract and control-surface carrier.
+- Define `skill` as task capability and reusable procedure package.
+- Treat “role” and “task skill” as different kinds of structure unless there is strong evidence they must be merged.
 
 ## Information Lens
 

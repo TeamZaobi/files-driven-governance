@@ -67,7 +67,28 @@ Identify the dominant pressures, such as:
 State the chosen governance mode or combination.
 Explain why it fits the current diagnosis.
 
-### 6. 推荐项目结构分层
+### 6. 推荐经典流程库
+
+State which classic governance flows should become:
+
+1. default project habits
+2. conditional escalation paths
+3. explicitly deferred patterns
+
+At minimum, judge whether the project needs:
+
+- `low_token_recovery_chain`
+- `discussion -> decision_package -> task_or_decision`
+- `truth_source -> execution_object -> status_projection -> display_projection`
+- `mechanism_review`
+- `adversarial_inquiry -> defense -> convergence`
+- `proposal -> validation -> shadow/canary -> activation_or_rollback`
+- `skill_seed -> package_contract -> active_package`
+- `contract_gap -> closure_topic -> downstream_resume`
+
+Explain the trigger conditions for every non-default flow.
+
+### 7. 推荐项目结构分层
 
 Map the proposed documentation system into:
 
@@ -78,7 +99,7 @@ Map the proposed documentation system into:
 
 Also explain how the source families sit across those layers.
 
-### 7. 推荐角色控制回路
+### 8. 推荐角色控制回路
 
 Describe the main control loops in this project.
 At minimum, cover:
@@ -91,7 +112,7 @@ At minimum, cover:
 
 When the project uses agents, specify which documentary responsibility belongs to each agent family rather than only naming roles.
 
-### 8. 推荐入口/恢复链
+### 9. 推荐入口/恢复链
 
 Specify:
 
@@ -100,7 +121,7 @@ Specify:
 3. how to locate current canonical facts
 4. when to read history
 
-### 9. 推荐版本与同步纪律
+### 10. 推荐版本与同步纪律
 
 Specify:
 
@@ -111,7 +132,7 @@ Specify:
 - when promotion or review should happen
 - where family boundaries require stricter no-overwrite rules
 
-### 10. 工具可移植性约束
+### 11. 工具可移植性约束
 
 When the team uses more than one tool or may migrate tools later, specify:
 
@@ -120,13 +141,13 @@ When the team uses more than one tool or may migrate tools later, specify:
 - which practices depend on a tool capability and which are general rules
 - how to avoid duplicating role definitions across tools
 
-### 11. 推荐下一步实施顺序
+### 12. 推荐下一步实施顺序
 
 Provide a short ordered sequence.
 Keep it practical.
 Prioritize stabilization before refinement when drift is present.
 
-### 12. 明确不建议的做法
+### 13. 明确不建议的做法
 
 Call out the high-probability mistakes for this specific project.
 Examples:
@@ -151,6 +172,8 @@ Also answer:
 - which ownership or gate assumptions are implicit instead of documented
 - where cross-layer sharing is currently underspecified
 - where tool-specific entrypoints are acting like canonical sources
+- which classic flows are currently happening only by habit rather than by explicit contract
+- where hostile inquiry or validation ladders are missing, overused, or fake
 
 ### Greenfield
 
@@ -162,6 +185,8 @@ Also answer:
 - which source families should exist from day one and which can remain implicit temporarily
 - what the first role loop should be
 - what the first cross-layer sharing contract should be
+- what the first default flow set should be
+- which escalated flows should stay deferred
 
 ### Recovery or Realignment
 
@@ -173,6 +198,7 @@ Also answer:
 - what the target steady-state looks like after stabilization
 - which family boundaries must be re-established before any cosmetic cleanup
 - which tool-specific conventions should be demoted to adapters during recovery
+- which flows should be frozen during triage and which can be reintroduced later
 
 ## Reasoning Discipline
 

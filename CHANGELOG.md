@@ -1,0 +1,31 @@
+# Changelog
+
+All notable changes to `files-driven` are recorded here.
+
+## v0.2.0 - 2026-03-24
+
+### Added
+
+- Added `references/classic-governance-flows.md` to formalize the reusable flow library distilled from AIJournal and HQMDClaw.
+- Added `references/adversarial-convergence-loop.md` to make hostile inquiry, defense, and convergence a first-class mechanism.
+- Added `docs/RELEASE_NOTES_v0.2.0.md` for GitHub-facing release notes.
+
+### Changed
+
+- Upgraded `SKILL.md` from structure-only guidance to structure plus flow-library selection.
+- Upgraded the output contract to require `推荐经典流程库`.
+- Expanded scenario playbooks to recommend default and conditional flow sets by start state.
+- Expanded shared-patterns guidance with reusable classic flows and a clearer development arc from HQMDClaw to AIJournal.
+- Updated `README.md`, `docs/MANUAL.md`, `docs/REPO_METADATA.md`, and `agents/openai.yaml` for the new positioning and release language.
+
+### Notes
+
+- `files-driven` now explicitly treats `discussion -> decision_package -> task_or_decision`, `mechanism_review`, `adversarial_inquiry -> defense -> convergence`, and `proposal -> validation -> rollout -> activation_or_rollback` as selectable governance flows rather than incidental habits.
+
+## v0.1.0 - 2026-03-24
+
+### Added
+
+- Initial public release of the `files-driven` project structure governance skill.
+- Core doctrine, strategy matrix, cross-layer sharing contract, output contract, scenario playbooks, and multi-tool team practices.
+- GitHub packaging, repository manual, contribution docs, and metadata templates.

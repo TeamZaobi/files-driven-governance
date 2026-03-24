@@ -1,6 +1,6 @@
 ---
 name: files-driven
-description: 项目结构治理与文档化项目管理设计。用于 AI Agent 项目、AI 驱动 workflow 项目和 OpenClaw 类项目：诊断或设计以文档为载体的治理系统，明确 `policy_or_rules`、`object`、`workflow`、`skill`、`agent`、`execution_object`、`status_projection` 与 `display_projection` 的真源、投影、owner、sync order 与 gate，并设计多人/多 Agent 在不同层级文档间的共享协议。适用于现有仓库诊断、绿地项目搭建、或 rules、agents、workflows、skills、status、README 漂移后的治理收口。基于系统论做结构设计、信息论做信息流、共享链与恢复链设计、控制论做角色回路与变更控制设计。默认输出诊断和项目结构治理蓝图，不默认套用固定目录模板或重审批流；默认支持 Claude Code、Codex、AntiGravity 等多工具环境，不把任何工具名当成角色真源。
+description: 项目结构治理与文档化项目管理设计。用于 AI Agent 项目、AI 驱动 workflow 项目和 OpenClaw 类项目：诊断或设计以文档为载体的治理系统，明确 `policy_or_rules`、`object`、`workflow`、`skill`、`agent`、`execution_object`、`status_projection` 与 `display_projection` 的真源、投影、owner、sync order 与 gate，并设计多人/多 Agent 在不同层级文档间的共享协议与经典流程库。适用于现有仓库诊断、绿地项目搭建、或 rules、agents、workflows、skills、status、README 漂移后的治理收口。基于系统论做结构设计、信息论做信息流、共享链与恢复链设计、控制论做角色回路与变更控制设计。默认输出诊断、项目结构治理蓝图和推荐流程库，不默认套用固定目录模板或重审批流；默认支持 Claude Code、Codex、AntiGravity 等多工具环境，不把任何工具名当成角色真源。
 ---
 
 # Files Driven
@@ -101,6 +101,13 @@ Keep these structural boundaries explicit:
 - `Workflow` defines path, gate, or transition logic
 - `Object` defines schema, record type, or state semantics
 
+Apply these naming and design rules:
+
+- define `Agent` by role, authority, and boundary, not by one-off task or tool brand
+- define `Skill` by task capability, procedure, or reusable method, not by persona identity
+- do not let one `Agent` absorb many unrelated task skills
+- do not let one `Skill` pretend to be a durable organizational role
+
 Do not let one of these assets silently redefine another.
 
 ### 6. Use the three doctrine lenses on different design problems
@@ -133,7 +140,41 @@ Add `decision`, `review`, or `change-control` gates only when risk, compliance, 
 Combine methods when needed. Do not force a single methodology to govern every artifact.
 Read [tool-portable-team-practices](references/tool-portable-team-practices.md) when the user asks about collaboration setup, planning habits, notes discipline, reusable skills, evidence collection, subagents, or multi-tool team workflows.
 
-### 8. Produce the governance blueprint
+### 8. Select the classic governance flow set
+
+Read [classic-governance-flows](references/classic-governance-flows.md) before finalizing the recommendation.
+Always decide which flows should become:
+
+1. default project habits
+2. conditional escalation paths
+3. explicit non-default patterns
+
+Default candidates:
+
+- `low_token_recovery_chain`
+- `discussion -> decision_package -> task_or_decision`
+- `truth_source -> execution_object -> status_projection -> display_projection`
+- `mechanism_review -> repair_or_split`
+
+Conditional candidates:
+
+- `adversarial_inquiry -> defense -> convergence`
+- `isolated_multi_role_deliberation`
+- `proposal -> validation -> shadow/canary -> activation_or_rollback`
+- `skill_seed -> package_contract -> active_package`
+- `contract_gap -> closure_topic -> downstream_resume`
+
+Read [adversarial-convergence-loop](references/adversarial-convergence-loop.md) when:
+
+1. disagreement is material
+2. a topic may directly promote into `task` or `decision`
+3. the project needs institutional opposition or user-value challenge
+4. a team is mistaking polite agreement for true convergence
+
+Do not make every project carry every flow.
+Recommend only the smallest flow set that matches the diagnosed risk and maturity.
+
+### 9. Produce the governance blueprint
 
 Before answering, read [output-contract](references/output-contract.md) and follow its section order.
 Always include:
@@ -143,19 +184,22 @@ Always include:
 - `跨层共享矩阵`
 - `当前主要失真或治理压力`
 - `推荐治理模式`
+- `推荐经典流程库`
 - `推荐项目结构分层`
 - `推荐角色控制回路`
 - `推荐入口/恢复链`
 - `推荐版本与同步纪律`
+- `工具可移植性约束`
 - `推荐下一步实施顺序`
 - `明确不建议的做法`
 
 Explain why the chosen governance strength fits the diagnosis.
+Explain why the chosen flow set fits the diagnosis.
 Recommend the minimum structure that can stabilize the project and leave room for growth.
 Make `policy_or_rules`、`object`、`workflow`、`skill`、`agent`、`execution_object`、`status_projection`、`display_projection` visible in the answer whenever they matter.
 When the environment is multi-tool, explain how the same governance model survives across tools without duplicating canonical source definitions.
 
-### 9. End with sequencing instead of abstract advice
+### 10. End with sequencing instead of abstract advice
 
 Do not stop at principles. Close with an ordered implementation sequence.
 
@@ -166,6 +210,7 @@ For `existing_repo`, prefer:
 3. stop active drift
 4. consolidate canonical sources
 5. refine naming or directory layout last
+6. institutionalize only the flows that proved necessary
 
 For `greenfield`, prefer:
 
@@ -174,6 +219,7 @@ For `greenfield`, prefer:
 3. define one status entrypoint
 4. define role loops and version or sync rules
 5. defer heavier governance until growth or risk justifies it
+6. start with a minimum default flow set, not the full escalation library
 
 For `recovery_or_realignment`, prefer:
 
@@ -182,6 +228,7 @@ For `recovery_or_realignment`, prefer:
 3. mark obsolete or duplicated projections
 4. restore handoff, ownership, and status clarity
 5. redesign the long-term structure after stabilization
+6. reintroduce escalated flows only after current truth is trusted
 
 ## Scenario Routing
 
@@ -212,10 +259,12 @@ Use [scenario-playbooks](references/scenario-playbooks.md) to sequence triage, s
 - Design document sharing explicitly when multiple humans, agents, or tools collaborate on the same facts.
 - Do not copy AIJournal or HQMDClaw role names, directory names, or governance rituals verbatim.
 - Do not default to heavy change-control when medium governance is enough.
+- Do not default to adversarial loops, validation ladders, or rollout stages when the project does not need them.
 - Do not let `discussion` become a long-lived task bucket.
 - Do not let README pages, dashboards, or websites silently redefine canonical facts.
 - Do not let `Agent` definitions absorb `Workflow` or `Skill` responsibilities.
 - Do not let tool brands become canonical role identities.
+- Do not let skill packages, helper scripts, or workflow drafts patch contract gaps silently.
 - Explicitly separate evidence from inference when the repo is incomplete.
 - State assumptions when key facts cannot be verified.
 
@@ -224,6 +273,8 @@ Use [scenario-playbooks](references/scenario-playbooks.md) to sequence triage, s
 - Read [core-doctrine](references/core-doctrine.md) when choosing evaluation lenses or explaining the rationale behind a strategy.
 - Read [shared-patterns-from-aijournal-and-hqmdclaw](references/shared-patterns-from-aijournal-and-hqmdclaw.md) when you need reusable patterns without inheriting project-specific structure.
 - Read [strategy-selection-matrix](references/strategy-selection-matrix.md) when choosing governance strength or method combinations.
+- Read [classic-governance-flows](references/classic-governance-flows.md) when selecting which reusable governance flows should be default, conditional, or explicitly deferred.
+- Read [adversarial-convergence-loop](references/adversarial-convergence-loop.md) when the project needs hostile inquiry, structured defense, or question-level convergence semantics.
 - Read [cross-layer-sharing-contract](references/cross-layer-sharing-contract.md) when the user needs multi-role, multi-agent, or multi-tool collaboration rules.
 - Read [tool-portable-team-practices](references/tool-portable-team-practices.md) when the user needs portable operational habits, writing rules, or team workflow adjustments across tools.
 - Read [output-contract](references/output-contract.md) immediately before drafting the final answer.
@@ -234,3 +285,4 @@ Use [scenario-playbooks](references/scenario-playbooks.md) to sequence triage, s
 - “分析这个多 Agent 仓库的现有文档体系，判断哪些文件是事实源、哪些只是状态页，并给出重构方案。”
 - “我要做一个 AI Agent 驱动的 OpenClaw 项目，请为它设计一套适合早期阶段的文档管理策略，要求不过重，但要能支撑后续扩展。”
 - “这个项目现在 discussion、任务、状态页和 README 已经互相漂移，请诊断主要问题，并给出收口和迁移顺序。”
+- “这个项目的重要机制争议很多，请判断哪些主题必须进入敌意质询、最小决策包或 proposal-validation-activation 链，哪些保持轻量处理。”

@@ -1,5 +1,7 @@
 # Files-Driven Governance
 
+当前版本：`v0.2.0`
+
 `files-driven` 是一个面向 `AI Agent` / `OpenClaw` / AI 驱动 workflow 项目的项目结构治理技能。
 
 它不把“文件管理”当成简单的目录规划问题，而是把文档视为项目治理的承载介质，用来设计和诊断：
@@ -13,7 +15,19 @@
 - `status_projection`
 - `display_projection`
 
-之间的真源、投影、同步顺序、共享协议与控制回路。
+之间的真源、投影、同步顺序、共享协议、控制回路与经典流程库。
+
+## v0.2.0 升级重点
+
+这一版新增了“流程库”层，不再只回答“结构应该怎么分”，也会回答“哪些经典流程要默认沉淀，哪些只在高风险场景启用”。
+
+本次升级重点包括：
+
+1. 把 `AIJournal` 与 `HQMDClaw` 中反复出现的经典流程提炼成可复用 flow library。
+2. 将 `敌意质询 -> 答辩 -> 收敛` 升级为显式一等机制。
+3. 将 `proposal -> validation -> shadow/canary -> activation/rollback` 纳入条件升级流程，而不是零散建议。
+4. 将 `skill_seed -> package_contract -> active_package` 和 `contract_gap -> closure_topic -> downstream_resume` 固化为可推荐模式。
+5. 为本次升级补齐 `CHANGELOG` 和 `v0.2.0` 发布说明。
 
 ## 核心定位
 
@@ -44,6 +58,17 @@
 - 强调 source-of-truth、分层、shared contract、status recovery
 - 不默认引入重审批流
 - 不默认复制成熟大项目的复杂目录
+
+同时坚持一个明确的对象设计原则：
+
+1. `Agent` 以角色来定义
+   - 角色要明确
+   - 边界要清晰
+   - 不用工具名或单次任务名定义持久角色
+2. `Skill` 以任务技能来定义
+   - 绑定可复用 procedure
+   - 绑定任务能力和操作方法
+   - 不伪装成角色本体
 
 ## 主要能力
 
@@ -91,15 +116,26 @@
    - `Kanban`
    - `Agile/Sprint-like`
    - `decision / review / change-control gate`
+7. 选择经典流程库：
+   - `low_token_recovery_chain`
+   - `discussion -> decision_package -> task_or_decision`
+   - `mechanism_review`
+   - `adversarial_inquiry -> defense -> convergence`
+   - `proposal -> validation -> shadow/canary -> activation_or_rollback`
+   - `skill_seed -> package_contract -> active_package`
+   - `contract_gap -> closure_topic -> downstream_resume`
 
 ## 仓库结构
 
 ```text
 .
+├── CHANGELOG.md
 ├── SKILL.md
 ├── agents/
 │   └── openai.yaml
 ├── references/
+│   ├── adversarial-convergence-loop.md
+│   ├── classic-governance-flows.md
 │   ├── core-doctrine.md
 │   ├── cross-layer-sharing-contract.md
 │   ├── output-contract.md
@@ -110,6 +146,7 @@
 ├── docs/
 │   ├── MANUAL.md
 │   ├── GITHUB_UPLOAD_CHECKLIST.md
+│   ├── RELEASE_NOTES_v0.2.0.md
 │   └── REPO_METADATA.md
 ├── .github/
 │   ├── ISSUE_TEMPLATE/
@@ -151,18 +188,21 @@ Use $files-driven to analyze this repo's rules, agents, workflows, skills, and d
 3. `跨层共享矩阵`
 4. `当前主要失真或治理压力`
 5. `推荐治理模式`
-6. `推荐项目结构分层`
-7. `推荐角色控制回路`
-8. `推荐入口/恢复链`
-9. `推荐版本与同步纪律`
-10. `工具可移植性约束`
-11. `推荐下一步实施顺序`
-12. `明确不建议的做法`
+6. `推荐经典流程库`
+7. `推荐项目结构分层`
+8. `推荐角色控制回路`
+9. `推荐入口/恢复链`
+10. `推荐版本与同步纪律`
+11. `工具可移植性约束`
+12. `推荐下一步实施顺序`
+13. `明确不建议的做法`
 
 ## 文档导航
 
 - 技能真源：[`SKILL.md`](./SKILL.md)
+- 版本记录：[`CHANGELOG.md`](./CHANGELOG.md)
 - 完整说明书：[`docs/MANUAL.md`](./docs/MANUAL.md)
+- `v0.2.0` 发布说明：[`docs/RELEASE_NOTES_v0.2.0.md`](./docs/RELEASE_NOTES_v0.2.0.md)
 - 上传 GitHub 清单：[`docs/GITHUB_UPLOAD_CHECKLIST.md`](./docs/GITHUB_UPLOAD_CHECKLIST.md)
 - 仓库元数据建议：[`docs/REPO_METADATA.md`](./docs/REPO_METADATA.md)
 - 贡献方式：[`CONTRIBUTING.md`](./CONTRIBUTING.md)
