@@ -53,21 +53,21 @@
 
 推荐 tag：
 
-`v0.2.2`
+`v0.2.4`
 
 推荐发布标题：
 
-`v0.2.2 - OpenClaw and alignment patch`
+`v0.2.4 - Document lifecycle and compaction`
 
 推荐发布说明：
 
 ```text
-v0.2.2 patches Files-Driven Governance by making `OpenClaw` an explicit multi-tool adapter surface and by adding confidence-gated clarification guidance before a governance diagnosis is frozen.
+v0.2.4 patches Files-Driven Governance by adding explicit document lifecycle and compaction governance, plus a first inquiry-reflection-convergence round for document bloat.
 
 This release includes:
-- explicit `OpenClaw` adapter coverage across the skill and references
-- understanding-confidence and clarification guidance
-- upgraded output contract with confidence-aware diagnosis discipline
+- document lifecycle and compaction reference
+- document-bloat inquiry round
+- lifecycle compaction flow and conditional output section
 - updated manual, changelog, and patch release notes
 
 Designed for AI agent projects, OpenClaw-style workflows, and multi-tool environments such as Claude Code, Codex, AntiGravity, and OpenClaw.

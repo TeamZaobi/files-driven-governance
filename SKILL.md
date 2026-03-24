@@ -33,6 +33,7 @@ Diagnose the project across these dimensions:
 5. Recovery pressure from drift, ambiguity, or weak handoff
 6. Collaboration topology across humans, agents, and systems
 7. Tool heterogeneity and portability needs
+8. Documentation sprawl and retrieval cost
 
 Read [core-doctrine](references/core-doctrine.md) first when the project is ambiguous or the governance choice feels under-specified.
 Read [strategy-selection-matrix](references/strategy-selection-matrix.md) after the diagnosis to choose the governance bundle.
@@ -204,6 +205,7 @@ Conditional candidates:
 - `proposal -> validation -> shadow/canary -> activation_or_rollback`
 - `skill_seed -> package_contract -> active_package`
 - `contract_gap -> closure_topic -> downstream_resume`
+- `growth_signal -> lifecycle_review -> compact_or_archive`
 
 Read [adversarial-convergence-loop](references/adversarial-convergence-loop.md) when:
 
@@ -218,22 +220,29 @@ Recommend only the smallest flow set that matches the diagnosed risk and maturit
 ### 9. Produce the governance blueprint
 
 Before answering, read [output-contract](references/output-contract.md) and follow its section order.
-Always include:
+Always include the core sections:
 
 - `项目画像`
-- `项目结构家族图`
-- `跨层共享矩阵`
 - `当前主要失真或治理压力`
 - `推荐治理模式`
 - `推荐经典流程库`
+- `项目结构家族图`
+- `推荐入口/恢复链`
+- `推荐下一步实施顺序`
+- `明确不建议的做法`
+
+Add conditional sections only when the diagnosis says they are material:
+
+- `跨层共享矩阵`
 - `推荐项目结构分层`
 - `推荐角色控制回路`
-- `推荐入口/恢复链`
 - `推荐版本与同步纪律`
 - `对象家族检索与适配策略`
 - `工具可移植性约束`
-- `推荐下一步实施顺序`
-- `明确不建议的做法`
+- `文档生命周期与压缩策略`
+
+Do not emit empty sections just to satisfy a template.
+Prefer the smallest response shape that still solves the diagnosed problem.
 
 Explain why the chosen governance strength fits the diagnosis.
 Explain why the chosen flow set fits the diagnosis.
@@ -241,6 +250,16 @@ Recommend the minimum structure that can stabilize the project and leave room fo
 Make `policy_or_rules`、`object`、`workflow`、`skill`、`agent`、`execution_object`、`status_projection`、`display_projection` visible in the answer whenever they matter.
 When the environment is multi-tool, explain how the same governance model survives across tools without duplicating canonical source definitions.
 If understanding confidence remained `medium`, state the material assumptions explicitly.
+
+Use these activation heuristics:
+
+- add `跨层共享矩阵` when more than one human, more than one agent, or more than one tool entrypoint touches the same facts
+- add `推荐项目结构分层` when layering confusion is itself a diagnosed problem
+- add `推荐角色控制回路` when autonomy, role ambiguity, or review responsibility is material
+- add `推荐版本与同步纪律` when there is version ambiguity, drift, multi-writer risk, or promotion complexity
+- add `对象家族检索与适配策略` when the five core families are hard to retrieve or tools may overshadow canonical sources
+- add `工具可移植性约束` when multiple tools are active or migration risk is non-trivial
+- add `文档生命周期与压缩策略` when active docs are bloating, retrieval cost is rising, stale pages are accumulating, or history is pretending to be current truth
 
 ### 10. End with sequencing instead of abstract advice
 
@@ -303,7 +322,9 @@ Use [scenario-playbooks](references/scenario-playbooks.md) to sequence triage, s
 - Do not copy AIJournal or HQMDClaw role names, directory names, or governance rituals verbatim.
 - Do not default to heavy change-control when medium governance is enough.
 - Do not default to adversarial loops, validation ladders, or rollout stages when the project does not need them.
+- Do not default to the full output contract when a smaller, more precise blueprint will solve the user's current problem.
 - Do not let `discussion` become a long-lived task bucket.
+- Do not let every historical signal remain active forever; demote, compact, or archive when retrieval cost rises.
 - Do not let README pages, dashboards, or websites silently redefine canonical facts.
 - Do not let `Agent` definitions absorb `Workflow` or `Skill` responsibilities.
 - Do not let tool brands become canonical role identities.
@@ -324,6 +345,7 @@ Use [scenario-playbooks](references/scenario-playbooks.md) to sequence triage, s
 - Read [tool-adapter-matrix](references/tool-adapter-matrix.md) when the user needs adapter guidance across Claude Code, Codex, AntiGravity, OpenClaw, MCP, CLI wrappers, or other tool entrypoints.
 - Read [cross-layer-sharing-contract](references/cross-layer-sharing-contract.md) when the user needs multi-role, multi-agent, or multi-tool collaboration rules.
 - Read [understanding-confidence-and-clarification](references/understanding-confidence-and-clarification.md) when the project basics are still ambiguous and you need a confidence-gated clarification strategy.
+- Read [document-lifecycle-and-compaction](references/document-lifecycle-and-compaction.md) when active docs are sprawling, stale pages are accumulating, or the user needs a policy for compaction, archiving, or history demotion.
 - Read [tool-portable-team-practices](references/tool-portable-team-practices.md) when the user needs portable operational habits, writing rules, or team workflow adjustments across tools.
 - Read [output-contract](references/output-contract.md) immediately before drafting the final answer.
 - Read [scenario-playbooks](references/scenario-playbooks.md) after classifying the start state.

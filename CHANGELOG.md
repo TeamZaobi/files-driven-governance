@@ -2,6 +2,33 @@
 
 All notable changes to `files-driven` are recorded here.
 
+## v0.2.4 - 2026-03-24
+
+### Added
+
+- Added `references/document-lifecycle-and-compaction.md` to formalize lifecycle states, compaction triggers, and archive strategy for bloated docs.
+- Added `docs/DOCUMENT_BLOAT_INQUIRY_ROUND_1.md` to record a first explicit inquiry-reflection-convergence round on document bloat governance.
+- Added `docs/RELEASE_NOTES_v0.2.4.md` for the document-bloat patch release notes.
+
+### Changed
+
+- Extended `SKILL.md` to recognize documentation sprawl as a diagnosis dimension and to activate lifecycle/compaction strategy when retrieval cost rises.
+- Extended `references/output-contract.md` with a conditional `文档生命周期与压缩策略` section.
+- Extended `references/classic-governance-flows.md` and `references/scenario-playbooks.md` with `growth_signal -> lifecycle_review -> compact_or_archive`.
+- Updated `README.md`, `docs/MANUAL.md`, and `docs/REPO_METADATA.md` for `v0.2.4`.
+
+## v0.2.3 - 2026-03-24
+
+### Added
+
+- Added `docs/RELEASE_NOTES_v0.2.3.md` for the precision-first patch release notes.
+
+### Changed
+
+- Changed `SKILL.md` to output a precision-first governance blueprint using `core required + conditional sections` instead of always emitting the full governance contract.
+- Changed `references/output-contract.md` to separate core sections from conditional sections and add activation hints for advanced sections.
+- Updated `README.md`, `docs/MANUAL.md`, `docs/REPO_METADATA.md`, and `agents/openai.yaml` for `v0.2.3` and the precision-first positioning.
+
 ## v0.2.2 - 2026-03-24
 
 ### Added

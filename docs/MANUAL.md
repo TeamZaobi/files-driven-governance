@@ -1,6 +1,6 @@
 # Files-Driven Governance 完整说明书
 
-当前版本：`v0.2.2`
+当前版本：`v0.2.4`
 
 ## 1. 项目简介
 
@@ -33,6 +33,8 @@
 3. 项目里没有明确区分“规则”“流程”“角色”“方法”“状态摘要”。
 4. 多人/多 Agent 协作时，不清楚谁能读、谁能写、谁能审批、谁只能投影。
 5. 想借鉴 Spec-Driven、Kanban、敏捷等方法，但不想把项目搞成过重流程。
+6. 需要按项目实际情况给出精确方案，而不是默认输出完整治理大图。
+7. 项目运行一段时间后，active docs 膨胀，恢复链和当前态判断成本越来越高。
 
 ## 3. 底层方法论
 
@@ -252,6 +254,27 @@
 1. `OpenClaw` 在这个项目里是 launcher、adapter、projection，还是被明确提升为 canonical entrypoint
 2. 如果没有 `OpenClaw`，这五类核心对象是否仍然可稳定检索
 
+## 6.3 文档生命周期与压缩
+
+当项目进入运行态后，本技能会把“文档膨胀”视为治理问题而不是排版问题。
+
+推荐最小生命周期状态：
+
+1. `active`
+2. `stable_reference`
+3. `projection`
+4. `history`
+5. `archive`
+
+推荐优先动作：
+
+1. 先识别哪些 active 页面其实只是 projection 或 history
+2. 先压缩 `status_projection` 和 overloaded `README`
+3. 再拆分 overloaded `discussion / task / review`
+4. 最后才归档或降级旧页
+
+只有当膨胀、检索成本、stale page 或历史越权明显时，才展开这块设计。
+
 ## 7. 角色控制回路
 
 本技能要求至少描述一个显式回路：
@@ -431,22 +454,38 @@ Use $files-driven to analyze this repo's rules, agents, workflows, skills, and d
 
 ## 12. 输出说明
 
-标准输出区块如下：
+标准输出采用“两层结构”：
+
+### 12.1 核心必答区块
 
 1. `项目画像`
-2. `项目结构家族图`
-3. `跨层共享矩阵`
-4. `当前主要失真或治理压力`
-5. `推荐治理模式`
-6. `推荐经典流程库`
-7. `推荐项目结构分层`
-8. `推荐角色控制回路`
-9. `推荐入口/恢复链`
-10. `推荐版本与同步纪律`
-11. `对象家族检索与适配策略`
-12. `工具可移植性约束`
-13. `推荐下一步实施顺序`
-14. `明确不建议的做法`
+2. `当前主要失真或治理压力`
+3. `推荐治理模式`
+4. `推荐经典流程库`
+5. `项目结构家族图`
+6. `推荐入口/恢复链`
+7. `推荐下一步实施顺序`
+8. `明确不建议的做法`
+
+### 12.2 条件展开区块
+
+当且仅当诊断表明这些主题是当前主要矛盾时，再展开：
+
+1. `跨层共享矩阵`
+2. `推荐项目结构分层`
+3. `推荐角色控制回路`
+4. `推荐版本与同步纪律`
+5. `对象家族检索与适配策略`
+6. `工具可移植性约束`
+7. `文档生命周期与压缩策略`
+
+例如：
+
+- 有多人、多 Agent、多工具共享同一事实时，再展开 `跨层共享矩阵`
+- 有角色责任或自治风险时，再展开 `推荐角色控制回路`
+- 有 retrieval ambiguity 或 tool entrypoint 越权时，再展开 `对象家族检索与适配策略`
+- 存在迁移风险或明确多工具协同时，再展开 `工具可移植性约束`
+- 有 active docs 膨胀、recovery cost 上升或 stale page 积累时，再展开 `文档生命周期与压缩策略`
 
 如果理解置信度较低，技能应先提出少量澄清问题，而不是直接输出完整蓝图。
 
@@ -473,12 +512,16 @@ Use $files-driven to analyze this repo's rules, agents, workflows, skills, and d
 - [`tool-adapter-matrix.md`](../references/tool-adapter-matrix.md)
 - [`tool-portable-team-practices.md`](../references/tool-portable-team-practices.md)
 - [`understanding-confidence-and-clarification.md`](../references/understanding-confidence-and-clarification.md)
+- [`document-lifecycle-and-compaction.md`](../references/document-lifecycle-and-compaction.md)
 
 ### 13.3 发布说明
 
 - [`RELEASE_NOTES_v0.2.0.md`](./RELEASE_NOTES_v0.2.0.md)
 - [`RELEASE_NOTES_v0.2.1.md`](./RELEASE_NOTES_v0.2.1.md)
 - [`RELEASE_NOTES_v0.2.2.md`](./RELEASE_NOTES_v0.2.2.md)
+- [`RELEASE_NOTES_v0.2.3.md`](./RELEASE_NOTES_v0.2.3.md)
+- [`RELEASE_NOTES_v0.2.4.md`](./RELEASE_NOTES_v0.2.4.md)
+- [`DOCUMENT_BLOAT_INQUIRY_ROUND_1.md`](./DOCUMENT_BLOAT_INQUIRY_ROUND_1.md)
 
 ## 14. 维护建议
 
@@ -503,6 +546,9 @@ Use $files-driven to analyze this repo's rules, agents, workflows, skills, and d
 - `docs/RELEASE_NOTES_v0.2.0.md`
 - `docs/RELEASE_NOTES_v0.2.1.md`
 - `docs/RELEASE_NOTES_v0.2.2.md`
+- `docs/RELEASE_NOTES_v0.2.3.md`
+- `docs/RELEASE_NOTES_v0.2.4.md`
+- `docs/DOCUMENT_BLOAT_INQUIRY_ROUND_1.md`
 - `docs/GITHUB_UPLOAD_CHECKLIST.md`
 - `docs/REPO_METADATA.md`
 - `.github` 模板

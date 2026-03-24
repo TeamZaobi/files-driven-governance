@@ -1,6 +1,6 @@
 # Files-Driven Governance
 
-当前版本：`v0.2.2`
+当前版本：`v0.2.4`
 
 `files-driven` 是一个面向 `AI Agent` / `OpenClaw` / AI 驱动 workflow 项目的项目结构治理技能。
 
@@ -16,6 +16,28 @@
 - `display_projection`
 
 之间的真源、投影、同步顺序、共享协议、控制回路与经典流程库。
+
+## v0.2.4 文档膨胀治理补丁
+
+这一版把“文档膨胀管理”从隐含机制提升成显式治理能力，并为它启动了一轮正式的质询-反思-收敛。
+
+本次补丁重点包括：
+
+1. 新增文档生命周期与压缩策略参考件。
+2. 把 `growth_signal -> lifecycle_review -> compact_or_archive` 加入条件流程库。
+3. 为输出契约增加 `文档生命周期与压缩策略` 条件区块。
+4. 落下一份本主题的质询-反思-收敛记录。
+
+## v0.2.3 精确求解补丁
+
+这一版不删方法库，但把默认输出从“全量蓝图”改成“核心必答 + 条件展开”，让 skill 根据项目实际情况输出更精确的方案。
+
+本次补丁重点包括：
+
+1. 将输出契约改成核心区块与条件区块两层。
+2. 要求 skill 不再默认展开全部治理模块。
+3. 为 `跨层共享矩阵`、`角色控制回路`、`检索与适配策略`、`工具可移植性约束` 增加诊断触发条件。
+4. 强调“不要把简单项目膨胀成完整治理 dossier”。
 
 ## v0.2.2 补丁重点
 
@@ -81,6 +103,7 @@
 - 强调 source-of-truth、分层、shared contract、status recovery
 - 不默认引入重审批流
 - 不默认复制成熟大项目的复杂目录
+- 不默认展开完整治理蓝图
 
 同时坚持一个明确的对象设计原则：
 
@@ -154,6 +177,7 @@
    - `proposal -> validation -> shadow/canary -> activation_or_rollback`
    - `skill_seed -> package_contract -> active_package`
    - `contract_gap -> closure_topic -> downstream_resume`
+   - `growth_signal -> lifecycle_review -> compact_or_archive`
 8. 设计对象家族检索与适配策略：
    - family locator
    - current-version anchor
@@ -184,14 +208,18 @@
 │   ├── shared-patterns-from-aijournal-and-hqmdclaw.md
 │   ├── strategy-selection-matrix.md
 │   ├── tool-adapter-matrix.md
+│   ├── document-lifecycle-and-compaction.md
 │   ├── understanding-confidence-and-clarification.md
 │   └── tool-portable-team-practices.md
 ├── docs/
+│   ├── DOCUMENT_BLOAT_INQUIRY_ROUND_1.md
 │   ├── MANUAL.md
 │   ├── GITHUB_UPLOAD_CHECKLIST.md
 │   ├── RELEASE_NOTES_v0.2.0.md
 │   ├── RELEASE_NOTES_v0.2.1.md
 │   ├── RELEASE_NOTES_v0.2.2.md
+│   ├── RELEASE_NOTES_v0.2.3.md
+│   ├── RELEASE_NOTES_v0.2.4.md
 │   └── REPO_METADATA.md
 ├── .github/
 │   ├── ISSUE_TEMPLATE/
@@ -226,23 +254,30 @@ Use $files-driven to analyze this repo's rules, agents, workflows, skills, and d
 
 ## 输出约定
 
-技能默认输出以下区块：
+技能现在采用“核心必答 + 条件展开”：
+
+核心必答区块：
 
 1. `项目画像`
-2. `项目结构家族图`
-3. `跨层共享矩阵`
-4. `当前主要失真或治理压力`
-5. `推荐治理模式`
-6. `推荐经典流程库`
-7. `推荐项目结构分层`
-8. `推荐角色控制回路`
-9. `推荐入口/恢复链`
-10. `推荐版本与同步纪律`
-11. `对象家族检索与适配策略`
-12. `工具可移植性约束`
-13. `推荐下一步实施顺序`
-14. `明确不建议的做法`
+2. `当前主要失真或治理压力`
+3. `推荐治理模式`
+4. `推荐经典流程库`
+5. `项目结构家族图`
+6. `推荐入口/恢复链`
+7. `推荐下一步实施顺序`
+8. `明确不建议的做法`
 
+条件展开区块：
+
+1. `跨层共享矩阵`
+2. `推荐项目结构分层`
+3. `推荐角色控制回路`
+4. `推荐版本与同步纪律`
+5. `对象家族检索与适配策略`
+6. `工具可移植性约束`
+7. `文档生命周期与压缩策略`
+
+只有当诊断显示这些问题确实重要时，skill 才会展开它们。
 如果对项目基本情况的理解置信度不足，技能会先提出少量高杠杆澄清问题，而不是直接输出失真的蓝图。
 
 ## 文档导航
@@ -253,6 +288,9 @@ Use $files-driven to analyze this repo's rules, agents, workflows, skills, and d
 - `v0.2.0` 发布说明：[`docs/RELEASE_NOTES_v0.2.0.md`](./docs/RELEASE_NOTES_v0.2.0.md)
 - `v0.2.1` 发布说明：[`docs/RELEASE_NOTES_v0.2.1.md`](./docs/RELEASE_NOTES_v0.2.1.md)
 - `v0.2.2` 发布说明：[`docs/RELEASE_NOTES_v0.2.2.md`](./docs/RELEASE_NOTES_v0.2.2.md)
+- `v0.2.3` 发布说明：[`docs/RELEASE_NOTES_v0.2.3.md`](./docs/RELEASE_NOTES_v0.2.3.md)
+- `v0.2.4` 发布说明：[`docs/RELEASE_NOTES_v0.2.4.md`](./docs/RELEASE_NOTES_v0.2.4.md)
+- 文档膨胀质询记录：[`docs/DOCUMENT_BLOAT_INQUIRY_ROUND_1.md`](./docs/DOCUMENT_BLOAT_INQUIRY_ROUND_1.md)
 - 上传 GitHub 清单：[`docs/GITHUB_UPLOAD_CHECKLIST.md`](./docs/GITHUB_UPLOAD_CHECKLIST.md)
 - 仓库元数据建议：[`docs/REPO_METADATA.md`](./docs/REPO_METADATA.md)
 - 贡献方式：[`CONTRIBUTING.md`](./CONTRIBUTING.md)

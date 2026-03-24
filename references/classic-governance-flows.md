@@ -184,6 +184,26 @@ Minimum expectations:
 - the upstream family to repair is named explicitly
 - downstream work is blocked, narrowed, or rerouted until the gap is closed
 
+### 10. Growth signal to lifecycle review to compact or archive
+
+Core shape:
+
+`growth_signal -> lifecycle_review -> compact_or_archive -> trusted_reentry`
+
+Use when:
+
+- active docs are getting longer without adding decision quality
+- status or README pages start accumulating historical narrative
+- multiple stale pages still look current
+- recovery cost is rising because people must reread too much history
+
+Minimum expectations:
+
+- explicit lifecycle states such as `active`, `stable`, `projection`, `history`
+- a named rule for when an artifact must be split, compacted, or archived
+- a trusted reentry path after compaction
+- an explicit rule against deleting canonical facts while compacting derivative surfaces
+
 ## Practical Selection Guide
 
 ### Small or early project
@@ -199,6 +219,7 @@ Usually defer:
 - rollout ladders
 - adversarial loops on every topic
 - isolated multi-role deliberation unless direct promotion risk exists
+- lifecycle compaction policy until active docs actually begin to sprawl
 
 ### Existing repo with drift
 
@@ -213,6 +234,7 @@ Add conditionally:
 
 - adversarial convergence on disputed or high-risk topics
 - proposal/validation/activation on governance changes
+- lifecycle review and compaction when active docs or status pages start bloating
 
 ### Governance-heavy or multi-agent project
 
@@ -233,5 +255,6 @@ Do not hardcode:
 3. project-specific rollout vocabulary
 4. project-specific memo intensity
 5. tool-specific workarounds as if they were universal governance law
+6. arbitrary length limits without a lifecycle rationale
 
 The transferable asset is the flow shape and trigger logic, not the local naming shell.

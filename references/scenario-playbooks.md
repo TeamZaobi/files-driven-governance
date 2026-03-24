@@ -27,6 +27,7 @@ Deliver:
 - a recommended flow set
 - a role-loop sketch
 - a short migration sequence
+- a compaction order if active docs are bloated
 
 ### Common Failure Modes
 
@@ -35,6 +36,7 @@ Deliver:
 - README is current only by habit, not by rule
 - discussion notes are doing task and decision work at the same time
 - no reliable handoff chain exists
+- historical material still lives in active status or README pages
 
 ### Preferred First Move
 
@@ -53,6 +55,7 @@ Add conditionally:
 
 - `adversarial_inquiry -> defense -> convergence` for high-disagreement or promotion-bound topics
 - `proposal -> validation -> shadow/canary -> activation_or_rollback` for governance or public-surface changes
+- `growth_signal -> lifecycle_review -> compact_or_archive` when active docs are sprawling or stale pages still appear current
 
 ## Greenfield
 
@@ -78,6 +81,7 @@ Deliver:
 - the first role loop
 - the first default flow set
 - the first review or promotion rule, if any
+- the first lifecycle and archive rule, if current growth rate justifies it
 
 ### Common Failure Modes
 
@@ -103,6 +107,7 @@ Usually defer:
 - adversarial convergence on every topic
 - rollout ladders for routine low-risk work
 - isolated multi-role deliberation unless direct promotion evidence is required
+- archive or compaction policy beyond one simple lifecycle rule unless active docs are already growing too fast
 
 ## Recovery or Realignment
 
@@ -126,6 +131,7 @@ Deliver:
 - the minimum repaired sharing contract
 - the minimum repaired flow set
 - the long-term redesign direction
+- the first compaction and demotion wave
 
 ### Common Failure Modes
 
@@ -133,6 +139,7 @@ Deliver:
 - renaming directories before clarifying authority
 - trying to preserve every historical signal as active truth
 - rebuilding dashboards or websites before upstream sources are repaired
+- preserving every historical page as active just because it might still be useful later
 
 ### Preferred First Move
 
@@ -151,3 +158,7 @@ Reintroduce later, once truth is trusted:
 - `adversarial_inquiry -> defense -> convergence`
 - `proposal -> validation -> shadow/canary -> activation_or_rollback`
 - `skill_seed -> package_contract -> active_package`
+
+Usually include during triage if bloat is visible:
+
+- `growth_signal -> lifecycle_review -> compact_or_archive`
