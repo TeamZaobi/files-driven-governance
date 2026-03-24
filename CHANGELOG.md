@@ -2,6 +2,20 @@
 
 All notable changes to `files-driven` are recorded here.
 
+## v0.2.2 - 2026-03-24
+
+### Added
+
+- Added `references/understanding-confidence-and-clarification.md` to formalize confidence-gated clarification before locking a governance diagnosis.
+- Added `docs/RELEASE_NOTES_v0.2.2.md` for the patch release notes.
+
+### Changed
+
+- Extended `SKILL.md` to treat `OpenClaw` as a first-class multi-tool entrypoint in adapter guidance.
+- Extended `SKILL.md`, `references/output-contract.md`, and `references/core-doctrine.md` to require understanding-confidence checks and targeted clarification questions when project basics remain ambiguous.
+- Extended `references/tool-adapter-matrix.md`, `references/official-retrieval-orders.md`, and `references/cross-layer-sharing-contract.md` to cover `OpenClaw` as an explicit adapter or launcher surface.
+- Updated `README.md`, `docs/MANUAL.md`, `docs/REPO_METADATA.md`, and `agents/openai.yaml` for `v0.2.2`.
+
 ## v0.2.1 - 2026-03-24
 
 ### Added

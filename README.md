@@ -1,6 +1,6 @@
 # Files-Driven Governance
 
-当前版本：`v0.2.1`
+当前版本：`v0.2.2`
 
 `files-driven` 是一个面向 `AI Agent` / `OpenClaw` / AI 驱动 workflow 项目的项目结构治理技能。
 
@@ -16,6 +16,17 @@
 - `display_projection`
 
 之间的真源、投影、同步顺序、共享协议、控制回路与经典流程库。
+
+## v0.2.2 补丁重点
+
+这一版补上了两个治理细节：一是把 `OpenClaw` 明确纳入多工具适配层，而不只是项目类型示例；二是把“理解置信度 -> 主动澄清提问”升成前置诊断规则。
+
+本次补丁重点包括：
+
+1. 把 `OpenClaw` 明确加入多工具 adapter 语境，并补到适配矩阵、共享规则和检索说明。
+2. 新增理解置信度与澄清提问参考件。
+3. 要求 skill 在锁定诊断前先判断自己对项目基本情况的理解置信度。
+4. 当关键前提不清楚时，鼓励 skill 先提少量高杠杆问题，再给治理蓝图。
 
 ## v0.2.1 补丁重点
 
@@ -53,6 +64,7 @@
 - `Claude Code`
 - `Codex`
 - `AntiGravity`
+- `OpenClaw`
 
 但不会把任何工具名当成项目里的 canonical role。
 
@@ -86,6 +98,7 @@
 1. `policy_or_rules / object / workflow / skill / agent` 都应有稳定 locator
 2. 先找 canonical family source，再看 tool adapter
 3. 官方读取顺序应跨工具保持稳定
+4. `OpenClaw` 入口默认属于 adapter surface，除非项目明确把它提升为 canonical source
 
 ## 主要能力
 
@@ -146,6 +159,10 @@
    - current-version anchor
    - official retrieval order
    - tool adapter surface
+9. 判断理解置信度并按需澄清：
+   - `high / medium / low`
+   - targeted clarification questions
+   - explicit assumptions when ambiguity remains
 
 ## 仓库结构
 
@@ -167,12 +184,14 @@
 │   ├── shared-patterns-from-aijournal-and-hqmdclaw.md
 │   ├── strategy-selection-matrix.md
 │   ├── tool-adapter-matrix.md
+│   ├── understanding-confidence-and-clarification.md
 │   └── tool-portable-team-practices.md
 ├── docs/
 │   ├── MANUAL.md
 │   ├── GITHUB_UPLOAD_CHECKLIST.md
 │   ├── RELEASE_NOTES_v0.2.0.md
 │   ├── RELEASE_NOTES_v0.2.1.md
+│   ├── RELEASE_NOTES_v0.2.2.md
 │   └── REPO_METADATA.md
 ├── .github/
 │   ├── ISSUE_TEMPLATE/
@@ -224,6 +243,8 @@ Use $files-driven to analyze this repo's rules, agents, workflows, skills, and d
 13. `推荐下一步实施顺序`
 14. `明确不建议的做法`
 
+如果对项目基本情况的理解置信度不足，技能会先提出少量高杠杆澄清问题，而不是直接输出失真的蓝图。
+
 ## 文档导航
 
 - 技能真源：[`SKILL.md`](./SKILL.md)
@@ -231,6 +252,7 @@ Use $files-driven to analyze this repo's rules, agents, workflows, skills, and d
 - 完整说明书：[`docs/MANUAL.md`](./docs/MANUAL.md)
 - `v0.2.0` 发布说明：[`docs/RELEASE_NOTES_v0.2.0.md`](./docs/RELEASE_NOTES_v0.2.0.md)
 - `v0.2.1` 发布说明：[`docs/RELEASE_NOTES_v0.2.1.md`](./docs/RELEASE_NOTES_v0.2.1.md)
+- `v0.2.2` 发布说明：[`docs/RELEASE_NOTES_v0.2.2.md`](./docs/RELEASE_NOTES_v0.2.2.md)
 - 上传 GitHub 清单：[`docs/GITHUB_UPLOAD_CHECKLIST.md`](./docs/GITHUB_UPLOAD_CHECKLIST.md)
 - 仓库元数据建议：[`docs/REPO_METADATA.md`](./docs/REPO_METADATA.md)
 - 贡献方式：[`CONTRIBUTING.md`](./CONTRIBUTING.md)

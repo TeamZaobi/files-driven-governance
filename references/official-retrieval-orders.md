@@ -95,5 +95,6 @@ Examples:
 - a CLI wrapper may open the skill package
 - an MCP tool may fetch the registry
 - a tool bootstrap may summarize the role contract
+- an `OpenClaw` launcher may route the user to the right family entrypoint
 
 But in all cases, the canonical family source still wins.

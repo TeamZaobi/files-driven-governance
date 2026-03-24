@@ -24,7 +24,18 @@ Use tool categories rather than product names when designing adapters:
 5. runtime mapping files
 6. dashboards or status projections
 
-This keeps the model portable across `Claude Code`, `Codex`, `AntiGravity`, and future tools.
+This keeps the model portable across `Claude Code`, `Codex`, `AntiGravity`, `OpenClaw`, and future tools.
+
+## Named tool-entry examples
+
+When the project explicitly uses named tools, treat these surfaces as adapters unless the project intentionally promotes them:
+
+- `Claude Code` startup files or launcher notes
+- `Codex` task entrypoints or runtime bootstraps
+- `AntiGravity` agent manager views or launch configs
+- `OpenClaw` workspace bootstraps, launcher docs, project-entry prompts, or runtime adapter maps
+
+These may help discovery, but they must not become the only durable place where canonical rules, workflows, skills, or agents can be found.
 
 ## Adapter design rules
 
@@ -38,6 +49,7 @@ This keeps the model portable across `Claude Code`, `Codex`, `AntiGravity`, and 
    - be copied from canonical source and clearly marked as derivative
    - or be promoted upstream into canonical source
 4. No adapter should be the only place where a durable role, workflow, or policy can be discovered.
+5. If `OpenClaw` is a primary operator entrypoint, define how each family is surfaced there without letting `OpenClaw`-specific files redefine the canonical family source.
 
 ## Readiness questions
 
@@ -48,5 +60,6 @@ When assessing whether tool adaptation is “prepared enough,” ask:
 3. Can the project survive migrating from one tool to another without redefining roles, workflows, or skills?
 4. Are official adapters clearly demoted below canonical family sources?
 5. Is there a documented fallback when a tool-specific surface is stale or missing?
+6. If `OpenClaw` is present, can the project still retrieve rules, workflows, skills, and agents without relying on `OpenClaw`-only bootstraps?
 
 If the answer to two or more of these is no, the project's tool-adaptation layer is not mature enough.

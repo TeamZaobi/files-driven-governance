@@ -53,25 +53,24 @@
 
 推荐 tag：
 
-`v0.2.1`
+`v0.2.2`
 
 推荐发布标题：
 
-`v0.2.1 - Retrieval and adapter patch`
+`v0.2.2 - OpenClaw and alignment patch`
 
 推荐发布说明：
 
 ```text
-v0.2.1 patches Files-Driven Governance by adding family locator contracts, official retrieval orders, and tool adapter guidance for `policy_or_rules`, `object`, `workflow`, `skill`, and `agent`.
+v0.2.2 patches Files-Driven Governance by making `OpenClaw` an explicit multi-tool adapter surface and by adding confidence-gated clarification guidance before a governance diagnosis is frozen.
 
 This release includes:
-- family locator contract
-- official retrieval orders
-- tool adapter matrix
-- upgraded output contract with a required retrieval-and-adapter section
+- explicit `OpenClaw` adapter coverage across the skill and references
+- understanding-confidence and clarification guidance
+- upgraded output contract with confidence-aware diagnosis discipline
 - updated manual, changelog, and patch release notes
 
-Designed for AI agent projects, OpenClaw-style workflows, and multi-tool environments such as Claude Code, Codex, and AntiGravity.
+Designed for AI agent projects, OpenClaw-style workflows, and multi-tool environments such as Claude Code, Codex, AntiGravity, and OpenClaw.
 ```
 
 ## 6. 许可证建议

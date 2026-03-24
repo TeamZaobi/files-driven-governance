@@ -15,6 +15,7 @@ Summarize:
 - main actors or agents
 - autonomy level
 - current collaboration shape
+- current understanding confidence and main unknowns, if any
 
 ### 2. 项目结构家族图
 
@@ -151,6 +152,7 @@ When the team uses more than one tool or may migrate tools later, specify:
 - which files are tool-specific adapters or entrypoints
 - which practices depend on a tool capability and which are general rules
 - how to avoid duplicating role definitions across tools
+- how `OpenClaw` surfaces should stay adapter-level unless explicitly promoted
 
 ### 13. 推荐下一步实施顺序
 
@@ -221,3 +223,4 @@ Mark assumptions when the repo is incomplete.
 Prefer the minimum mechanism that solves the diagnosed problem.
 Recommend combinations of methods, not dogmatic single-method answers.
 Treat project structure governance as the primary problem and file layout as a downstream consequence.
+If understanding confidence is low on project basics, ask targeted clarification questions before emitting the full blueprint.

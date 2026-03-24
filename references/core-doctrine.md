@@ -54,6 +54,7 @@ Information-level design choices:
 - Prefer a stable current-version locator over “read everything.”
 - Prefer a short recovery chain over full-history replay.
 - Make source family relationships legible: which rule points to which workflow, which workflow depends on which objects, which skills consume which references, which status files summarize which upstream facts.
+- If confidence about project basics is still low, ask targeted clarification questions before freezing the diagnosis.
 
 ## Control Lens
 

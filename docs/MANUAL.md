@@ -1,6 +1,6 @@
 # Files-Driven Governance 完整说明书
 
-当前版本：`v0.2.1`
+当前版本：`v0.2.2`
 
 ## 1. 项目简介
 
@@ -22,7 +22,7 @@
 - 多 Agent 协作研发项目
 - OpenClaw 类 AI 驱动项目
 - 使用 `Spec + Kanban` 或类似流程的团队
-- 同时使用 `Claude Code / Codex / AntiGravity` 等多个开发工具的团队
+- 同时使用 `Claude Code / Codex / AntiGravity / OpenClaw` 等多个开发工具的团队
 
 ## 2. 解决的问题
 
@@ -164,6 +164,27 @@
 6. 协作拓扑
 7. 工具异构度
 
+在正式锁定诊断前，本技能还会判断“对项目基本情况的理解置信度”。
+
+### 5.0 理解置信度与澄清提问
+
+本技能会先检查自己是否真正理解了这些基本项：
+
+1. 项目边界与当前目标
+2. 主要角色、Agent 和工具入口
+3. 当前 canonical source 与 current-version anchor
+4. 当前协作形态与风险
+5. 用户真正想要的输出和治理强度
+
+置信度分成：
+
+- `high`
+- `medium`
+- `low`
+
+当置信度是 `low` 时，应先向用户提问，再冻结诊断。
+当置信度是 `medium` 且不确定点会影响 family 划分、OpenClaw/其他工具适配、或控制回路设计时，也应先做少量澄清提问。
+
 ### 5.1 协作拓扑
 
 协作拓扑关注：
@@ -177,7 +198,7 @@
 
 工具异构度关注：
 
-- 是否同时用 `Claude Code / Codex / AntiGravity`
+- 是否同时用 `Claude Code / Codex / AntiGravity / OpenClaw`
 - 是否依赖 MCP、CLI、脚本、云端代理
 - 是否工具之间共享一套规则与技能
 - 是否把工具入口误写成 canonical role
@@ -225,6 +246,11 @@
 3. 官方读取顺序是什么
 4. 哪些文件只是 tool adapter
 5. 哪些 adapter 只能 summarize，不能 define
+
+如果项目使用 `OpenClaw`，还应额外回答：
+
+1. `OpenClaw` 在这个项目里是 launcher、adapter、projection，还是被明确提升为 canonical entrypoint
+2. 如果没有 `OpenClaw`，这五类核心对象是否仍然可稳定检索
 
 ## 7. 角色控制回路
 
@@ -366,7 +392,7 @@
 2. tool adapter 只能作为 bootstrap、launcher、projection 或 compatibility shim
 3. tool adapter 不能成为唯一 locator
 
-### 10.1 Claude Code / Codex / AntiGravity 的正确位置
+### 10.1 Claude Code / Codex / AntiGravity / OpenClaw 的正确位置
 
 建议把它们理解为：
 
@@ -417,9 +443,12 @@ Use $files-driven to analyze this repo's rules, agents, workflows, skills, and d
 8. `推荐角色控制回路`
 9. `推荐入口/恢复链`
 10. `推荐版本与同步纪律`
-11. `工具可移植性约束`
-12. `推荐下一步实施顺序`
-13. `明确不建议的做法`
+11. `对象家族检索与适配策略`
+12. `工具可移植性约束`
+13. `推荐下一步实施顺序`
+14. `明确不建议的做法`
+
+如果理解置信度较低，技能应先提出少量澄清问题，而不是直接输出完整蓝图。
 
 ## 13. 仓库内文件说明
 
@@ -443,11 +472,13 @@ Use $files-driven to analyze this repo's rules, agents, workflows, skills, and d
 - [`strategy-selection-matrix.md`](../references/strategy-selection-matrix.md)
 - [`tool-adapter-matrix.md`](../references/tool-adapter-matrix.md)
 - [`tool-portable-team-practices.md`](../references/tool-portable-team-practices.md)
+- [`understanding-confidence-and-clarification.md`](../references/understanding-confidence-and-clarification.md)
 
 ### 13.3 发布说明
 
 - [`RELEASE_NOTES_v0.2.0.md`](./RELEASE_NOTES_v0.2.0.md)
 - [`RELEASE_NOTES_v0.2.1.md`](./RELEASE_NOTES_v0.2.1.md)
+- [`RELEASE_NOTES_v0.2.2.md`](./RELEASE_NOTES_v0.2.2.md)
 
 ## 14. 维护建议
 
@@ -471,6 +502,7 @@ Use $files-driven to analyze this repo's rules, agents, workflows, skills, and d
 - `SECURITY.md`
 - `docs/RELEASE_NOTES_v0.2.0.md`
 - `docs/RELEASE_NOTES_v0.2.1.md`
+- `docs/RELEASE_NOTES_v0.2.2.md`
 - `docs/GITHUB_UPLOAD_CHECKLIST.md`
 - `docs/REPO_METADATA.md`
 - `.github` 模板

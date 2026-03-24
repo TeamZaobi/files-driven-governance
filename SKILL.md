@@ -1,6 +1,6 @@
 ---
 name: files-driven
-description: 项目结构治理与文档化项目管理设计。用于 AI Agent 项目、AI 驱动 workflow 项目和 OpenClaw 类项目：诊断或设计以文档为载体的治理系统，明确 `policy_or_rules`、`object`、`workflow`、`skill`、`agent`、`execution_object`、`status_projection` 与 `display_projection` 的真源、投影、owner、sync order 与 gate，并设计多人/多 Agent 在不同层级文档间的共享协议与经典流程库。适用于现有仓库诊断、绿地项目搭建、或 rules、agents、workflows、skills、status、README 漂移后的治理收口。基于系统论做结构设计、信息论做信息流、共享链与恢复链设计、控制论做角色回路与变更控制设计。默认输出诊断、项目结构治理蓝图和推荐流程库，不默认套用固定目录模板或重审批流；默认支持 Claude Code、Codex、AntiGravity 等多工具环境，不把任何工具名当成角色真源。
+description: 项目结构治理与文档化项目管理设计。用于 AI Agent 项目、AI 驱动 workflow 项目和 OpenClaw 类项目：诊断或设计以文档为载体的治理系统，明确 `policy_or_rules`、`object`、`workflow`、`skill`、`agent`、`execution_object`、`status_projection` 与 `display_projection` 的真源、投影、owner、sync order 与 gate，并设计多人/多 Agent 在不同层级文档间的共享协议与经典流程库。适用于现有仓库诊断、绿地项目搭建、或 rules、agents、workflows、skills、status、README 漂移后的治理收口。基于系统论做结构设计、信息论做信息流、共享链与恢复链设计、控制论做角色回路与变更控制设计。默认输出诊断、项目结构治理蓝图和推荐流程库，不默认套用固定目录模板或重审批流；默认支持 Claude Code、Codex、AntiGravity、OpenClaw 等多工具环境，不把任何工具名当成角色真源。
 ---
 
 # Files Driven
@@ -36,6 +36,30 @@ Diagnose the project across these dimensions:
 
 Read [core-doctrine](references/core-doctrine.md) first when the project is ambiguous or the governance choice feels under-specified.
 Read [strategy-selection-matrix](references/strategy-selection-matrix.md) after the diagnosis to choose the governance bundle.
+
+### 2.5 Assess understanding confidence before locking the diagnosis
+
+Before turning partial repo evidence into a governance blueprint, judge how well you understand the project's basics.
+
+Assess confidence on:
+
+1. project boundary and objective
+2. main actors, agents, and tool entrypoints
+3. current canonical sources and current-version anchors
+4. current collaboration shape and risk profile
+5. the user's requested outcome or governance intensity
+
+Use these levels:
+
+- `high`: the main governance choice would likely survive without further clarification
+- `medium`: one or two material assumptions remain and may change family mapping, tool adaptation, or control loops
+- `low`: project boundary, canonical source, major tool entrypoint, or desired outcome is still too unclear
+
+When confidence is `low`, ask targeted user questions before finalizing the blueprint.
+When confidence is `medium`, ask one to three focused questions if the answer may materially change the recommendation; otherwise proceed with explicit assumptions.
+Do not ask the user to restate facts already discoverable from canonical sources.
+
+Read [understanding-confidence-and-clarification](references/understanding-confidence-and-clarification.md) when the repo is sparse, tool entrypoints may be mistaken for canonical sources, or the requested governance target is underspecified.
 
 ### 3. Map project structure families before discussing folders
 
@@ -91,7 +115,7 @@ For each important family, define:
 8. handoff packet
 
 If the project uses several tools, treat tool entrypoints as adapters or projections unless there is explicit evidence that they are canonical sources.
-Do not let `Claude Code`、`Codex`、`AntiGravity` or any other tool name stand in for a durable project role.
+Do not let `Claude Code`、`Codex`、`AntiGravity`、`OpenClaw` or any other tool name stand in for a durable project role.
 Read [tool-adapter-matrix](references/tool-adapter-matrix.md) when you need to explain how the same family should be surfaced across different tools without duplicating canonical definitions.
 
 ### 5. Map four documentation layers across those families
@@ -216,6 +240,7 @@ Explain why the chosen flow set fits the diagnosis.
 Recommend the minimum structure that can stabilize the project and leave room for growth.
 Make `policy_or_rules`、`object`、`workflow`、`skill`、`agent`、`execution_object`、`status_projection`、`display_projection` visible in the answer whenever they matter.
 When the environment is multi-tool, explain how the same governance model survives across tools without duplicating canonical source definitions.
+If understanding confidence remained `medium`, state the material assumptions explicitly.
 
 ### 10. End with sequencing instead of abstract advice
 
@@ -282,6 +307,7 @@ Use [scenario-playbooks](references/scenario-playbooks.md) to sequence triage, s
 - Do not let README pages, dashboards, or websites silently redefine canonical facts.
 - Do not let `Agent` definitions absorb `Workflow` or `Skill` responsibilities.
 - Do not let tool brands become canonical role identities.
+- Do not let `OpenClaw` bootstraps, launch surfaces, or runtime entry docs silently become the only readable source for rules, workflows, skills, or agents.
 - Do not let skill packages, helper scripts, or workflow drafts patch contract gaps silently.
 - Explicitly separate evidence from inference when the repo is incomplete.
 - State assumptions when key facts cannot be verified.
@@ -295,8 +321,9 @@ Use [scenario-playbooks](references/scenario-playbooks.md) to sequence triage, s
 - Read [adversarial-convergence-loop](references/adversarial-convergence-loop.md) when the project needs hostile inquiry, structured defense, or question-level convergence semantics.
 - Read [family-locator-contract](references/family-locator-contract.md) when the user needs family-specific source locators, current-version anchors, or fallback retrieval rules.
 - Read [official-retrieval-orders](references/official-retrieval-orders.md) when the user needs a stable read order for `policy_or_rules`、`object`、`workflow`、`skill`、`agent`.
-- Read [tool-adapter-matrix](references/tool-adapter-matrix.md) when the user needs adapter guidance across Claude Code, Codex, AntiGravity, MCP, CLI wrappers, or other tool entrypoints.
+- Read [tool-adapter-matrix](references/tool-adapter-matrix.md) when the user needs adapter guidance across Claude Code, Codex, AntiGravity, OpenClaw, MCP, CLI wrappers, or other tool entrypoints.
 - Read [cross-layer-sharing-contract](references/cross-layer-sharing-contract.md) when the user needs multi-role, multi-agent, or multi-tool collaboration rules.
+- Read [understanding-confidence-and-clarification](references/understanding-confidence-and-clarification.md) when the project basics are still ambiguous and you need a confidence-gated clarification strategy.
 - Read [tool-portable-team-practices](references/tool-portable-team-practices.md) when the user needs portable operational habits, writing rules, or team workflow adjustments across tools.
 - Read [output-contract](references/output-contract.md) immediately before drafting the final answer.
 - Read [scenario-playbooks](references/scenario-playbooks.md) after classifying the start state.

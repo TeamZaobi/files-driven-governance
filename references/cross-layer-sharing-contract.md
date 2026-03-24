@@ -118,7 +118,7 @@ Map them to your actual project roles instead of copying the names blindly.
 
 ## Multi-Tool Rule
 
-Treat `Claude Code`、`Codex`、`AntiGravity` and similar tools as execution environments or adapters.
+Treat `Claude Code`、`Codex`、`AntiGravity`、`OpenClaw` and similar tools as execution environments or adapters.
 Do not let tool names become canonical role identities unless the project intentionally chooses that model.
 
 Preferred pattern:
