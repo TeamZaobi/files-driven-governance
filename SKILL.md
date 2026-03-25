@@ -1,6 +1,6 @@
 ---
 name: files-driven
-description: 项目结构治理与文档化项目管理设计。用于 AI Agent 项目、AI 驱动 workflow 项目和 OpenClaw 类项目：诊断或设计以文档为载体的治理系统，明确 `policy_or_rules`、`object`、`workflow`、`skill`、`agent`、`execution_object`、`status_projection` 与 `display_projection` 的真源、投影、owner、sync order 与 gate，并设计多人/多 Agent 在不同层级文档间的共享协议与经典流程库。适用于现有仓库诊断、绿地项目搭建、或 rules、agents、workflows、skills、status、README 漂移后的治理收口。基于系统论做结构设计、信息论做信息流、共享链与恢复链设计、控制论做角色回路与变更控制设计。默认先用简单明确的使用场景、用户故事、测试用例和非目标锚定方向与边界，再输出诊断、项目结构治理蓝图和推荐流程库；不默认套用固定目录模板或重审批流；默认支持 Claude Code、Codex、AntiGravity、OpenClaw 等多工具环境，不把任何工具名当成角色真源。
+description: 项目结构治理与文档化项目管理设计。用于 AI Agent 项目、AI 驱动 workflow 项目和 OpenClaw 类项目：诊断或设计以文档为载体的治理系统，明确 `policy_or_rules`、`object`、`workflow`、`skill`、`agent`、`execution_object`、`status_projection` 与 `display_projection` 的真源、投影、owner、sync order 与 gate，并设计多人/多 Agent 在不同层级文档间的共享协议、经典流程库与可移植的 intent trigger contract。适用于现有仓库诊断、绿地项目搭建、或 rules、agents、workflows、skills、status、README 漂移后的治理收口。基于系统论做结构设计、信息论做信息流、共享链与恢复链设计、控制论做角色回路与变更控制设计。默认先用说人话的需求确认问题集、用户故事模板、测试用例模板和非目标锚定方向与边界，再输出诊断、项目结构治理蓝图和推荐流程库；当项目希望用“继续开发”“开始审计”“反思”“推进”等自然口令高效触发工作时，额外设计意图触发与执行契约；不默认套用固定目录模板或重审批流；默认支持 Claude Code、Codex、AntiGravity、OpenClaw 等多工具环境，不把任何工具名当成角色真源。
 ---
 
 # Files Driven
@@ -37,6 +37,7 @@ Anchor at least:
 4. three to seven acceptance or test cases, including at least one fail boundary or non-example
 5. explicit non-goals or delayed capabilities
 6. any reference artifact that calibrates quality without silently redefining scope
+7. acceptance owner or acceptance audience for the first delivery boundary
 
 Each user story and each test case must be specific enough that another person or agent can tell:
 
@@ -50,6 +51,7 @@ Questioning rule:
 - for early-stage or drifting projects, ask a compact startup question set, usually four to six short questions, to confirm usage scenario and delivery expectation
 - ask those questions in plain language the user can answer without translating product or architecture jargon
 - prefer user-story, acceptance, and non-goal questions before tool, folder, or architecture questions
+- after the questions, draft one to three stories and three to eight test cases before expanding into governance design
 
 If the user cannot provide the packet directly, draft it and ask for correction.
 Do not recommend folder layout, governance family splits, or tool adapters until this packet is stable enough to survive the next clarification round.
@@ -60,6 +62,8 @@ Read [startup-alignment-through-stories-and-tests](references/startup-alignment-
 2. several reasonable first deliverables could all sound correct
 3. small user-story drift would cascade into large downstream structure changes
 4. a recent thread already expanded from one delivery surface into several adjacent ones
+
+Read [plain-language-requirements-confirmation-kit](references/plain-language-requirements-confirmation-kit.md) when you need the concrete question set, user story template, test case template, or stakeholder pre-alignment check.
 
 ### 2. Build a seven-dimensional diagnosis
 
@@ -159,6 +163,33 @@ For each important family, define:
 If the project uses several tools, treat tool entrypoints as adapters or projections unless there is explicit evidence that they are canonical sources.
 Do not let `Claude Code`、`Codex`、`AntiGravity`、`OpenClaw` or any other tool name stand in for a durable project role.
 Read [tool-adapter-matrix](references/tool-adapter-matrix.md) when you need to explain how the same family should be surfaced across different tools without duplicating canonical definitions.
+
+### 4.5 Design the intent trigger contract for command-driven operation
+
+Read [intent-trigger-contract](references/intent-trigger-contract.md) when the user wants the project to respond reliably to phrases such as `继续开发`, `开始审计`, `反思`, `推进`, or similar operator shorthand.
+
+For each supported operational command, define:
+
+1. canonical intent id
+2. whether it is a `direct_action_intent` or a `route_intent`
+3. alias or natural-language trigger layer
+4. modifier or slot layer such as scope, target, depth, or constraints
+5. default reads from status, active execution objects, and canonical sources
+6. workflow binding
+7. agent-selection rule
+8. expected outputs and status-sync duties
+9. ambiguity, stop, escalation, and fallback rules
+
+Core rules:
+
+- expand usability by widening aliases and modifiers, not by multiplying hidden semantics
+- one trigger phrase should resolve to one primary canonical intent
+- route intents such as `advance_mainline` may choose the next workflow only when the routing policy is documented
+- direct-action intents must not silently change meaning by tool, adapter, or context
+- tool-specific launchers may expose aliases, but canonical intent definitions must live upstream
+
+Do not treat trigger phrases as a prompt-writing convenience only.
+Treat them as a portable contract that survives tool changes and handoffs.
 
 ### 5. Map four documentation layers across those families
 
@@ -280,6 +311,7 @@ Add conditional sections only when the diagnosis says they are material:
 - `推荐角色控制回路`
 - `推荐版本与同步纪律`
 - `对象家族检索与适配策略`
+- `意图触发与执行契约`
 - `工具可移植性约束`
 - `文档生命周期与压缩策略`
 
@@ -300,6 +332,7 @@ Use these activation heuristics:
 - add `推荐角色控制回路` when autonomy, role ambiguity, or review responsibility is material
 - add `推荐版本与同步纪律` when there is version ambiguity, drift, multi-writer risk, or promotion complexity
 - add `对象家族检索与适配策略` when the five core families are hard to retrieve or tools may overshadow canonical sources
+- add `意图触发与执行契约` when the project wants command-driven operation, low-friction natural-language triggers, or reusable operator shorthand across tools
 - add `工具可移植性约束` when multiple tools are active or migration risk is non-trivial
 - add `文档生命周期与压缩策略` when active docs are bloating, retrieval cost is rising, stale pages are accumulating, or history is pretending to be current truth
 
@@ -371,6 +404,8 @@ Use [scenario-playbooks](references/scenario-playbooks.md) to sequence triage, s
 - Do not let `Agent` definitions absorb `Workflow` or `Skill` responsibilities.
 - Do not let tool brands become canonical role identities.
 - Do not let `OpenClaw` bootstraps, launch surfaces, or runtime entry docs silently become the only readable source for rules, workflows, skills, or agents.
+- Do not expand trigger aliases before stabilizing canonical intent meanings.
+- Do not let natural-language trigger semantics live only in launch prompts, chat memory, or tool-specific bootstraps.
 - Do not let skill packages, helper scripts, or workflow drafts patch contract gaps silently.
 - Explicitly separate evidence from inference when the repo is incomplete.
 - State assumptions when key facts cannot be verified.

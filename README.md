@@ -1,6 +1,6 @@
 # Files-Driven Governance
 
-当前版本：`v0.2.5`
+当前版本：`v0.2.7`
 
 `files-driven` 是一个面向 `AI Agent` / `OpenClaw` / AI 驱动 workflow 项目的项目结构治理技能。
 
@@ -16,6 +16,30 @@
 - `display_projection`
 
 之间的真源、投影、同步顺序、共享协议、控制回路与经典流程库。
+
+## v0.2.7 触发口令契约补丁
+
+这一版把“继续开发”“开始审计”“反思”“推进”这类自然语言短口令，提升成了一个可移植、可部署的正式治理契约。
+
+本次补丁重点包括：
+
+1. 新增 `intent-trigger-contract` 参考件。
+2. 把口令体系拆成 `canonical intent + alias layer + modifier layer`。
+3. 要求区分 `direct action` 与 `route intent`，避免“推进”这类词偷偷改义。
+4. 为输出契约增加 `意图触发与执行契约` 条件区块。
+5. 更新说明书、默认 prompt、版本文档和场景剧本，使这一能力能服务通用项目部署。
+
+## v0.2.6 需求确认工具包补丁
+
+这一版把“说人话确认需求”继续往前推进了一步：不只要求先确认边界，还给出默认的需求确认问题集、用户故事模板和测试用例模板，让 skill 能直接落出可复述、可纠偏、可测试的起始对齐包。
+
+本次补丁重点包括：
+
+1. 新增需求确认工具包参考件。
+2. 固化默认的人话问题集、故事模板和测试模板。
+3. 要求边界未稳时，先给问题集和草案，再谈治理蓝图。
+4. 把 acceptance owner / audience 纳入起始对齐包。
+5. 更新输出契约、说明书、默认 prompt 和版本文档。
 
 ## v0.2.5 起始对齐补丁
 
@@ -102,6 +126,7 @@
 
 但不会把任何工具名当成项目里的 canonical role。
 同时，它现在会把“先确认首批真实使用场景和首批交付物”视为治理设计的前置条件，而不是可选补充。
+当项目希望用自然语言短口令高效触发开发、审计、反思、推进等动作时，它也会把口令层设计成显式 contract，而不是隐含在聊天习惯里。
 
 ## 设计原则
 
@@ -146,7 +171,12 @@
    - 1-3 个核心用户故事
    - 3-7 个验收/测试用例
    - 非目标与延后项
-2. 建立七维诊断：
+   - acceptance owner / audience
+2. 使用需求确认工具包：
+   - 默认问题集
+   - 默认用户故事模板
+   - 默认测试用例模板
+3. 建立七维诊断：
    - 项目阶段
    - 变更风险
    - 协作密度
@@ -154,7 +184,7 @@
    - 恢复压力
    - 协作拓扑
    - 工具异构度
-3. 划分 source family：
+4. 划分 source family：
    - `policy_or_rules`
    - `object`
    - `workflow`
@@ -163,12 +193,12 @@
    - `execution_object`
    - `status_projection`
    - `display_projection`
-4. 建立四层文档视角：
+5. 建立四层文档视角：
    - `truth_source`
    - `execution_object`
    - `status_projection`
    - `display_projection`
-5. 设计跨层共享矩阵：
+6. 设计跨层共享矩阵：
    - producer
    - consumer
    - writable surface
@@ -177,18 +207,18 @@
    - sync trigger
    - conflict rule
    - handoff packet
-6. 设计角色控制回路：
+7. 设计角色控制回路：
    - `observe`
    - `decide`
    - `act`
    - `review`
    - `rollback_or_improve`
-7. 组合治理方法：
+8. 组合治理方法：
    - `Spec-Driven`
    - `Kanban`
    - `Agile/Sprint-like`
    - `decision / review / change-control gate`
-8. 选择经典流程库：
+9. 选择经典流程库：
    - `low_token_recovery_chain`
    - `discussion -> decision_package -> task_or_decision`
    - `mechanism_review`
@@ -197,16 +227,23 @@
    - `skill_seed -> package_contract -> active_package`
    - `contract_gap -> closure_topic -> downstream_resume`
    - `growth_signal -> lifecycle_review -> compact_or_archive`
-9. 设计对象家族检索与适配策略：
+10. 设计对象家族检索与适配策略：
    - family locator
    - current-version anchor
    - official retrieval order
    - tool adapter surface
-10. 判断理解置信度并按需澄清：
+11. 判断理解置信度并按需澄清：
    - `high / medium / low`
    - compact startup question set for usage scenario and delivery expectation
+   - default story and test drafts when the boundary is still moving
    - targeted clarification questions
    - explicit assumptions when ambiguity remains
+12. 设计意图触发与执行契约：
+   - canonical intent set
+   - alias layer
+   - modifier layer
+   - workflow and agent binding
+   - ambiguity and fallback rules
 
 ## 仓库结构
 
@@ -222,8 +259,10 @@
 │   ├── core-doctrine.md
 │   ├── cross-layer-sharing-contract.md
 │   ├── family-locator-contract.md
+│   ├── intent-trigger-contract.md
 │   ├── official-retrieval-orders.md
 │   ├── output-contract.md
+│   ├── plain-language-requirements-confirmation-kit.md
 │   ├── startup-alignment-through-stories-and-tests.md
 │   ├── scenario-playbooks.md
 │   ├── shared-patterns-from-aijournal-and-hqmdclaw.md
@@ -242,6 +281,8 @@
 │   ├── RELEASE_NOTES_v0.2.3.md
 │   ├── RELEASE_NOTES_v0.2.4.md
 │   ├── RELEASE_NOTES_v0.2.5.md
+│   ├── RELEASE_NOTES_v0.2.6.md
+│   ├── RELEASE_NOTES_v0.2.7.md
 │   └── REPO_METADATA.md
 ├── .github/
 │   ├── ISSUE_TEMPLATE/
@@ -271,7 +312,13 @@ Use $files-driven to analyze this repo's rules, agents, workflows, skills, and d
 如果项目还在起始阶段，也可以直接要求技能先确认边界：
 
 ```text
-请先用几个问题确认这个项目的使用场景、首批交付物、用户故事和测试用例，再使用 $files-driven 设计项目治理方案。
+请先用需求确认问题集把这个项目的使用场景、首批交付物、用户故事和测试用例说清楚，再使用 $files-driven 设计项目治理方案。
+```
+
+如果你希望项目支持更自然的触发口令，也可以直接要求技能设计通用触发契约：
+
+```text
+请使用 $files-driven 为这个多 Agent 项目设计一套通用的意图触发与执行契约，让“继续开发”“开始审计”“反思”“推进”这类口令都能稳定定位状态、选择 Agent 并开始工作。
 ```
 
 ### 2. 典型触发句
@@ -279,6 +326,7 @@ Use $files-driven to analyze this repo's rules, agents, workflows, skills, and d
 - “分析这个多 Agent 仓库的现有文档体系，判断哪些文件是事实源、哪些只是状态页，并给出重构方案。”
 - “我要做一个 AI Agent 驱动的 OpenClaw 项目，请为它设计一套适合早期阶段的文档管理策略，要求不过重，但要能支撑后续扩展。”
 - “这个项目现在 discussion、任务、状态页和 README 已经互相漂移，请诊断主要问题，并给出收口和迁移顺序。”
+- “我希望操作者只说‘继续开发’‘开始审计’‘推进’之类短口令，系统就能读状态、选 Agent、开始执行，请设计一套通用部署规范。”
 
 ## 输出约定
 
@@ -304,11 +352,13 @@ Use $files-driven to analyze this repo's rules, agents, workflows, skills, and d
 4. `推荐版本与同步纪律`
 5. `对象家族检索与适配策略`
 6. `工具可移植性约束`
-7. `文档生命周期与压缩策略`
+7. `意图触发与执行契约`
+8. `文档生命周期与压缩策略`
 
 只有当诊断显示这些问题确实重要时，skill 才会展开它们。
 如果对项目基本情况的理解置信度不足，或者首批交付物仍在漂移，技能会先提出一组简短但更完整的问题，优先确认使用场景与交付预期，而不是直接输出失真的蓝图。
 这些问题和对应的用户故事、测试用例必须尽量说人话，并写到足够清晰，避免后续开发时出现“看起来都对，但其实已经偏题”的扩 scope。
+如果边界仍未稳定，skill 应先给出问题集、故事草案和测试草案，而不是假装已经确认完成。
 
 ## 文档导航
 
@@ -321,6 +371,8 @@ Use $files-driven to analyze this repo's rules, agents, workflows, skills, and d
 - `v0.2.3` 发布说明：[`docs/RELEASE_NOTES_v0.2.3.md`](./docs/RELEASE_NOTES_v0.2.3.md)
 - `v0.2.4` 发布说明：[`docs/RELEASE_NOTES_v0.2.4.md`](./docs/RELEASE_NOTES_v0.2.4.md)
 - `v0.2.5` 发布说明：[`docs/RELEASE_NOTES_v0.2.5.md`](./docs/RELEASE_NOTES_v0.2.5.md)
+- `v0.2.6` 发布说明：[`docs/RELEASE_NOTES_v0.2.6.md`](./docs/RELEASE_NOTES_v0.2.6.md)
+- `v0.2.7` 发布说明：[`docs/RELEASE_NOTES_v0.2.7.md`](./docs/RELEASE_NOTES_v0.2.7.md)
 - 文档膨胀质询记录：[`docs/DOCUMENT_BLOAT_INQUIRY_ROUND_1.md`](./docs/DOCUMENT_BLOAT_INQUIRY_ROUND_1.md)
 - 上传 GitHub 清单：[`docs/GITHUB_UPLOAD_CHECKLIST.md`](./docs/GITHUB_UPLOAD_CHECKLIST.md)
 - 仓库元数据建议：[`docs/REPO_METADATA.md`](./docs/REPO_METADATA.md)

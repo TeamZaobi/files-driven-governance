@@ -14,6 +14,7 @@ Inspect:
 4. active task, discussion, or review artifacts
 5. any version locator, registry, or canonical-spec path
 6. any websites, dashboards, or docs that might overreach as truth sources
+7. any intent registry, trigger-command docs, or tool launchers that define operational shorthand
 
 ### Minimum Deliverable
 
@@ -28,6 +29,7 @@ Deliver:
 - a recommended governance mode
 - a recommended flow set
 - a role-loop sketch
+- a portable intent trigger map when command-driven operation is required
 - a short migration sequence
 - a compaction order if active docs are bloated
 
@@ -40,6 +42,7 @@ Deliver:
 - no reliable handoff chain exists
 - historical material still lives in active status or README pages
 - recent clarification rounds quietly expanded the first deliverable
+- trigger phrases mean different things across tools or live only in launcher notes
 
 ### Preferred First Move
 
@@ -73,6 +76,7 @@ Define only:
 4. a small set of execution objects for active work
 5. one recovery entrypoint
 6. one versioning and sync rule for changes that affect multiple layers
+7. a small portable intent set if command-driven operation is in scope
 
 ### Minimum Deliverable
 
@@ -85,6 +89,7 @@ Deliver:
 - the first cross-layer sharing contract
 - the first entry and recovery chain
 - the first role loop
+- the first trigger contract, when operator shorthand is part of the product or workflow
 - the first default flow set
 - the first review or promotion rule, if any
 - the first lifecycle and archive rule, if current growth rate justifies it
@@ -96,6 +101,7 @@ Deliver:
 - defining too many object types before active work exists
 - mixing strategy, tasks, and status into one document
 - adding heavy approval loops before risk justifies them
+- letting natural-language trigger phrases accumulate before canonical intents exist
 
 ### Preferred First Move
 
@@ -129,6 +135,7 @@ Identify:
 4. which entrypoints confuse handoff
 5. which source families are currently blurred together
 6. which older story, deliverable, or acceptance anchor was last trustworthy
+7. which trigger phrases still have reliable meaning and which do not
 
 ### Minimum Deliverable
 
@@ -141,6 +148,7 @@ Deliver:
 - the minimum repaired sharing contract
 - the minimum repaired flow set
 - the long-term redesign direction
+- the repaired trigger contract, if operational shorthand matters
 - the first compaction and demotion wave
 
 ### Common Failure Modes
@@ -151,6 +159,7 @@ Deliver:
 - rebuilding dashboards or websites before upstream sources are repaired
 - preserving every historical page as active just because it might still be useful later
 - keeping every adjacent capability in scope because it was mentioned once during clarification
+- trying to standardize trigger phrases before restoring canonical workflow and status meaning
 
 ### Preferred First Move
 

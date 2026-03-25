@@ -1,6 +1,6 @@
 # Files-Driven Governance 完整说明书
 
-当前版本：`v0.2.5`
+当前版本：`v0.2.7`
 
 ## 1. 项目简介
 
@@ -36,6 +36,7 @@
 6. 需要按项目实际情况给出精确方案，而不是默认输出完整治理大图。
 7. 项目运行一段时间后，active docs 膨胀，恢复链和当前态判断成本越来越高。
 8. 项目起始阶段如果用户故事、使用场景或交付预期有小漂移，后续结构设计和开发范围会被连带放大。
+9. 团队想用“继续开发”“开始审计”“反思”“推进”这类短口令高效驱动工作，但这些词在不同工具、不同人或不同阶段里的含义并不稳定。
 
 ## 3. 底层方法论
 
@@ -102,6 +103,7 @@
 4. `3-7` 个验收/测试用例
 5. 明确不做的范围或延后项
 6. 仅用于质量校准的参考样例
+7. 谁来判断这次算不算真的达标
 
 对于早期项目或边界有漂移迹象的项目，本技能不再满足于一两个笼统问题，而是应先用一组简短但完整的问题确认：
 
@@ -119,6 +121,13 @@
 2. 希望得到什么结果
 3. 什么结果算通过
 4. 什么虽然相关，但这次明确不交付
+
+本技能现在还为这一步提供一个默认工具包，至少包括：
+
+1. 默认需求确认问题集
+2. 默认用户故事模板
+3. 默认测试用例模板
+4. stakeholder pre-alignment 检查
 
 如果这一步不稳定，就不应继续放大到结构治理蓝图。
 
@@ -171,6 +180,34 @@
 
 如果一个项目只能通过某个工具入口才能找到这些对象，这说明治理还不够稳定。
 
+### 4.1.3 意图触发与执行契约
+
+当项目希望操作者能直接说“继续开发”“开始审计”“反思”“推进”这类短口令时，本技能要求把这件事设计成显式 contract，而不是写在聊天习惯、工具启动词或团队默契里。
+
+这个 contract 至少要定义：
+
+1. canonical intent
+2. alias layer
+3. modifier or slot layer
+4. 默认读取顺序
+5. workflow binding
+6. agent selection rule
+7. ambiguity / fallback / stop rules
+8. outputs and status sync
+
+这里需要坚持两条原则：
+
+1. 易用性的扩展发生在 alias 和 modifier 层
+2. 语义稳定性留在 canonical intent 层
+
+也就是说：
+
+1. `继续开发`、`接着做`、`继续这个` 可以是同一 intent 的不同 alias
+2. `快速`、`当前任务`、`先别发版` 可以作为 modifier
+3. 但 `推进` 这种词如果会根据上下文在“继续开发”和“先审计”之间切换，就必须被正式定义成 route intent，而不是偷偷靠当时语境猜
+
+工具适配层可以暴露这些别名，但不能成为 intent 语义的真源。
+
 ### 4.2 四层文档视角
 
 在 source family 之外，本技能还要求把文档系统按这四层观察：
@@ -221,6 +258,7 @@
 当置信度是 `low` 时，应先向用户提问，再冻结诊断。
 当置信度是 `medium` 且不确定点会影响 family 划分、OpenClaw/其他工具适配、控制回路设计，或首批交付物边界时，也应先做少量澄清提问。
 如果项目仍处在起始边界确认阶段，应优先用一组短问题确认使用场景和交付预期，而不是先问架构偏好。
+如果边界仍未稳定，应先产出问题集、故事草案和测试草案，而不是直接产出完整治理建议。
 
 ### 5.1 协作拓扑
 
@@ -484,7 +522,7 @@ Use $files-driven to analyze this repo's rules, agents, workflows, skills, and d
 ```
 
 ```text
-请先用几个问题确认这个项目的使用场景、首批交付物、用户故事和测试用例，再使用 $files-driven 给治理方案。
+请先用需求确认问题集确认这个项目的使用场景、首批交付物、用户故事和测试用例，再使用 $files-driven 给治理方案。
 ```
 
 ### 11.3 作为治理收口器
@@ -519,7 +557,8 @@ Use $files-driven to analyze this repo's rules, agents, workflows, skills, and d
 4. `推荐版本与同步纪律`
 5. `对象家族检索与适配策略`
 6. `工具可移植性约束`
-7. `文档生命周期与压缩策略`
+7. `意图触发与执行契约`
+8. `文档生命周期与压缩策略`
 
 例如：
 
@@ -527,9 +566,11 @@ Use $files-driven to analyze this repo's rules, agents, workflows, skills, and d
 - 有角色责任或自治风险时，再展开 `推荐角色控制回路`
 - 有 retrieval ambiguity 或 tool entrypoint 越权时，再展开 `对象家族检索与适配策略`
 - 存在迁移风险或明确多工具协同时，再展开 `工具可移植性约束`
+- 希望用自然语言短口令高效触发工作时，再展开 `意图触发与执行契约`
 - 有 active docs 膨胀、recovery cost 上升或 stale page 积累时，再展开 `文档生命周期与压缩策略`
 
 如果理解置信度较低，或首批交付物仍在漂移，技能应先提出一组说人话的确认问题，并把用户故事和测试用例写清楚，而不是直接输出完整蓝图。
+如果仍有关键不确定点，技能应把这些不确定点保留在问题集里，而不是偷偷用自己的默认假设替代用户确认。
 
 ## 13. 仓库内文件说明
 
@@ -546,8 +587,10 @@ Use $files-driven to analyze this repo's rules, agents, workflows, skills, and d
 - [`core-doctrine.md`](../references/core-doctrine.md)
 - [`cross-layer-sharing-contract.md`](../references/cross-layer-sharing-contract.md)
 - [`family-locator-contract.md`](../references/family-locator-contract.md)
+- [`intent-trigger-contract.md`](../references/intent-trigger-contract.md)
 - [`official-retrieval-orders.md`](../references/official-retrieval-orders.md)
 - [`output-contract.md`](../references/output-contract.md)
+- [`plain-language-requirements-confirmation-kit.md`](../references/plain-language-requirements-confirmation-kit.md)
 - [`startup-alignment-through-stories-and-tests.md`](../references/startup-alignment-through-stories-and-tests.md)
 - [`scenario-playbooks.md`](../references/scenario-playbooks.md)
 - [`shared-patterns-from-aijournal-and-hqmdclaw.md`](../references/shared-patterns-from-aijournal-and-hqmdclaw.md)
@@ -565,6 +608,8 @@ Use $files-driven to analyze this repo's rules, agents, workflows, skills, and d
 - [`RELEASE_NOTES_v0.2.3.md`](./RELEASE_NOTES_v0.2.3.md)
 - [`RELEASE_NOTES_v0.2.4.md`](./RELEASE_NOTES_v0.2.4.md)
 - [`RELEASE_NOTES_v0.2.5.md`](./RELEASE_NOTES_v0.2.5.md)
+- [`RELEASE_NOTES_v0.2.6.md`](./RELEASE_NOTES_v0.2.6.md)
+- [`RELEASE_NOTES_v0.2.7.md`](./RELEASE_NOTES_v0.2.7.md)
 - [`DOCUMENT_BLOAT_INQUIRY_ROUND_1.md`](./DOCUMENT_BLOAT_INQUIRY_ROUND_1.md)
 
 ## 14. 维护建议
@@ -576,6 +621,7 @@ Use $files-driven to analyze this repo's rules, agents, workflows, skills, and d
 3. 若对外定位变了，同步更新 `agents/openai.yaml`、`README.md`、GitHub 仓库元数据。
 4. 若新增工具适配，不要把工具文案写进 canonical role，优先写进跨工具实践说明。
 5. 若经典流程库发生变化，同步更新 `references/classic-governance-flows.md`、`references/adversarial-convergence-loop.md` 与 `CHANGELOG.md`。
+6. 若项目开始依赖自然语言触发口令，优先更新 `references/intent-trigger-contract.md` 与输出契约，而不是只改某个工具的启动 prompt。
 
 ## 15. 发布建议
 
@@ -593,6 +639,8 @@ Use $files-driven to analyze this repo's rules, agents, workflows, skills, and d
 - `docs/RELEASE_NOTES_v0.2.3.md`
 - `docs/RELEASE_NOTES_v0.2.4.md`
 - `docs/RELEASE_NOTES_v0.2.5.md`
+- `docs/RELEASE_NOTES_v0.2.6.md`
+- `docs/RELEASE_NOTES_v0.2.7.md`
 - `docs/DOCUMENT_BLOAT_INQUIRY_ROUND_1.md`
 - `docs/GITHUB_UPLOAD_CHECKLIST.md`
 - `docs/REPO_METADATA.md`

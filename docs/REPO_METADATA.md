@@ -14,11 +14,11 @@
 
 推荐短描述：
 
-`Project structure governance skill for AI agent systems, using documentation plus plain-language scope anchoring to manage rules, workflows, skills, agents, and cross-layer collaboration.`
+`Project structure governance skill for AI agent systems, using documentation, a plain-language requirements confirmation kit, and portable intent-trigger contracts to manage rules, workflows, skills, agents, and cross-layer collaboration.`
 
 推荐中文描述：
 
-`面向 AI Agent 项目的项目结构治理技能，用文档和说人话的边界对齐来管理 rules、workflows、skills、agents 与跨层协作。`
+`面向 AI Agent 项目的项目结构治理技能，用文档、说人话的需求确认工具包和可移植的意图触发契约来管理 rules、workflows、skills、agents 与跨层协作。`
 
 ## 3. Topics 建议
 
@@ -53,22 +53,22 @@
 
 推荐 tag：
 
-`v0.2.5`
+`v0.2.7`
 
 推荐发布标题：
 
-`v0.2.5 - Startup alignment through stories and tests`
+`v0.2.7 - Portable intent-trigger contract`
 
 推荐发布说明：
 
 ```text
-v0.2.5 patches Files-Driven Governance by making startup alignment a first-class preflight step.
+v0.2.7 patches Files-Driven Governance by adding a portable intent-trigger contract for command-driven operation.
 
 This release includes:
-- a plain-language direction-and-boundary anchor
-- detailed user-story and test-case requirements
-- startup alignment reference
-- updated output contract, manual, changelog, and patch release notes
+- a new intent-trigger contract reference
+- canonical intents plus alias and modifier layers
+- a new conditional output section for trigger-execution contracts
+- updated manual, changelog, metadata, and patch release notes
 
 Designed for AI agent projects, OpenClaw-style workflows, and multi-tool environments such as Claude Code, Codex, AntiGravity, and OpenClaw.
 ```

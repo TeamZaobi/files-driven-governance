@@ -2,6 +2,33 @@
 
 All notable changes to `files-driven` are recorded here.
 
+## v0.2.7 - 2026-03-25
+
+### Added
+
+- Added `references/intent-trigger-contract.md` to formalize portable trigger-command design through canonical intents, alias layers, modifier layers, workflow binding, agent selection, and ambiguity rules.
+- Added `docs/RELEASE_NOTES_v0.2.7.md` for the intent-trigger-contract patch release notes.
+
+### Changed
+
+- Extended `SKILL.md` to treat command-driven operation as an explicit governance design problem and to require an `意图触发与执行契约` when projects want natural-language trigger phrases.
+- Extended `references/output-contract.md` and `references/scenario-playbooks.md` so existing, greenfield, and recovery recommendations can include portable trigger contracts instead of tool-local prompt habits.
+- Updated `README.md`, `docs/MANUAL.md`, `docs/REPO_METADATA.md`, and `agents/openai.yaml` for `v0.2.7`.
+
+## v0.2.6 - 2026-03-25
+
+### Added
+
+- Added `references/plain-language-requirements-confirmation-kit.md` to provide a default question set, user story template, test case template, minimum completion rule, and stakeholder pre-alignment check for startup boundary confirmation.
+- Added `docs/RELEASE_NOTES_v0.2.6.md` for the requirements-confirmation-kit patch release notes.
+
+### Changed
+
+- Extended `SKILL.md` to require the concrete confirmation kit after human-language startup questions and before governance expansion.
+- Extended `references/startup-alignment-through-stories-and-tests.md` and `references/output-contract.md` so unstable startup boundaries now produce questions, story drafts, test drafts, non-goals, and acceptance ownership instead of a premature blueprint.
+- Extended `references/understanding-confidence-and-clarification.md` to invoke the confirmation kit when the first deliverable is still moving.
+- Updated `README.md`, `docs/MANUAL.md`, `docs/REPO_METADATA.md`, and `agents/openai.yaml` for `v0.2.6`.
+
 ## v0.2.5 - 2026-03-25
 
 ### Added

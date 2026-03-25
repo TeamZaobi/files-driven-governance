@@ -19,6 +19,13 @@ Summarize:
 Write this section in plain language first.
 Do not lead with architecture terms, tool brands, or folder plans.
 Each user story and each test anchor should be concrete enough to judge pass, fail, in-scope, or out-of-scope.
+If the packet is not stable yet, include:
+
+- four to six human-language confirmation questions
+- one to three draft user stories
+- three to eight draft test cases
+- one explicit non-goal
+- one named acceptance owner or acceptance audience
 
 If this packet is still unstable, say so explicitly and limit downstream governance detail to what would survive that uncertainty.
 
@@ -226,7 +233,24 @@ Activation hint:
 
 - add this when multiple tools are active or migration risk is non-trivial
 
-### G. 文档生命周期与压缩策略
+### G. 意图触发与执行契约
+
+When the project wants simple phrases such as `继续开发`, `开始审计`, `反思`, or `推进` to trigger work, specify:
+
+- canonical intent set
+- alias or trigger-phrase layer
+- modifier or slot layer
+- default reads from `status_projection`, active execution objects, and canonical sources
+- workflow bindings and agent-selection rules
+- ambiguity, clarification, stop, and fallback rules
+- required outputs, evidence, and status-sync duties
+- which phrases are direct-action intents and which are route intents
+
+Activation hint:
+
+- add this when the user wants command-driven operation, simplified natural-language control, or reusable trigger conventions across projects
+
+### H. 文档生命周期与压缩策略
 
 Specify only the document-lifecycle rules that materially reduce sprawl:
 
@@ -259,6 +283,7 @@ Also answer only the items that materially change the recommendation:
 - where hostile inquiry or validation ladders are missing, overused, or fake
 - which families currently cannot be reliably retrieved without tool-specific bootstraps
 - where active and historical documents are currently mixed together
+- where operational trigger phrases currently live only in tool bootstraps, launch prompts, or chat habit
 
 ### Greenfield
 
@@ -273,6 +298,7 @@ Also answer only the items that materially change the recommendation:
 - what the first default flow set should be
 - which escalated flows should stay deferred
 - what the first official retrieval order should be for the five core families
+- what the first portable intent set and trigger contract should be if command-driven operation is in scope
 - what the first lifecycle and compaction rules should be
 
 ### Recovery or Realignment
@@ -287,6 +313,7 @@ Also answer only the items that materially change the recommendation:
 - which tool-specific conventions should be demoted to adapters during recovery
 - which flows should be frozen during triage and which can be reintroduced later
 - which family locators must be rebuilt before the repo is considered stable
+- which trigger phrases should be frozen, renamed, or demoted while canonical intent meanings are restored
 - which active documents should be compacted, demoted, or archived first
 
 ## Reasoning Discipline
