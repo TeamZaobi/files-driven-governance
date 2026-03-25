@@ -1,6 +1,6 @@
 ---
 name: files-driven
-description: 项目结构治理与文档化项目管理设计。用于 AI Agent 项目、AI 驱动 workflow 项目和 OpenClaw 类项目：诊断或设计以文档为载体的治理系统，明确 `policy_or_rules`、`object`、`workflow`、`skill`、`agent`、`execution_object`、`status_projection` 与 `display_projection` 的真源、投影、owner、sync order 与 gate，并设计多人/多 Agent 在不同层级文档间的共享协议与经典流程库。适用于现有仓库诊断、绿地项目搭建、或 rules、agents、workflows、skills、status、README 漂移后的治理收口。基于系统论做结构设计、信息论做信息流、共享链与恢复链设计、控制论做角色回路与变更控制设计。默认输出诊断、项目结构治理蓝图和推荐流程库，不默认套用固定目录模板或重审批流；默认支持 Claude Code、Codex、AntiGravity、OpenClaw 等多工具环境，不把任何工具名当成角色真源。
+description: 项目结构治理与文档化项目管理设计。用于 AI Agent 项目、AI 驱动 workflow 项目和 OpenClaw 类项目：诊断或设计以文档为载体的治理系统，明确 `policy_or_rules`、`object`、`workflow`、`skill`、`agent`、`execution_object`、`status_projection` 与 `display_projection` 的真源、投影、owner、sync order 与 gate，并设计多人/多 Agent 在不同层级文档间的共享协议与经典流程库。适用于现有仓库诊断、绿地项目搭建、或 rules、agents、workflows、skills、status、README 漂移后的治理收口。基于系统论做结构设计、信息论做信息流、共享链与恢复链设计、控制论做角色回路与变更控制设计。默认先用简单明确的使用场景、用户故事、测试用例和非目标锚定方向与边界，再输出诊断、项目结构治理蓝图和推荐流程库；不默认套用固定目录模板或重审批流；默认支持 Claude Code、Codex、AntiGravity、OpenClaw 等多工具环境，不把任何工具名当成角色真源。
 ---
 
 # Files Driven
@@ -21,6 +21,45 @@ Choose one start state before recommending any structure:
 - `recovery_or_realignment`: the project has drift, duplicated truth sources, broken handoff, or mismatched status signals and needs stabilization first.
 
 If the situation is mixed, pick the state that matches the user's immediate problem.
+
+### 1.5 Lock direction and boundary anchors before governance expansion
+
+Before turning an early conversation into governance design, create a minimum `方向与边界锚点` packet in plain language.
+Do this for `greenfield` by default, and also do it for `existing_repo` or `recovery_or_realignment` when the requested product surface, usage scenario, or delivery expectation is still moving.
+Write this packet in everyday language that the user can approve quickly.
+Do not hide scope inside architecture shorthand, tool jargon, or folder language.
+
+Anchor at least:
+
+1. primary usage scenario and first real users
+2. expected first deliverable
+3. one to three core user stories
+4. three to seven acceptance or test cases, including at least one fail boundary or non-example
+5. explicit non-goals or delayed capabilities
+6. any reference artifact that calibrates quality without silently redefining scope
+
+Each user story and each test case must be specific enough that another person or agent can tell:
+
+1. what is in scope now
+2. what counts as success
+3. what is explicitly not required yet
+
+Questioning rule:
+
+- do not stop at one vague clarification question
+- for early-stage or drifting projects, ask a compact startup question set, usually four to six short questions, to confirm usage scenario and delivery expectation
+- ask those questions in plain language the user can answer without translating product or architecture jargon
+- prefer user-story, acceptance, and non-goal questions before tool, folder, or architecture questions
+
+If the user cannot provide the packet directly, draft it and ask for correction.
+Do not recommend folder layout, governance family splits, or tool adapters until this packet is stable enough to survive the next clarification round.
+
+Read [startup-alignment-through-stories-and-tests](references/startup-alignment-through-stories-and-tests.md) when:
+
+1. the project is early and the requested outcome is broad
+2. several reasonable first deliverables could all sound correct
+3. small user-story drift would cascade into large downstream structure changes
+4. a recent thread already expanded from one delivery surface into several adjacent ones
 
 ### 2. Build a seven-dimensional diagnosis
 
@@ -48,19 +87,21 @@ Assess confidence on:
 2. main actors, agents, and tool entrypoints
 3. current canonical sources and current-version anchors
 4. current collaboration shape and risk profile
-5. the user's requested outcome or governance intensity
+5. the user's requested usage scenario and first deliverable
+6. the user's requested outcome, acceptance boundary, and governance intensity
 
 Use these levels:
 
-- `high`: the main governance choice would likely survive without further clarification
-- `medium`: one or two material assumptions remain and may change family mapping, tool adaptation, or control loops
-- `low`: project boundary, canonical source, major tool entrypoint, or desired outcome is still too unclear
+- `high`: the main governance choice and first-delivery boundary would likely survive without further clarification
+- `medium`: one or two material assumptions remain and may change family mapping, tool adaptation, control loops, or acceptance boundary
+- `low`: project boundary, first deliverable, canonical source, major tool entrypoint, or desired outcome is still too unclear
 
 When confidence is `low`, ask targeted user questions before finalizing the blueprint.
 When confidence is `medium`, ask one to three focused questions if the answer may materially change the recommendation; otherwise proceed with explicit assumptions.
+When the startup boundary is still moving, use the compact alignment question set instead of forcing a premature blueprint.
 Do not ask the user to restate facts already discoverable from canonical sources.
 
-Read [understanding-confidence-and-clarification](references/understanding-confidence-and-clarification.md) when the repo is sparse, tool entrypoints may be mistaken for canonical sources, or the requested governance target is underspecified.
+Read [understanding-confidence-and-clarification](references/understanding-confidence-and-clarification.md) when the repo is sparse, tool entrypoints may be mistaken for canonical sources, the first deliverable is not pinned, or the requested governance target is underspecified.
 
 ### 3. Map project structure families before discussing folders
 
@@ -222,6 +263,7 @@ Recommend only the smallest flow set that matches the diagnosed risk and maturit
 Before answering, read [output-contract](references/output-contract.md) and follow its section order.
 Always include the core sections:
 
+- `方向与边界锚点`
 - `项目画像`
 - `当前主要失真或治理压力`
 - `推荐治理模式`

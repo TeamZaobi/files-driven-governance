@@ -5,7 +5,24 @@ Do not jump straight to folders or templates before completing the diagnosis.
 
 ## Core Required Sections
 
-### 1. 项目画像
+### 1. 方向与边界锚点
+
+Summarize:
+
+- primary usage scenario
+- expected first deliverable
+- one to three core user stories
+- detailed acceptance or test anchors
+- explicit non-goals
+- reference artifacts that calibrate quality without silently expanding scope
+
+Write this section in plain language first.
+Do not lead with architecture terms, tool brands, or folder plans.
+Each user story and each test anchor should be concrete enough to judge pass, fail, in-scope, or out-of-scope.
+
+If this packet is still unstable, say so explicitly and limit downstream governance detail to what would survive that uncertainty.
+
+### 2. 项目画像
 
 Summarize:
 
@@ -17,10 +34,11 @@ Summarize:
 - current collaboration shape
 - current understanding confidence and main unknowns, if any
 
-### 2. 当前主要失真或治理压力
+### 3. 当前主要失真或治理压力
 
 Identify the dominant pressures, such as:
 
+- user-story drift or acceptance-boundary drift
 - duplicated truth sources
 - projection overreach
 - version ambiguity
@@ -33,12 +51,12 @@ Identify the dominant pressures, such as:
 
 Limit this to the few pressures that actually drive the recommendation.
 
-### 3. 推荐治理模式
+### 4. 推荐治理模式
 
 State the chosen governance mode or combination.
 Explain why it fits the current diagnosis.
 
-### 4. 推荐经典流程库
+### 5. 推荐经典流程库
 
 State which classic governance flows should become:
 
@@ -60,7 +78,7 @@ At minimum, judge whether the project needs:
 
 Explain only the flows that materially affect the current project.
 
-### 5. 项目结构家族图
+### 6. 项目结构家族图
 
 Map the current or proposed structure across:
 
@@ -80,7 +98,7 @@ For each family, state:
 - ownership expectations
 - whether stronger gates are needed
 
-### 6. 推荐入口/恢复链
+### 7. 推荐入口/恢复链
 
 Specify:
 
@@ -91,18 +109,19 @@ Specify:
 
 Keep this sequence short enough to be operational.
 
-### 7. 推荐下一步实施顺序
+### 8. 推荐下一步实施顺序
 
 Provide a short ordered sequence.
 Keep it practical.
-Prioritize stabilization before refinement when drift is present.
+Prioritize boundary stabilization before refinement when story or acceptance drift is present.
 
-### 8. 明确不建议的做法
+### 9. 明确不建议的做法
 
 Call out the high-probability mistakes for this specific project.
 Examples:
 
 - over-engineering too early
+- letting adjacent ideas expand the first deliverable before the boundary packet is stable
 - letting status pages define facts
 - adding directories before clarifying object roles
 - turning discussion notes into permanent task buckets

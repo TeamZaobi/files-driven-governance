@@ -1,6 +1,6 @@
 # Files-Driven Governance 完整说明书
 
-当前版本：`v0.2.4`
+当前版本：`v0.2.5`
 
 ## 1. 项目简介
 
@@ -35,6 +35,7 @@
 5. 想借鉴 Spec-Driven、Kanban、敏捷等方法，但不想把项目搞成过重流程。
 6. 需要按项目实际情况给出精确方案，而不是默认输出完整治理大图。
 7. 项目运行一段时间后，active docs 膨胀，恢复链和当前态判断成本越来越高。
+8. 项目起始阶段如果用户故事、使用场景或交付预期有小漂移，后续结构设计和开发范围会被连带放大。
 
 ## 3. 底层方法论
 
@@ -88,6 +89,38 @@
 - change-control 强度设计
 
 ## 4. 核心结构模型
+
+### 4.0 起始对齐包：方向与边界锚点
+
+在讨论 source family、目录分层或工具适配前，本技能现在要求先落一个最小的“方向与边界锚点”。
+
+这个起始对齐包至少要明确：
+
+1. 首批真实使用场景
+2. 首批交付物
+3. `1-3` 个核心用户故事
+4. `3-7` 个验收/测试用例
+5. 明确不做的范围或延后项
+6. 仅用于质量校准的参考样例
+
+对于早期项目或边界有漂移迹象的项目，本技能不再满足于一两个笼统问题，而是应先用一组简短但完整的问题确认：
+
+1. 谁在什么场景里使用
+2. 第一阶段到底交付什么
+3. 什么算成功，什么虽然相关但不算本次交付
+4. 哪些输入/资料必须先支持
+5. 哪些能力暂时明确不做
+6. 哪些参考对象只是风格或质量基线
+
+这些确认必须尽量说人话，而不是先抛架构黑话给用户翻译。
+用户故事和测试用例也不能只写标题，至少要细到能判断：
+
+1. 谁在什么情境下使用
+2. 希望得到什么结果
+3. 什么结果算通过
+4. 什么虽然相关，但这次明确不交付
+
+如果这一步不稳定，就不应继续放大到结构治理蓝图。
 
 ### 4.1 Source Family
 
@@ -176,7 +209,8 @@
 2. 主要角色、Agent 和工具入口
 3. 当前 canonical source 与 current-version anchor
 4. 当前协作形态与风险
-5. 用户真正想要的输出和治理强度
+5. 用户真正想要的使用场景与首批交付物
+6. 用户真正想要的输出、验收边界和治理强度
 
 置信度分成：
 
@@ -185,7 +219,8 @@
 - `low`
 
 当置信度是 `low` 时，应先向用户提问，再冻结诊断。
-当置信度是 `medium` 且不确定点会影响 family 划分、OpenClaw/其他工具适配、或控制回路设计时，也应先做少量澄清提问。
+当置信度是 `medium` 且不确定点会影响 family 划分、OpenClaw/其他工具适配、控制回路设计，或首批交付物边界时，也应先做少量澄清提问。
+如果项目仍处在起始边界确认阶段，应优先用一组短问题确认使用场景和交付预期，而不是先问架构偏好。
 
 ### 5.1 协作拓扑
 
@@ -311,6 +346,8 @@
 - 边界清晰
 - 验收标准重要
 - 错误代价高
+
+其中“边界清晰”和“验收标准重要”应优先由起始对齐包中的用户故事与测试用例来支撑，而不是仅靠抽象目标描述。
 
 ### 8.2 Kanban
 
@@ -446,6 +483,10 @@ Use $files-driven to analyze this repo's rules, agents, workflows, skills, and d
 请使用 $files-driven 为一个新的 AI Agent 项目设计项目结构治理方案，要求包含 source family、跨层共享矩阵、角色控制回路和最小恢复链。
 ```
 
+```text
+请先用几个问题确认这个项目的使用场景、首批交付物、用户故事和测试用例，再使用 $files-driven 给治理方案。
+```
+
 ### 11.3 作为治理收口器
 
 ```text
@@ -458,14 +499,15 @@ Use $files-driven to analyze this repo's rules, agents, workflows, skills, and d
 
 ### 12.1 核心必答区块
 
-1. `项目画像`
-2. `当前主要失真或治理压力`
-3. `推荐治理模式`
-4. `推荐经典流程库`
-5. `项目结构家族图`
-6. `推荐入口/恢复链`
-7. `推荐下一步实施顺序`
-8. `明确不建议的做法`
+1. `方向与边界锚点`
+2. `项目画像`
+3. `当前主要失真或治理压力`
+4. `推荐治理模式`
+5. `推荐经典流程库`
+6. `项目结构家族图`
+7. `推荐入口/恢复链`
+8. `推荐下一步实施顺序`
+9. `明确不建议的做法`
 
 ### 12.2 条件展开区块
 
@@ -487,7 +529,7 @@ Use $files-driven to analyze this repo's rules, agents, workflows, skills, and d
 - 存在迁移风险或明确多工具协同时，再展开 `工具可移植性约束`
 - 有 active docs 膨胀、recovery cost 上升或 stale page 积累时，再展开 `文档生命周期与压缩策略`
 
-如果理解置信度较低，技能应先提出少量澄清问题，而不是直接输出完整蓝图。
+如果理解置信度较低，或首批交付物仍在漂移，技能应先提出一组说人话的确认问题，并把用户故事和测试用例写清楚，而不是直接输出完整蓝图。
 
 ## 13. 仓库内文件说明
 
@@ -506,6 +548,7 @@ Use $files-driven to analyze this repo's rules, agents, workflows, skills, and d
 - [`family-locator-contract.md`](../references/family-locator-contract.md)
 - [`official-retrieval-orders.md`](../references/official-retrieval-orders.md)
 - [`output-contract.md`](../references/output-contract.md)
+- [`startup-alignment-through-stories-and-tests.md`](../references/startup-alignment-through-stories-and-tests.md)
 - [`scenario-playbooks.md`](../references/scenario-playbooks.md)
 - [`shared-patterns-from-aijournal-and-hqmdclaw.md`](../references/shared-patterns-from-aijournal-and-hqmdclaw.md)
 - [`strategy-selection-matrix.md`](../references/strategy-selection-matrix.md)
@@ -521,6 +564,7 @@ Use $files-driven to analyze this repo's rules, agents, workflows, skills, and d
 - [`RELEASE_NOTES_v0.2.2.md`](./RELEASE_NOTES_v0.2.2.md)
 - [`RELEASE_NOTES_v0.2.3.md`](./RELEASE_NOTES_v0.2.3.md)
 - [`RELEASE_NOTES_v0.2.4.md`](./RELEASE_NOTES_v0.2.4.md)
+- [`RELEASE_NOTES_v0.2.5.md`](./RELEASE_NOTES_v0.2.5.md)
 - [`DOCUMENT_BLOAT_INQUIRY_ROUND_1.md`](./DOCUMENT_BLOAT_INQUIRY_ROUND_1.md)
 
 ## 14. 维护建议
@@ -548,6 +592,7 @@ Use $files-driven to analyze this repo's rules, agents, workflows, skills, and d
 - `docs/RELEASE_NOTES_v0.2.2.md`
 - `docs/RELEASE_NOTES_v0.2.3.md`
 - `docs/RELEASE_NOTES_v0.2.4.md`
+- `docs/RELEASE_NOTES_v0.2.5.md`
 - `docs/DOCUMENT_BLOAT_INQUIRY_ROUND_1.md`
 - `docs/GITHUB_UPLOAD_CHECKLIST.md`
 - `docs/REPO_METADATA.md`

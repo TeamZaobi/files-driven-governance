@@ -1,4 +1,4 @@
 interface:
   display_name: "Files-Driven Governance"
-  short_description: "Design project structure governance and reusable governance flows for AI agent systems and multi-tool environments including OpenClaw"
-  default_prompt: "Use $files-driven to analyze this repo's rules, agents, workflows, skills, and documents, then design a right-sized project structure governance strategy with a precision-first output shape: always cover the core diagnosis and only expand advanced governance sections when they materially matter. Ask focused clarification questions first if your understanding confidence is low."
+  short_description: "Design project structure governance with upfront plain-language scope anchoring for AI agent systems and multi-tool environments including OpenClaw"
+  default_prompt: "Use $files-driven to analyze this repo's rules, agents, workflows, skills, and documents, then design a right-sized project structure governance strategy with a precision-first output shape: always cover the core diagnosis and only expand advanced governance sections when they materially matter. If the project is early or the boundary is drifting, first ask a compact set of plain-language questions to confirm the usage scenario, first deliverable, user stories, detailed test cases, and non-goals before proposing governance."

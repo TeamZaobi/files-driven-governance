@@ -1,6 +1,6 @@
 # Files-Driven Governance
 
-当前版本：`v0.2.4`
+当前版本：`v0.2.5`
 
 `files-driven` 是一个面向 `AI Agent` / `OpenClaw` / AI 驱动 workflow 项目的项目结构治理技能。
 
@@ -16,6 +16,18 @@
 - `display_projection`
 
 之间的真源、投影、同步顺序、共享协议、控制回路与经典流程库。
+
+## v0.2.5 起始对齐补丁
+
+这一版把“项目起始阶段的方向与边界确认”提升成正式前置步骤。skill 在输出治理蓝图前，会先用一组简短但更完整、但必须说人话的问题确认使用场景、交付预期、用户故事、测试用例和非目标。
+
+本次补丁重点包括：
+
+1. 新增 `方向与边界锚点` 核心区块。
+2. 要求绿地或边界漂移项目先确认 usage scenario 和 first deliverable。
+3. 新增起始对齐参考件，显式约束问题设计、漂移信号和纠偏动作。
+4. 要求用户故事和测试用例写得足够细，能直接判断通过、失败和越界。
+5. 更新输出契约、场景剧本、默认 prompt 和版本文档。
 
 ## v0.2.4 文档膨胀治理补丁
 
@@ -89,6 +101,7 @@
 - `OpenClaw`
 
 但不会把任何工具名当成项目里的 canonical role。
+同时，它现在会把“先确认首批真实使用场景和首批交付物”视为治理设计的前置条件，而不是可选补充。
 
 ## 设计原则
 
@@ -127,7 +140,13 @@
 
 使用 `files-driven` 时，技能会优先完成这些工作：
 
-1. 建立七维诊断：
+1. 锁定方向与边界锚点：
+   - 使用场景
+   - 首批交付物
+   - 1-3 个核心用户故事
+   - 3-7 个验收/测试用例
+   - 非目标与延后项
+2. 建立七维诊断：
    - 项目阶段
    - 变更风险
    - 协作密度
@@ -135,7 +154,7 @@
    - 恢复压力
    - 协作拓扑
    - 工具异构度
-2. 划分 source family：
+3. 划分 source family：
    - `policy_or_rules`
    - `object`
    - `workflow`
@@ -144,12 +163,12 @@
    - `execution_object`
    - `status_projection`
    - `display_projection`
-3. 建立四层文档视角：
+4. 建立四层文档视角：
    - `truth_source`
    - `execution_object`
    - `status_projection`
    - `display_projection`
-4. 设计跨层共享矩阵：
+5. 设计跨层共享矩阵：
    - producer
    - consumer
    - writable surface
@@ -158,18 +177,18 @@
    - sync trigger
    - conflict rule
    - handoff packet
-5. 设计角色控制回路：
+6. 设计角色控制回路：
    - `observe`
    - `decide`
    - `act`
    - `review`
    - `rollback_or_improve`
-6. 组合治理方法：
+7. 组合治理方法：
    - `Spec-Driven`
    - `Kanban`
    - `Agile/Sprint-like`
    - `decision / review / change-control gate`
-7. 选择经典流程库：
+8. 选择经典流程库：
    - `low_token_recovery_chain`
    - `discussion -> decision_package -> task_or_decision`
    - `mechanism_review`
@@ -178,13 +197,14 @@
    - `skill_seed -> package_contract -> active_package`
    - `contract_gap -> closure_topic -> downstream_resume`
    - `growth_signal -> lifecycle_review -> compact_or_archive`
-8. 设计对象家族检索与适配策略：
+9. 设计对象家族检索与适配策略：
    - family locator
    - current-version anchor
    - official retrieval order
    - tool adapter surface
-9. 判断理解置信度并按需澄清：
+10. 判断理解置信度并按需澄清：
    - `high / medium / low`
+   - compact startup question set for usage scenario and delivery expectation
    - targeted clarification questions
    - explicit assumptions when ambiguity remains
 
@@ -204,6 +224,7 @@
 │   ├── family-locator-contract.md
 │   ├── official-retrieval-orders.md
 │   ├── output-contract.md
+│   ├── startup-alignment-through-stories-and-tests.md
 │   ├── scenario-playbooks.md
 │   ├── shared-patterns-from-aijournal-and-hqmdclaw.md
 │   ├── strategy-selection-matrix.md
@@ -220,6 +241,7 @@
 │   ├── RELEASE_NOTES_v0.2.2.md
 │   ├── RELEASE_NOTES_v0.2.3.md
 │   ├── RELEASE_NOTES_v0.2.4.md
+│   ├── RELEASE_NOTES_v0.2.5.md
 │   └── REPO_METADATA.md
 ├── .github/
 │   ├── ISSUE_TEMPLATE/
@@ -246,6 +268,12 @@ Use $files-driven to analyze this repo's rules, agents, workflows, skills, and d
 请使用 $files-driven 分析这个多 Agent 项目的 rules、agents、workflows、skills、status 和 README，设计一套适合当前阶段的项目结构治理策略。
 ```
 
+如果项目还在起始阶段，也可以直接要求技能先确认边界：
+
+```text
+请先用几个问题确认这个项目的使用场景、首批交付物、用户故事和测试用例，再使用 $files-driven 设计项目治理方案。
+```
+
 ### 2. 典型触发句
 
 - “分析这个多 Agent 仓库的现有文档体系，判断哪些文件是事实源、哪些只是状态页，并给出重构方案。”
@@ -258,14 +286,15 @@ Use $files-driven to analyze this repo's rules, agents, workflows, skills, and d
 
 核心必答区块：
 
-1. `项目画像`
-2. `当前主要失真或治理压力`
-3. `推荐治理模式`
-4. `推荐经典流程库`
-5. `项目结构家族图`
-6. `推荐入口/恢复链`
-7. `推荐下一步实施顺序`
-8. `明确不建议的做法`
+1. `方向与边界锚点`
+2. `项目画像`
+3. `当前主要失真或治理压力`
+4. `推荐治理模式`
+5. `推荐经典流程库`
+6. `项目结构家族图`
+7. `推荐入口/恢复链`
+8. `推荐下一步实施顺序`
+9. `明确不建议的做法`
 
 条件展开区块：
 
@@ -278,7 +307,8 @@ Use $files-driven to analyze this repo's rules, agents, workflows, skills, and d
 7. `文档生命周期与压缩策略`
 
 只有当诊断显示这些问题确实重要时，skill 才会展开它们。
-如果对项目基本情况的理解置信度不足，技能会先提出少量高杠杆澄清问题，而不是直接输出失真的蓝图。
+如果对项目基本情况的理解置信度不足，或者首批交付物仍在漂移，技能会先提出一组简短但更完整的问题，优先确认使用场景与交付预期，而不是直接输出失真的蓝图。
+这些问题和对应的用户故事、测试用例必须尽量说人话，并写到足够清晰，避免后续开发时出现“看起来都对，但其实已经偏题”的扩 scope。
 
 ## 文档导航
 
@@ -290,6 +320,7 @@ Use $files-driven to analyze this repo's rules, agents, workflows, skills, and d
 - `v0.2.2` 发布说明：[`docs/RELEASE_NOTES_v0.2.2.md`](./docs/RELEASE_NOTES_v0.2.2.md)
 - `v0.2.3` 发布说明：[`docs/RELEASE_NOTES_v0.2.3.md`](./docs/RELEASE_NOTES_v0.2.3.md)
 - `v0.2.4` 发布说明：[`docs/RELEASE_NOTES_v0.2.4.md`](./docs/RELEASE_NOTES_v0.2.4.md)
+- `v0.2.5` 发布说明：[`docs/RELEASE_NOTES_v0.2.5.md`](./docs/RELEASE_NOTES_v0.2.5.md)
 - 文档膨胀质询记录：[`docs/DOCUMENT_BLOAT_INQUIRY_ROUND_1.md`](./docs/DOCUMENT_BLOAT_INQUIRY_ROUND_1.md)
 - 上传 GitHub 清单：[`docs/GITHUB_UPLOAD_CHECKLIST.md`](./docs/GITHUB_UPLOAD_CHECKLIST.md)
 - 仓库元数据建议：[`docs/REPO_METADATA.md`](./docs/REPO_METADATA.md)

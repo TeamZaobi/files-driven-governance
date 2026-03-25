@@ -2,6 +2,20 @@
 
 All notable changes to `files-driven` are recorded here.
 
+## v0.2.5 - 2026-03-25
+
+### Added
+
+- Added `references/startup-alignment-through-stories-and-tests.md` to formalize plain-language startup alignment through usage scenario, first deliverable, user stories, and detailed test cases.
+- Added `docs/RELEASE_NOTES_v0.2.5.md` for the startup-alignment patch release notes.
+
+### Changed
+
+- Extended `SKILL.md` to require a plain-language `方向与边界锚点` packet before governance expansion, with a compact question set focused on usage scenario and delivery expectation.
+- Extended `references/output-contract.md` to make `方向与边界锚点` the first core section and to require concrete, pass/fail-ready user stories and test anchors.
+- Extended `references/understanding-confidence-and-clarification.md` and `references/scenario-playbooks.md` to treat first-delivery drift as a first-class ambiguity and recovery risk.
+- Updated `README.md`, `docs/MANUAL.md`, `docs/REPO_METADATA.md`, and `agents/openai.yaml` for `v0.2.5`.
+
 ## v0.2.4 - 2026-03-24
 
 ### Added

@@ -8,11 +8,12 @@ Use these playbooks after classifying the project start state.
 
 Inspect:
 
-1. primary README or equivalent entrypoint
-2. current status or start-here artifacts
-3. active task, discussion, or review artifacts
-4. any version locator, registry, or canonical-spec path
-5. any websites, dashboards, or docs that might overreach as truth sources
+1. the currently intended first deliverable and whether recent conversation already drifted it
+2. primary README or equivalent entrypoint
+3. current status or start-here artifacts
+4. active task, discussion, or review artifacts
+5. any version locator, registry, or canonical-spec path
+6. any websites, dashboards, or docs that might overreach as truth sources
 
 ### Minimum Deliverable
 
@@ -23,6 +24,7 @@ Deliver:
 - a four-layer object classification
 - a cross-layer sharing map
 - the main drift points
+- the current direction-and-boundary anchor if scope is still moving
 - a recommended governance mode
 - a recommended flow set
 - a role-loop sketch
@@ -37,10 +39,12 @@ Deliver:
 - discussion notes are doing task and decision work at the same time
 - no reliable handoff chain exists
 - historical material still lives in active status or README pages
+- recent clarification rounds quietly expanded the first deliverable
 
 ### Preferred First Move
 
-Map the current truth sources and demote untrusted projections before changing directory shape.
+If the requested surface is drifting, freeze a temporary story-and-test anchor first.
+Then map the current truth sources and demote untrusted projections before changing directory shape.
 
 ### Preferred Flow Set
 
@@ -63,16 +67,18 @@ Add conditionally:
 
 Define only:
 
-1. a small set of truth sources for slow variables
-2. a minimum source-family set
-3. a small set of execution objects for active work
-4. one recovery entrypoint
-5. one versioning and sync rule for changes that affect multiple layers
+1. a direction-and-boundary anchor packet for the first deliverable
+2. a small set of truth sources for slow variables
+3. a minimum source-family set
+4. a small set of execution objects for active work
+5. one recovery entrypoint
+6. one versioning and sync rule for changes that affect multiple layers
 
 ### Minimum Deliverable
 
 Deliver:
 
+- the direction-and-boundary anchor packet
 - the recommended governance mode
 - the minimum viable artifact set
 - the minimum viable source-family set
@@ -86,13 +92,15 @@ Deliver:
 ### Common Failure Modes
 
 - copying a mature project's folder tree without matching its scale
+- letting clarification rounds expand the first deliverable without rewriting the boundary
 - defining too many object types before active work exists
 - mixing strategy, tasks, and status into one document
 - adding heavy approval loops before risk justifies them
 
 ### Preferred First Move
 
-Define the smallest stable truth-source set and one clear work-and-recovery path.
+Lock one to three user stories and a handful of acceptance examples first.
+Then define the smallest stable truth-source set and one clear work-and-recovery path.
 
 ### Preferred Flow Set
 
@@ -120,11 +128,13 @@ Identify:
 3. which active work objects need a clean current owner
 4. which entrypoints confuse handoff
 5. which source families are currently blurred together
+6. which older story, deliverable, or acceptance anchor was last trustworthy
 
 ### Minimum Deliverable
 
 Deliver:
 
+- the recovered direction-and-boundary anchor for the next phase
 - the immediate stabilization sequence
 - the canonical source reset
 - the short-term status recovery chain
@@ -140,10 +150,11 @@ Deliver:
 - trying to preserve every historical signal as active truth
 - rebuilding dashboards or websites before upstream sources are repaired
 - preserving every historical page as active just because it might still be useful later
+- keeping every adjacent capability in scope because it was mentioned once during clarification
 
 ### Preferred First Move
 
-Stop new structural churn, choose the current truth baseline, and restore a usable handoff path before redesign.
+Stop new structural churn, choose the current truth baseline, re-anchor the next deliverable, and restore a usable handoff path before redesign.
 
 ### Preferred Flow Set
 
