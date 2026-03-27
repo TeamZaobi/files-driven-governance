@@ -1,126 +1,114 @@
-# Changelog
+# 更新记录
 
-All notable changes to `files-driven` are recorded here.
+本文记录 `files-driven` 的重要版本变化。
 
 ## v0.2.7 - 2026-03-25
 
-### Added
+### 新增
 
-- Added `references/intent-trigger-contract.md` to formalize portable trigger-command design through canonical intents, alias layers, modifier layers, workflow binding, agent selection, and ambiguity rules.
-- Added `docs/RELEASE_NOTES_v0.2.7.md` for the intent-trigger-contract patch release notes.
+- 新增 [references/意图触发约定.md](references/意图触发约定.md)，把短口令驱动工作正式写成可迁移的上游约定。
+- 新增 [docs/v0.2.7_版本说明.md](docs/v0.2.7_版本说明.md)。
 
-### Changed
+### 调整
 
-- Extended `SKILL.md` to treat command-driven operation as an explicit governance design problem and to require an `意图触发与执行契约` when projects want natural-language trigger phrases.
-- Extended `references/output-contract.md` and `references/scenario-playbooks.md` so existing, greenfield, and recovery recommendations can include portable trigger contracts instead of tool-local prompt habits.
-- Updated `README.md`, `docs/MANUAL.md`, `docs/REPO_METADATA.md`, and `agents/openai.yaml` for `v0.2.7`.
+- 扩展 `SKILL.md`，把短口令驱动工作纳入正式治理问题。
+- 扩展 `references/输出约定.md` 与 `references/场景手册.md`，让输出可以显式包含意图触发约定。
+- 同步更新 `README.md`、`docs/完整说明书.md`、`docs/仓库元数据建议.md` 与 `agents/openai.yaml`。
 
 ## v0.2.6 - 2026-03-25
 
-### Added
+### 新增
 
-- Added `references/plain-language-requirements-confirmation-kit.md` to provide a default question set, user story template, test case template, minimum completion rule, and stakeholder pre-alignment check for startup boundary confirmation.
-- Added `docs/RELEASE_NOTES_v0.2.6.md` for the requirements-confirmation-kit patch release notes.
+- 新增 [references/说人话需求确认工具包.md](references/说人话需求确认工具包.md)，提供默认问题集、故事模板、测试模板和最小完成规则。
+- 新增 [docs/v0.2.6_版本说明.md](docs/v0.2.6_版本说明.md)。
 
-### Changed
+### 调整
 
-- Extended `SKILL.md` to require the concrete confirmation kit after human-language startup questions and before governance expansion.
-- Extended `references/startup-alignment-through-stories-and-tests.md` and `references/output-contract.md` so unstable startup boundaries now produce questions, story drafts, test drafts, non-goals, and acceptance ownership instead of a premature blueprint.
-- Extended `references/understanding-confidence-and-clarification.md` to invoke the confirmation kit when the first deliverable is still moving.
-- Updated `README.md`, `docs/MANUAL.md`, `docs/REPO_METADATA.md`, and `agents/openai.yaml` for `v0.2.6`.
+- 扩展 `SKILL.md`，要求在边界不稳时先问问题、先起草故事和测试，再进入治理设计。
+- 扩展 `references/起步阶段_故事与测试对齐.md`、`references/输出约定.md` 与 `references/理解把握度与澄清规则.md`。
+- 同步更新 `README.md`、`docs/完整说明书.md`、`docs/仓库元数据建议.md` 与 `agents/openai.yaml`。
 
 ## v0.2.5 - 2026-03-25
 
-### Added
+### 新增
 
-- Added `references/startup-alignment-through-stories-and-tests.md` to formalize plain-language startup alignment through usage scenario, first deliverable, user stories, and detailed test cases.
-- Added `docs/RELEASE_NOTES_v0.2.5.md` for the startup-alignment patch release notes.
+- 新增 [references/起步阶段_故事与测试对齐.md](references/起步阶段_故事与测试对齐.md)，把起步阶段的方向与边界确认前置。
+- 新增 [docs/v0.2.5_版本说明.md](docs/v0.2.5_版本说明.md)。
 
-### Changed
+### 调整
 
-- Extended `SKILL.md` to require a plain-language `方向与边界锚点` packet before governance expansion, with a compact question set focused on usage scenario and delivery expectation.
-- Extended `references/output-contract.md` to make `方向与边界锚点` the first core section and to require concrete, pass/fail-ready user stories and test anchors.
-- Extended `references/understanding-confidence-and-clarification.md` and `references/scenario-playbooks.md` to treat first-delivery drift as a first-class ambiguity and recovery risk.
-- Updated `README.md`, `docs/MANUAL.md`, `docs/REPO_METADATA.md`, and `agents/openai.yaml` for `v0.2.5`.
+- 扩展 `SKILL.md` 与 `references/输出约定.md`，把方向与边界锚点变成正式前置步骤。
+- 扩展 `references/理解把握度与澄清规则.md` 与 `references/场景手册.md`。
+- 同步更新 `README.md`、`docs/完整说明书.md`、`docs/仓库元数据建议.md` 与 `agents/openai.yaml`。
 
 ## v0.2.4 - 2026-03-24
 
-### Added
+### 新增
 
-- Added `references/document-lifecycle-and-compaction.md` to formalize lifecycle states, compaction triggers, and archive strategy for bloated docs.
-- Added `docs/DOCUMENT_BLOAT_INQUIRY_ROUND_1.md` to record a first explicit inquiry-reflection-convergence round on document bloat governance.
-- Added `docs/RELEASE_NOTES_v0.2.4.md` for the document-bloat patch release notes.
+- 新增 [references/文档生命周期与压缩.md](references/文档生命周期与压缩.md)，把文档生命周期与压缩治理显式化。
+- 新增 [docs/文档膨胀质询记录_第1轮.md](docs/文档膨胀质询记录_第1轮.md)，记录第一轮文档膨胀质询与收敛。
+- 新增 [docs/v0.2.4_版本说明.md](docs/v0.2.4_版本说明.md)。
 
-### Changed
+### 调整
 
-- Extended `SKILL.md` to recognize documentation sprawl as a diagnosis dimension and to activate lifecycle/compaction strategy when retrieval cost rises.
-- Extended `references/output-contract.md` with a conditional `文档生命周期与压缩策略` section.
-- Extended `references/classic-governance-flows.md` and `references/scenario-playbooks.md` with `growth_signal -> lifecycle_review -> compact_or_archive`.
-- Updated `README.md`, `docs/MANUAL.md`, and `docs/REPO_METADATA.md` for `v0.2.4`.
+- 扩展 `SKILL.md`，把文档膨胀和读取成本纳入诊断维度。
+- 扩展 `references/输出约定.md`、`references/经典治理流程库.md` 与 `references/场景手册.md`。
+- 同步更新 `README.md`、`docs/完整说明书.md` 与 `docs/仓库元数据建议.md`。
 
 ## v0.2.3 - 2026-03-24
 
-### Added
+### 新增
 
-- Added `docs/RELEASE_NOTES_v0.2.3.md` for the precision-first patch release notes.
+- 新增 [docs/v0.2.3_版本说明.md](docs/v0.2.3_版本说明.md)。
 
-### Changed
+### 调整
 
-- Changed `SKILL.md` to output a precision-first governance blueprint using `core required + conditional sections` instead of always emitting the full governance contract.
-- Changed `references/output-contract.md` to separate core sections from conditional sections and add activation hints for advanced sections.
-- Updated `README.md`, `docs/MANUAL.md`, `docs/REPO_METADATA.md`, and `agents/openai.yaml` for `v0.2.3` and the precision-first positioning.
+- 把 `SKILL.md` 与 `references/输出约定.md` 的默认输出改成“核心必答 + 条件展开”。
+- 同步更新 `README.md`、`docs/完整说明书.md`、`docs/仓库元数据建议.md` 与 `agents/openai.yaml`。
 
 ## v0.2.2 - 2026-03-24
 
-### Added
+### 新增
 
-- Added `references/understanding-confidence-and-clarification.md` to formalize confidence-gated clarification before locking a governance diagnosis.
-- Added `docs/RELEASE_NOTES_v0.2.2.md` for the patch release notes.
+- 新增 [references/理解把握度与澄清规则.md](references/理解把握度与澄清规则.md)。
+- 新增 [docs/v0.2.2_版本说明.md](docs/v0.2.2_版本说明.md)。
 
-### Changed
+### 调整
 
-- Extended `SKILL.md` to treat `OpenClaw` as a first-class multi-tool entrypoint in adapter guidance.
-- Extended `SKILL.md`, `references/output-contract.md`, and `references/core-doctrine.md` to require understanding-confidence checks and targeted clarification questions when project basics remain ambiguous.
-- Extended `references/tool-adapter-matrix.md`, `references/official-retrieval-orders.md`, and `references/cross-layer-sharing-contract.md` to cover `OpenClaw` as an explicit adapter or launcher surface.
-- Updated `README.md`, `docs/MANUAL.md`, `docs/REPO_METADATA.md`, and `agents/openai.yaml` for `v0.2.2`.
+- 扩展 `SKILL.md`，把理解把握度和澄清提问前置。
+- 同步补齐 `OpenClaw` 在多工具适配语境中的定位。
+- 扩展 `references/输出约定.md`、`references/基本原则.md`、`references/工具适配对照表.md`、`references/官方读取顺序.md` 与 `references/跨层共享约定.md`。
 
 ## v0.2.1 - 2026-03-24
 
-### Added
+### 新增
 
-- Added `references/family-locator-contract.md` to define canonical locators, current-version anchors, and fallback rules for `policy_or_rules`、`object`、`workflow`、`skill`、`agent`.
-- Added `references/official-retrieval-orders.md` to formalize cross-tool read order for the five core families.
-- Added `references/tool-adapter-matrix.md` to separate tool adapters from canonical family sources.
-- Added `docs/RELEASE_NOTES_v0.2.1.md` for the patch release notes.
+- 新增 [references/结构家族定位约定.md](references/结构家族定位约定.md)。
+- 新增 [references/官方读取顺序.md](references/官方读取顺序.md)。
+- 新增 [references/工具适配对照表.md](references/工具适配对照表.md)。
+- 新增 [docs/v0.2.1_版本说明.md](docs/v0.2.1_版本说明.md)。
 
-### Changed
+### 调整
 
-- Extended `SKILL.md`, `README.md`, `docs/MANUAL.md`, `references/output-contract.md`, and `references/core-doctrine.md` to make family retrieval readiness and tool-adapter design explicit.
+- 扩展 `SKILL.md`、`README.md`、`docs/完整说明书.md`、`references/输出约定.md` 与 `references/基本原则.md`，把结构定位、读取顺序和工具适配正式写清。
 
 ## v0.2.0 - 2026-03-24
 
-### Added
+### 新增
 
-- Added `references/classic-governance-flows.md` to formalize the reusable flow library distilled from AIJournal and HQMDClaw.
-- Added `references/adversarial-convergence-loop.md` to make hostile inquiry, defense, and convergence a first-class mechanism.
-- Added `docs/RELEASE_NOTES_v0.2.0.md` for GitHub-facing release notes.
+- 新增 [references/经典治理流程库.md](references/经典治理流程库.md)，把可复用流程库正式化。
+- 新增 [references/反方质询与收敛回路.md](references/反方质询与收敛回路.md)，把反方质询与收敛机制显式化。
+- 新增 [docs/v0.2.0_版本说明.md](docs/v0.2.0_版本说明.md)。
 
-### Changed
+### 调整
 
-- Upgraded `SKILL.md` from structure-only guidance to structure plus flow-library selection.
-- Upgraded the output contract to require `推荐经典流程库`.
-- Expanded scenario playbooks to recommend default and conditional flow sets by start state.
-- Expanded shared-patterns guidance with reusable classic flows and a clearer development arc from HQMDClaw to AIJournal.
-- Updated `README.md`, `docs/MANUAL.md`, `docs/REPO_METADATA.md`, and `agents/openai.yaml` for the new positioning and release language.
-
-### Notes
-
-- `files-driven` now explicitly treats `discussion -> decision_package -> task_or_decision`, `mechanism_review`, `adversarial_inquiry -> defense -> convergence`, and `proposal -> validation -> rollout -> activation_or_rollback` as selectable governance flows rather than incidental habits.
+- 把 `SKILL.md` 从“只谈结构”升级成“结构 + 流程”的技能。
+- 扩展输出约定与场景手册，使其能推荐默认流程和条件流程。
+- 同步更新 `README.md`、`docs/完整说明书.md`、`docs/仓库元数据建议.md` 与 `agents/openai.yaml`。
 
 ## v0.1.0 - 2026-03-24
 
-### Added
+### 新增
 
-- Initial public release of the `files-driven` project structure governance skill.
-- Core doctrine, strategy matrix, cross-layer sharing contract, output contract, scenario playbooks, and multi-tool team practices.
-- GitHub packaging, repository manual, contribution docs, and metadata templates.
+- 首次公开发布 `files-driven`。
+- 提供基本原则、治理模式对照表、跨层共享约定、输出约定、场景手册和多工具团队实践等基础文档。

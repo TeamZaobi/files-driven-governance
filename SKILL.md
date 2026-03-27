@@ -1,206 +1,201 @@
 ---
 name: files-driven
-description: 项目结构治理与文档化项目管理设计。用于 AI Agent 项目、AI 驱动 workflow 项目和 OpenClaw 类项目：诊断或设计以文档为载体的治理系统，明确 `policy_or_rules`、`object`、`workflow`、`skill`、`agent`、`execution_object`、`status_projection` 与 `display_projection` 的真源、投影、owner、sync order 与 gate，并设计多人/多 Agent 在不同层级文档间的共享协议、经典流程库与可移植的 intent trigger contract。适用于现有仓库诊断、绿地项目搭建、或 rules、agents、workflows、skills、status、README 漂移后的治理收口。基于系统论做结构设计、信息论做信息流、共享链与恢复链设计、控制论做角色回路与变更控制设计。默认先用说人话的需求确认问题集、用户故事模板、测试用例模板和非目标锚定方向与边界，再输出诊断、项目结构治理蓝图和推荐流程库；当项目希望用“继续开发”“开始审计”“反思”“推进”等自然口令高效触发工作时，额外设计意图触发与执行契约；不默认套用固定目录模板或重审批流；默认支持 Claude Code、Codex、AntiGravity、OpenClaw 等多工具环境，不把任何工具名当成角色真源。
+description: 项目结构治理与文档化协作设计。用于 AI Agent 项目、AI 驱动流程项目和 OpenClaw 类项目：以文档为治理载体，明确规则与约束层（`policy_or_rules`）、对象层（`object`）、流程层（`workflow`）、技能层（`skill`）、角色层（`agent`）、过程载体层（`execution_object`）、状态摘要层（`status_projection`）与展示输出层（`display_projection`）的真源、责任边界、同步顺序、关口与跨层共享约定。适用于现有仓库诊断、新项目搭建和漂移后的收口重整。默认先用说人话的方式确认使用场景、首批交付物、用户故事、测试用例和非目标，再输出治理方案；当项目希望用“继续开发”“开始审计”“反思”“推进”等短口令触发工作时，再补意图触发约定。
 ---
 
-# Files Driven
+# 文档驱动治理（files-driven）
 
-## Overview
+## 核心定位
 
-Treat documentation as the governance substrate for project structure rather than as passive notes.
-Use this skill to design how rules, roles, workflows, skills, objects, and operational records are defined, synchronized, and evolved.
+把文档当成项目治理的承载介质，而不是被动备注。
+这个技能用来回答三类问题：
 
-## Core Workflow
+1. 项目的事实到底写在哪
+2. 哪些文档在定义事实，哪些只是在总结、搬运或展示
+3. 多人、多代理、多工具并行时，谁能写、谁先读、谁负责复核
 
-### 1. Classify the project start state
+它特别适合以下场景：
 
-Choose one start state before recommending any structure:
+- 现有仓库已经有不少文档，但规则、流程、状态页和说明页开始互相漂移
+- 新项目需要一套够用但不过重的治理结构
+- 项目已经失真，需要先止血、再收口、再重整
 
-- `existing_repo`: the project already has files, conventions, or collaboration artifacts that must be diagnosed.
-- `greenfield`: the project is early and needs a minimum viable documentation system.
-- `recovery_or_realignment`: the project has drift, duplicated truth sources, broken handoff, or mismatched status signals and needs stabilization first.
+## 核心工作流
 
-If the situation is mixed, pick the state that matches the user's immediate problem.
+### 1. 先判断项目起点
 
-### 1.5 Lock direction and boundary anchors before governance expansion
+在给出治理建议前，先把项目归到一个起点：
 
-Before turning an early conversation into governance design, create a minimum `方向与边界锚点` packet in plain language.
-Do this for `greenfield` by default, and also do it for `existing_repo` or `recovery_or_realignment` when the requested product surface, usage scenario, or delivery expectation is still moving.
-Write this packet in everyday language that the user can approve quickly.
-Do not hide scope inside architecture shorthand, tool jargon, or folder language.
+- `existing_repo`：已有仓库，需要先诊断现状
+- `greenfield`：项目刚起步，需要最小可运行结构
+- `recovery_or_realignment`：已经出现漂移、重复真源、交接失效或状态失真，需要先恢复秩序
 
-Anchor at least:
+如果情况是混合的，优先按用户眼下最急的问题来判断。
 
-1. primary usage scenario and first real users
-2. expected first deliverable
-3. one to three core user stories
-4. three to seven acceptance or test cases, including at least one fail boundary or non-example
-5. explicit non-goals or delayed capabilities
-6. any reference artifact that calibrates quality without silently redefining scope
-7. acceptance owner or acceptance audience for the first delivery boundary
+### 1.5 先锁定方向与边界
 
-Each user story and each test case must be specific enough that another person or agent can tell:
+在讨论目录、角色或流程之前，先落一个最小的“方向与边界锚点”。
+这一步默认用说人话的方式完成，不把架构黑话、工具名或目录名塞给用户。
 
-1. what is in scope now
-2. what counts as success
-3. what is explicitly not required yet
+至少要明确：
 
-Questioning rule:
+1. 首批真实使用场景
+2. 首批交付物
+3. 一到三个核心用户故事
+4. 三到七个验收或测试用例，至少包含一个失败或越界边界
+5. 明确不做的范围
+6. 仅用于校准质量的参考对象
+7. 这次由谁来判断算不算达标
 
-- do not stop at one vague clarification question
-- for early-stage or drifting projects, ask a compact startup question set, usually four to six short questions, to confirm usage scenario and delivery expectation
-- ask those questions in plain language the user can answer without translating product or architecture jargon
-- prefer user-story, acceptance, and non-goal questions before tool, folder, or architecture questions
-- after the questions, draft one to three stories and three to eight test cases before expanding into governance design
+用户故事和测试用例至少要让另一个人或另一个代理能判断：
 
-If the user cannot provide the packet directly, draft it and ask for correction.
-Do not recommend folder layout, governance family splits, or tool adapters until this packet is stable enough to survive the next clarification round.
+1. 现在到底做什么
+2. 什么算成功
+3. 什么暂时不做
 
-Read [startup-alignment-through-stories-and-tests](references/startup-alignment-through-stories-and-tests.md) when:
+提问规则：
 
-1. the project is early and the requested outcome is broad
-2. several reasonable first deliverables could all sound correct
-3. small user-story drift would cascade into large downstream structure changes
-4. a recent thread already expanded from one delivery surface into several adjacent ones
+- 不要只问一个模糊问题就继续设计
+- 对边界还在漂移的项目，先问四到六个短问题
+- 先问使用场景、交付预期、成功标准和非目标，再问工具和目录
+- 提完问题后，先起草故事和测试，再进入治理设计
 
-Read [plain-language-requirements-confirmation-kit](references/plain-language-requirements-confirmation-kit.md) when you need the concrete question set, user story template, test case template, or stakeholder pre-alignment check.
+以下情况优先读参考件：
 
-### 2. Build a seven-dimensional diagnosis
+- 起步阶段边界还不稳时，读 [起步阶段：故事与测试对齐](references/起步阶段_故事与测试对齐.md)
+- 需要默认问题集、故事模板和测试模板时，读 [说人话需求确认工具包](references/说人话需求确认工具包.md)
 
-Diagnose the project across these dimensions:
+### 2. 做八维诊断
 
-1. Project stage
-2. Change risk
-3. Collaboration density
-4. Agent or automation autonomy
-5. Recovery pressure from drift, ambiguity, or weak handoff
-6. Collaboration topology across humans, agents, and systems
-7. Tool heterogeneity and portability needs
-8. Documentation sprawl and retrieval cost
+从下面八个维度判断项目当前状态：
 
-Read [core-doctrine](references/core-doctrine.md) first when the project is ambiguous or the governance choice feels under-specified.
-Read [strategy-selection-matrix](references/strategy-selection-matrix.md) after the diagnosis to choose the governance bundle.
+1. 项目阶段
+2. 变更风险
+3. 协作密度
+4. 代理或自动化的自主度
+5. 漂移、歧义或交接失效带来的恢复压力
+6. 人、代理、系统之间的协作拓扑
+7. 工具异构度与跨工具通用需求
+8. 文档膨胀与读取成本
 
-### 2.5 Assess understanding confidence before locking the diagnosis
+当项目边界本身说不清时，先读 [基本原则](references/基本原则.md)。
+做完诊断后，再用 [治理模式选择对照表](references/治理模式选择对照表.md) 选治理组合。
 
-Before turning partial repo evidence into a governance blueprint, judge how well you understand the project's basics.
+### 2.5 先判断自己的理解把握度
 
-Assess confidence on:
+在把诊断冻结成治理方案前，先判断自己到底理解到什么程度。
 
-1. project boundary and objective
-2. main actors, agents, and tool entrypoints
-3. current canonical sources and current-version anchors
-4. current collaboration shape and risk profile
-5. the user's requested usage scenario and first deliverable
-6. the user's requested outcome, acceptance boundary, and governance intensity
+至少检查这几项：
 
-Use these levels:
+1. 项目边界与当前目标
+2. 主要角色、代理与工具入口
+3. 当前真源和当前版本锚点
+4. 当前协作形态与风险
+5. 用户真正关心的使用场景和首批交付物
+6. 用户真正想要的治理力度与验收边界
 
-- `high`: the main governance choice and first-delivery boundary would likely survive without further clarification
-- `medium`: one or two material assumptions remain and may change family mapping, tool adaptation, control loops, or acceptance boundary
-- `low`: project boundary, first deliverable, canonical source, major tool entrypoint, or desired outcome is still too unclear
+统一用三档：
 
-When confidence is `low`, ask targeted user questions before finalizing the blueprint.
-When confidence is `medium`, ask one to three focused questions if the answer may materially change the recommendation; otherwise proceed with explicit assumptions.
-When the startup boundary is still moving, use the compact alignment question set instead of forcing a premature blueprint.
-Do not ask the user to restate facts already discoverable from canonical sources.
+- `high`：主判断大概率不会因为一次澄清就推翻
+- `medium`：还有一两个关键假设没锁死
+- `low`：边界、交付物、真源或工具入口仍然模糊
 
-Read [understanding-confidence-and-clarification](references/understanding-confidence-and-clarification.md) when the repo is sparse, tool entrypoints may be mistaken for canonical sources, the first deliverable is not pinned, or the requested governance target is underspecified.
+处理规则：
 
-### 3. Map project structure families before discussing folders
+- `low`：先问问题，再给方案
+- `medium`：如果不确定点会改动结构分类、工具适配、控制回路或验收边界，就先补一到三个问题；否则明确假设后继续
+- 边界还在漂移：优先使用起步确认问题集，而不是提前给完整蓝图
 
-Classify the project into these governance families:
+需要时读 [理解把握度与澄清规则](references/理解把握度与澄清规则.md)。
 
-1. `policy_or_rules`: normative boundaries, rules, policies, or shared constraints
-2. `object`: schemas, records, state models, or domain object definitions
-3. `workflow`: path, transition, gate, lifecycle, or orchestration logic
-4. `skill`: repeatable methods, packaged procedures, helper guidance
-5. `agent`: role contracts, authority boundaries, responsibility surfaces
-6. `execution_object`: active discussions, tasks, reviews, decisions, handoffs, change artifacts
-7. `status_projection`: low-token recovery, navigation, current-state summary
-8. `display_projection`: reports, websites, dashboards, public or stakeholder-facing projections
+### 3. 先分结构家族，再谈目录
 
-For each family, determine:
+先把项目里的关键结构分成以下八类：
 
-1. current canonical source
-2. projection or adapter surfaces
-3. current owner or direct writer
-4. sync order with adjacent artifacts
-5. promotion, review, or rollback gate
+1. 规则与约束层（`policy_or_rules`）
+2. 对象层（`object`）
+3. 流程层（`workflow`）
+4. 技能层（`skill`）
+5. 角色层（`agent`）
+6. 过程载体层（`execution_object`）
+7. 状态摘要层（`status_projection`）
+8. 展示输出层（`display_projection`）
 
-Only after this map is clear should you recommend any folder layout or file naming changes.
+对每一类都要判断：
 
-For the five core structural families:
+1. 现在的真源是什么
+2. 有哪些摘要页、展示页或工具入口在投影它
+3. 谁是责任人或直接维护者
+4. 与相邻文档的同步顺序是什么
+5. 哪些地方需要复核或回退关口
 
-- `policy_or_rules`
-- `object`
-- `workflow`
-- `skill`
-- `agent`
+对五类核心结构还要额外判断：
 
-also determine:
+1. 当前版本锚点
+2. 官方读取顺序
+3. 工具适配入口
 
-6. current-version locator
-7. official retrieval order
-8. tool-specific adapter surfaces
+如果项目入口很多、版本信号不统一或工具包装太重，读：
 
-Read [family-locator-contract](references/family-locator-contract.md) and [official-retrieval-orders](references/official-retrieval-orders.md) when the repo has multiple entrypoints, registries, tool bootstraps, or ambiguous “current version” signals.
+- [结构家族定位约定](references/结构家族定位约定.md)
+- [官方读取顺序](references/官方读取顺序.md)
 
-### 4. Design the cross-layer sharing contract
+### 4. 设计跨层共享约定
 
-Read [cross-layer-sharing-contract](references/cross-layer-sharing-contract.md) whenever the project involves multiple people, multiple agents, or multiple tools.
-For each important family, define:
+多人、多代理或多工具并行时，不要默认大家会自动共享同一套事实。
+要为重要结构明确一份跨层共享约定，至少写清楚：
 
-1. producers
-2. consumers
-3. writable surface
-4. projection surface
-5. visibility scope
-6. sync trigger
-7. conflict rule
-8. handoff packet
+1. 谁生产
+2. 谁消费
+3. 哪一层能直接写
+4. 哪一层只能总结或展示
+5. 谁能看见
+6. 什么时候同步
+7. 冲突时按什么规则处理
+8. 交接时最少要带哪些信息
 
-If the project uses several tools, treat tool entrypoints as adapters or projections unless there is explicit evidence that they are canonical sources.
-Do not let `Claude Code`、`Codex`、`AntiGravity`、`OpenClaw` or any other tool name stand in for a durable project role.
-Read [tool-adapter-matrix](references/tool-adapter-matrix.md) when you need to explain how the same family should be surfaced across different tools without duplicating canonical definitions.
+如果同一个项目用了多个工具，把工具入口当成适配面，而不是默认真源。
+不要让 `Claude Code`、`Codex`、`AntiGravity`、`OpenClaw` 之类的工具名冒充项目里的持久角色。
 
-### 4.5 Design the intent trigger contract for command-driven operation
+需要时读：
 
-Read [intent-trigger-contract](references/intent-trigger-contract.md) when the user wants the project to respond reliably to phrases such as `继续开发`, `开始审计`, `反思`, `推进`, or similar operator shorthand.
+- [跨层共享约定](references/跨层共享约定.md)
+- [工具适配对照表](references/工具适配对照表.md)
 
-For each supported operational command, define:
+### 4.5 设计意图触发约定
 
-1. canonical intent id
-2. whether it is a `direct_action_intent` or a `route_intent`
-3. alias or natural-language trigger layer
-4. modifier or slot layer such as scope, target, depth, or constraints
-5. default reads from status, active execution objects, and canonical sources
-6. workflow binding
-7. agent-selection rule
-8. expected outputs and status-sync duties
-9. ambiguity, stop, escalation, and fallback rules
+如果项目希望通过“继续开发”“开始审计”“反思”“推进”这类短口令驱动工作，就要把它设计成显式约定，而不是聊天默契。
 
-Core rules:
+每个口令至少要写清楚：
 
-- expand usability by widening aliases and modifiers, not by multiplying hidden semantics
-- one trigger phrase should resolve to one primary canonical intent
-- route intents such as `advance_mainline` may choose the next workflow only when the routing policy is documented
-- direct-action intents must not silently change meaning by tool, adapter, or context
-- tool-specific launchers may expose aliases, but canonical intent definitions must live upstream
+1. 稳定意图编号
+2. 它是直接动作还是路由动作
+3. 允许的自然语言别名
+4. 可选修饰项，例如范围、对象、深度、约束
+5. 默认读取哪些状态页和真源
+6. 绑定哪条流程
+7. 由谁执行
+8. 期望输出什么
+9. 遇到歧义时怎么停、怎么问、怎么回退
 
-Do not treat trigger phrases as a prompt-writing convenience only.
-Treat them as a portable contract that survives tool changes and handoffs.
+核心规则：
 
-### 5. Map four documentation layers across those families
+- 易用性放在别名和修饰项层，不放在偷偷变义上
+- 一个常用短语只对应一个主意图
+- 工具可以暴露不同叫法，但不能私自改主语义
 
-Map the documentation system into four layers:
+需要时读 [意图触发约定](references/意图触发约定.md)。
 
-1. `truth_source`: files that define canonical facts, boundaries, versions, or contracts
-2. `execution_object`: files that carry active work, analysis, decisions, reviews, or handoff
-3. `status_projection`: files that help low-token recovery and navigation
-4. `display_projection`: pages or artifacts meant for presentation, reporting, or external browsing
+### 5. 用四层文档视角审视项目
 
-When relevant, distinguish these process objects inside `execution_object`:
+除了结构家族，还要把文档系统按四层看清楚：
+
+1. `truth_source`：定义事实的真源
+2. `execution_object`：承载当前工作的过程载体
+3. `status_projection`：帮助快速接手的状态摘要
+4. `display_projection`：对外展示或汇报输出
+
+如果需要，还要进一步区分这些过程载体：
 
 - `discussion`
 - `task`
@@ -208,31 +203,24 @@ When relevant, distinguish these process objects inside `execution_object`:
 - `decision`
 - `handoff`
 
-Keep these structural boundaries explicit:
+这几条边界必须保持清楚：
 
-- `Agent` defines role contract
-- `Skill` defines repeatable procedure
-- `Workflow` defines path, gate, or transition logic
-- `Object` defines schema, record type, or state semantics
+- `Agent` 定义角色职责与边界
+- `Skill` 定义可复用做法
+- `Workflow` 定义路径、流转与关口
+- `Object` 定义对象结构与状态语义
 
-Apply these naming and design rules:
+不要让其中一类资产悄悄改写另一类资产。
 
-- define `Agent` by role, authority, and boundary, not by one-off task or tool brand
-- define `Skill` by task capability, procedure, or reusable method, not by persona identity
-- do not let one `Agent` absorb many unrelated task skills
-- do not let one `Skill` pretend to be a durable organizational role
+### 6. 用三种视角做判断
 
-Do not let one of these assets silently redefine another.
+这个技能默认用三种视角，但不是拿来做空泛哲学，而是拿来做落地判断：
 
-### 6. Use the three doctrine lenses on different design problems
+1. 系统视角：看结构边界、分层、耦合、责任面
+2. 信息视角：看真源、引用链、版本锚点、同步顺序、恢复链
+3. 控制视角：看观察、决策、执行、复核、回退的闭环
 
-Use the three lenses for different outputs instead of blending them into one generic recommendation:
-
-1. System lens: design structure, boundaries, family splits, ownership surfaces, and coupling points
-2. Information lens: design truth-source rules, references, version locators, sync order, and recovery chain
-3. Control lens: design role loops, promotion logic, review cadence, rollback paths, and change-control intensity
-
-For control design, map at least this loop:
+控制设计至少要落一条主回路：
 
 1. `observe`
 2. `decide`
@@ -240,37 +228,39 @@ For control design, map at least this loop:
 4. `review`
 5. `rollback_or_improve`
 
-For each important loop, specify which role, agent, or artifact carries each function.
+对每条重要回路，都要指明是哪个角色、哪个代理或哪类文档承担该功能。
 
-### 7. Choose a governance bundle, not a slogan
+### 7. 选治理组合，不选口号
 
-Start from `balanced governance` unless the evidence clearly points to a lighter or stricter mode.
+默认从“均衡治理”出发，再根据证据决定要不要更轻或更重。
 
-Use `Spec-Driven` when the project has high-consequence facts, slow variables, strong coupling, or acceptance criteria that must stay stable.
-Use `Kanban` when the project has continuous flow, multiple parallel streams, operational visibility needs, or frequent small transitions.
-Use `Agile/Sprint-like` when the project benefits from milestone-based integration, time-boxed convergence, or phase-level review.
-Add `decision`, `review`, or `change-control` gates only when risk, compliance, autonomy, or rollback cost justifies them.
+选择规则：
 
-Combine methods when needed. Do not force a single methodology to govern every artifact.
-Read [tool-portable-team-practices](references/tool-portable-team-practices.md) when the user asks about collaboration setup, planning habits, notes discipline, reusable skills, evidence collection, subagents, or multi-tool team workflows.
+- 规格驱动（`Spec-Driven`）适合慢变量多、耦合强、验收边界稳定的项目
+- 看板流（`Kanban`）适合并行流多、状态变化频繁、需要持续可见性的项目
+- 迭代节奏（`Agile / Sprint-like`）适合需要阶段收敛和里程碑复核的项目
+- 决策关口、复核关口、变更控制只在风险、合规、自主度或回退成本足够高时加
 
-### 8. Select the classic governance flow set
+需要组合时就组合，不要强迫一套方法统治所有文档。
+如果用户问的是团队协作方式、计划习惯、证据收集、多工具团队做法，就读 [跨工具团队实践](references/跨工具团队实践.md)。
 
-Read [classic-governance-flows](references/classic-governance-flows.md) before finalizing the recommendation.
-Always decide which flows should become:
+### 8. 选择默认流程库
 
-1. default project habits
-2. conditional escalation paths
-3. explicit non-default patterns
+在敲定建议前，先读 [经典治理流程库](references/经典治理流程库.md)。
+始终要判断哪些流程应当成为：
 
-Default candidates:
+1. 默认日常做法
+2. 条件触发的升级流程
+3. 明确暂不启用的流程
+
+常见默认候选：
 
 - `low_token_recovery_chain`
 - `discussion -> decision_package -> task_or_decision`
 - `truth_source -> execution_object -> status_projection -> display_projection`
 - `mechanism_review -> repair_or_split`
 
-Conditional candidates:
+常见条件候选：
 
 - `adversarial_inquiry -> defense -> convergence`
 - `isolated_multi_role_deliberation`
@@ -279,20 +269,19 @@ Conditional candidates:
 - `contract_gap -> closure_topic -> downstream_resume`
 - `growth_signal -> lifecycle_review -> compact_or_archive`
 
-Read [adversarial-convergence-loop](references/adversarial-convergence-loop.md) when:
+只有在以下情况才优先读 [反方质询与收敛回路](references/反方质询与收敛回路.md)：
 
-1. disagreement is material
-2. a topic may directly promote into `task` or `decision`
-3. the project needs institutional opposition or user-value challenge
-4. a team is mistaking polite agreement for true convergence
+1. 争议已经影响重大决策
+2. 话题会直接升级成任务或决策
+3. 项目需要制度化反方质询
+4. 团队把礼貌一致误当成真正收敛
 
-Do not make every project carry every flow.
-Recommend only the smallest flow set that matches the diagnosed risk and maturity.
+不要让每个项目都背上整套流程库，只推荐当前项目真需要的最小集合。
 
-### 9. Produce the governance blueprint
+### 9. 输出治理方案
 
-Before answering, read [output-contract](references/output-contract.md) and follow its section order.
-Always include the core sections:
+在正式回答前，先读 [输出约定](references/输出约定.md)，按它的顺序组织输出。
+核心必答区块包括：
 
 - `方向与边界锚点`
 - `项目画像`
@@ -304,7 +293,7 @@ Always include the core sections:
 - `推荐下一步实施顺序`
 - `明确不建议的做法`
 
-Add conditional sections only when the diagnosis says they are material:
+只有在诊断证明确实重要时，才补这些条件区块：
 
 - `跨层共享矩阵`
 - `推荐项目结构分层`
@@ -315,121 +304,132 @@ Add conditional sections only when the diagnosis says they are material:
 - `工具可移植性约束`
 - `文档生命周期与压缩策略`
 
-Do not emit empty sections just to satisfy a template.
-Prefer the smallest response shape that still solves the diagnosed problem.
+输出要求：
 
-Explain why the chosen governance strength fits the diagnosis.
-Explain why the chosen flow set fits the diagnosis.
-Recommend the minimum structure that can stabilize the project and leave room for growth.
-Make `policy_or_rules`、`object`、`workflow`、`skill`、`agent`、`execution_object`、`status_projection`、`display_projection` visible in the answer whenever they matter.
-When the environment is multi-tool, explain how the same governance model survives across tools without duplicating canonical source definitions.
-If understanding confidence remained `medium`, state the material assumptions explicitly.
+- 不要为了模板把空区块硬塞进去
+- 用能解决当前问题的最小答案形状
+- 解释为什么治理力度合适
+- 解释为什么流程组合合适
+- 在多工具环境下说明同一治理模型如何跨工具存活
+- 如果把握度仍是 `medium`，明确写出关键假设
 
-Use these activation heuristics:
+启用条件：
 
-- add `跨层共享矩阵` when more than one human, more than one agent, or more than one tool entrypoint touches the same facts
-- add `推荐项目结构分层` when layering confusion is itself a diagnosed problem
-- add `推荐角色控制回路` when autonomy, role ambiguity, or review responsibility is material
-- add `推荐版本与同步纪律` when there is version ambiguity, drift, multi-writer risk, or promotion complexity
-- add `对象家族检索与适配策略` when the five core families are hard to retrieve or tools may overshadow canonical sources
-- add `意图触发与执行契约` when the project wants command-driven operation, low-friction natural-language triggers, or reusable operator shorthand across tools
-- add `工具可移植性约束` when multiple tools are active or migration risk is non-trivial
-- add `文档生命周期与压缩策略` when active docs are bloating, retrieval cost is rising, stale pages are accumulating, or history is pretending to be current truth
+- 多人、多代理或多工具同时碰同一事实时，加 `跨层共享矩阵`
+- 分层混乱本身就是问题时，加 `推荐项目结构分层`
+- 角色边界、自主度或复核责任重要时，加 `推荐角色控制回路`
+- 版本不清、多人写、同步乱或升级复杂时，加 `推荐版本与同步纪律`
+- 五类核心结构难找，或工具入口遮住真源时，加 `对象家族检索与适配策略`
+- 项目希望用短口令驱动工作时，加 `意图触发与执行契约`
+- 多工具在场或迁移风险高时，加 `工具可移植性约束`
+- 活跃文档膨胀、陈旧页堆积、读取成本上升时，加 `文档生命周期与压缩策略`
 
-### 10. End with sequencing instead of abstract advice
+### 10. 用实施顺序收尾，不停在原则
 
-Do not stop at principles. Close with an ordered implementation sequence.
+不要只讲原则，要给出有先后顺序的落地动作。
 
-For `existing_repo`, prefer:
+对 `existing_repo`，优先顺序通常是：
 
-1. map current truth sources and projections
-2. map current source families and ownership
-3. stop active drift
-4. consolidate canonical sources
-5. refine naming or directory layout last
-6. institutionalize only the flows that proved necessary
+1. 画出现有真源与摘要页
+2. 画出现有结构家族与责任边界
+3. 先止住继续漂移
+4. 收拢真源
+5. 最后再修命名和目录
+6. 只固化已经被证明必要的流程
 
-For `greenfield`, prefer:
+对 `greenfield`，优先顺序通常是：
 
-1. define slow variables
-2. define the minimum source-family set
-3. define one status entrypoint
-4. define role loops and version or sync rules
-5. defer heavier governance until growth or risk justifies it
-6. start with a minimum default flow set, not the full escalation library
+1. 定义慢变量
+2. 定义最小结构家族集合
+3. 定一个状态入口
+4. 定义角色回路和版本同步规则
+5. 等风险或规模上来后再加重治理
+6. 先启用最小默认流程，不上整套升级流程
 
-For `recovery_or_realignment`, prefer:
+对 `recovery_or_realignment`，优先顺序通常是：
 
-1. stop the bleeding
-2. choose current canonical facts
-3. mark obsolete or duplicated projections
-4. restore handoff, ownership, and status clarity
-5. redesign the long-term structure after stabilization
-6. reintroduce escalated flows only after current truth is trusted
+1. 先止血
+2. 选定当前可信事实
+3. 把旧摘要页和旧展示页降级
+4. 恢复交接、责任和状态清晰度
+5. 稳住之后再谈长期重构
+6. 真源重新可信后，再恢复升级流程
 
-## Scenario Routing
+## 场景路由
 
-### Existing Repository
+### 现有仓库
 
-Inspect the current entry documents, active status files, READMEs, boards, working artifacts, and any registry-like files.
-Use [scenario-playbooks](references/scenario-playbooks.md) to diagnose duplicated truth sources, projection overreach, version ambiguity, broken handoff, family-boundary confusion, or process objects that are doing too many jobs.
+先看现有入口文档、状态页、README、任务板、活跃过程载体以及任何像注册表的文件。
+用 [场景手册](references/场景手册.md) 去判断：
 
-### Greenfield
+- 是否存在重复真源
+- 摘要页是否越权
+- 版本信号是否混乱
+- 交接链是否断裂
+- 结构边界是否混在一起
+- 同一份讨论是否同时承担任务和决策
 
-Design the smallest viable governance package that can support growth.
-Avoid full-scale bureaucracy at the start.
-Use [scenario-playbooks](references/scenario-playbooks.md) to define the minimum source-family set, minimum execution objects, one reliable recovery chain, and one workable control loop.
+### 新项目
 
-### Recovery or Realignment
+只设计当前阶段够用的最小治理包。
+不要在起步阶段直接把项目做成重流程系统。
+用 [场景手册](references/场景手册.md) 定义：
 
-Treat the project as a control failure before treating it as an information architecture problem.
-Stabilize truth, recovery, and ownership before renaming directories or expanding the process.
-Use [scenario-playbooks](references/scenario-playbooks.md) to sequence triage, stabilization, and redesign.
+- 最小真源集合
+- 最小过程载体集合
+- 一条可靠的恢复链
+- 一条可运行的控制回路
 
-## Guardrails
+### 恢复与重整
 
-- Diagnose before prescribing.
-- Govern project structure first, folder shape second.
-- Prefer source-of-truth clarity over folder proliferation.
-- Keep `status_projection` light and derived.
-- Make `policy_or_rules`、`object`、`workflow`、`skill`、`agent` boundaries explicit when they are currently blurred.
-- Design document sharing explicitly when multiple humans, agents, or tools collaborate on the same facts.
-- Do not copy AIJournal or HQMDClaw role names, directory names, or governance rituals verbatim.
-- Do not default to heavy change-control when medium governance is enough.
-- Do not default to adversarial loops, validation ladders, or rollout stages when the project does not need them.
-- Do not default to the full output contract when a smaller, more precise blueprint will solve the user's current problem.
-- Do not let `discussion` become a long-lived task bucket.
-- Do not let every historical signal remain active forever; demote, compact, or archive when retrieval cost rises.
-- Do not let README pages, dashboards, or websites silently redefine canonical facts.
-- Do not let `Agent` definitions absorb `Workflow` or `Skill` responsibilities.
-- Do not let tool brands become canonical role identities.
-- Do not let `OpenClaw` bootstraps, launch surfaces, or runtime entry docs silently become the only readable source for rules, workflows, skills, or agents.
-- Do not expand trigger aliases before stabilizing canonical intent meanings.
-- Do not let natural-language trigger semantics live only in launch prompts, chat memory, or tool-specific bootstraps.
-- Do not let skill packages, helper scripts, or workflow drafts patch contract gaps silently.
-- Explicitly separate evidence from inference when the repo is incomplete.
-- State assumptions when key facts cannot be verified.
+先把它当成控制失效和信任失效问题，而不只是信息架构问题。
+先恢复真源、恢复链和责任边界，再考虑改名和扩层。
+用 [场景手册](references/场景手册.md) 安排止血、稳定、重整顺序。
 
-## References
+## 边界约束
 
-- Read [core-doctrine](references/core-doctrine.md) when choosing evaluation lenses or explaining the rationale behind a strategy.
-- Read [shared-patterns-from-aijournal-and-hqmdclaw](references/shared-patterns-from-aijournal-and-hqmdclaw.md) when you need reusable patterns without inheriting project-specific structure.
-- Read [strategy-selection-matrix](references/strategy-selection-matrix.md) when choosing governance strength or method combinations.
-- Read [classic-governance-flows](references/classic-governance-flows.md) when selecting which reusable governance flows should be default, conditional, or explicitly deferred.
-- Read [adversarial-convergence-loop](references/adversarial-convergence-loop.md) when the project needs hostile inquiry, structured defense, or question-level convergence semantics.
-- Read [family-locator-contract](references/family-locator-contract.md) when the user needs family-specific source locators, current-version anchors, or fallback retrieval rules.
-- Read [official-retrieval-orders](references/official-retrieval-orders.md) when the user needs a stable read order for `policy_or_rules`、`object`、`workflow`、`skill`、`agent`.
-- Read [tool-adapter-matrix](references/tool-adapter-matrix.md) when the user needs adapter guidance across Claude Code, Codex, AntiGravity, OpenClaw, MCP, CLI wrappers, or other tool entrypoints.
-- Read [cross-layer-sharing-contract](references/cross-layer-sharing-contract.md) when the user needs multi-role, multi-agent, or multi-tool collaboration rules.
-- Read [understanding-confidence-and-clarification](references/understanding-confidence-and-clarification.md) when the project basics are still ambiguous and you need a confidence-gated clarification strategy.
-- Read [document-lifecycle-and-compaction](references/document-lifecycle-and-compaction.md) when active docs are sprawling, stale pages are accumulating, or the user needs a policy for compaction, archiving, or history demotion.
-- Read [tool-portable-team-practices](references/tool-portable-team-practices.md) when the user needs portable operational habits, writing rules, or team workflow adjustments across tools.
-- Read [output-contract](references/output-contract.md) immediately before drafting the final answer.
-- Read [scenario-playbooks](references/scenario-playbooks.md) after classifying the start state.
+- 先诊断，再开药方
+- 先治理项目结构，再修目录外观
+- 真源清晰度优先于目录层数
+- `status_projection` 必须保持轻、保持可追溯
+- 当结构边界混乱时，要明确分开 `policy_or_rules`、`object`、`workflow`、`skill`、`agent`
+- 多人、多代理、多工具共用同一事实时，必须显式设计共享约定
+- 不要直接照搬 AIJournal 或 HQMDClaw 的角色名、目录名和仪式
+- 没到必要程度，不要默认上重变更控制
+- 项目不需要时，不要默认上敌意质询、验证阶梯或灰度发布
+- 当前问题只需要小答案时，不要默认展开整套输出合同
+- 不要让 `discussion` 变成长期任务桶
+- 不要让历史材料长期冒充当前状态
+- 不要让 README、看板、网站或仪表盘悄悄改写真源
+- 不要让 `Agent` 吞掉 `Workflow` 或 `Skill` 的职责
+- 不要让工具品牌变成角色名
+- 不要让 `OpenClaw` 启动文档、启动入口或运行时说明成为唯一可读的规则来源
+- 主意图没定稳之前，不要先扩充短口令别名
+- 不要让自然语言口令只活在启动提示、聊天记忆或工具局部包装里
+- 不要让技能包、脚本或流程草稿悄悄修补约定缺口
+- 仓库证据不完整时，要显式区分证据和推断
+- 关键事实无法核实时，明确假设
 
-## Example Requests
+## 参考资料
 
-- “分析这个多 Agent 仓库的现有文档体系，判断哪些文件是事实源、哪些只是状态页，并给出重构方案。”
-- “我要做一个 AI Agent 驱动的 OpenClaw 项目，请为它设计一套适合早期阶段的文档管理策略，要求不过重，但要能支撑后续扩展。”
-- “这个项目现在 discussion、任务、状态页和 README 已经互相漂移，请诊断主要问题，并给出收口和迁移顺序。”
-- “这个项目的重要机制争议很多，请判断哪些主题必须进入敌意质询、最小决策包或 proposal-validation-activation 链，哪些保持轻量处理。”
+- 选视角和解释判断依据时，读 [基本原则](references/基本原则.md)
+- 需要继承可复用模式但不想照搬项目外壳时，读 [来自 AIJournal 与 HQMDClaw 的共享模式](references/来自AIJournal与HQMDClaw的共享模式.md)
+- 选择治理力度和方法组合时，读 [治理模式选择对照表](references/治理模式选择对照表.md)
+- 选择默认流程、条件流程和延后流程时，读 [经典治理流程库](references/经典治理流程库.md)
+- 需要制度化反方质询和收敛机制时，读 [反方质询与收敛回路](references/反方质询与收敛回路.md)
+- 需要稳定定位五类核心结构时，读 [结构家族定位约定](references/结构家族定位约定.md)
+- 需要五类核心结构的官方读取顺序时，读 [官方读取顺序](references/官方读取顺序.md)
+- 需要跨工具适配说明时，读 [工具适配对照表](references/工具适配对照表.md)
+- 需要多人、多代理或多工具共享规则时，读 [跨层共享约定](references/跨层共享约定.md)
+- 需要按理解把握度决定是否先提问时，读 [理解把握度与澄清规则](references/理解把握度与澄清规则.md)
+- 活跃文档膨胀或历史页堆积时，读 [文档生命周期与压缩](references/文档生命周期与压缩.md)
+- 需要跨工具团队实践时，读 [跨工具团队实践](references/跨工具团队实践.md)
+- 正式回答前，读 [输出约定](references/输出约定.md)
+- 选定项目起点后，读 [场景手册](references/场景手册.md)
+
+## 示例请求
+
+- “分析这个多代理仓库的现有文档体系，判断哪些文件是真源，哪些只是状态摘要，并给出收口方案。”
+- “我要做一个 AI Agent 驱动的 OpenClaw 项目，请给我一套早期够用、后续还能扩展的文档治理结构。”
+- “这个项目的 README、状态页、任务和流程说明已经互相漂移，请判断主要问题和修复顺序。”
+- “这个项目很多机制争议都讲不清，请判断哪些话题需要进入反方质询、最小决策包或验证链，哪些保持轻量处理。”

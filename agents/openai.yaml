@@ -1,4 +1,4 @@
 interface:
-  display_name: "Files-Driven Governance"
-  short_description: "Design project structure governance with a plain-language requirements confirmation kit and portable intent-trigger contracts for AI agent systems and multi-tool environments including OpenClaw"
-  default_prompt: "Use $files-driven to analyze this repo's rules, agents, workflows, skills, and documents, then design a right-sized project structure governance strategy with a precision-first output shape: always cover the core diagnosis and only expand advanced governance sections when they materially matter. If the project is early or the boundary is drifting, first use the plain-language requirements confirmation kit: ask a compact set of human-language questions, draft one to three user stories, draft detailed test cases, restate non-goals, and identify the acceptance owner or audience before proposing governance. If the project wants short natural-language triggers such as '继续开发', '开始审计', '反思', or '推进', define a portable intent-trigger contract: canonical intents, alias and modifier layers, workflow binding, agent selection, ambiguity policy, and required status sync."
+  display_name: "文档驱动治理"
+  short_description: "用说人话的需求确认、结构家族划分和可迁移的意图触发约定，为 AI Agent 与多工具项目设计合适的文档治理结构"
+  default_prompt: "使用 $files-driven 分析这个仓库里的规则、对象、流程、技能、角色和文档层次，然后给出一套力度合适的项目结构治理方案。默认先完成核心诊断，只在确实重要时再展开高级治理区块。如果项目还处在早期，或者方向与边界仍在漂移，先使用说人话需求确认工具包：提出一组简短问题，起草一到三个用户故事，起草详细测试用例，重述非目标，并明确由谁来判断结果是否达标，再继续治理设计。如果项目希望通过“继续开发”“开始审计”“反思”或“推进”这类短口令触发工作，请补充一份可跨工具复用的意图触发约定，写清主意图、别名与修饰项、流程绑定、角色选择、歧义处理和状态同步要求。"
