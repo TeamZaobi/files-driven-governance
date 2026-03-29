@@ -2,6 +2,13 @@
 
 本文记录 `files-driven` 的重要版本变化。
 
+## Unreleased
+
+### 调整
+
+- 重写 [README.md](README.md)，把仓库入口改成面向人的项目说明，补充适用场景、不适用场景、README 与 `SKILL`/`references` 的职责分工，以及首次阅读路线。
+- 在 [README.md](README.md) 中补入 `mermaid` 图示和“版本演进”说明，让读者不必先翻 `CHANGELOG` 才能理解项目在解决什么问题、怎么推进治理工作。
+
 ## v0.2.7 - 2026-03-25
 
 ### 新增
