@@ -9,6 +9,7 @@
 ### 新增
 
 - 新增 [docs/语言体系规范.md](docs/语言体系规范.md)，把“中文优先、必要时补稳定键名”正式写成仓库级语言规范，用来约束后续 README、技能说明和参考件的写法。
+- 新增开发/运营并存治理的显式表达：在 [references/经典治理流程库.md](references/经典治理流程库.md) 中补入“运营信号分流”和“运行观察晋升关口”两条条件流程，在 [references/输出约定.md](references/输出约定.md) 中补入“开发/运营双治理结构”条件区块。
 
 ### 调整
 
@@ -29,6 +30,7 @@
 - 调整剩余 routed references 的启用边界，包括 [references/起步阶段_故事与测试对齐.md](references/起步阶段_故事与测试对齐.md)、[references/说人话需求确认工具包.md](references/说人话需求确认工具包.md)、[references/理解型输入与低带宽压缩包.md](references/理解型输入与低带宽压缩包.md)、[references/经典治理流程库.md](references/经典治理流程库.md)、[references/跨工具团队实践.md](references/跨工具团队实践.md)、[references/文档生命周期与压缩.md](references/文档生命周期与压缩.md) 与 [references/跨项目共享模式提炼.md](references/跨项目共享模式提炼.md)，并同步细化主技能中的对应路由。
 - 将带内部项目名的 routed reference 去专案化，同时上提 [references/跨项目共享模式提炼.md](references/跨项目共享模式提炼.md) 作为公开执行面的通用共享模式文件。
 - 将研究过程留痕、计划账本和内部案例材料下沉到本地忽略区，公开树只保留可发布的技能、参考件和说明文档。
+- 扩展 [SKILL.md](SKILL.md)、[references/治理模式选择对照表.md](references/治理模式选择对照表.md)、[docs/完整说明书.md](docs/完整说明书.md) 与 [docs/语言体系规范.md](docs/语言体系规范.md)，把“运行态叠加模式”“开发回路 / 运营回路”“运行观察”等中文主叫法和开发/运营双治理判断正式写清，并明确运营信号不能直接改写开发真源、技能沉淀不能自动晋升。
 
 ## v0.2.7 - 2026-03-25
 
