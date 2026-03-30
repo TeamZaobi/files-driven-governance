@@ -14,6 +14,7 @@
 
 - 统一 `docs/` 与 `references/` 主要文档的中文命名与中文表达，替换早期英文文件名和中英混写表述，并同步修正仓库内链接与对外包装文案。
 - 重写 [README.md](README.md)，把仓库入口改成面向人的项目说明，补充适用场景、不适用场景、首次阅读路线，以及 `README`、`SKILL`、`references`、`CHANGELOG`、版本说明之间的职责分工。
+- 扩充 [README.md](README.md) 的方法学声明，补回 `Spec-Driven / Kanban / Agile` 与系统论、信息论、控制论的理论来源、重组关系和核心判断，使公开入口不只讲“怎么用”，也讲“为什么成立”。
 - 在 [README.md](README.md) 中补入 `mermaid` 图示，用可视化方式解释文档分层、治理流程和常见失真模式。
 - 在 [README.md](README.md) 中补入简版“版本演进”脉络，作为理解入口；同时明确由 [CHANGELOG.md](CHANGELOG.md) 负责变更账本、由 `docs/v*_版本说明.md` 负责单版解读。
 - 瘦身重排 [SKILL.md](SKILL.md)，把主技能收回到“执行导览 + 条件下钻”的结构，不再让主文件承担完整说明书职责。
