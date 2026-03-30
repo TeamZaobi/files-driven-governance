@@ -16,6 +16,17 @@
 - 重写 [README.md](README.md)，把仓库入口改成面向人的项目说明，补充适用场景、不适用场景、首次阅读路线，以及 `README`、`SKILL`、`references`、`CHANGELOG`、版本说明之间的职责分工。
 - 在 [README.md](README.md) 中补入 `mermaid` 图示，用可视化方式解释文档分层、治理流程和常见失真模式。
 - 在 [README.md](README.md) 中补入简版“版本演进”脉络，作为理解入口；同时明确由 [CHANGELOG.md](CHANGELOG.md) 负责变更账本、由 `docs/v*_版本说明.md` 负责单版解读。
+- 瘦身重排 [SKILL.md](SKILL.md)，把主技能收回到“执行导览 + 条件下钻”的结构，不再让主文件承担完整说明书职责。
+- 重写 [README.md](README.md)，把入口面收成“项目说明 + 阅读路线 + 问题入口”，删去与主技能和完整说明书重复的大段展开。
+- 收紧 [agents/openai.yaml](agents/openai.yaml) 的 `short_description` 与 `default_prompt`，使其与当前主技能的最小主流程保持一致。
+- 调整 [references/场景手册.md](references/场景手册.md)，把三类起点的“最低交付物”压回核心最小集合，并把角色回路、意图触发、压缩顺序等改成条件补充项。
+- 调整 [references/基本原则.md](references/基本原则.md) 与 [references/治理模式选择对照表.md](references/治理模式选择对照表.md)，补清各自的职责边界，避免与主技能和场景路由重复抢活。
+- 调整 [references/结构家族定位约定.md](references/结构家族定位约定.md)、[references/官方读取顺序.md](references/官方读取顺序.md) 与 [references/跨层共享约定.md](references/跨层共享约定.md)，把三份执行 reference 收回到“定位 / 顺序 / 共享”的辅助职责，避免隐性变成第二主流程。
+- 调整 [references/工具适配对照表.md](references/工具适配对照表.md)、[references/意图触发约定.md](references/意图触发约定.md) 与 [references/理解把握度与澄清规则.md](references/理解把握度与澄清规则.md)，补清启用前提与回退路由，避免默认全开或演化成第二套主流程。
+- 调整 [SKILL.md](SKILL.md) 的 reference 路由语句，使“定位 / 顺序 / 适配 / 共享 / 意图 / 澄清”六类问题各自指向最合适的单一参考件，不再把多份 reference 一起当成隐性第二主流程。
+- 调整剩余 routed references 的启用边界，包括 [references/起步阶段_故事与测试对齐.md](references/起步阶段_故事与测试对齐.md)、[references/说人话需求确认工具包.md](references/说人话需求确认工具包.md)、[references/理解型输入与低带宽压缩包.md](references/理解型输入与低带宽压缩包.md)、[references/经典治理流程库.md](references/经典治理流程库.md)、[references/跨工具团队实践.md](references/跨工具团队实践.md)、[references/文档生命周期与压缩.md](references/文档生命周期与压缩.md) 与 [references/跨项目共享模式提炼.md](references/跨项目共享模式提炼.md)，并同步细化主技能中的对应路由。
+- 将带内部项目名的 routed reference 去专案化，同时上提 [references/跨项目共享模式提炼.md](references/跨项目共享模式提炼.md) 作为公开执行面的通用共享模式文件。
+- 将研究过程留痕、计划账本和内部案例材料下沉到本地忽略区，公开树只保留可发布的技能、参考件和说明文档。
 
 ## v0.2.7 - 2026-03-25
 
@@ -58,7 +69,7 @@
 ### 新增
 
 - 新增 [references/文档生命周期与压缩.md](references/文档生命周期与压缩.md)，把文档生命周期与压缩治理显式化。
-- 新增 [docs/文档膨胀质询记录_第1轮.md](docs/文档膨胀质询记录_第1轮.md)，记录第一轮文档膨胀质询与收敛。
+- 补充一份文档膨胀质询与收敛记录，用于当时的内部收口。
 
 ### 调整
 

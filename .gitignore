@@ -5,3 +5,19 @@
 *.swo
 *.tmp
 Thumbs.db
+
+# Local-only research, planning, and worklog artifacts
+/.internal/
+/findings.md
+/progress.md
+/task_plan.md
+/docs/文档膨胀质询记录_第1轮.md
+/docs/实践根基下的Harness参考价值收敛稿.md
+/docs/记忆分析样例_从Codex会话ID到项目经验单元.md
+/docs/跨项目记忆样例总表.md
+/docs/跨项目经验综合与晋升候选.md
+/docs/认知带宽差假设阶段性判定.md
+/docs/摩擦回合研究总表.md
+/docs/共享模式来源说明.md
+/references/记忆文件与过程留痕分析策略.md
+/references/摩擦回合与认知带宽差分析策略.md
