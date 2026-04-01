@@ -13,6 +13,8 @@
 
 ### 调整
 
+- 在 [SKILL.md](SKILL.md)、[references/经典治理流程库.md](references/经典治理流程库.md) 与 [references/跨层共享约定.md](references/跨层共享约定.md) 中收编 `process_projection`：把它定义成从 `execution_object` 派生的统一过程投影，用于多工具过程可见性和交接压缩，不新增分层，也不提升为真源。
+- 进一步收紧 `process_projection` 的启用边界：默认只在多工具过程不透明时启用；若复杂性主要来自显式 `workflow` 或多 agent 协作，再条件补 `topology_supplement` 说明执行拓扑。
 - 统一 `docs/` 与 `references/` 主要文档的中文命名与中文表达，替换早期英文文件名和中英混写表述，并同步修正仓库内链接与对外包装文案。
 - 重写 [README.md](README.md)，把仓库入口改成面向人的项目说明，补充适用场景、不适用场景、首次阅读路线，以及 `README`、`SKILL`、`references`、`CHANGELOG`、版本说明之间的职责分工。
 - 扩充 [README.md](README.md) 的方法学声明，补回 `Spec-Driven / Kanban / Agile` 与系统论、信息论、控制论的理论来源、重组关系和核心判断，使公开入口不只讲“怎么用”，也讲“为什么成立”。
