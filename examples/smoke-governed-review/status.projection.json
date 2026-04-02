@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "projection_id": "projection.review.status",
+  "family": "status_projection",
+  "workflow_id": "workflow.review.smoke",
+  "run_id": "run.review.smoke",
+  "contract_version": "v1",
+  "source_last_event_id": "event.review.001",
+  "current_node_id": "node.review",
+  "gate_state": "partial",
+  "summary": "Review remains partial until evidence.review.note is supplied. This projection is derived and does not authorize write or publish.",
+  "missing_evidence_refs": [
+    "evidence.review.note"
+  ],
+  "forbidden_output_refs": [
+    "output.publish.review"
+  ],
+  "generated_at": "2026-04-03T09:00:00+08:00"
+}

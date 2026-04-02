@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0",
+  "policy_id": "policy.guard.review",
+  "family": "policy_or_rules",
+  "version_anchor": "v1",
+  "scope": "workflow",
+  "rules": [
+    {
+      "rule_id": "rule.require-evidence",
+      "statement": "The review cannot move to release until required evidence is present."
+    },
+    {
+      "rule_id": "rule.block-write-on-partial",
+      "statement": "Partial or blocked states must not release write or publish outputs."
+    }
+  ]
+}

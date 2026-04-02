@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0",
+  "workflow_id": "workflow.review.smoke",
+  "family": "workflow",
+  "governance_level": "controlled",
+  "execution_mode": "gated",
+  "version_anchor": "v1",
+  "policy_refs": [
+    "policy.guard.review"
+  ],
+  "object_refs": [
+    "state.review.partial",
+    "action.review",
+    "evidence.review.note",
+    "approval.human.review",
+    "output.publish.review"
+  ],
+  "agent_refs": [
+    "role.reviewer"
+  ],
+  "entry_intents": [
+    {
+      "intent_id": "intent.review",
+      "entry_node": "node.review",
+      "aliases": [
+        "start review",
+        "continue review"
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "node_id": "node.review",
+      "state_ref": "state.review.partial",
+      "action_ref": "action.review",
+      "evidence_refs": [
+        "evidence.review.note"
+      ],
+      "output_policy_refs": [
+        "policy.guard.review"
+      ],
+      "approver_ref": "role.reviewer",
+      "check_refs": [
+        "check.route.review",
+        "check.evidence.review"
+      ]
+    }
+  ],
+  "transitions": [
+    {
+      "transition_id": "transition.review-to-review",
+      "from_node": "node.review",
+      "to_node": "node.review",
+      "guard_policy_refs": [
+        "policy.guard.review"
+      ],
+      "approval_ref": "approval.human.review",
+      "required_check_refs": [
+        "check.write.review",
+        "check.stop.review"
+      ]
+    }
+  ],
+  "checks": {
+    "route": [
+      "check.route.review"
+    ],
+    "evidence": [
+      "check.evidence.review"
+    ],
+    "write": [
+      "check.write.review"
+    ],
+    "stop": [
+      "check.stop.review"
+    ]
+  }
+}
