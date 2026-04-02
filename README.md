@@ -203,6 +203,7 @@ flowchart LR
 | [README.md](README.md) | 第一次接触这个项目的人 | 解释这是什么、什么时候该用、怎么开始 |
 | [SKILL.md](SKILL.md) | 会执行这个技能的代理 | 给出主流程、判断规则、边界约束和参考件路由 |
 | [references/](references/) | 需要深入某一专题的人或代理 | 承载输出约定、流程库、读取顺序、共享约定等稳定参考 |
+| [schemas/](schemas/) | 需要结构化合同草案的人或代理 | 承载控制语义的机读 schema 草案 |
 | [docs/](docs/) | 想看完整背景、版本说明和公开专题材料的人 | 承载说明书、版本说明和公开专题记录 |
 | [CHANGELOG.md](CHANGELOG.md) | 关心仓库变更账本的人 | 记录仓库层面的新增、调整和删除 |
 
@@ -211,6 +212,7 @@ flowchart LR
 - `README` 是入口
 - `SKILL` 是执行导览
 - `references` 是按需下钻
+- `schemas` 是结构化合同草案
 - `docs` 是背景与公开说明
 - `CHANGELOG` 是账本
 
@@ -221,6 +223,11 @@ flowchart LR
 1. [README.md](README.md)
 2. [SKILL.md](SKILL.md)
 3. [docs/完整说明书.md](docs/完整说明书.md)
+
+如果你关心这轮“项目治理能力模型 v1”和 JSON 合同方向，继续读：
+
+4. [docs/项目治理能力模型_v1.md](docs/项目治理能力模型_v1.md)
+5. [schemas/README.md](schemas/README.md)
 
 如果你已经确定要落地治理，优先按问题下钻：
 

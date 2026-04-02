@@ -11,6 +11,8 @@
 - 新增 [docs/语言体系规范.md](docs/语言体系规范.md)，把“中文优先、必要时补稳定键名”正式写成仓库级语言规范，用来约束后续 README、技能说明和参考件的写法。
 - 新增开发/运营并存治理的显式表达：在 [references/经典治理流程库.md](references/经典治理流程库.md) 中补入“运营信号分流”和“运行观察晋升关口”两条条件流程，在 [references/输出约定.md](references/输出约定.md) 中补入“开发/运营双治理结构”条件区块。
 - 新增 [references/关口硬化与稳定放行.md](references/关口硬化与稳定放行.md)，把“该停没停、该问没问、`partial / blocked` 无法约束下游”正式收编成可复用的治理问题，并提供最小稳定解。
+- 新增 [docs/项目治理能力模型_v1.md](docs/项目治理能力模型_v1.md)，把本轮重构对象正式上提为“项目治理设计能力”，而不只是一轮仓库文案调整。
+- 新增 [schemas/README.md](schemas/README.md) 与四份 schema 草案： [workflow.contract.schema.json](schemas/workflow.contract.schema.json)、[object.contract.schema.json](schemas/object.contract.schema.json)、[policy.contract.schema.json](schemas/policy.contract.schema.json)、[agent.contract.schema.json](schemas/agent.contract.schema.json)。
 
 ### 调整
 
@@ -35,6 +37,8 @@
 - 将研究过程留痕、计划账本和内部案例材料下沉到本地忽略区，公开树只保留可发布的技能、参考件和说明文档。
 - 扩展 [SKILL.md](SKILL.md)、[references/治理模式选择对照表.md](references/治理模式选择对照表.md)、[docs/完整说明书.md](docs/完整说明书.md) 与 [docs/语言体系规范.md](docs/语言体系规范.md)，把“运行态叠加模式”“开发回路 / 运营回路”“运行观察”等中文主叫法和开发/运营双治理判断正式写清，并明确运营信号不能直接改写开发真源、技能沉淀不能自动晋升。
 - 扩展 [SKILL.md](SKILL.md)、[references/经典治理流程库.md](references/经典治理流程库.md)、[references/输出约定.md](references/输出约定.md) 与 [README.md](README.md)，把 gate 失效收编为正式治理问题：补入 `route_gate -> evidence_gate -> write_gate -> stop_gate` 条件流程，并为正式输出增加“关口硬化方案”区块。
+- 扩展 [README.md](README.md)，把 `schemas/` 正式纳入仓库职责分工与阅读路径，使 JSON 合同草案不再是游离实现尝试。
+- 扩展 [SKILL.md](SKILL.md)、[references/结构家族定位约定.md](references/结构家族定位约定.md)、[references/官方读取顺序.md](references/官方读取顺序.md)、[references/跨层共享约定.md](references/跨层共享约定.md) 与 [references/输出约定.md](references/输出约定.md)，把“合同真源优先、共置不等于归属、`execution_object/status_projection/display_projection` 的写权边界”正式接入主流程与正式输出。
 
 ## v0.2.7 - 2026-03-25
 

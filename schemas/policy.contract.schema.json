@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://files-driven.dev/schemas/policy.contract.schema.json",
+  "title": "Policy Contract",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "policy_id",
+    "family",
+    "version_anchor",
+    "scope",
+    "rules"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "policy_id": {
+      "type": "string"
+    },
+    "family": {
+      "const": "policy_or_rules"
+    },
+    "version_anchor": {
+      "type": "string"
+    },
+    "risk_level": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ]
+    },
+    "scope": {
+      "type": "string",
+      "enum": [
+        "workflow",
+        "output",
+        "approval",
+        "rollback",
+        "generic"
+      ]
+    },
+    "applies_to_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "rules": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "rule_id",
+          "effect"
+        ],
+        "properties": {
+          "rule_id": {
+            "type": "string"
+          },
+          "effect": {
+            "type": "string",
+            "enum": [
+              "allow",
+              "deny",
+              "require_review",
+              "require_evidence",
+              "require_rollback"
+            ]
+          },
+          "condition_ref": {
+            "type": "string"
+          },
+          "target_refs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "default": []
+          },
+          "required_refs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "default": []
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}
