@@ -1,0 +1,281 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import argparse
+import json
+import sys
+from pathlib import Path
+
+
+REQUIRED_STATE_KEYS = {
+    "schema_version",
+    "run_id",
+    "workflow_id",
+    "contract_version",
+    "current_node_id",
+    "gate_state",
+    "required_evidence_refs",
+    "missing_evidence_refs",
+    "allowed_next_step_refs",
+    "forbidden_output_refs",
+    "updated_at",
+    "last_event_id",
+}
+
+REQUIRED_EVENT_KEYS = {
+    "schema_version",
+    "event_id",
+    "run_id",
+    "workflow_id",
+    "contract_version",
+    "timestamp",
+    "actor_id",
+    "event_type",
+    "subject_ref",
+    "state_after",
+}
+
+
+def load_json(path: Path) -> dict:
+    with path.open("r", encoding="utf-8") as handle:
+        return json.load(handle)
+
+
+def maybe_load(path: Path) -> dict | None:
+    if not path.exists():
+        return None
+    return load_json(path)
+
+
+def collect_object_contracts(root: Path) -> list[dict]:
+    schema_dir = root / "schemas"
+    if not schema_dir.exists():
+        return []
+    contracts = []
+    for path in sorted(schema_dir.glob("*.json")):
+        data = load_json(path)
+        if data.get("family") == "object":
+            contracts.append(data)
+    return contracts
+
+
+def collect_check_ids(workflow: dict) -> set[str]:
+    check_ids: set[str] = set()
+    for gate in ("route", "evidence", "write", "stop"):
+        for item in workflow.get("checks", {}).get(gate, []):
+            if isinstance(item, str):
+                check_ids.add(item)
+            elif isinstance(item, dict) and item.get("check_id"):
+                check_ids.add(item["check_id"])
+    return check_ids
+
+
+def object_ids(contracts: list[dict]) -> set[str]:
+    ids: set[str] = set()
+    for contract in contracts:
+        object_id = contract.get("object_id")
+        if object_id:
+            ids.add(object_id)
+    return ids
+
+
+def role_ids(agent_contract: dict | None) -> set[str]:
+    ids: set[str] = set()
+    if not agent_contract:
+        return ids
+    for role in agent_contract.get("roles", []):
+        role_id = role.get("role_id")
+        if role_id:
+            ids.add(role_id)
+    return ids
+
+
+def missing_ref(target: str, registry: set[str], label: str, errors: list[str]) -> None:
+    if target and target not in registry:
+        errors.append(f"{label}: missing target `{target}`")
+
+
+def validate_workflow_contract(
+    workflow: dict,
+    policy_ids: set[str],
+    object_refs: set[str],
+    agent_roles: set[str],
+    errors: list[str],
+    warnings: list[str],
+) -> tuple[set[str], set[str]]:
+    node_ids: set[str] = set()
+    transition_ids: set[str] = set()
+
+    for ref in workflow.get("policy_refs", []):
+        missing_ref(ref, policy_ids, "workflow.policy_refs", errors)
+    for ref in workflow.get("object_refs", []):
+        missing_ref(ref, object_refs, "workflow.object_refs", errors)
+
+    if workflow.get("agent_refs") and not agent_roles:
+        warnings.append("workflow.agent_refs present but no agent roles were loaded")
+    for ref in workflow.get("agent_refs", []):
+        if not agent_roles:
+            break
+        if ref not in agent_roles:
+            warnings.append(
+                f"workflow.agent_refs contains `{ref}`; current validator only knows role ids, so this may be a role/agent mismatch"
+            )
+
+    check_ids = collect_check_ids(workflow)
+
+    for node in workflow.get("nodes", []):
+        node_id = node.get("node_id")
+        if node_id:
+            node_ids.add(node_id)
+        for key in ("state_ref", "action_ref"):
+            missing_ref(node.get(key, ""), object_refs, f"node.{key}", errors)
+        for ref in node.get("evidence_refs", []):
+            missing_ref(ref, object_refs, "node.evidence_refs", errors)
+        for ref in node.get("output_policy_refs", []):
+            missing_ref(ref, policy_ids, "node.output_policy_refs", errors)
+        for ref in node.get("check_refs", []):
+            missing_ref(ref, check_ids, "node.check_refs", errors)
+        approver_ref = node.get("approver_ref")
+        if approver_ref and approver_ref not in object_refs and approver_ref not in agent_roles:
+            warnings.append(
+                f"node.approver_ref `{approver_ref}` unresolved; approval semantics are not fully frozen yet"
+            )
+
+    for transition in workflow.get("transitions", []):
+        transition_id = transition.get("transition_id")
+        if transition_id:
+            transition_ids.add(transition_id)
+        for ref in transition.get("guard_policy_refs", []):
+            missing_ref(ref, policy_ids, "transition.guard_policy_refs", errors)
+        for ref in transition.get("required_check_refs", []):
+            missing_ref(ref, check_ids, "transition.required_check_refs", errors)
+        approval_ref = transition.get("approval_ref")
+        if approval_ref and approval_ref not in object_refs and approval_ref not in agent_roles:
+            warnings.append(
+                f"transition.approval_ref `{approval_ref}` unresolved; approval semantics are not fully frozen yet"
+            )
+        from_node = transition.get("from_node")
+        to_node = transition.get("to_node")
+        if from_node and from_node not in node_ids:
+            errors.append(f"transition.from_node: missing node `{from_node}`")
+        if to_node and to_node not in node_ids:
+            errors.append(f"transition.to_node: missing node `{to_node}`")
+
+    return node_ids, transition_ids
+
+
+def validate_state(
+    state: dict | None,
+    workflow: dict,
+    node_ids: set[str],
+    errors: list[str],
+) -> None:
+    if not state:
+        return
+    missing = REQUIRED_STATE_KEYS.difference(state.keys())
+    for key in sorted(missing):
+        errors.append(f"workflow.state.json: missing required key `{key}`")
+    if state.get("workflow_id") != workflow.get("workflow_id"):
+        errors.append("workflow.state.json: workflow_id does not match workflow.contract.json")
+    current_node_id = state.get("current_node_id")
+    if current_node_id and current_node_id not in node_ids:
+        errors.append(f"workflow.state.json: current_node_id `{current_node_id}` not found in workflow nodes")
+
+
+def validate_events(
+    events_path: Path,
+    workflow: dict,
+    node_ids: set[str],
+    transition_ids: set[str],
+    errors: list[str],
+) -> None:
+    if not events_path.exists():
+        return
+    with events_path.open("r", encoding="utf-8") as handle:
+        for line_no, raw in enumerate(handle, start=1):
+            raw = raw.strip()
+            if not raw:
+                continue
+            try:
+                event = json.loads(raw)
+            except json.JSONDecodeError as exc:
+                errors.append(f"workflow.events.jsonl:{line_no}: invalid JSON ({exc})")
+                continue
+            missing = REQUIRED_EVENT_KEYS.difference(event.keys())
+            for key in sorted(missing):
+                errors.append(f"workflow.events.jsonl:{line_no}: missing required key `{key}`")
+            if event.get("workflow_id") != workflow.get("workflow_id"):
+                errors.append(f"workflow.events.jsonl:{line_no}: workflow_id mismatch")
+            state_after = event.get("state_after", {})
+            current_node_id = state_after.get("current_node_id")
+            if current_node_id and current_node_id not in node_ids:
+                errors.append(
+                    f"workflow.events.jsonl:{line_no}: state_after.current_node_id `{current_node_id}` not found"
+                )
+            subject_ref = event.get("subject_ref", "")
+            if subject_ref and subject_ref not in node_ids and subject_ref not in transition_ids:
+                # P0 only validates node/transition refs. Evidence/policy refs stay to contract checks.
+                errors.append(
+                    f"workflow.events.jsonl:{line_no}: subject_ref `{subject_ref}` not found in node/transition ids"
+                )
+
+
+def validate_markdown_tokens(root: Path, warnings: list[str]) -> None:
+    workflow_md = root / "WORKFLOW.md"
+    if not workflow_md.exists():
+        return
+    text = workflow_md.read_text(encoding="utf-8")
+    for token in ("entry gate", "transition gate", "entry/transition/stop"):
+        if token in text:
+            warnings.append(
+                f"WORKFLOW.md contains legacy gate token `{token}`; prefer route/evidence/write/stop canonical terms"
+            )
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(
+        description="Validate files-driven governance assets for ref integrity and minimal instance consistency."
+    )
+    parser.add_argument("root", type=Path, help="Root directory of a governance asset pack")
+    args = parser.parse_args()
+
+    root = args.root.resolve()
+    workflow = maybe_load(root / "workflow.contract.json")
+    if not workflow:
+        print("error: workflow.contract.json not found", file=sys.stderr)
+        return 1
+
+    policy = maybe_load(root / "rules.contract.json")
+    agent = maybe_load(root / "agent.contract.json")
+    state = maybe_load(root / "workflow.state.json")
+    object_contracts = collect_object_contracts(root)
+
+    errors: list[str] = []
+    warnings: list[str] = []
+
+    policy_ids = {policy["policy_id"]} if policy and policy.get("policy_id") else set()
+    object_ref_ids = object_ids(object_contracts)
+    agent_role_ids = role_ids(agent)
+
+    node_ids, transition_ids = validate_workflow_contract(
+        workflow,
+        policy_ids,
+        object_ref_ids,
+        agent_role_ids,
+        errors,
+        warnings,
+    )
+    validate_state(state, workflow, node_ids, errors)
+    validate_events(root / "workflow.events.jsonl", workflow, node_ids, transition_ids, errors)
+    validate_markdown_tokens(root, warnings)
+
+    for warning in warnings:
+        print(f"warning: {warning}", file=sys.stderr)
+    for error in errors:
+        print(f"error: {error}", file=sys.stderr)
+
+    return 1 if errors else 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

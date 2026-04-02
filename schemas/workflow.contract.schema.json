@@ -191,19 +191,27 @@
     "checks": {
       "type": "object",
       "required": [
-        "entry",
-        "transition",
+        "route",
+        "evidence",
+        "write",
         "stop"
       ],
       "properties": {
-        "entry": {
+        "route": {
           "type": "array",
           "items": {
             "type": "string"
           },
           "default": []
         },
-        "transition": {
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "write": {
           "type": "array",
           "items": {
             "type": "string"

@@ -39,6 +39,7 @@
 - 扩展 [SKILL.md](SKILL.md)、[references/经典治理流程库.md](references/经典治理流程库.md)、[references/输出约定.md](references/输出约定.md) 与 [README.md](README.md)，把 gate 失效收编为正式治理问题：补入 `route_gate -> evidence_gate -> write_gate -> stop_gate` 条件流程，并为正式输出增加“关口硬化方案”区块。
 - 扩展 [README.md](README.md)，把 `schemas/` 正式纳入仓库职责分工与阅读路径，使 JSON 合同草案不再是游离实现尝试。
 - 扩展 [SKILL.md](SKILL.md)、[references/结构家族定位约定.md](references/结构家族定位约定.md)、[references/官方读取顺序.md](references/官方读取顺序.md)、[references/跨层共享约定.md](references/跨层共享约定.md) 与 [references/输出约定.md](references/输出约定.md)，把“合同真源优先、共置不等于归属、`execution_object/status_projection/display_projection` 的写权边界”正式接入主流程与正式输出。
+- 新增 [docs/治理能力模型_v1_下一阶段执行计划.md](docs/治理能力模型_v1_下一阶段执行计划.md)、[workflow.state.schema.json](schemas/workflow.state.schema.json)、[workflow.event.schema.json](schemas/workflow.event.schema.json) 与 [scripts/validate_governance_assets.py](scripts/validate_governance_assets.py)，把下一阶段的 P0 主链正式落到实例 schema、`checks` 协议和最小 validator 骨架。
 
 ## v0.2.7 - 2026-03-25
 
