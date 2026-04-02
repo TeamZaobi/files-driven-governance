@@ -35,10 +35,37 @@ REQUIRED_EVENT_KEYS = {
     "state_after",
 }
 
+REQUIRED_STATUS_PROJECTION_KEYS = {
+    "schema_version",
+    "projection_id",
+    "family",
+    "workflow_id",
+    "run_id",
+    "contract_version",
+    "source_last_event_id",
+    "current_node_id",
+    "gate_state",
+    "missing_evidence_refs",
+    "forbidden_output_refs",
+    "summary",
+    "generated_at",
+}
+
 GATE_STATES = {
     "blocked",
     "partial",
     "ready",
+}
+
+FORBIDDEN_STATUS_PROJECTION_KEYS = {
+    "allowed_next_step_refs",
+    "approval_ref",
+    "approver_ref",
+    "guard_policy_refs",
+    "output_policy_refs",
+    "required_check_refs",
+    "release_decision",
+    "next_step",
 }
 
 
@@ -300,6 +327,83 @@ def validate_events(
                 )
 
 
+def compare_ref_lists(label: str, actual: list[str], expected: list[str], errors: list[str]) -> None:
+    if sorted(actual) != sorted(expected):
+        errors.append(
+            f"{label}: expected {sorted(expected)}, got {sorted(actual)}"
+        )
+
+
+def validate_status_projection(
+    projection: dict | None,
+    state: dict | None,
+    workflow: dict,
+    node_ids: set[str],
+    errors: list[str],
+) -> None:
+    if not projection:
+        return
+    if not state:
+        errors.append("status.projection.json requires workflow.state.json to exist")
+        return
+
+    missing = REQUIRED_STATUS_PROJECTION_KEYS.difference(projection.keys())
+    for key in sorted(missing):
+        errors.append(f"status.projection.json: missing required key `{key}`")
+
+    forbidden = set(projection.keys()).intersection(FORBIDDEN_STATUS_PROJECTION_KEYS)
+    for key in sorted(forbidden):
+        errors.append(
+            f"status.projection.json: forbidden authority key `{key}`; projections must stay derived and read-only"
+        )
+
+    extra_keys = set(projection.keys()).difference(REQUIRED_STATUS_PROJECTION_KEYS)
+    for key in sorted(extra_keys):
+        errors.append(
+            f"status.projection.json: unexpected key `{key}`; keep the projection minimal and derived"
+        )
+
+    if projection.get("family") != "status_projection":
+        errors.append("status.projection.json: family must be `status_projection`")
+    if projection.get("workflow_id") != workflow.get("workflow_id"):
+        errors.append("status.projection.json: workflow_id mismatch")
+    if projection.get("workflow_id") != state.get("workflow_id"):
+        errors.append("status.projection.json: workflow_id does not match workflow.state.json")
+    if projection.get("run_id") != state.get("run_id"):
+        errors.append("status.projection.json: run_id does not match workflow.state.json")
+    if projection.get("contract_version") != state.get("contract_version"):
+        errors.append("status.projection.json: contract_version does not match workflow.state.json")
+    if projection.get("source_last_event_id") != state.get("last_event_id"):
+        errors.append("status.projection.json: source_last_event_id does not match workflow.state.json")
+
+    current_node_id = projection.get("current_node_id")
+    if current_node_id and current_node_id not in node_ids:
+        errors.append(f"status.projection.json: current_node_id `{current_node_id}` not found in workflow nodes")
+    if current_node_id != state.get("current_node_id"):
+        errors.append("status.projection.json: current_node_id does not match workflow.state.json")
+
+    gate_state = projection.get("gate_state")
+    if gate_state and gate_state not in GATE_STATES:
+        errors.append(
+            f"status.projection.json: gate_state `{gate_state}` must be one of {sorted(GATE_STATES)}"
+        )
+    if gate_state != state.get("gate_state"):
+        errors.append("status.projection.json: gate_state does not match workflow.state.json")
+
+    compare_ref_lists(
+        "status.projection.json: missing_evidence_refs",
+        projection.get("missing_evidence_refs", []),
+        state.get("missing_evidence_refs", []),
+        errors,
+    )
+    compare_ref_lists(
+        "status.projection.json: forbidden_output_refs",
+        projection.get("forbidden_output_refs", []),
+        state.get("forbidden_output_refs", []),
+        errors,
+    )
+
+
 def validate_markdown_tokens(root: Path, warnings: list[str]) -> None:
     workflow_md = root / "WORKFLOW.md"
     if not workflow_md.exists():
@@ -328,6 +432,7 @@ def main() -> int:
     policy = maybe_load(root / "rules.contract.json")
     agent = maybe_load(root / "agent.contract.json")
     state = maybe_load(root / "workflow.state.json")
+    status_projection = maybe_load(root / "status.projection.json")
     object_contracts = collect_object_contracts(root)
 
     errors: list[str] = []
@@ -351,6 +456,7 @@ def main() -> int:
     )
     validate_state(state, workflow, node_ids, errors)
     validate_events(root / "workflow.events.jsonl", workflow, node_ids, transition_ids, errors)
+    validate_status_projection(status_projection, state, workflow, node_ids, errors)
     validate_markdown_tokens(root, warnings)
 
     for warning in warnings:

@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://files-driven.dev/schemas/status.projection.schema.json",
+  "title": "Status Projection",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "projection_id",
+    "family",
+    "workflow_id",
+    "run_id",
+    "contract_version",
+    "derived_from",
+    "current_node_id",
+    "gate_state",
+    "missing_evidence_refs",
+    "allowed_next_step_refs",
+    "forbidden_output_refs",
+    "summary"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "projection_id": {
+      "type": "string"
+    },
+    "family": {
+      "const": "status_projection"
+    },
+    "workflow_id": {
+      "type": "string"
+    },
+    "run_id": {
+      "type": "string"
+    },
+    "contract_version": {
+      "type": "string"
+    },
+    "derived_from": {
+      "type": "object",
+      "required": [
+        "state_ref",
+        "last_event_id",
+        "state_updated_at"
+      ],
+      "properties": {
+        "state_ref": {
+          "type": "string"
+        },
+        "last_event_id": {
+          "type": "string"
+        },
+        "state_updated_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": false
+    },
+    "current_node_id": {
+      "type": "string"
+    },
+    "gate_state": {
+      "type": "string",
+      "enum": [
+        "blocked",
+        "partial",
+        "ready"
+      ]
+    },
+    "summary": {
+      "type": "string",
+      "description": "Derived status summary only. It must not redefine allowed next steps or release decisions."
+    },
+    "missing_evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "allowed_next_step_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "forbidden_output_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "handoff_items": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    }
+  },
+  "additionalProperties": false
+}

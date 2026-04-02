@@ -13,6 +13,7 @@
 4. `agent.contract.schema.json`
 5. `workflow.state.schema.json`
 6. `workflow.event.schema.json`
+7. `status.projection.schema.json`
 
 术语冻结：
 
@@ -32,6 +33,9 @@
    - `workflow.state.json`
    - `workflow.events.jsonl`
    - 本目录里的 schema 文件名：`workflow.state.schema.json`、`workflow.event.schema.json`
+6. `status_projection` 家族在项目里的 canonical 最小机读资产可叫：
+   - `status.projection.json`
+   - 本目录里的 schema 文件名：`status.projection.schema.json`
 
 这里的 schema 文件名描述的是“本仓库里的 schema 草案”，
 不是要求项目实例必须逐字照搬同名文件。
@@ -49,6 +53,8 @@
    - 其中 `gate_state` 的 canonical 最小枚举固定为 `blocked / partial / ready`
 6. `workflow.event.schema.json` 负责 `workflow.events.jsonl` 中单条事件的最小结构
    - 事件流复用同一组 `gate_state` 最小枚举，不承担运行生命周期扩词
+7. `status.projection.schema.json` 负责最小机读状态投影
+   - 它只允许携带派生状态、阻断线索和来源锚点，不允许携带新的放行字段
 
 重要边界：
 
@@ -61,6 +67,8 @@
 7. `node.approver_ref` 指向 `agent.contract.json` 里的 `roles[].role_id`
 8. `transition.approval_ref` 指向 `object` 家族中 `kind = approval_type` 的对象定义
 9. 只要 transition 声明了 `approval_ref`，相邻节点的 `approver_ref` 就应能通过对应 role 的 `can_approve_refs` 覆盖它
+10. `status.projection.json` 只允许复述 `current_node_id / gate_state / missing_evidence_refs / forbidden_output_refs / summary` 之类派生信息
+11. `status.projection.json` 不得持有 `approver_ref`、`approval_ref`、`guard_policy_refs`、自由文本 `next_step` 或任何新的放行字段
 
 使用原则：
 
@@ -74,4 +82,4 @@
 - 它们还是 v1 草案
 - 主要目标是冻结最小字段和引用关系
 - 还没有取代现有 reference 的解释职责
-- 这一轮已补最小实例 schema、gate/approval 语义冻结和最小 validator 骨架
+- 这一轮已补最小实例 schema、`status_projection` 机读限制、gate/approval 语义冻结，以及可跑的 smoke validator 链路
