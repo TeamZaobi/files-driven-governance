@@ -34,7 +34,13 @@
       "type": "string"
     },
     "gate_state": {
-      "type": "string"
+      "type": "string",
+      "description": "Canonical minimal gate state. Use lifecycle/event fields for running or rollback outcomes instead of extending this enum.",
+      "enum": [
+        "blocked",
+        "partial",
+        "ready"
+      ]
     },
     "required_evidence_refs": {
       "type": "array",

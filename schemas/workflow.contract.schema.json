@@ -128,7 +128,8 @@
             "default": []
           },
           "approver_ref": {
-            "type": "string"
+            "type": "string",
+            "description": "Agent role id from agent.contract.json that is allowed to review or approve this node before downstream release."
           },
           "notes_ref": {
             "type": "string"
@@ -172,7 +173,8 @@
             "default": []
           },
           "approval_ref": {
-            "type": "string"
+            "type": "string",
+            "description": "Object id of kind approval_type that defines the approval artifact or requirement gating this transition."
           },
           "required_check_refs": {
             "type": "array",

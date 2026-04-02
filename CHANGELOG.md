@@ -13,6 +13,7 @@
 - 新增 [references/关口硬化与稳定放行.md](references/关口硬化与稳定放行.md)，把“该停没停、该问没问、`partial / blocked` 无法约束下游”正式收编成可复用的治理问题，并提供最小稳定解。
 - 新增 [docs/项目治理能力模型_v1.md](docs/项目治理能力模型_v1.md)，把本轮重构对象正式上提为“项目治理设计能力”，而不只是一轮仓库文案调整。
 - 新增 [schemas/README.md](schemas/README.md) 与四份 schema 草案： [workflow.contract.schema.json](schemas/workflow.contract.schema.json)、[object.contract.schema.json](schemas/object.contract.schema.json)、[policy.contract.schema.json](schemas/policy.contract.schema.json)、[agent.contract.schema.json](schemas/agent.contract.schema.json)。
+- 新增 `gate_state` 的 canonical 三态冻结：在 [workflow.state.schema.json](schemas/workflow.state.schema.json)、[workflow.event.schema.json](schemas/workflow.event.schema.json) 与 [references/关口硬化与稳定放行.md](references/关口硬化与稳定放行.md) 中把最小枚举正式收口为 `blocked / partial / ready`。
 
 ### 调整
 
@@ -40,6 +41,7 @@
 - 扩展 [README.md](README.md)，把 `schemas/` 正式纳入仓库职责分工与阅读路径，使 JSON 合同草案不再是游离实现尝试。
 - 扩展 [SKILL.md](SKILL.md)、[references/结构家族定位约定.md](references/结构家族定位约定.md)、[references/官方读取顺序.md](references/官方读取顺序.md)、[references/跨层共享约定.md](references/跨层共享约定.md) 与 [references/输出约定.md](references/输出约定.md)，把“合同真源优先、共置不等于归属、`execution_object/status_projection/display_projection` 的写权边界”正式接入主流程与正式输出。
 - 新增 [docs/治理能力模型_v1_下一阶段执行计划.md](docs/治理能力模型_v1_下一阶段执行计划.md)、[workflow.state.schema.json](schemas/workflow.state.schema.json)、[workflow.event.schema.json](schemas/workflow.event.schema.json) 与 [scripts/validate_governance_assets.py](scripts/validate_governance_assets.py)，把下一阶段的 P0 主链正式落到实例 schema、`checks` 协议和最小 validator 骨架。
+- 在 [workflow.contract.schema.json](schemas/workflow.contract.schema.json)、[schemas/README.md](schemas/README.md)、[docs/项目治理能力模型_v1.md](docs/项目治理能力模型_v1.md) 与 [scripts/validate_governance_assets.py](scripts/validate_governance_assets.py) 中冻结 approval 语义：`node.approver_ref` 指向 agent role，`transition.approval_ref` 指向 `approval_type` object，并把 validator 从“未冻结警告”升级为最小强校验。
 
 ## v0.2.7 - 2026-03-25
 

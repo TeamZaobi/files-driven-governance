@@ -46,7 +46,9 @@
 3. `policy.contract.schema.json` 负责跨 workflow 的规则、风险和限制
 4. `agent.contract.schema.json` 负责执行、复核、批准与回退权限矩阵
 5. `workflow.state.schema.json` 负责当前运行实例的最小结构
+   - 其中 `gate_state` 的 canonical 最小枚举固定为 `blocked / partial / ready`
 6. `workflow.event.schema.json` 负责 `workflow.events.jsonl` 中单条事件的最小结构
+   - 事件流复用同一组 `gate_state` 最小枚举，不承担运行生命周期扩词
 
 重要边界：
 
@@ -56,6 +58,9 @@
 4. `WORKFLOW.md` 是解释层，`workflow.contract.json` 才是受控模式下的机读控制真源
 5. workflow 顶层 `checks` 只声明 `route / evidence / write / stop` 四类 gate 的检查入口，不授予放行权
 6. check 只返回观测结果、证据缺口或阻断信号；合法转移仍由 workflow contract + rules contract 决定
+7. `node.approver_ref` 指向 `agent.contract.json` 里的 `roles[].role_id`
+8. `transition.approval_ref` 指向 `object` 家族中 `kind = approval_type` 的对象定义
+9. 只要 transition 声明了 `approval_ref`，相邻节点的 `approver_ref` 就应能通过对应 role 的 `can_approve_refs` 覆盖它
 
 使用原则：
 
@@ -69,4 +74,4 @@
 - 它们还是 v1 草案
 - 主要目标是冻结最小字段和引用关系
 - 还没有取代现有 reference 的解释职责
-- 这一轮已开始补最小实例 schema 与引用完整性校验骨架
+- 这一轮已补最小实例 schema、gate/approval 语义冻结和最小 validator 骨架

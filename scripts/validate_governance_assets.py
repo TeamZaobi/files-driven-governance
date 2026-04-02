@@ -35,6 +35,12 @@ REQUIRED_EVENT_KEYS = {
     "state_after",
 }
 
+GATE_STATES = {
+    "blocked",
+    "partial",
+    "ready",
+}
+
 
 def load_json(path: Path) -> dict:
     with path.open("r", encoding="utf-8") as handle:
@@ -79,6 +85,15 @@ def object_ids(contracts: list[dict]) -> set[str]:
     return ids
 
 
+def object_kinds(contracts: list[dict]) -> dict[str, str]:
+    registry: dict[str, str] = {}
+    for contract in contracts:
+        object_id = contract.get("object_id")
+        if object_id:
+            registry[object_id] = contract.get("kind", "generic")
+    return registry
+
+
 def role_ids(agent_contract: dict | None) -> set[str]:
     ids: set[str] = set()
     if not agent_contract:
@@ -90,21 +105,54 @@ def role_ids(agent_contract: dict | None) -> set[str]:
     return ids
 
 
+def role_approval_refs(agent_contract: dict | None) -> dict[str, set[str]]:
+    approvals: dict[str, set[str]] = {}
+    if not agent_contract:
+        return approvals
+    for role in agent_contract.get("roles", []):
+        role_id = role.get("role_id")
+        if role_id:
+            approvals[role_id] = set(role.get("can_approve_refs", []))
+    return approvals
+
+
 def missing_ref(target: str, registry: set[str], label: str, errors: list[str]) -> None:
     if target and target not in registry:
         errors.append(f"{label}: missing target `{target}`")
+
+
+def expect_object_kind(
+    target: str,
+    object_kinds: dict[str, str],
+    expected_kind: str,
+    label: str,
+    errors: list[str],
+) -> None:
+    if not target:
+        return
+    actual_kind = object_kinds.get(target)
+    if actual_kind is None:
+        errors.append(f"{label}: missing target `{target}`")
+        return
+    if actual_kind != expected_kind:
+        errors.append(
+            f"{label}: kind mismatch for `{target}` (expected `{expected_kind}`, got `{actual_kind}`)"
+        )
 
 
 def validate_workflow_contract(
     workflow: dict,
     policy_ids: set[str],
     object_refs: set[str],
+    object_kind_registry: dict[str, str],
     agent_roles: set[str],
+    role_approval_registry: dict[str, set[str]],
     errors: list[str],
     warnings: list[str],
 ) -> tuple[set[str], set[str]]:
     node_ids: set[str] = set()
     transition_ids: set[str] = set()
+    node_approvers: dict[str, str] = {}
 
     for ref in workflow.get("policy_refs", []):
         missing_ref(ref, policy_ids, "workflow.policy_refs", errors)
@@ -136,10 +184,9 @@ def validate_workflow_contract(
         for ref in node.get("check_refs", []):
             missing_ref(ref, check_ids, "node.check_refs", errors)
         approver_ref = node.get("approver_ref")
-        if approver_ref and approver_ref not in object_refs and approver_ref not in agent_roles:
-            warnings.append(
-                f"node.approver_ref `{approver_ref}` unresolved; approval semantics are not fully frozen yet"
-            )
+        missing_ref(approver_ref, agent_roles, "node.approver_ref", errors)
+        if node_id and approver_ref:
+            node_approvers[node_id] = approver_ref
 
     for transition in workflow.get("transitions", []):
         transition_id = transition.get("transition_id")
@@ -150,16 +197,39 @@ def validate_workflow_contract(
         for ref in transition.get("required_check_refs", []):
             missing_ref(ref, check_ids, "transition.required_check_refs", errors)
         approval_ref = transition.get("approval_ref")
-        if approval_ref and approval_ref not in object_refs and approval_ref not in agent_roles:
-            warnings.append(
-                f"transition.approval_ref `{approval_ref}` unresolved; approval semantics are not fully frozen yet"
-            )
+        expect_object_kind(
+            approval_ref,
+            object_kind_registry,
+            "approval_type",
+            "transition.approval_ref",
+            errors,
+        )
         from_node = transition.get("from_node")
         to_node = transition.get("to_node")
         if from_node and from_node not in node_ids:
             errors.append(f"transition.from_node: missing node `{from_node}`")
         if to_node and to_node not in node_ids:
             errors.append(f"transition.to_node: missing node `{to_node}`")
+        if approval_ref:
+            adjacent_approvers = {
+                role
+                for role in (
+                    node_approvers.get(from_node, ""),
+                    node_approvers.get(to_node, ""),
+                )
+                if role
+            }
+            if not adjacent_approvers:
+                errors.append(
+                    f"transition.approval_ref `{approval_ref}` has no adjacent node.approver_ref coverage"
+                )
+            elif not any(
+                approval_ref in role_approval_registry.get(role_id, set())
+                for role_id in adjacent_approvers
+            ):
+                errors.append(
+                    f"transition.approval_ref `{approval_ref}` not covered by adjacent approver roles {sorted(adjacent_approvers)}"
+                )
 
     return node_ids, transition_ids
 
@@ -180,6 +250,11 @@ def validate_state(
     current_node_id = state.get("current_node_id")
     if current_node_id and current_node_id not in node_ids:
         errors.append(f"workflow.state.json: current_node_id `{current_node_id}` not found in workflow nodes")
+    gate_state = state.get("gate_state")
+    if gate_state and gate_state not in GATE_STATES:
+        errors.append(
+            f"workflow.state.json: gate_state `{gate_state}` must be one of {sorted(GATE_STATES)}"
+        )
 
 
 def validate_events(
@@ -211,6 +286,11 @@ def validate_events(
             if current_node_id and current_node_id not in node_ids:
                 errors.append(
                     f"workflow.events.jsonl:{line_no}: state_after.current_node_id `{current_node_id}` not found"
+                )
+            gate_state = state_after.get("gate_state")
+            if gate_state and gate_state not in GATE_STATES:
+                errors.append(
+                    f"workflow.events.jsonl:{line_no}: state_after.gate_state `{gate_state}` must be one of {sorted(GATE_STATES)}"
                 )
             subject_ref = event.get("subject_ref", "")
             if subject_ref and subject_ref not in node_ids and subject_ref not in transition_ids:
@@ -255,13 +335,17 @@ def main() -> int:
 
     policy_ids = {policy["policy_id"]} if policy and policy.get("policy_id") else set()
     object_ref_ids = object_ids(object_contracts)
+    object_kind_registry = object_kinds(object_contracts)
     agent_role_ids = role_ids(agent)
+    role_approval_registry = role_approval_refs(agent)
 
     node_ids, transition_ids = validate_workflow_contract(
         workflow,
         policy_ids,
         object_ref_ids,
+        object_kind_registry,
         agent_role_ids,
+        role_approval_registry,
         errors,
         warnings,
     )

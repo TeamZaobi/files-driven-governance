@@ -69,7 +69,13 @@
           "type": "string"
         },
         "gate_state": {
-          "type": "string"
+          "type": "string",
+          "description": "Canonical minimal gate state after this event.",
+          "enum": [
+            "blocked",
+            "partial",
+            "ready"
+          ]
         },
         "missing_evidence_refs": {
           "type": "array",
