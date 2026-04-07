@@ -12,6 +12,7 @@
 - 新增开发/运营并存治理的显式表达：在 [references/经典治理流程库.md](references/经典治理流程库.md) 中补入“运营信号分流”和“运行观察晋升关口”两条条件流程，在 [references/输出约定.md](references/输出约定.md) 中补入“开发/运营双治理结构”条件区块。
 - 新增 [references/关口硬化与稳定放行.md](references/关口硬化与稳定放行.md)，把“该停没停、该问没问、`partial / blocked` 无法约束下游”正式收编成可复用的治理问题，并提供最小稳定解。
 - 新增 [docs/项目治理能力模型_v1.md](docs/项目治理能力模型_v1.md)，把本轮重构对象正式上提为“项目治理设计能力”，而不只是一轮仓库文案调整。
+- 新增 [docs/分支推进决策流程.md](docs/分支推进决策流程.md)，把 `main` 与 `codex/governance-capability-v1` 的职责、门槛和推进顺序正式写清。
 - 新增 [schemas/README.md](schemas/README.md) 与四份 schema 草案： [workflow.contract.schema.json](schemas/workflow.contract.schema.json)、[object.contract.schema.json](schemas/object.contract.schema.json)、[policy.contract.schema.json](schemas/policy.contract.schema.json)、[agent.contract.schema.json](schemas/agent.contract.schema.json)。
 - 新增 `gate_state` 的 canonical 三态冻结：在 [workflow.state.schema.json](schemas/workflow.state.schema.json)、[workflow.event.schema.json](schemas/workflow.event.schema.json) 与 [references/关口硬化与稳定放行.md](references/关口硬化与稳定放行.md) 中把最小枚举正式收口为 `blocked / partial / ready`。
 - 新增 [schemas/status.projection.schema.json](schemas/status.projection.schema.json)，把 `status_projection` 的最小机读结构和“只能派生、不能放行”的边界正式写成 schema。
