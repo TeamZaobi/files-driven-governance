@@ -5,6 +5,7 @@
 *.swo
 *.tmp
 Thumbs.db
+__pycache__/
 
 # Local-only research, planning, and worklog artifacts
 /.internal/

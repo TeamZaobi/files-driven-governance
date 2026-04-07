@@ -1,0 +1,222 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://files-driven.dev/schemas/workflow.contract.schema.json",
+  "title": "Workflow Contract",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "workflow_id",
+    "family",
+    "governance_level",
+    "execution_mode",
+    "version_anchor",
+    "entry_intents",
+    "nodes",
+    "transitions",
+    "checks"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "workflow_id": {
+      "type": "string"
+    },
+    "family": {
+      "const": "workflow"
+    },
+    "governance_level": {
+      "type": "string",
+      "enum": [
+        "light",
+        "controlled"
+      ]
+    },
+    "execution_mode": {
+      "type": "string",
+      "enum": [
+        "advisory",
+        "gated"
+      ]
+    },
+    "version_anchor": {
+      "type": "string"
+    },
+    "explanation_ref": {
+      "type": "string"
+    },
+    "policy_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "object_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "agent_refs": {
+      "type": "array",
+      "description": "Top-level agent ids from agent.contract.json.agent_id that participate in this workflow. Use node.approver_ref for role ids.",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "entry_intents": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "intent_id",
+          "entry_node"
+        ],
+        "properties": {
+          "intent_id": {
+            "type": "string"
+          },
+          "entry_node": {
+            "type": "string"
+          },
+          "aliases": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "default": []
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "nodes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "node_id",
+          "state_ref",
+          "action_ref"
+        ],
+        "properties": {
+          "node_id": {
+            "type": "string"
+          },
+          "state_ref": {
+            "type": "string"
+          },
+          "action_ref": {
+            "type": "string"
+          },
+          "evidence_refs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "default": []
+          },
+          "output_policy_refs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "default": []
+          },
+          "approver_ref": {
+            "type": "string",
+            "description": "Agent role id from agent.contract.json that is allowed to review or approve this node before downstream release."
+          },
+          "notes_ref": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "transitions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "transition_id",
+          "from_node",
+          "to_node"
+        ],
+        "properties": {
+          "transition_id": {
+            "type": "string"
+          },
+          "from_node": {
+            "type": "string"
+          },
+          "to_node": {
+            "type": "string"
+          },
+          "guard_policy_refs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "default": []
+          },
+          "approval_ref": {
+            "type": "string",
+            "description": "Object id of kind approval_type that defines the approval artifact or requirement gating this transition."
+          },
+          "rollback_to": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "checks": {
+      "type": "object",
+      "required": [
+        "route",
+        "evidence",
+        "write",
+        "stop"
+      ],
+      "properties": {
+        "route": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "write": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "stop": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

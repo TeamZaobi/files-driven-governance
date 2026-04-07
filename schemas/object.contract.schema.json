@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://files-driven.dev/schemas/object.contract.schema.json",
+  "title": "Object Contract",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "object_id",
+    "family",
+    "version_anchor",
+    "kind",
+    "fields"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "object_id": {
+      "type": "string"
+    },
+    "family": {
+      "const": "object"
+    },
+    "version_anchor": {
+      "type": "string"
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "state_profile",
+        "action_class",
+        "evidence_type",
+        "output_type",
+        "approval_type",
+        "generic"
+      ]
+    },
+    "fields": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "field_id",
+          "type"
+        ],
+        "properties": {
+          "field_id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "required": {
+            "type": "boolean",
+            "default": false
+          },
+          "enum": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "ref": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "semantics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "value",
+          "meaning"
+        ],
+        "properties": {
+          "value": {
+            "type": "string"
+          },
+          "meaning": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "default": []
+    },
+    "allowed_values": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    }
+  },
+  "additionalProperties": false
+}

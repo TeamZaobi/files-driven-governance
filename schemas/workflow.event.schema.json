@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://files-driven.dev/schemas/workflow.event.schema.json",
+  "title": "Workflow Event",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "event_id",
+    "run_id",
+    "workflow_id",
+    "contract_version",
+    "timestamp",
+    "actor_id",
+    "event_type",
+    "subject_ref",
+    "state_after"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "event_id": {
+      "type": "string"
+    },
+    "run_id": {
+      "type": "string"
+    },
+    "workflow_id": {
+      "type": "string"
+    },
+    "contract_version": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "actor_id": {
+      "type": "string"
+    },
+    "event_type": {
+      "type": "string"
+    },
+    "subject_ref": {
+      "type": "string",
+      "description": "In v1 this must point to a workflow node_id or transition_id, not an object/policy/approval ref."
+    },
+    "reason_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "artifact_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "state_after": {
+      "type": "object",
+      "required": [
+        "current_node_id",
+        "gate_state"
+      ],
+      "properties": {
+        "current_node_id": {
+          "type": "string"
+        },
+        "gate_state": {
+          "type": "string",
+          "description": "Canonical minimal gate state after this event.",
+          "enum": [
+            "blocked",
+            "partial",
+            "ready"
+          ]
+        },
+        "missing_evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

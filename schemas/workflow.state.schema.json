@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://files-driven.dev/schemas/workflow.state.schema.json",
+  "title": "Workflow State",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "run_id",
+    "workflow_id",
+    "contract_version",
+    "current_node_id",
+    "gate_state",
+    "required_evidence_refs",
+    "missing_evidence_refs",
+    "allowed_next_step_refs",
+    "forbidden_output_refs",
+    "updated_at",
+    "last_event_id"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "run_id": {
+      "type": "string"
+    },
+    "workflow_id": {
+      "type": "string"
+    },
+    "contract_version": {
+      "type": "string"
+    },
+    "current_node_id": {
+      "type": "string"
+    },
+    "gate_state": {
+      "type": "string",
+      "description": "Canonical minimal gate state. Use lifecycle/event fields for running or rollback outcomes instead of extending this enum.",
+      "enum": [
+        "blocked",
+        "partial",
+        "ready"
+      ]
+    },
+    "required_evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "missing_evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "allowed_next_step_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "forbidden_output_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "last_event_id": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

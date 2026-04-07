@@ -11,6 +11,17 @@
 - 新增 [docs/语言体系规范.md](docs/语言体系规范.md)，把“中文优先、必要时补稳定键名”正式写成仓库级语言规范，用来约束后续 README、技能说明和参考件的写法。
 - 新增开发/运营并存治理的显式表达：在 [references/经典治理流程库.md](references/经典治理流程库.md) 中补入“运营信号分流”和“运行观察晋升关口”两条条件流程，在 [references/输出约定.md](references/输出约定.md) 中补入“开发/运营双治理结构”条件区块。
 - 新增 [references/关口硬化与稳定放行.md](references/关口硬化与稳定放行.md)，把“该停没停、该问没问、`partial / blocked` 无法约束下游”正式收编成可复用的治理问题，并提供最小稳定解。
+- 新增 [docs/项目治理能力模型_v1.md](docs/项目治理能力模型_v1.md)，把本轮重构对象正式上提为“项目治理设计能力”，而不只是一轮仓库文案调整。
+- 新增 [docs/分支推进决策流程.md](docs/分支推进决策流程.md)，把 `main` 与 `codex/governance-capability-v1` 的职责、门槛和推进顺序正式写清。
+- 新增 [schemas/README.md](schemas/README.md) 与四份 schema 草案： [workflow.contract.schema.json](schemas/workflow.contract.schema.json)、[object.contract.schema.json](schemas/object.contract.schema.json)、[policy.contract.schema.json](schemas/policy.contract.schema.json)、[agent.contract.schema.json](schemas/agent.contract.schema.json)。
+- 新增 `gate_state` 的 canonical 三态冻结：在 [workflow.state.schema.json](schemas/workflow.state.schema.json)、[workflow.event.schema.json](schemas/workflow.event.schema.json) 与 [references/关口硬化与稳定放行.md](references/关口硬化与稳定放行.md) 中把最小枚举正式收口为 `blocked / partial / ready`。
+- 新增 [schemas/status.projection.schema.json](schemas/status.projection.schema.json)，把 `status_projection` 的最小机读结构和“只能派生、不能放行”的边界正式写成 schema。
+- 新增 [examples/smoke-governed-review](examples/smoke-governed-review)，把当前最小治理链做成可跑 smoke 资产包。
+- 新增 [QUICKSTART.md](QUICKSTART.md)，把 governed pack 的最小入口、目录形状和 validator 用法收进入口层。
+- 新增 [MIGRATION.md](MIGRATION.md)，说明从旧的 `schemas/*.json` / `statement` / 局部 check refs 迁到当前约定的步骤。
+- 新增 [tests/test_validate_governance_assets.py](tests/test_validate_governance_assets.py)，把 smoke pack、authority key、rules、event actor、重复 event 与 legacy 兼容等关键边界固化成最小回归集。
+- 新增 [governance-assets-ci.yml](.github/workflows/governance-assets-ci.yml)，把 JSON 语法检查、validator smoke run 和最小单元测试接入 GitHub Actions。
+- 新增 [requirements-dev.txt](requirements-dev.txt)，把 validator 和测试所需的最小 Python 依赖显式化。
 
 ### 调整
 
@@ -35,6 +46,18 @@
 - 将研究过程留痕、计划账本和内部案例材料下沉到本地忽略区，公开树只保留可发布的技能、参考件和说明文档。
 - 扩展 [SKILL.md](SKILL.md)、[references/治理模式选择对照表.md](references/治理模式选择对照表.md)、[docs/完整说明书.md](docs/完整说明书.md) 与 [docs/语言体系规范.md](docs/语言体系规范.md)，把“运行态叠加模式”“开发回路 / 运营回路”“运行观察”等中文主叫法和开发/运营双治理判断正式写清，并明确运营信号不能直接改写开发真源、技能沉淀不能自动晋升。
 - 扩展 [SKILL.md](SKILL.md)、[references/经典治理流程库.md](references/经典治理流程库.md)、[references/输出约定.md](references/输出约定.md) 与 [README.md](README.md)，把 gate 失效收编为正式治理问题：补入 `route_gate -> evidence_gate -> write_gate -> stop_gate` 条件流程，并为正式输出增加“关口硬化方案”区块。
+- 扩展 [README.md](README.md)，把 `schemas/` 正式纳入仓库职责分工与阅读路径，使 JSON 合同草案不再是游离实现尝试。
+- 扩展 [SKILL.md](SKILL.md)、[references/结构家族定位约定.md](references/结构家族定位约定.md)、[references/官方读取顺序.md](references/官方读取顺序.md)、[references/跨层共享约定.md](references/跨层共享约定.md) 与 [references/输出约定.md](references/输出约定.md)，把“合同真源优先、共置不等于归属、`execution_object/status_projection/display_projection` 的写权边界”正式接入主流程与正式输出。
+- 新增 [docs/治理能力模型_v1_下一阶段执行计划.md](docs/治理能力模型_v1_下一阶段执行计划.md)、[workflow.state.schema.json](schemas/workflow.state.schema.json)、[workflow.event.schema.json](schemas/workflow.event.schema.json) 与 [scripts/validate_governance_assets.py](scripts/validate_governance_assets.py)，把下一阶段的 P0 主链正式落到实例 schema、`checks` 协议和最小 validator 骨架。
+- 在 [workflow.contract.schema.json](schemas/workflow.contract.schema.json)、[schemas/README.md](schemas/README.md)、[docs/项目治理能力模型_v1.md](docs/项目治理能力模型_v1.md) 与 [scripts/validate_governance_assets.py](scripts/validate_governance_assets.py) 中冻结 approval 语义：`node.approver_ref` 指向 agent role，`transition.approval_ref` 指向 `approval_type` object，并把 validator 从“未冻结警告”升级为最小强校验。
+- 在 [schemas/README.md](schemas/README.md)、[docs/项目治理能力模型_v1.md](docs/项目治理能力模型_v1.md)、[docs/治理能力模型_v1_下一阶段执行计划.md](docs/治理能力模型_v1_下一阶段执行计划.md) 与 [scripts/validate_governance_assets.py](scripts/validate_governance_assets.py) 中补入 `status_projection` 的最小技术限制，并把 smoke asset pack 升成下一条直接执行线。
+- 继续收口 governed pack 的入口边界：将 project-level object 资产从 `schemas/*.json` 调整为 `objects/*.json`，并在 [README.md](README.md)、[schemas/README.md](schemas/README.md)、[docs/项目治理能力模型_v1.md](docs/项目治理能力模型_v1.md) 与 smoke pack 中同步更新。
+- 将 workflow 的 `checks` 收口为 v1 的唯一注册面：保留 workflow 顶层 `checks.route/evidence/write/stop`，删除 node / transition 层重复 check refs。
+- 调整 [scripts/validate_governance_assets.py](scripts/validate_governance_assets.py) 的 pack 入口语义：显式使用 `pack_root`，优先读取 `objects/`，补最小 policy/event 校验，并为 legacy `schemas/` 布局保留兼容 warning。
+- 继续收紧 pack 合同语义：`workflow.agent_refs` 固定指向 `agent.contract.json.agent_id`，`node.approver_ref` 继续指向 `roles[].role_id`，`workflow.events.jsonl.subject_ref` 固定为 `node_id / transition_id`。
+- 调整 [scripts/validate_governance_assets.py](scripts/validate_governance_assets.py) 与 CI，使 pack 文件开始执行真实 schema 校验，不再只依赖 JSON 语法和语义 smoke。
+- 继续收紧 [scripts/validate_governance_assets.py](scripts/validate_governance_assets.py) 的 schema enforcement：补入 `date-time` format 检查，并为 `generated_at / timestamp` 增加对应回归测试。
+- 调整 [docs/分支推进决策流程.md](docs/分支推进决策流程.md)，去掉会快速过期的硬编码提交数，改成以实时 Git 命令结果为准。
 
 ## v0.2.7 - 2026-03-25
 

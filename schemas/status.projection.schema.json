@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://files-driven.dev/schemas/status.projection.schema.json",
+  "title": "Status Projection",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "projection_id",
+    "family",
+    "workflow_id",
+    "run_id",
+    "contract_version",
+    "source_last_event_id",
+    "current_node_id",
+    "gate_state",
+    "missing_evidence_refs",
+    "forbidden_output_refs",
+    "summary",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "projection_id": {
+      "type": "string"
+    },
+    "family": {
+      "const": "status_projection"
+    },
+    "workflow_id": {
+      "type": "string"
+    },
+    "run_id": {
+      "type": "string"
+    },
+    "contract_version": {
+      "type": "string"
+    },
+    "source_last_event_id": {
+      "type": "string",
+      "description": "Anchor to the latest workflow event consumed by this derived projection."
+    },
+    "current_node_id": {
+      "type": "string"
+    },
+    "gate_state": {
+      "type": "string",
+      "enum": [
+        "blocked",
+        "partial",
+        "ready"
+      ]
+    },
+    "summary": {
+      "type": "string",
+      "description": "Derived status summary only. It must not redefine allowed next steps or release decisions."
+    },
+    "missing_evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "forbidden_output_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": []
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the projection was derived from workflow state."
+    }
+  },
+  "additionalProperties": false
+}

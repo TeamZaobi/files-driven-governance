@@ -1,0 +1,52 @@
+name: Governance Assets CI
+
+on:
+  push:
+    branches:
+      - main
+      - codex/governance-capability-v1
+  pull_request:
+
+jobs:
+  validate-governance-assets:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dev dependencies
+        run: python3 -m pip install -r requirements-dev.txt
+
+      - name: Check JSON syntax
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          roots = [
+              Path("schemas"),
+              Path("examples/smoke-governed-review"),
+          ]
+          for root in roots:
+              for path in sorted(root.rglob("*.json")):
+                  json.loads(path.read_text(encoding="utf-8"))
+              for path in sorted(root.rglob("*.jsonl")):
+                  for line_no, raw in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
+                      if raw.strip():
+                          json.loads(raw)
+          PY
+
+      - name: Compile validator
+        run: python3 -m py_compile scripts/validate_governance_assets.py
+
+      - name: Validate smoke pack
+        run: python3 scripts/validate_governance_assets.py examples/smoke-governed-review
+
+      - name: Run unit tests
+        run: python3 -m unittest discover -s tests -p 'test_*.py'

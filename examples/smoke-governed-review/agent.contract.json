@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "agent_id": "agent.review",
+  "family": "agent",
+  "version_anchor": "v1",
+  "roles": [
+    {
+      "role_id": "role.reviewer",
+      "can_execute_refs": [
+        "action.review"
+      ],
+      "can_review_refs": [
+        "action.review"
+      ],
+      "can_approve_refs": [
+        "approval.human.review"
+      ],
+      "blocked_action_refs": [
+        "output.publish.review"
+      ]
+    }
+  ]
+}
