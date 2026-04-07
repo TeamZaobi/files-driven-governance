@@ -21,6 +21,7 @@
 - 新增 [MIGRATION.md](MIGRATION.md)，说明从旧的 `schemas/*.json` / `statement` / 局部 check refs 迁到当前约定的步骤。
 - 新增 [tests/test_validate_governance_assets.py](tests/test_validate_governance_assets.py)，把 smoke pack、authority key、rules、event actor、重复 event 与 legacy 兼容等关键边界固化成最小回归集。
 - 新增 [governance-assets-ci.yml](.github/workflows/governance-assets-ci.yml)，把 JSON 语法检查、validator smoke run 和最小单元测试接入 GitHub Actions。
+- 新增 [requirements-dev.txt](requirements-dev.txt)，把 validator 和测试所需的最小 Python 依赖显式化。
 
 ### 调整
 
@@ -53,6 +54,8 @@
 - 继续收口 governed pack 的入口边界：将 project-level object 资产从 `schemas/*.json` 调整为 `objects/*.json`，并在 [README.md](README.md)、[schemas/README.md](schemas/README.md)、[docs/项目治理能力模型_v1.md](docs/项目治理能力模型_v1.md) 与 smoke pack 中同步更新。
 - 将 workflow 的 `checks` 收口为 v1 的唯一注册面：保留 workflow 顶层 `checks.route/evidence/write/stop`，删除 node / transition 层重复 check refs。
 - 调整 [scripts/validate_governance_assets.py](scripts/validate_governance_assets.py) 的 pack 入口语义：显式使用 `pack_root`，优先读取 `objects/`，补最小 policy/event 校验，并为 legacy `schemas/` 布局保留兼容 warning。
+- 继续收紧 pack 合同语义：`workflow.agent_refs` 固定指向 `agent.contract.json.agent_id`，`node.approver_ref` 继续指向 `roles[].role_id`，`workflow.events.jsonl.subject_ref` 固定为 `node_id / transition_id`。
+- 调整 [scripts/validate_governance_assets.py](scripts/validate_governance_assets.py) 与 CI，使 pack 文件开始执行真实 schema 校验，不再只依赖 JSON 语法和语义 smoke。
 
 ## v0.2.7 - 2026-03-25
 

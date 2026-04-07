@@ -61,6 +61,7 @@
     },
     "agent_refs": {
       "type": "array",
+      "description": "Top-level agent ids from agent.contract.json.agent_id that participate in this workflow. Use node.approver_ref for role ids.",
       "items": {
         "type": "string"
       },

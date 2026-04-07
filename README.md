@@ -229,6 +229,9 @@ flowchart LR
 - `workflow.state.json` 与 `workflow.events.jsonl` 是运行实例
 - 可选 `status.projection.json` 只做派生摘要
 - workflow 顶层 `checks.route/evidence/write/stop` 是 v1 唯一 check 注册面
+- `agent_refs` 指向 `agent.contract.json` 的顶层 `agent_id`
+- `approver_ref` 指向 `roles[].role_id`
+- `workflow.events.jsonl.subject_ref` 在 v1 只指向 `node_id / transition_id`
 
 要特别区分两层 `schemas` 语义：
 
@@ -241,6 +244,7 @@ validator 也按这个边界工作：
 - 它读取 `pack_root/workflow.contract.json`
 - 它优先读取 `pack_root/objects/*.json`
 - 旧的 `pack_root/schemas/*.json` 只做兼容 warning，不再是首选布局
+- 它会对 pack 文件执行真实 schema 校验；本地运行前先安装 [requirements-dev.txt](/Users/jixiaokang/.agents/skills/files-driven/requirements-dev.txt)
 
 当前仓库还附带两层最小验证面：
 

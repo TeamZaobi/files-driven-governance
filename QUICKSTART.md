@@ -9,6 +9,12 @@
 3. workflow 顶层 `checks.route/evidence/write/stop` 是 v1 唯一 check 注册面。
 4. validator 的参数是 `pack_root`，应指向一个具体 pack 目录。
 
+运行本地校验前，先安装最小开发依赖：
+
+```bash
+python3 -m pip install -r requirements-dev.txt
+```
+
 ## 2. 最小 pack 形状
 
 最小可跑形状建议如下：
@@ -36,6 +42,8 @@ your-pack/
 
 1. 先写 `workflow.contract.json`
    - 定义节点、转移、`policy_refs`、`object_refs`、`agent_refs`
+   - `agent_refs` 指向 `agent.contract.json` 的顶层 `agent_id`
+   - `approver_ref` 另行指向 `roles[].role_id`
    - 顶层 `checks` 只按 `route / evidence / write / stop` 分段
 2. 再写 `objects/*.json`
    - 至少补齐 `state_ref / action_ref / evidence_refs / approval_ref` 要引用到的对象
@@ -45,6 +53,7 @@ your-pack/
 4. 最后写运行实例
    - `workflow.state.json`
    - `workflow.events.jsonl`
+   - 其中 event 的 `subject_ref` 在 v1 只指向 `node_id / transition_id`
    - 可选 `status.projection.json`
 
 ## 4. 运行 validator

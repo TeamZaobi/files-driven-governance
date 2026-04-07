@@ -77,6 +77,32 @@ class ValidateGovernanceAssetsCliTests(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("rules[1] missing required key `effect`", result.stderr)
 
+    def test_workflow_contract_missing_checks_fails_schema(self) -> None:
+        pack_root = self.make_pack()
+        workflow_path = pack_root / "workflow.contract.json"
+        workflow = self.read_json(workflow_path)
+        workflow.pop("checks", None)
+        self.write_json(workflow_path, workflow)
+
+        result = self.run_validator(pack_root)
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("workflow.contract.json: schema violation", result.stderr)
+        self.assertIn("'checks' is a required property", result.stderr)
+
+    def test_object_contract_missing_kind_fails_schema(self) -> None:
+        pack_root = self.make_pack()
+        object_path = pack_root / "objects" / "state.review.partial.json"
+        object_contract = self.read_json(object_path)
+        object_contract.pop("kind", None)
+        self.write_json(object_path, object_contract)
+
+        result = self.run_validator(pack_root)
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("objects/state.review.partial.json: schema violation", result.stderr)
+        self.assertIn("'kind' is a required property", result.stderr)
+
     def test_duplicate_event_id_fails(self) -> None:
         pack_root = self.make_pack()
         events_path = pack_root / "workflow.events.jsonl"
@@ -103,6 +129,18 @@ class ValidateGovernanceAssetsCliTests(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("actor_id `agent.unknown` not found", result.stderr)
 
+    def test_unknown_agent_ref_fails(self) -> None:
+        pack_root = self.make_pack()
+        workflow_path = pack_root / "workflow.contract.json"
+        workflow = self.read_json(workflow_path)
+        workflow["agent_refs"] = ["agent.unknown"]
+        self.write_json(workflow_path, workflow)
+
+        result = self.run_validator(pack_root)
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("workflow.agent_refs: missing target `agent.unknown`", result.stderr)
+
     def test_node_transition_id_collision_fails(self) -> None:
         pack_root = self.make_pack()
         workflow_path = pack_root / "workflow.contract.json"
@@ -114,6 +152,18 @@ class ValidateGovernanceAssetsCliTests(unittest.TestCase):
 
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("node_ids and transition_ids must not overlap", result.stderr)
+
+    def test_event_subject_ref_must_stay_on_node_or_transition(self) -> None:
+        pack_root = self.make_pack()
+        events_path = pack_root / "workflow.events.jsonl"
+        events = self.read_events(events_path)
+        events[0]["subject_ref"] = "evidence.review.note"
+        self.write_events(events_path, events)
+
+        result = self.run_validator(pack_root)
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("subject_ref `evidence.review.note` not found in node/transition ids", result.stderr)
 
     def test_legacy_schemas_directory_warns_but_passes(self) -> None:
         pack_root = self.make_pack()

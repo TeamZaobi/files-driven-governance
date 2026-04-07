@@ -42,7 +42,8 @@
       "type": "string"
     },
     "subject_ref": {
-      "type": "string"
+      "type": "string",
+      "description": "In v1 this must point to a workflow node_id or transition_id, not an object/policy/approval ref."
     },
     "reason_refs": {
       "type": "array",

@@ -16,7 +16,7 @@
     "output.publish.review"
   ],
   "agent_refs": [
-    "role.reviewer"
+    "agent.review"
   ],
   "entry_intents": [
     {

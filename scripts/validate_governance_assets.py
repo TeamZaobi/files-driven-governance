@@ -2,12 +2,20 @@
 from __future__ import annotations
 
 import argparse
+import functools
 import json
 import sys
 from pathlib import Path
 
+try:
+    from jsonschema import Draft202012Validator
+except ImportError:  # pragma: no cover - exercised through CLI in tests
+    Draft202012Validator = None
+
 # Schemas remain the source of field shape. This validator focuses on
 # cross-file semantics, pack hygiene, and a small compatibility surface.
+
+SCHEMA_ROOT = Path(__file__).resolve().parents[1] / "schemas"
 
 
 REQUIRED_STATE_KEYS = {
@@ -111,6 +119,39 @@ def object_contract_paths(directory: Path) -> list[Path]:
     return sorted(directory.glob("*.json"))
 
 
+@functools.lru_cache(maxsize=None)
+def schema_validator(schema_filename: str) -> Draft202012Validator:
+    if Draft202012Validator is None:
+        raise RuntimeError("jsonschema package is required to validate governance packs")
+    schema = load_json(SCHEMA_ROOT / schema_filename)
+    return Draft202012Validator(schema)
+
+
+def format_schema_path(path: list[object]) -> str:
+    if not path:
+        return "$"
+    buffer = "$"
+    for item in path:
+        if isinstance(item, int):
+            buffer += f"[{item}]"
+        else:
+            buffer += f".{item}"
+    return buffer
+
+
+def validate_against_schema(
+    instance: dict,
+    schema_filename: str,
+    label: str,
+    errors: list[str],
+) -> None:
+    validator = schema_validator(schema_filename)
+    for issue in sorted(validator.iter_errors(instance), key=lambda err: list(err.absolute_path)):
+        errors.append(
+            f"{label}: schema violation at {format_schema_path(list(issue.absolute_path))}: {issue.message}"
+        )
+
+
 def ensure_pack_directory(directory: Path, pack_root: Path, label: str, errors: list[str]) -> bool:
     if not directory.exists():
         return False
@@ -140,6 +181,7 @@ def collect_object_contracts(root: Path, warnings: list[str], errors: list[str])
                 errors.append(f"objects/: symlink files are not allowed (`{path.name}`)")
                 continue
             data = load_json(path)
+            validate_against_schema(data, "object.contract.schema.json", f"objects/{path.name}", errors)
             if data.get("family") == "object":
                 contracts.append(data)
         legacy_contracts = []
@@ -149,6 +191,7 @@ def collect_object_contracts(root: Path, warnings: list[str], errors: list[str])
                     errors.append(f"schemas/: symlink files are not allowed (`{path.name}`)")
                     continue
                 data = load_json(path)
+                validate_against_schema(data, "object.contract.schema.json", f"schemas/{path.name}", errors)
                 if data.get("family") == "object":
                     legacy_contracts.append(path.name)
         if legacy_contracts:
@@ -168,6 +211,7 @@ def collect_object_contracts(root: Path, warnings: list[str], errors: list[str])
             errors.append(f"schemas/: symlink files are not allowed (`{path.name}`)")
             continue
         data = load_json(path)
+        validate_against_schema(data, "object.contract.schema.json", f"schemas/{path.name}", errors)
         if data.get("family") == "object":
             contracts.append(data)
     if contracts:
@@ -222,6 +266,13 @@ def actor_ids(agent_contract: dict | None) -> set[str]:
     return ids
 
 
+def contract_agent_ids(agent_contract: dict | None) -> set[str]:
+    ids: set[str] = set()
+    if agent_contract and agent_contract.get("agent_id"):
+        ids.add(agent_contract["agent_id"])
+    return ids
+
+
 def missing_ref(target: str, registry: set[str], label: str, errors: list[str]) -> None:
     if target and target not in registry:
         errors.append(f"{label}: missing target `{target}`")
@@ -251,10 +302,10 @@ def validate_workflow_contract(
     policy_ids: set[str],
     object_refs: set[str],
     object_kind_registry: dict[str, str],
+    contract_agent_ids: set[str],
     agent_roles: set[str],
     role_approval_registry: dict[str, set[str]],
     errors: list[str],
-    warnings: list[str],
 ) -> tuple[set[str], set[str]]:
     node_ids: set[str] = set()
     transition_ids: set[str] = set()
@@ -265,15 +316,12 @@ def validate_workflow_contract(
     for ref in workflow.get("object_refs", []):
         missing_ref(ref, object_refs, "workflow.object_refs", errors)
 
-    if workflow.get("agent_refs") and not agent_roles:
-        warnings.append("workflow.agent_refs present but no agent roles were loaded")
+    if workflow.get("agent_refs") and not contract_agent_ids:
+        errors.append("workflow.agent_refs present but no agent.contract.json agent_id was loaded")
     for ref in workflow.get("agent_refs", []):
-        if not agent_roles:
+        if not contract_agent_ids:
             break
-        if ref not in agent_roles:
-            warnings.append(
-                f"workflow.agent_refs contains `{ref}`; current validator only knows role ids, so this may be a role/agent mismatch"
-            )
+        missing_ref(ref, contract_agent_ids, "workflow.agent_refs", errors)
 
     for node in workflow.get("nodes", []):
         node_id = node.get("node_id")
@@ -344,6 +392,8 @@ def validate_policy_contract(policy: dict | None, errors: list[str]) -> None:
     if not policy:
         return
 
+    validate_against_schema(policy, "policy.contract.schema.json", "rules.contract.json", errors)
+
     missing = REQUIRED_POLICY_KEYS.difference(policy.keys())
     for key in sorted(missing):
         errors.append(f"rules.contract.json: missing required key `{key}`")
@@ -370,6 +420,7 @@ def validate_state(
 ) -> None:
     if not state:
         return
+    validate_against_schema(state, "workflow.state.schema.json", "workflow.state.json", errors)
     missing = REQUIRED_STATE_KEYS.difference(state.keys())
     for key in sorted(missing):
         errors.append(f"workflow.state.json: missing required key `{key}`")
@@ -407,6 +458,12 @@ def validate_events(
             except json.JSONDecodeError as exc:
                 errors.append(f"workflow.events.jsonl:{line_no}: invalid JSON ({exc})")
                 continue
+            validate_against_schema(
+                event,
+                "workflow.event.schema.json",
+                f"workflow.events.jsonl:{line_no}",
+                errors,
+            )
             missing = REQUIRED_EVENT_KEYS.difference(event.keys())
             for key in sorted(missing):
                 errors.append(f"workflow.events.jsonl:{line_no}: missing required key `{key}`")
@@ -439,7 +496,6 @@ def validate_events(
                 )
             subject_ref = event.get("subject_ref", "")
             if subject_ref and subject_ref not in node_ids and subject_ref not in transition_ids:
-                # P0 only validates node/transition refs. Evidence/policy refs stay to contract checks.
                 errors.append(
                     f"workflow.events.jsonl:{line_no}: subject_ref `{subject_ref}` not found in node/transition ids"
                 )
@@ -465,6 +521,13 @@ def validate_status_projection(
     if not state:
         errors.append("status.projection.json requires workflow.state.json to exist")
         return
+
+    validate_against_schema(
+        projection,
+        "status.projection.schema.json",
+        "status.projection.json",
+        errors,
+    )
 
     missing = REQUIRED_STATUS_PROJECTION_KEYS.difference(projection.keys())
     for key in sorted(missing):
@@ -536,6 +599,13 @@ def validate_markdown_tokens(root: Path, warnings: list[str]) -> None:
 
 
 def main() -> int:
+    if Draft202012Validator is None:
+        print(
+            "error: jsonschema package is required; install it with `python3 -m pip install -r requirements-dev.txt`",
+            file=sys.stderr,
+        )
+        return 2
+
     parser = argparse.ArgumentParser(
         description="Validate a files-driven governance asset pack for ref integrity and minimal instance consistency."
     )
@@ -556,9 +626,19 @@ def main() -> int:
     status_projection = maybe_load(pack_root / "status.projection.json")
     object_contracts = collect_object_contracts(pack_root, warnings, errors)
 
+    validate_against_schema(
+        workflow,
+        "workflow.contract.schema.json",
+        "workflow.contract.json",
+        errors,
+    )
+    if agent:
+        validate_against_schema(agent, "agent.contract.schema.json", "agent.contract.json", errors)
+
     policy_ids = {policy["policy_id"]} if policy and policy.get("policy_id") else set()
     object_ref_ids = object_ids(object_contracts)
     object_kind_registry = object_kinds(object_contracts)
+    agent_contract_ids = contract_agent_ids(agent)
     agent_role_ids = role_ids(agent)
     valid_actor_ids = actor_ids(agent)
     role_approval_registry = role_approval_refs(agent)
@@ -569,10 +649,10 @@ def main() -> int:
         policy_ids,
         object_ref_ids,
         object_kind_registry,
+        agent_contract_ids,
         agent_role_ids,
         role_approval_registry,
         errors,
-        warnings,
     )
     validate_state(state, workflow, node_ids, errors)
     event_ids = validate_events(

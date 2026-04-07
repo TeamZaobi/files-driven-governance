@@ -4,12 +4,14 @@
 
 ## 1. 这次迁移改了什么
 
-当前 tranche 有 4 个实质变化：
+当前 tranche 有 6 个实质变化：
 
 1. project-level object 合同目录从 `schemas/*.json` 迁到 `objects/*.json`
 2. `rules.contract.json` 的 rule 形态从自由 `statement` 收口到带 `effect` 的结构化规则
 3. workflow 不再在 node / transition 层重复登记 checks，只保留顶层 `checks.route/evidence/write/stop`
 4. `status.projection.json` 使用扁平来源锚点 `source_last_event_id / generated_at`，不再使用 `derived_from`
+5. `workflow.agent_refs` 固定指向 `agent.contract.json` 的顶层 `agent_id`
+6. `workflow.events.jsonl` 的 `subject_ref` 在 v1 固定指向 `node_id / transition_id`
 
 ## 2. 迁移顺序
 
@@ -28,7 +30,11 @@
    - 去掉 `derived_from`
    - 改成 `source_last_event_id / generated_at`
    - 不再携带 `allowed_next_step_refs`
-5. 运行 validator
+5. 迁 agent / event 语义
+   - `agent_refs` 不再写 role id，改写顶层 `agent_id`
+   - `approver_ref` 继续写 `roles[].role_id`
+   - `workflow.events.jsonl.subject_ref` 只保留 `node_id / transition_id`
+6. 安装依赖并运行 validator
 
 ## 3. 旧字段到新字段
 
@@ -94,6 +100,27 @@ pack/
 - `generated_at`
 - 只保留派生摘要字段
 
+### 3.5 agent refs
+
+旧：
+
+- `agent_refs` 里混写 agent id / role id
+
+新：
+
+- `agent_refs` 只写 `agent.contract.json.agent_id`
+- `approver_ref` 只写 `roles[].role_id`
+
+### 3.6 event subject_ref
+
+旧：
+
+- `subject_ref` 可能混写节点、转移、证据或其他对象 ref
+
+新：
+
+- `subject_ref` 在 v1 只写 `node_id / transition_id`
+
 ## 4. validator 的兼容策略
 
 当前 validator 仍保留一层轻兼容：
@@ -101,6 +128,8 @@ pack/
 1. 如果 pack 里还在用 `schemas/*.json`，会给 warning，并尽量继续读取
 2. 但 `rules.contract.json` 的旧 `statement` 形态不会再被视为合规
 3. `status.projection.json` 的旧 `derived_from` 形态也不会再通过
+4. `agent_refs` 如果继续写 role id，会报错
+5. `subject_ref` 如果继续写 object ref，会报错
 
 也就是说：
 
@@ -112,6 +141,7 @@ pack/
 至少跑一次：
 
 ```bash
+python3 -m pip install -r requirements-dev.txt
 python3 scripts/validate_governance_assets.py /abs/path/to/pack
 ```
 

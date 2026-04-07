@@ -58,18 +58,20 @@
 
 重要边界：
 
-1. `workflow` 合同只引用对象、规则和角色，不应自己发明它们的语义
+1. `workflow` 合同只引用对象、规则和 agent/role 边界，不应自己发明它们的语义
 2. `workflow.state.json` 与 `workflow.events.jsonl` 属于 `execution_object`，不是 workflow 家族真源
 3. `checks/` 属于 `skill` 或工具适配执行面，不等于 workflow 自己持有放行权
 4. `WORKFLOW.md` 是解释层，`workflow.contract.json` 才是受控模式下的机读控制真源
 5. workflow 顶层 `checks` 是 v1 最小模型里的唯一检查注册面，只声明 `route / evidence / write / stop` 四类 gate 的检查入口，不授予放行权
 6. check 只返回观测结果、证据缺口或阻断信号；合法转移仍由 workflow contract + rules contract 决定
-7. `node.approver_ref` 指向 `agent.contract.json` 里的 `roles[].role_id`
-8. `transition.approval_ref` 指向 `object` 家族中 `kind = approval_type` 的对象定义
-9. 只要 transition 声明了 `approval_ref`，相邻节点的 `approver_ref` 就应能通过对应 role 的 `can_approve_refs` 覆盖它
-10. `status.projection.json` 只允许复述 `current_node_id / gate_state / missing_evidence_refs / forbidden_output_refs / summary` 一类派生信息
+7. `workflow.agent_refs` 指向 `agent.contract.json` 的顶层 `agent_id`
+8. `node.approver_ref` 指向 `agent.contract.json` 里的 `roles[].role_id`
+9. `transition.approval_ref` 指向 `object` 家族中 `kind = approval_type` 的对象定义
+10. 只要 transition 声明了 `approval_ref`，相邻节点的 `approver_ref` 就应能通过对应 role 的 `can_approve_refs` 覆盖它
+11. `workflow.events.jsonl.subject_ref` 在 v1 只允许引用 `node_id / transition_id`
+12. `status.projection.json` 只允许复述 `current_node_id / gate_state / missing_evidence_refs / forbidden_output_refs / summary` 一类派生信息
     - 并应携带 `source_last_event_id / generated_at` 作为来源锚点
-11. `status.projection.json` 不得持有 `approver_ref`、`approval_ref`、`guard_policy_refs`、自由文本 `next_step` 或任何新的放行字段
+13. `status.projection.json` 不得持有 `approver_ref`、`approval_ref`、`guard_policy_refs`、自由文本 `next_step` 或任何新的放行字段
 
 使用原则：
 
@@ -83,4 +85,4 @@
 - 它们还是 v1 草案
 - 主要目标是冻结最小字段和引用关系
 - 还没有取代现有 reference 的解释职责
-- 这一轮已补最小实例 schema、`status_projection` 机读限制、gate/approval 语义冻结，以及可跑的 smoke validator 链路
+- 这一轮已补最小实例 schema、`status_projection` 机读限制、gate/approval 语义冻结、真实 schema 校验，以及可跑的 smoke validator 链路
