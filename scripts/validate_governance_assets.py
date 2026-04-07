@@ -6,6 +6,9 @@ import json
 import sys
 from pathlib import Path
 
+# Schemas remain the source of field shape. This validator focuses on
+# cross-file semantics, pack hygiene, and a small compatibility surface.
+
 
 REQUIRED_STATE_KEYS = {
     "schema_version",
@@ -51,6 +54,28 @@ REQUIRED_STATUS_PROJECTION_KEYS = {
     "generated_at",
 }
 
+REQUIRED_POLICY_KEYS = {
+    "schema_version",
+    "policy_id",
+    "family",
+    "version_anchor",
+    "scope",
+    "rules",
+}
+
+REQUIRED_POLICY_RULE_KEYS = {
+    "rule_id",
+    "effect",
+}
+
+POLICY_EFFECTS = {
+    "allow",
+    "deny",
+    "require_review",
+    "require_evidence",
+    "require_rollback",
+}
+
 GATE_STATES = {
     "blocked",
     "partial",
@@ -80,27 +105,74 @@ def maybe_load(path: Path) -> dict | None:
     return load_json(path)
 
 
-def collect_object_contracts(root: Path) -> list[dict]:
-    schema_dir = root / "schemas"
-    if not schema_dir.exists():
+def object_contract_paths(directory: Path) -> list[Path]:
+    if not directory.exists():
         return []
+    return sorted(directory.glob("*.json"))
+
+
+def ensure_pack_directory(directory: Path, pack_root: Path, label: str, errors: list[str]) -> bool:
+    if not directory.exists():
+        return False
+    if directory.is_symlink():
+        errors.append(f"{label}: symlink directories are not allowed")
+        return False
+    try:
+        resolved = directory.resolve()
+    except OSError as exc:
+        errors.append(f"{label}: failed to resolve directory ({exc})")
+        return False
+    try:
+        resolved.relative_to(pack_root)
+    except ValueError:
+        errors.append(f"{label}: resolved path `{resolved}` escapes pack_root `{pack_root}`")
+        return False
+    return True
+
+
+def collect_object_contracts(root: Path, warnings: list[str], errors: list[str]) -> list[dict]:
+    object_dir = root / "objects"
+    legacy_dir = root / "schemas"
+    if ensure_pack_directory(object_dir, root, "objects/", errors):
+        contracts = []
+        for path in object_contract_paths(object_dir):
+            if path.is_symlink():
+                errors.append(f"objects/: symlink files are not allowed (`{path.name}`)")
+                continue
+            data = load_json(path)
+            if data.get("family") == "object":
+                contracts.append(data)
+        legacy_contracts = []
+        if ensure_pack_directory(legacy_dir, root, "schemas/", errors):
+            for path in object_contract_paths(legacy_dir):
+                if path.is_symlink():
+                    errors.append(f"schemas/: symlink files are not allowed (`{path.name}`)")
+                    continue
+                data = load_json(path)
+                if data.get("family") == "object":
+                    legacy_contracts.append(path.name)
+        if legacy_contracts:
+            warnings.append(
+                f"legacy object contracts under schemas/ were ignored; move them to objects/ ({', '.join(sorted(legacy_contracts))})"
+            )
+        return contracts
+
+    if not legacy_dir.exists():
+        return []
+    if not ensure_pack_directory(legacy_dir, root, "schemas/", errors):
+        return []
+
     contracts = []
-    for path in sorted(schema_dir.glob("*.json")):
+    for path in object_contract_paths(legacy_dir):
+        if path.is_symlink():
+            errors.append(f"schemas/: symlink files are not allowed (`{path.name}`)")
+            continue
         data = load_json(path)
         if data.get("family") == "object":
             contracts.append(data)
+    if contracts:
+        warnings.append("object contracts loaded from legacy schemas/ directory; prefer objects/")
     return contracts
-
-
-def collect_check_ids(workflow: dict) -> set[str]:
-    check_ids: set[str] = set()
-    for gate in ("route", "evidence", "write", "stop"):
-        for item in workflow.get("checks", {}).get(gate, []):
-            if isinstance(item, str):
-                check_ids.add(item)
-            elif isinstance(item, dict) and item.get("check_id"):
-                check_ids.add(item["check_id"])
-    return check_ids
 
 
 def object_ids(contracts: list[dict]) -> set[str]:
@@ -141,6 +213,13 @@ def role_approval_refs(agent_contract: dict | None) -> dict[str, set[str]]:
         if role_id:
             approvals[role_id] = set(role.get("can_approve_refs", []))
     return approvals
+
+
+def actor_ids(agent_contract: dict | None) -> set[str]:
+    ids = role_ids(agent_contract)
+    if agent_contract and agent_contract.get("agent_id"):
+        ids.add(agent_contract["agent_id"])
+    return ids
 
 
 def missing_ref(target: str, registry: set[str], label: str, errors: list[str]) -> None:
@@ -196,8 +275,6 @@ def validate_workflow_contract(
                 f"workflow.agent_refs contains `{ref}`; current validator only knows role ids, so this may be a role/agent mismatch"
             )
 
-    check_ids = collect_check_ids(workflow)
-
     for node in workflow.get("nodes", []):
         node_id = node.get("node_id")
         if node_id:
@@ -208,8 +285,6 @@ def validate_workflow_contract(
             missing_ref(ref, object_refs, "node.evidence_refs", errors)
         for ref in node.get("output_policy_refs", []):
             missing_ref(ref, policy_ids, "node.output_policy_refs", errors)
-        for ref in node.get("check_refs", []):
-            missing_ref(ref, check_ids, "node.check_refs", errors)
         approver_ref = node.get("approver_ref")
         missing_ref(approver_ref, agent_roles, "node.approver_ref", errors)
         if node_id and approver_ref:
@@ -221,8 +296,6 @@ def validate_workflow_contract(
             transition_ids.add(transition_id)
         for ref in transition.get("guard_policy_refs", []):
             missing_ref(ref, policy_ids, "transition.guard_policy_refs", errors)
-        for ref in transition.get("required_check_refs", []):
-            missing_ref(ref, check_ids, "transition.required_check_refs", errors)
         approval_ref = transition.get("approval_ref")
         expect_object_kind(
             approval_ref,
@@ -258,7 +331,35 @@ def validate_workflow_contract(
                     f"transition.approval_ref `{approval_ref}` not covered by adjacent approver roles {sorted(adjacent_approvers)}"
                 )
 
+    colliding_ids = node_ids.intersection(transition_ids)
+    if colliding_ids:
+        errors.append(
+            f"workflow contract: node_ids and transition_ids must not overlap ({sorted(colliding_ids)})"
+        )
+
     return node_ids, transition_ids
+
+
+def validate_policy_contract(policy: dict | None, errors: list[str]) -> None:
+    if not policy:
+        return
+
+    missing = REQUIRED_POLICY_KEYS.difference(policy.keys())
+    for key in sorted(missing):
+        errors.append(f"rules.contract.json: missing required key `{key}`")
+
+    if policy.get("family") != "policy_or_rules":
+        errors.append("rules.contract.json: family must be `policy_or_rules`")
+
+    for index, rule in enumerate(policy.get("rules", []), start=1):
+        missing_rule_keys = REQUIRED_POLICY_RULE_KEYS.difference(rule.keys())
+        for key in sorted(missing_rule_keys):
+            errors.append(f"rules.contract.json: rules[{index}] missing required key `{key}`")
+        effect = rule.get("effect")
+        if effect and effect not in POLICY_EFFECTS:
+            errors.append(
+                f"rules.contract.json: rules[{index}].effect `{effect}` must be one of {sorted(POLICY_EFFECTS)}"
+            )
 
 
 def validate_state(
@@ -289,10 +390,13 @@ def validate_events(
     workflow: dict,
     node_ids: set[str],
     transition_ids: set[str],
+    valid_actor_ids: set[str],
+    warnings: list[str],
     errors: list[str],
-) -> None:
+) -> set[str]:
+    event_ids: set[str] = set()
     if not events_path.exists():
-        return
+        return event_ids
     with events_path.open("r", encoding="utf-8") as handle:
         for line_no, raw in enumerate(handle, start=1):
             raw = raw.strip()
@@ -306,8 +410,22 @@ def validate_events(
             missing = REQUIRED_EVENT_KEYS.difference(event.keys())
             for key in sorted(missing):
                 errors.append(f"workflow.events.jsonl:{line_no}: missing required key `{key}`")
+            event_id = event.get("event_id")
+            if event_id:
+                if event_id in event_ids:
+                    errors.append(f"workflow.events.jsonl:{line_no}: duplicate event_id `{event_id}`")
+                event_ids.add(event_id)
             if event.get("workflow_id") != workflow.get("workflow_id"):
                 errors.append(f"workflow.events.jsonl:{line_no}: workflow_id mismatch")
+            actor_id = event.get("actor_id")
+            if valid_actor_ids and actor_id and actor_id not in valid_actor_ids:
+                errors.append(
+                    f"workflow.events.jsonl:{line_no}: actor_id `{actor_id}` not found in agent.contract.json"
+                )
+            elif actor_id and not valid_actor_ids:
+                warnings.append(
+                    f"workflow.events.jsonl:{line_no}: actor_id `{actor_id}` cannot be checked because no agent.contract.json was loaded"
+                )
             state_after = event.get("state_after", {})
             current_node_id = state_after.get("current_node_id")
             if current_node_id and current_node_id not in node_ids:
@@ -325,6 +443,7 @@ def validate_events(
                 errors.append(
                     f"workflow.events.jsonl:{line_no}: subject_ref `{subject_ref}` not found in node/transition ids"
                 )
+    return event_ids
 
 
 def compare_ref_lists(label: str, actual: list[str], expected: list[str], errors: list[str]) -> None:
@@ -418,32 +537,33 @@ def validate_markdown_tokens(root: Path, warnings: list[str]) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Validate files-driven governance assets for ref integrity and minimal instance consistency."
+        description="Validate a files-driven governance asset pack for ref integrity and minimal instance consistency."
     )
-    parser.add_argument("root", type=Path, help="Root directory of a governance asset pack")
+    parser.add_argument("pack_root", type=Path, help="Root directory of one governance asset pack")
     args = parser.parse_args()
 
-    root = args.root.resolve()
-    workflow = maybe_load(root / "workflow.contract.json")
+    pack_root = args.pack_root.resolve()
+    workflow = maybe_load(pack_root / "workflow.contract.json")
     if not workflow:
         print("error: workflow.contract.json not found", file=sys.stderr)
         return 1
 
-    policy = maybe_load(root / "rules.contract.json")
-    agent = maybe_load(root / "agent.contract.json")
-    state = maybe_load(root / "workflow.state.json")
-    status_projection = maybe_load(root / "status.projection.json")
-    object_contracts = collect_object_contracts(root)
-
     errors: list[str] = []
     warnings: list[str] = []
+    policy = maybe_load(pack_root / "rules.contract.json")
+    agent = maybe_load(pack_root / "agent.contract.json")
+    state = maybe_load(pack_root / "workflow.state.json")
+    status_projection = maybe_load(pack_root / "status.projection.json")
+    object_contracts = collect_object_contracts(pack_root, warnings, errors)
 
     policy_ids = {policy["policy_id"]} if policy and policy.get("policy_id") else set()
     object_ref_ids = object_ids(object_contracts)
     object_kind_registry = object_kinds(object_contracts)
     agent_role_ids = role_ids(agent)
+    valid_actor_ids = actor_ids(agent)
     role_approval_registry = role_approval_refs(agent)
 
+    validate_policy_contract(policy, errors)
     node_ids, transition_ids = validate_workflow_contract(
         workflow,
         policy_ids,
@@ -455,9 +575,21 @@ def main() -> int:
         warnings,
     )
     validate_state(state, workflow, node_ids, errors)
-    validate_events(root / "workflow.events.jsonl", workflow, node_ids, transition_ids, errors)
+    event_ids = validate_events(
+        pack_root / "workflow.events.jsonl",
+        workflow,
+        node_ids,
+        transition_ids,
+        valid_actor_ids,
+        warnings,
+        errors,
+    )
+    if state and state.get("last_event_id") and event_ids and state["last_event_id"] not in event_ids:
+        errors.append(
+            f"workflow.state.json: last_event_id `{state['last_event_id']}` not found in workflow.events.jsonl"
+        )
     validate_status_projection(status_projection, state, workflow, node_ids, errors)
-    validate_markdown_tokens(root, warnings)
+    validate_markdown_tokens(pack_root, warnings)
 
     for warning in warnings:
         print(f"warning: {warning}", file=sys.stderr)

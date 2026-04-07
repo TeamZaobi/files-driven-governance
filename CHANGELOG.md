@@ -16,6 +16,8 @@
 - 新增 `gate_state` 的 canonical 三态冻结：在 [workflow.state.schema.json](schemas/workflow.state.schema.json)、[workflow.event.schema.json](schemas/workflow.event.schema.json) 与 [references/关口硬化与稳定放行.md](references/关口硬化与稳定放行.md) 中把最小枚举正式收口为 `blocked / partial / ready`。
 - 新增 [schemas/status.projection.schema.json](schemas/status.projection.schema.json)，把 `status_projection` 的最小机读结构和“只能派生、不能放行”的边界正式写成 schema。
 - 新增 [examples/smoke-governed-review](examples/smoke-governed-review)，把当前最小治理链做成可跑 smoke 资产包。
+- 新增 [QUICKSTART.md](QUICKSTART.md)，把 governed pack 的最小入口、目录形状和 validator 用法收进入口层。
+- 新增 [MIGRATION.md](MIGRATION.md)，说明从旧的 `schemas/*.json` / `statement` / 局部 check refs 迁到当前约定的步骤。
 
 ### 调整
 
@@ -45,6 +47,9 @@
 - 新增 [docs/治理能力模型_v1_下一阶段执行计划.md](docs/治理能力模型_v1_下一阶段执行计划.md)、[workflow.state.schema.json](schemas/workflow.state.schema.json)、[workflow.event.schema.json](schemas/workflow.event.schema.json) 与 [scripts/validate_governance_assets.py](scripts/validate_governance_assets.py)，把下一阶段的 P0 主链正式落到实例 schema、`checks` 协议和最小 validator 骨架。
 - 在 [workflow.contract.schema.json](schemas/workflow.contract.schema.json)、[schemas/README.md](schemas/README.md)、[docs/项目治理能力模型_v1.md](docs/项目治理能力模型_v1.md) 与 [scripts/validate_governance_assets.py](scripts/validate_governance_assets.py) 中冻结 approval 语义：`node.approver_ref` 指向 agent role，`transition.approval_ref` 指向 `approval_type` object，并把 validator 从“未冻结警告”升级为最小强校验。
 - 在 [schemas/README.md](schemas/README.md)、[docs/项目治理能力模型_v1.md](docs/项目治理能力模型_v1.md)、[docs/治理能力模型_v1_下一阶段执行计划.md](docs/治理能力模型_v1_下一阶段执行计划.md) 与 [scripts/validate_governance_assets.py](scripts/validate_governance_assets.py) 中补入 `status_projection` 的最小技术限制，并把 smoke asset pack 升成下一条直接执行线。
+- 继续收口 governed pack 的入口边界：将 project-level object 资产从 `schemas/*.json` 调整为 `objects/*.json`，并在 [README.md](README.md)、[schemas/README.md](schemas/README.md)、[docs/项目治理能力模型_v1.md](docs/项目治理能力模型_v1.md) 与 smoke pack 中同步更新。
+- 将 workflow 的 `checks` 收口为 v1 的唯一注册面：保留 workflow 顶层 `checks.route/evidence/write/stop`，删除 node / transition 层重复 check refs。
+- 调整 [scripts/validate_governance_assets.py](scripts/validate_governance_assets.py) 的 pack 入口语义：显式使用 `pack_root`，优先读取 `objects/`，补最小 policy/event 校验，并为 legacy `schemas/` 布局保留兼容 warning。
 
 ## v0.2.7 - 2026-03-25
 

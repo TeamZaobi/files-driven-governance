@@ -39,11 +39,7 @@
       "output_policy_refs": [
         "policy.guard.review"
       ],
-      "approver_ref": "role.reviewer",
-      "check_refs": [
-        "check.route.review",
-        "check.evidence.review"
-      ]
+      "approver_ref": "role.reviewer"
     }
   ],
   "transitions": [
@@ -54,11 +50,7 @@
       "guard_policy_refs": [
         "policy.guard.review"
       ],
-      "approval_ref": "approval.human.review",
-      "required_check_refs": [
-        "check.write.review",
-        "check.stop.review"
-      ]
+      "approval_ref": "approval.human.review"
     }
   ],
   "checks": {

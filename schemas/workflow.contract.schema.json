@@ -133,13 +133,6 @@
           },
           "notes_ref": {
             "type": "string"
-          },
-          "check_refs": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "default": []
           }
         },
         "additionalProperties": false
@@ -175,13 +168,6 @@
           "approval_ref": {
             "type": "string",
             "description": "Object id of kind approval_type that defines the approval artifact or requirement gating this transition."
-          },
-          "required_check_refs": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "default": []
           },
           "rollback_to": {
             "type": "string"

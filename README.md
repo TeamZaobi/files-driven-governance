@@ -202,6 +202,8 @@ flowchart LR
 | --- | --- | --- |
 | [README.md](README.md) | 第一次接触这个项目的人 | 解释这是什么、什么时候该用、怎么开始 |
 | [SKILL.md](SKILL.md) | 会执行这个技能的代理 | 给出主流程、判断规则、边界约束和参考件路由 |
+| [QUICKSTART.md](QUICKSTART.md) | 第一次搭建 governed pack 的人 | 给出最小 pack 形状、validator 用法和起步顺序 |
+| [MIGRATION.md](MIGRATION.md) | 已有 pack 的维护者 | 说明从旧约定迁到当前约定要改什么 |
 | [references/](references/) | 需要深入某一专题的人或代理 | 承载输出约定、流程库、读取顺序、共享约定等稳定参考 |
 | [schemas/](schemas/) | 需要结构化合同草案的人或代理 | 承载控制语义的机读 schema 草案 |
 | [docs/](docs/) | 想看完整背景、版本说明和公开专题材料的人 | 承载说明书、版本说明和公开专题记录 |
@@ -211,10 +213,34 @@ flowchart LR
 
 - `README` 是入口
 - `SKILL` 是执行导览
+- `QUICKSTART` 是最小上手
+- `MIGRATION` 是迁移说明
 - `references` 是按需下钻
 - `schemas` 是结构化合同草案
 - `docs` 是背景与公开说明
 - `CHANGELOG` 是账本
+
+## 当前 governed pack 约定
+
+如果你要落一个受控 workflow 的 project pack，当前入口约定是：
+
+- `workflow.contract.json` 是控制合同
+- `objects/*.json` 是项目级 object contracts
+- `workflow.state.json` 与 `workflow.events.jsonl` 是运行实例
+- 可选 `status.projection.json` 只做派生摘要
+- workflow 顶层 `checks.route/evidence/write/stop` 是 v1 唯一 check 注册面
+
+要特别区分两层 `schemas` 语义：
+
+- 仓库根 [schemas/](/Users/jixiaokang/.agents/skills/files-driven/schemas) 是 schema draft
+- project pack 里的 object 合同不再放 `schemas/*.json`，而放 `objects/*.json`
+
+validator 也按这个边界工作：
+
+- 参数是一个 `pack_root`
+- 它读取 `pack_root/workflow.contract.json`
+- 它优先读取 `pack_root/objects/*.json`
+- 旧的 `pack_root/schemas/*.json` 只做兼容 warning，不再是首选布局
 
 ## 第一次怎么开始
 
@@ -228,6 +254,12 @@ flowchart LR
 
 4. [docs/项目治理能力模型_v1.md](docs/项目治理能力模型_v1.md)
 5. [schemas/README.md](schemas/README.md)
+6. [QUICKSTART.md](QUICKSTART.md)
+
+如果你手上已经有旧 pack，要直接做迁移，先读：
+
+1. [MIGRATION.md](MIGRATION.md)
+2. [examples/smoke-governed-review/README.md](examples/smoke-governed-review/README.md)
 
 如果你已经确定要落地治理，优先按问题下钻：
 

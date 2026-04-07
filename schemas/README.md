@@ -20,8 +20,8 @@
 1. `policy_or_rules` 家族在项目里的 canonical 资产名叫 `rules contract`
    - 建议文件名：`rules.contract.json`
    - 本目录里的 schema 文件名：`policy.contract.schema.json`
-2. `object` 家族在项目里的 canonical 资产名叫 `object schema`
-   - 建议文件落点：`schemas/*.json`
+2. `object` 家族在项目里的 canonical 资产名叫 `object contract`
+   - 建议文件落点：`objects/*.json`
    - 本目录里的 schema 文件名：`object.contract.schema.json`
 3. `workflow` 家族在项目里的 canonical 资产名叫 `workflow contract`
    - 建议文件名：`workflow.contract.json`
@@ -46,7 +46,7 @@
 当前默认的分工是：
 
 1. `workflow.contract.schema.json` 负责控制路径、节点、转移和检查点声明
-2. `object.contract.schema.json` 负责状态、动作、证据、输出、批准对象的语义
+2. `object.contract.schema.json` 负责状态、动作、证据、输出、批准对象合同的语义
 3. `policy.contract.schema.json` 负责跨 workflow 的规则、风险和限制
 4. `agent.contract.schema.json` 负责执行、复核、批准与回退权限矩阵
 5. `workflow.state.schema.json` 负责当前运行实例的最小结构
@@ -54,7 +54,7 @@
 6. `workflow.event.schema.json` 负责 `workflow.events.jsonl` 中单条事件的最小结构
    - 事件流复用同一组 `gate_state` 最小枚举，不承担运行生命周期扩词
 7. `status.projection.schema.json` 负责最小机读状态投影
-   - 它只允许携带派生状态、阻断线索和来源锚点，不允许携带新的放行字段
+   - 它只允许携带派生状态、阻断线索和来源锚点（如 `source_last_event_id / generated_at`），不允许携带新的放行字段
 
 重要边界：
 
@@ -62,12 +62,13 @@
 2. `workflow.state.json` 与 `workflow.events.jsonl` 属于 `execution_object`，不是 workflow 家族真源
 3. `checks/` 属于 `skill` 或工具适配执行面，不等于 workflow 自己持有放行权
 4. `WORKFLOW.md` 是解释层，`workflow.contract.json` 才是受控模式下的机读控制真源
-5. workflow 顶层 `checks` 只声明 `route / evidence / write / stop` 四类 gate 的检查入口，不授予放行权
+5. workflow 顶层 `checks` 是 v1 最小模型里的唯一检查注册面，只声明 `route / evidence / write / stop` 四类 gate 的检查入口，不授予放行权
 6. check 只返回观测结果、证据缺口或阻断信号；合法转移仍由 workflow contract + rules contract 决定
 7. `node.approver_ref` 指向 `agent.contract.json` 里的 `roles[].role_id`
 8. `transition.approval_ref` 指向 `object` 家族中 `kind = approval_type` 的对象定义
 9. 只要 transition 声明了 `approval_ref`，相邻节点的 `approver_ref` 就应能通过对应 role 的 `can_approve_refs` 覆盖它
-10. `status.projection.json` 只允许复述 `current_node_id / gate_state / missing_evidence_refs / forbidden_output_refs / summary` 之类派生信息
+10. `status.projection.json` 只允许复述 `current_node_id / gate_state / missing_evidence_refs / forbidden_output_refs / summary` 一类派生信息
+    - 并应携带 `source_last_event_id / generated_at` 作为来源锚点
 11. `status.projection.json` 不得持有 `approver_ref`、`approval_ref`、`guard_policy_refs`、自由文本 `next_step` 或任何新的放行字段
 
 使用原则：

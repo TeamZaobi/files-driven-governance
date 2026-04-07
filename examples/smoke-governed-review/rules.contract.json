@@ -7,11 +7,21 @@
   "rules": [
     {
       "rule_id": "rule.require-evidence",
-      "statement": "The review cannot move to release until required evidence is present."
+      "effect": "require_evidence",
+      "target_refs": [
+        "transition.review-to-review"
+      ],
+      "required_refs": [
+        "evidence.review.note"
+      ]
     },
     {
       "rule_id": "rule.block-write-on-partial",
-      "statement": "Partial or blocked states must not release write or publish outputs."
+      "effect": "deny",
+      "condition_ref": "state.review.partial",
+      "target_refs": [
+        "output.publish.review"
+      ]
     }
   ]
 }

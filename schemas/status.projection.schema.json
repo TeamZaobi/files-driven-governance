@@ -10,13 +10,13 @@
     "workflow_id",
     "run_id",
     "contract_version",
-    "derived_from",
+    "source_last_event_id",
     "current_node_id",
     "gate_state",
     "missing_evidence_refs",
-    "allowed_next_step_refs",
     "forbidden_output_refs",
-    "summary"
+    "summary",
+    "generated_at"
   ],
   "properties": {
     "schema_version": {
@@ -37,26 +37,9 @@
     "contract_version": {
       "type": "string"
     },
-    "derived_from": {
-      "type": "object",
-      "required": [
-        "state_ref",
-        "last_event_id",
-        "state_updated_at"
-      ],
-      "properties": {
-        "state_ref": {
-          "type": "string"
-        },
-        "last_event_id": {
-          "type": "string"
-        },
-        "state_updated_at": {
-          "type": "string",
-          "format": "date-time"
-        }
-      },
-      "additionalProperties": false
+    "source_last_event_id": {
+      "type": "string",
+      "description": "Anchor to the latest workflow event consumed by this derived projection."
     },
     "current_node_id": {
       "type": "string"
@@ -80,13 +63,6 @@
       },
       "default": []
     },
-    "allowed_next_step_refs": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      },
-      "default": []
-    },
     "forbidden_output_refs": {
       "type": "array",
       "items": {
@@ -94,12 +70,10 @@
       },
       "default": []
     },
-    "handoff_items": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      },
-      "default": []
+    "generated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the projection was derived from workflow state."
     }
   },
   "additionalProperties": false

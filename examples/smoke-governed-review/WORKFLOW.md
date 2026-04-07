@@ -14,5 +14,6 @@ Current gate state:
 
 Current constraint:
 
-- review can continue to gather evidence
+- review can continue to gather evidence within the current node
 - write and publish remain blocked
+- `allowed_next_step_refs: []` means no downstream release step is authorized yet
