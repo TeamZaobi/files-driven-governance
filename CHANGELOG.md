@@ -19,6 +19,8 @@
 - 新增 [examples/smoke-governed-review](examples/smoke-governed-review)，把当前最小治理链做成可跑 smoke 资产包。
 - 新增 [QUICKSTART.md](QUICKSTART.md)，把 governed pack 的最小入口、目录形状和 validator 用法收进入口层。
 - 新增 [MIGRATION.md](MIGRATION.md)，说明从旧的 `schemas/*.json` / `statement` / 局部 check refs 迁到当前约定的步骤。
+- 新增 [tests/test_validate_governance_assets.py](tests/test_validate_governance_assets.py)，把 smoke pack、authority key、rules、event actor、重复 event 与 legacy 兼容等关键边界固化成最小回归集。
+- 新增 [governance-assets-ci.yml](.github/workflows/governance-assets-ci.yml)，把 JSON 语法检查、validator smoke run 和最小单元测试接入 GitHub Actions。
 
 ### 调整
 

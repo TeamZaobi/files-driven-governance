@@ -63,6 +63,11 @@ python3 /Users/jixiaokang/.agents/skills/files-driven/scripts/validate_governanc
 
 不要把仓库根传给 validator，除非仓库根本身就是一个完整 pack。
 
+仓库级最小回归也已经接好：
+
+- 本地运行：`python3 -m unittest discover -s tests -p 'test_*.py'`
+- CI 入口：`.github/workflows/governance-assets-ci.yml`
+
 ## 5. 当前最容易犯的错
 
 1. 把 object 合同继续放进 `schemas/*.json`

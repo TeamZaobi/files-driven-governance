@@ -242,6 +242,11 @@ validator 也按这个边界工作：
 - 它优先读取 `pack_root/objects/*.json`
 - 旧的 `pack_root/schemas/*.json` 只做兼容 warning，不再是首选布局
 
+当前仓库还附带两层最小验证面：
+
+- [tests/](/Users/jixiaokang/.agents/skills/files-driven/tests) 提供 validator 的最小回归测试
+- [.github/workflows/governance-assets-ci.yml](/Users/jixiaokang/.agents/skills/files-driven/.github/workflows/governance-assets-ci.yml) 把 smoke pack、JSON 语法和单元测试接进 CI
+
 ## 第一次怎么开始
 
 如果你是人在判断要不要用这套方法，先按这个顺序读：
