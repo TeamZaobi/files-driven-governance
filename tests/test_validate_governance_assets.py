@@ -65,6 +65,19 @@ class ValidateGovernanceAssetsCliTests(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("forbidden authority key `allowed_next_step_refs`", result.stderr)
 
+    def test_status_projection_invalid_datetime_fails_schema(self) -> None:
+        pack_root = self.make_pack()
+        projection_path = pack_root / "status.projection.json"
+        projection = self.read_json(projection_path)
+        projection["generated_at"] = "not-a-datetime"
+        self.write_json(projection_path, projection)
+
+        result = self.run_validator(pack_root)
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("status.projection.json: schema violation", result.stderr)
+        self.assertIn("'not-a-datetime' is not a 'date-time'", result.stderr)
+
     def test_rules_contract_missing_effect_fails(self) -> None:
         pack_root = self.make_pack()
         rules_path = pack_root / "rules.contract.json"
@@ -116,6 +129,19 @@ class ValidateGovernanceAssetsCliTests(unittest.TestCase):
 
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("duplicate event_id `event.review.001`", result.stderr)
+
+    def test_event_timestamp_invalid_datetime_fails_schema(self) -> None:
+        pack_root = self.make_pack()
+        events_path = pack_root / "workflow.events.jsonl"
+        events = self.read_events(events_path)
+        events[0]["timestamp"] = "bad-ts"
+        self.write_events(events_path, events)
+
+        result = self.run_validator(pack_root)
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("workflow.events.jsonl:1: schema violation", result.stderr)
+        self.assertIn("'bad-ts' is not a 'date-time'", result.stderr)
 
     def test_unknown_actor_id_fails(self) -> None:
         pack_root = self.make_pack()

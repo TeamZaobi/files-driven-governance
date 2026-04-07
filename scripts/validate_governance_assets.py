@@ -5,17 +5,20 @@ import argparse
 import functools
 import json
 import sys
+from datetime import datetime
 from pathlib import Path
 
 try:
-    from jsonschema import Draft202012Validator
+    from jsonschema import Draft202012Validator, FormatChecker
 except ImportError:  # pragma: no cover - exercised through CLI in tests
     Draft202012Validator = None
+    FormatChecker = None
 
 # Schemas remain the source of field shape. This validator focuses on
 # cross-file semantics, pack hygiene, and a small compatibility surface.
 
 SCHEMA_ROOT = Path(__file__).resolve().parents[1] / "schemas"
+SCHEMA_FORMAT_CHECKER = FormatChecker() if FormatChecker is not None else None
 
 
 REQUIRED_STATE_KEYS = {
@@ -119,12 +122,25 @@ def object_contract_paths(directory: Path) -> list[Path]:
     return sorted(directory.glob("*.json"))
 
 
+if SCHEMA_FORMAT_CHECKER is not None:
+
+    @SCHEMA_FORMAT_CHECKER.checks("date-time")
+    def is_rfc3339_datetime(value: object) -> bool:
+        if not isinstance(value, str):
+            return True
+        try:
+            datetime.fromisoformat(value.replace("Z", "+00:00"))
+        except ValueError:
+            return False
+        return True
+
+
 @functools.lru_cache(maxsize=None)
 def schema_validator(schema_filename: str) -> Draft202012Validator:
     if Draft202012Validator is None:
         raise RuntimeError("jsonschema package is required to validate governance packs")
     schema = load_json(SCHEMA_ROOT / schema_filename)
-    return Draft202012Validator(schema)
+    return Draft202012Validator(schema, format_checker=SCHEMA_FORMAT_CHECKER)
 
 
 def format_schema_path(path: list[object]) -> str:

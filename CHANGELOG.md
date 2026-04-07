@@ -56,6 +56,8 @@
 - 调整 [scripts/validate_governance_assets.py](scripts/validate_governance_assets.py) 的 pack 入口语义：显式使用 `pack_root`，优先读取 `objects/`，补最小 policy/event 校验，并为 legacy `schemas/` 布局保留兼容 warning。
 - 继续收紧 pack 合同语义：`workflow.agent_refs` 固定指向 `agent.contract.json.agent_id`，`node.approver_ref` 继续指向 `roles[].role_id`，`workflow.events.jsonl.subject_ref` 固定为 `node_id / transition_id`。
 - 调整 [scripts/validate_governance_assets.py](scripts/validate_governance_assets.py) 与 CI，使 pack 文件开始执行真实 schema 校验，不再只依赖 JSON 语法和语义 smoke。
+- 继续收紧 [scripts/validate_governance_assets.py](scripts/validate_governance_assets.py) 的 schema enforcement：补入 `date-time` format 检查，并为 `generated_at / timestamp` 增加对应回归测试。
+- 调整 [docs/分支推进决策流程.md](docs/分支推进决策流程.md)，去掉会快速过期的硬编码提交数，改成以实时 Git 命令结果为准。
 
 ## v0.2.7 - 2026-03-25
 
