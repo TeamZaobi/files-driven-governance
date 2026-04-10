@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "object_id": "state.discussion.active",
+  "family": "object",
+  "version_anchor": "v1",
+  "kind": "state_profile",
+  "fields": [
+    {
+      "field_id": "discussion_id",
+      "type": "string",
+      "required": true
+    },
+    {
+      "field_id": "topic",
+      "type": "string",
+      "required": true
+    },
+    {
+      "field_id": "current_position",
+      "type": "string",
+      "required": true
+    },
+    {
+      "field_id": "open_questions",
+      "type": "array<string>",
+      "required": false
+    },
+    {
+      "field_id": "owner_ref",
+      "type": "string",
+      "required": false
+    },
+    {
+      "field_id": "promotion_target_ref",
+      "type": "string",
+      "required": false
+    }
+  ],
+  "semantics": [
+    {
+      "value": "active",
+      "meaning": "讨论仍在进行中，尚未收口为更窄的决策面。"
+    },
+    {
+      "value": "promotable",
+      "meaning": "已经具备晋升到 issue ledger、decision package 或落点页的条件。"
+    }
+  ]
+}

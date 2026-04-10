@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "object_id": "action.issue.ledger",
+  "family": "object",
+  "version_anchor": "v1",
+  "kind": "action_class",
+  "fields": [
+    {
+      "field_id": "ledger_id",
+      "type": "string",
+      "required": true
+    },
+    {
+      "field_id": "issues_captured",
+      "type": "array<string>",
+      "required": true
+    },
+    {
+      "field_id": "source_discussion_ref",
+      "type": "string",
+      "required": true
+    },
+    {
+      "field_id": "owner_ref",
+      "type": "string",
+      "required": false
+    }
+  ]
+}

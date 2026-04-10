@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "object_id": "state.task.or.decision",
+  "family": "object",
+  "version_anchor": "v1",
+  "kind": "state_profile",
+  "fields": [
+    {
+      "field_id": "landing_kind",
+      "type": "string",
+      "required": true
+    },
+    {
+      "field_id": "landing_ref",
+      "type": "string",
+      "required": true
+    },
+    {
+      "field_id": "owner_ref",
+      "type": "string",
+      "required": false
+    },
+    {
+      "field_id": "done_condition",
+      "type": "string",
+      "required": false
+    },
+    {
+      "field_id": "archive_ref",
+      "type": "string",
+      "required": false
+    }
+  ],
+  "semantics": [
+    {
+      "value": "task",
+      "meaning": "后续主要是执行和验收。"
+    },
+    {
+      "value": "decision",
+      "meaning": "后续主要是记录裁定本身。"
+    },
+    {
+      "value": "archive",
+      "meaning": "后续只保留历史恢复，不再继续活跃推进。"
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0",
+  "policy_id": "policy.discussion.flow",
+  "family": "policy_or_rules",
+  "version_anchor": "v1",
+  "risk_level": "medium",
+  "scope": "workflow",
+  "applies_to_refs": [
+    "workflow.discussion.decision.task"
+  ],
+  "rules": [
+    {
+      "rule_id": "rule.keep-discussion-focused",
+      "effect": "require_evidence",
+      "condition_ref": "discussion keeps one topic, one owner, and open questions",
+      "target_refs": [
+        "node.discussion"
+      ],
+      "required_refs": [
+        "evidence.discussion.thread"
+      ]
+    },
+    {
+      "rule_id": "rule.issue-ledger-before-package",
+      "effect": "require_evidence",
+      "condition_ref": "issue ledger must collect unresolved issues before package building",
+      "target_refs": [
+        "node.issue_ledger"
+      ],
+      "required_refs": [
+        "evidence.issue.ledger"
+      ]
+    },
+    {
+      "rule_id": "rule.package-needs-review",
+      "effect": "require_review",
+      "condition_ref": "decision package must be reviewed before promotion",
+      "target_refs": [
+        "node.decision_package"
+      ],
+      "required_refs": [
+        "approval.to.decision.package"
+      ]
+    },
+    {
+      "rule_id": "rule.final-landing-is-explicit",
+      "effect": "allow",
+      "condition_ref": "task_or_decision must state whether the landing is task, decision, or archive",
+      "target_refs": [
+        "node.task_or_decision"
+      ],
+      "required_refs": [
+        "evidence.task.or.decision"
+      ]
+    }
+  ]
+}

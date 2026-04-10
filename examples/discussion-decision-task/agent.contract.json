@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "agent_id": "agent.discussion",
+  "family": "agent",
+  "version_anchor": "v1",
+  "roles": [
+    {
+      "role_id": "role.facilitator",
+      "can_execute_refs": [
+        "action.discussion",
+        "action.issue.ledger"
+      ],
+      "can_review_refs": [
+        "action.discussion",
+        "action.issue.ledger"
+      ],
+      "can_approve_refs": [
+        "approval.to.issue.ledger"
+      ],
+      "blocked_action_refs": [
+        "output.premature.decision"
+      ]
+    },
+    {
+      "role_id": "role.decision_owner",
+      "can_execute_refs": [
+        "action.decision.package"
+      ],
+      "can_review_refs": [
+        "action.decision.package",
+        "action.task.or.decision"
+      ],
+      "can_approve_refs": [
+        "approval.to.decision.package"
+      ],
+      "blocked_action_refs": [
+        "output.unreviewed.package"
+      ]
+    },
+    {
+      "role_id": "role.owner",
+      "can_execute_refs": [
+        "action.task.or.decision"
+      ],
+      "can_review_refs": [
+        "action.task.or.decision"
+      ],
+      "can_approve_refs": [
+        "approval.to.task.or.decision"
+      ],
+      "blocked_action_refs": [
+        "output.unclear.landing"
+      ]
+    }
+  ]
+}

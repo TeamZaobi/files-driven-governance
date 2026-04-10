@@ -18,6 +18,7 @@
 - governed pack 的作者或维护者希望用 `BOUNDARY.md + workflow.contract.json + validator` 搭出一个真正对准场景、故事和测试锚点的最小资产包，而不是只补一堆看似完整的合同文件。
 - 团队培训者希望快速把“files-driven 到底在解决什么问题、为什么常见做法不够、团队应该怎么工作”讲清楚，而不是再产出一份只讲概念和目录的说明文档。
 - 负责 harness、agent runtime 或治理执行链的人，希望把 `workflow` 从 prose-first 说明重构为最小可执行控制载体，减少运行时歧义、提高检查、恢复和自动化执行效能。
+- 团队负责人或新接手的协作者希望看到官方 `discussion` 模板、晋升路径和分支 example，不必再从其他项目逆向理解“讨论如何收口、何时升级到质询、何时进入执行”。
 
 ## 当前交付物
 
@@ -26,10 +27,12 @@
   - 问题导向的团队使用手册
   - 项目治理能力模型 v1 说明
   - AI-Native 同构团队协作 reference
+  - discussion 收口与晋升 reference
   - 最小 schema 草案
   - `workflow` 作为控制载体的最小合同化实现
   - pack 级 `BOUNDARY.md` 入口
   - smoke governed pack
+  - discussion / adversarial / process projection examples
   - validator 与最小回归测试
   - 清晰的项目边界、迁移说明和下一阶段执行计划
 
@@ -97,6 +100,15 @@
 - 为什么这件事对当前阶段重要：如果 workflow 仍然主要停留在说明文档层，harness 侧就只能从 prose 猜状态、猜关口、猜缺证据和猜下一步，运行时歧义、恢复成本和自动化失真都会持续偏高。
 - 这次完成后，用户应该看到什么变化：维护者能够明确说明为什么 `workflow` 是控制载体、为什么 `workflow.contract.json` 是机读控制真源、为什么实例与检查执行面必须与合同分层对齐，以及这会如何提升 harness 的可执行性、可验证性和可恢复性。
 - 这次明确不包含什么：不要求这一阶段就把全部 workflow 都推进到生产级重治理，也不要求一次性补齐 hostile-environment 安全、细粒度权限或完整沙箱。
+
+### 用户故事 US-8
+
+- 谁在用：需要把 discussion 管理、质询收敛和执行晋升讲清的新接手者、维护者或培训者。
+- 在什么场景下：需要回答“什么时候开正式 discussion、什么时候升级到质询、什么时候压成 decision package、什么时候进 task / decision”，但当前仓库又不想把源项目案例整包搬进来。
+- 他/她现在想完成什么：直接看到一条首轮可用的官方主路径，以及两个条件分支 example，而不是只在 reference 里看到流程名。
+- 为什么这件事对当前阶段重要：如果 discussion 相关模式继续只活在 reference 层，用户仍然要去别的项目逆向学习，这会让 `files-driven` 看起来像理论集而不是可直接用的方法项目。
+- 这次完成后，用户应该看到什么变化：第一次读仓库的人可以直接沿着 `discussion -> decision_package -> task_or_decision` 主路径理解收口方式，并知道什么时候再看 adversarial 和 process projection 分支。
+- 这次明确不包含什么：不要求这一阶段就把 `decision_package` 或 `process_projection` 合同化，也不要求把源项目角色名、领域对象和编号体系上升为通用模板。
 
 ## 项目测试用例
 
@@ -169,6 +181,16 @@
 - 通过条件：读者能够用“减少运行时歧义、提高检查稳定性、降低恢复成本、提升 harness 可消费性”来解释这轮能力提升，而不是只把它理解成 schema 扩展或目录调整。
 - 这次明确不要求：不要求这里已经证明所有 runtime 或 harness 都与当前合同层完全适配，也不要求此时就覆盖全部高风险生产场景。
 - 失败/越界边界：如果读者读完这些入口后，仍然把 workflow 重构理解成“只是把说明文档拆成更多文件”或说不清它为什么会提升 harness 效能，说明当前项目故事还没有把这条真实问题面表达清楚。
+
+### 测试用例 TC-8
+
+- 对应故事：US-8
+- 前提：有人第一次需要把 discussion 管理和执行晋升讲清，但不想再去 HQMDClaw 或 AIJournal 里逆向找案例。
+- 当：从 `README.md` 和 `docs/使用手册.md` 进入，再读 `references/讨论收口与晋升.md`、`examples/discussion-decision-task/README.md`、`examples/adversarial-convergence/README.md` 与 `examples/multi-tool-process-projection/README.md`。
+- 那么：应能说明什么时候开正式 discussion、什么时候升级到质询、什么时候压成 decision package、什么时候进入 task / decision，以及什么时候才需要补 process projection。
+- 通过条件：无需额外依赖外部项目，也能沿着仓库内的主路径和条件分支看懂 discussion 收口与晋升。
+- 这次明确不要求：不要求这一阶段就掌握所有 schema、validator 或源项目里的具体角色编排。
+- 失败/越界边界：如果读者看完仓库内材料后，仍然只能说出流程名，不能判断 discussion 何时晋升、何时质询、何时只补 process projection，说明这轮新增资产还没有形成真正可用的主路径。
 
 ## 当前非目标
 

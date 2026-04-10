@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "object_id": "evidence.discussion.thread",
+  "family": "object",
+  "version_anchor": "v1",
+  "kind": "evidence_type",
+  "fields": [
+    {
+      "field_id": "thread_ref",
+      "type": "string",
+      "required": true
+    },
+    {
+      "field_id": "source_refs",
+      "type": "array<string>",
+      "required": true
+    },
+    {
+      "field_id": "open_questions",
+      "type": "array<string>",
+      "required": false
+    },
+    {
+      "field_id": "known_constraints",
+      "type": "array<string>",
+      "required": false
+    }
+  ]
+}

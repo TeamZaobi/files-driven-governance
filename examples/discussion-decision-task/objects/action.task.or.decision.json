@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "object_id": "action.task.or.decision",
+  "family": "object",
+  "version_anchor": "v1",
+  "kind": "action_class",
+  "fields": [
+    {
+      "field_id": "landing_kind",
+      "type": "string",
+      "required": true
+    },
+    {
+      "field_id": "landing_ref",
+      "type": "string",
+      "required": true
+    },
+    {
+      "field_id": "owner_ref",
+      "type": "string",
+      "required": true
+    },
+    {
+      "field_id": "next_step",
+      "type": "string",
+      "required": false
+    }
+  ]
+}

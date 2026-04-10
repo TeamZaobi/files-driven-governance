@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "object_id": "approval.to.issue.ledger",
+  "family": "object",
+  "version_anchor": "v1",
+  "kind": "approval_type",
+  "fields": [
+    {
+      "field_id": "approval_id",
+      "type": "string",
+      "required": true
+    },
+    {
+      "field_id": "transition_ref",
+      "type": "string",
+      "required": true
+    },
+    {
+      "field_id": "approver_role_ref",
+      "type": "string",
+      "required": true
+    }
+  ]
+}

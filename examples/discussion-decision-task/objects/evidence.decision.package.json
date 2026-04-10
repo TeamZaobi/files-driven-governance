@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "object_id": "evidence.decision.package",
+  "family": "object",
+  "version_anchor": "v1",
+  "kind": "evidence_type",
+  "fields": [
+    {
+      "field_id": "package_id",
+      "type": "string",
+      "required": true
+    },
+    {
+      "field_id": "evidence_refs",
+      "type": "array<string>",
+      "required": true
+    },
+    {
+      "field_id": "counterpoints",
+      "type": "array<string>",
+      "required": false
+    },
+    {
+      "field_id": "decision_surface",
+      "type": "string",
+      "required": false
+    }
+  ]
+}

@@ -1,0 +1,136 @@
+{
+  "schema_version": "1.0",
+  "workflow_id": "workflow.discussion.decision.task",
+  "family": "workflow",
+  "governance_level": "controlled",
+  "execution_mode": "gated",
+  "version_anchor": "v1",
+  "explanation_ref": "README.md",
+  "policy_refs": [
+    "policy.discussion.flow"
+  ],
+  "object_refs": [
+    "state.discussion.active",
+    "action.discussion",
+    "evidence.discussion.thread",
+    "state.issue.ledger",
+    "action.issue.ledger",
+    "evidence.issue.ledger",
+    "state.decision.package",
+    "action.decision.package",
+    "evidence.decision.package",
+    "state.task.or.decision",
+    "action.task.or.decision",
+    "evidence.task.or.decision",
+    "approval.to.issue.ledger",
+    "approval.to.decision.package",
+    "approval.to.task.or.decision"
+  ],
+  "agent_refs": [
+    "agent.discussion"
+  ],
+  "entry_intents": [
+    {
+      "intent_id": "intent.discussion.start",
+      "entry_node": "node.discussion",
+      "aliases": [
+        "open discussion",
+        "continue discussion",
+        "promote discussion"
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "node_id": "node.discussion",
+      "state_ref": "state.discussion.active",
+      "action_ref": "action.discussion",
+      "evidence_refs": [
+        "evidence.discussion.thread"
+      ],
+      "output_policy_refs": [
+        "policy.discussion.flow"
+      ],
+      "approver_ref": "role.facilitator"
+    },
+    {
+      "node_id": "node.issue_ledger",
+      "state_ref": "state.issue.ledger",
+      "action_ref": "action.issue.ledger",
+      "evidence_refs": [
+        "evidence.issue.ledger"
+      ],
+      "output_policy_refs": [
+        "policy.discussion.flow"
+      ],
+      "approver_ref": "role.facilitator"
+    },
+    {
+      "node_id": "node.decision_package",
+      "state_ref": "state.decision.package",
+      "action_ref": "action.decision.package",
+      "evidence_refs": [
+        "evidence.decision.package"
+      ],
+      "output_policy_refs": [
+        "policy.discussion.flow"
+      ],
+      "approver_ref": "role.decision_owner"
+    },
+    {
+      "node_id": "node.task_or_decision",
+      "state_ref": "state.task.or.decision",
+      "action_ref": "action.task.or.decision",
+      "evidence_refs": [
+        "evidence.task.or.decision"
+      ],
+      "output_policy_refs": [
+        "policy.discussion.flow"
+      ],
+      "approver_ref": "role.owner"
+    }
+  ],
+  "transitions": [
+    {
+      "transition_id": "transition.discussion-to-issue-ledger",
+      "from_node": "node.discussion",
+      "to_node": "node.issue_ledger",
+      "guard_policy_refs": [
+        "policy.discussion.flow"
+      ],
+      "approval_ref": "approval.to.issue.ledger"
+    },
+    {
+      "transition_id": "transition.issue-ledger-to-decision-package",
+      "from_node": "node.issue_ledger",
+      "to_node": "node.decision_package",
+      "guard_policy_refs": [
+        "policy.discussion.flow"
+      ],
+      "approval_ref": "approval.to.decision.package"
+    },
+    {
+      "transition_id": "transition.decision-package-to-task-or-decision",
+      "from_node": "node.decision_package",
+      "to_node": "node.task_or_decision",
+      "guard_policy_refs": [
+        "policy.discussion.flow"
+      ],
+      "approval_ref": "approval.to.task.or.decision"
+    }
+  ],
+  "checks": {
+    "route": [
+      "check.route.discussion"
+    ],
+    "evidence": [
+      "check.evidence.discussion"
+    ],
+    "write": [
+      "check.write.discussion"
+    ],
+    "stop": [
+      "check.stop.discussion"
+    ]
+  }
+}

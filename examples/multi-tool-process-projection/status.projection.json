@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "projection_id": "projection.multi_tool_process.status",
+  "family": "status_projection",
+  "workflow_id": "workflow.multi_tool_process.example",
+  "run_id": "run.multi_tool_process.example",
+  "contract_version": "v1",
+  "source_last_event_id": "event.multi_tool_process.003",
+  "current_node_id": "node.synthesis",
+  "gate_state": "partial",
+  "summary": "Derived status summary for a multi-tool process projection. It compresses the upstream process carrier for handoff and does not create new control authority.",
+  "missing_evidence_refs": [
+    "evidence.final_signoff"
+  ],
+  "forbidden_output_refs": [
+    "output.publish.final"
+  ],
+  "generated_at": "2026-04-10T09:00:00+08:00"
+}

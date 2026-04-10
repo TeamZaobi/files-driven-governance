@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "projection_id": "projection.discussion.status",
+  "family": "status_projection",
+  "workflow_id": "workflow.discussion.decision.task",
+  "run_id": "run.discussion.decision.task.001",
+  "contract_version": "v1",
+  "source_last_event_id": "event.discussion.004",
+  "current_node_id": "node.task_or_decision",
+  "gate_state": "ready",
+  "summary": "The chain has moved from discussion through issue_ledger and decision_package to task_or_decision. This projection is derived and does not create any new release authority.",
+  "missing_evidence_refs": [],
+  "forbidden_output_refs": [],
+  "generated_at": "2026-04-10T09:00:00+08:00"
+}

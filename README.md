@@ -227,6 +227,7 @@ flowchart LR
 | [QUICKSTART.md](QUICKSTART.md) | 第一次搭建受控资产包的人 | 给出最小资产包形状、校验脚本（validator）用法和起步顺序 |
 | [MIGRATION.md](MIGRATION.md) | 已有资产包的维护者 | 说明从旧约定迁到当前约定要改什么 |
 | [references/](references/) | 需要深入某一专题的人或代理 | 承载输出约定、流程库、读取顺序、共享约定等稳定参考 |
+| [examples/](examples/) | 想先看一条完整样例的人或代理 | 承载 discussion 主路径、受控 workflow 和条件分支 example |
 | [schemas/](schemas/) | 需要结构化合同草案的人或代理 | 承载控制语义的机读结构草案（schema） |
 | [docs/](docs/) | 想看完整背景、版本说明和公开专题材料的人 | 承载说明书、版本说明和公开专题记录 |
 | [CHANGELOG.md](CHANGELOG.md) | 关心仓库变更账本的人 | 记录仓库层面的新增、调整和删除 |
@@ -238,6 +239,7 @@ flowchart LR
 - `QUICKSTART` 是最小上手
 - `MIGRATION` 是迁移说明
 - `references` 是按需下钻
+- `examples` 是最短样例
 - `schemas` 是结构化合同草案
 - `docs` 是背景与公开说明
 - `CHANGELOG` 是账本
@@ -323,6 +325,9 @@ flowchart LR
 
 - 边界还不稳：读 [references/起步阶段_故事与测试对齐.md](references/起步阶段_故事与测试对齐.md)、[references/说人话需求确认工具包.md](references/说人话需求确认工具包.md)
 - 仓库已经漂移或需要恢复：读 [references/场景手册.md](references/场景手册.md)、[references/基本原则.md](references/基本原则.md)
+- 议题还没到 `task / decision`，但已经不能只留在聊天里：读 [references/讨论收口与晋升.md](references/讨论收口与晋升.md)、[examples/discussion-decision-task/README.md](examples/discussion-decision-task/README.md)
+- 议题争议很大，需要逐点质询后再收敛：读 [references/反方质询与收敛回路.md](references/反方质询与收敛回路.md)、[examples/adversarial-convergence/README.md](examples/adversarial-convergence/README.md)
+- 多工具过程已经不透明，需要统一接手面：读 [references/跨层共享约定.md](references/跨层共享约定.md)、[examples/multi-tool-process-projection/README.md](examples/multi-tool-process-projection/README.md)
 - 全员通过 AI 工具工作，并在 Git 上目录级全量共享：读 [references/AI-Native同构团队协作.md](references/AI-Native同构团队协作.md)
 - 只有复杂共享问题真的出现时，再读 [references/跨层共享约定.md](references/跨层共享约定.md)、[references/工具适配对照表.md](references/工具适配对照表.md)
 - 希望用短口令推进工作：读 [references/意图触发约定.md](references/意图触发约定.md)
@@ -335,6 +340,9 @@ flowchart LR
 - “帮我判断这个仓库里哪些文件是真源，哪些只是状态摘要。”
 - “这个项目已经开始漂移了，请先给我一个止血顺序。”
 - “我要搭一个 AI Agent 驱动的新项目，先帮我锁方向与边界。”
+- “这条议题还不适合进 task，请先帮我开 discussion，并判断什么时候该晋升。”
+- “这条讨论争议已经很大，请按质询-答辩-收敛来帮我收口。”
+- “我们现在有多工具过程，但接手时看不清到底跑了什么，请补一个 process projection。”
 - “我们想用‘继续开发’和‘开始审计’这类短口令驱动工作，帮我做成稳定约定。”
 
 ## 阅读路线

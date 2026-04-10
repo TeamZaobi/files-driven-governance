@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "run_id": "run.discussion.decision.task.001",
+  "workflow_id": "workflow.discussion.decision.task",
+  "contract_version": "v1",
+  "current_node_id": "node.task_or_decision",
+  "gate_state": "ready",
+  "required_evidence_refs": [
+    "evidence.discussion.thread",
+    "evidence.issue.ledger",
+    "evidence.decision.package",
+    "evidence.task.or.decision"
+  ],
+  "missing_evidence_refs": [],
+  "allowed_next_step_refs": [],
+  "forbidden_output_refs": [],
+  "updated_at": "2026-04-10T09:00:00+08:00",
+  "last_event_id": "event.discussion.004"
+}

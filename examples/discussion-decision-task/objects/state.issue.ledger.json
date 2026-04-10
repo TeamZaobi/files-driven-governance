@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "object_id": "state.issue.ledger",
+  "family": "object",
+  "version_anchor": "v1",
+  "kind": "state_profile",
+  "fields": [
+    {
+      "field_id": "ledger_id",
+      "type": "string",
+      "required": true
+    },
+    {
+      "field_id": "issue_count",
+      "type": "integer",
+      "required": true
+    },
+    {
+      "field_id": "blocking_items",
+      "type": "array<string>",
+      "required": false
+    },
+    {
+      "field_id": "owner_ref",
+      "type": "string",
+      "required": false
+    }
+  ]
+}

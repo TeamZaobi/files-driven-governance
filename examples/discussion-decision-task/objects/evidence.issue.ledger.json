@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "object_id": "evidence.issue.ledger",
+  "family": "object",
+  "version_anchor": "v1",
+  "kind": "evidence_type",
+  "fields": [
+    {
+      "field_id": "issue_ids",
+      "type": "array<string>",
+      "required": true
+    },
+    {
+      "field_id": "source_refs",
+      "type": "array<string>",
+      "required": true
+    },
+    {
+      "field_id": "risk_level",
+      "type": "string",
+      "required": false
+    },
+    {
+      "field_id": "missing_inputs",
+      "type": "array<string>",
+      "required": false
+    }
+  ]
+}

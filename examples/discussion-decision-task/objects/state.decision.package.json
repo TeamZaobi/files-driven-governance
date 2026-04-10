@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0",
+  "object_id": "state.decision.package",
+  "family": "object",
+  "version_anchor": "v1",
+  "kind": "state_profile",
+  "fields": [
+    {
+      "field_id": "package_id",
+      "type": "string",
+      "required": true
+    },
+    {
+      "field_id": "recommended_path",
+      "type": "string",
+      "required": true
+    },
+    {
+      "field_id": "alternatives",
+      "type": "array<string>",
+      "required": false
+    },
+    {
+      "field_id": "residual_risk",
+      "type": "string",
+      "required": false
+    },
+    {
+      "field_id": "decision_owner_ref",
+      "type": "string",
+      "required": false
+    }
+  ]
+}

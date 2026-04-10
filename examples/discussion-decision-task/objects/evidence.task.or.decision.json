@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "object_id": "evidence.task.or.decision",
+  "family": "object",
+  "version_anchor": "v1",
+  "kind": "evidence_type",
+  "fields": [
+    {
+      "field_id": "landing_kind",
+      "type": "string",
+      "required": true
+    },
+    {
+      "field_id": "landing_ref",
+      "type": "string",
+      "required": true
+    },
+    {
+      "field_id": "accepted_risks",
+      "type": "array<string>",
+      "required": false
+    },
+    {
+      "field_id": "remaining_gaps",
+      "type": "array<string>",
+      "required": false
+    }
+  ]
+}
