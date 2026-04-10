@@ -221,6 +221,7 @@ flowchart LR
 | 文件 | 主要读者 | 主要职责 |
 | --- | --- | --- |
 | [README.md](README.md) | 第一次接触这个项目的人 | 解释这是什么、什么时候该用、怎么开始 |
+| [docs/使用手册.md](docs/使用手册.md) | 已决定按这套方式工作的团队成员 | 从项目要解决的问题出发，说明问题为什么会出现、常见方式为什么不够，以及团队今天该怎么执行 |
 | [PROJECT_STORIES_AND_TESTS.md](PROJECT_STORIES_AND_TESTS.md) | 会继续开发这个仓库的人或代理 | 直接写清本项目当前的具体用户故事、测试用例、非目标和验收责任人 |
 | [SKILL.md](SKILL.md) | 会执行这个技能的代理 | 给出主流程、判断规则、边界约束和参考件路由 |
 | [QUICKSTART.md](QUICKSTART.md) | 第一次搭建受控资产包的人 | 给出最小资产包形状、校验脚本（validator）用法和起步顺序 |
@@ -289,8 +290,16 @@ flowchart LR
 如果你只是第一次判断要不要用这套方法，先按这个顺序读：
 
 1. [README.md](README.md)
-2. [SKILL.md](SKILL.md)
-3. [docs/完整说明书.md](docs/完整说明书.md)
+2. [docs/使用手册.md](docs/使用手册.md)
+3. [SKILL.md](SKILL.md)
+4. [docs/完整说明书.md](docs/完整说明书.md)
+
+如果你下午要做团队培训，先按这个顺序读：
+
+1. [docs/使用手册.md](docs/使用手册.md)
+2. [README.md](README.md)
+3. [references/AI-Native同构团队协作.md](references/AI-Native同构团队协作.md)
+4. [QUICKSTART.md](QUICKSTART.md)
 
 如果你要继续开发这个仓库，先按这个顺序读：
 
@@ -352,6 +361,7 @@ flowchart LR
 │   └── openai.yaml
 ├── docs/
 │   ├── 完整说明书.md
+│   ├── 使用手册.md
 │   ├── 语言体系规范.md
 │   └── v*_版本说明.md
 └── references/
