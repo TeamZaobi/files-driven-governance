@@ -1,11 +1,13 @@
 # 文档驱动的项目治理（files-driven）
 
-当前公开版本：`v0.2.7`<br>
+当前公开版本：`v0.3.0`<br>
 未发布中的整理与修正见 [CHANGELOG.md](CHANGELOG.md) 的 `Unreleased`。
 
 > `files-driven` 不是帮项目“摆目录”，而是帮项目分清：哪些文件定义事实，哪些文件推进执行，哪些文件只做状态摘要或展示。
 
 这个仓库面向 AI、多代理和文档密集项目。
+对“全员通过 AI 工具工作 + 项目级规则文件跟仓共享 + Git 目录级全量共享”的项目，
+默认先把多人协作理解成共享存储问题。
 它关心的不是“文档多不多”，而是：
 
 - 真源到底在哪里
@@ -167,23 +169,41 @@
 
 ```mermaid
 flowchart LR
-    truth["truth_source<br/>定义事实"] --> exec["execution_object<br/>推进执行"]
-    exec --> status["status_projection<br/>帮助恢复"]
-    status --> display["display_projection<br/>用于展示"]
+    truth["真源层<br/>定义事实"] --> exec["过程载体层<br/>推进执行"]
+    exec --> status["状态摘要层<br/>帮助恢复"]
+    status --> display["展示输出层<br/>用于展示"]
 
-    tool["tool adapter<br/>工具入口"] -.读取或包装.-> truth
+    tool["工具适配入口<br/>读取或包装"] -.读取或包装.-> truth
     tool -.读取或包装.-> exec
     tool -.读取或包装.-> status
 ```
 
 四层分别回答：
 
-- `truth_source`：哪份材料在定义事实、规则、边界
-- `execution_object`：哪份材料在推进任务、讨论、决策、复核、交接
-- `status_projection`：哪份材料在帮人快速恢复现场
-- `display_projection`：哪份材料只负责说明、汇报或对外展示
+- 真源层：哪份材料在定义事实、规则、边界
+- 过程载体层：哪份材料在推进任务、讨论、决策、复核、交接
+- 状态摘要层：哪份材料在帮人快速恢复现场
+- 展示输出层：哪份材料只负责说明、汇报或对外展示
 
-再往下，技能会在八类结构家族里定位职责：
+如果需要和稳定键名精确对齐，这四层分别对应：
+
+- `truth_source`
+- `execution_object`
+- `status_projection`
+- `display_projection`
+
+再往下，技能会在八类结构家族里定位职责。入口层默认只说中文主叫法：
+
+- 规则与约束层
+- 对象层
+- 流程层
+- 技能层
+- 角色层
+- 过程载体层
+- 状态摘要层
+- 展示输出层
+
+只有在需要和 schema、JSON 或稳定键逐项对齐时，才补：
 
 - `policy_or_rules`
 - `object`
@@ -201,11 +221,12 @@ flowchart LR
 | 文件 | 主要读者 | 主要职责 |
 | --- | --- | --- |
 | [README.md](README.md) | 第一次接触这个项目的人 | 解释这是什么、什么时候该用、怎么开始 |
+| [PROJECT_STORIES_AND_TESTS.md](PROJECT_STORIES_AND_TESTS.md) | 会继续开发这个仓库的人或代理 | 直接写清本项目当前的具体用户故事、测试用例、非目标和验收责任人 |
 | [SKILL.md](SKILL.md) | 会执行这个技能的代理 | 给出主流程、判断规则、边界约束和参考件路由 |
-| [QUICKSTART.md](QUICKSTART.md) | 第一次搭建 governed pack 的人 | 给出最小 pack 形状、validator 用法和起步顺序 |
-| [MIGRATION.md](MIGRATION.md) | 已有 pack 的维护者 | 说明从旧约定迁到当前约定要改什么 |
+| [QUICKSTART.md](QUICKSTART.md) | 第一次搭建受控资产包的人 | 给出最小资产包形状、校验脚本（validator）用法和起步顺序 |
+| [MIGRATION.md](MIGRATION.md) | 已有资产包的维护者 | 说明从旧约定迁到当前约定要改什么 |
 | [references/](references/) | 需要深入某一专题的人或代理 | 承载输出约定、流程库、读取顺序、共享约定等稳定参考 |
-| [schemas/](schemas/) | 需要结构化合同草案的人或代理 | 承载控制语义的机读 schema 草案 |
+| [schemas/](schemas/) | 需要结构化合同草案的人或代理 | 承载控制语义的机读结构草案（schema） |
 | [docs/](docs/) | 想看完整背景、版本说明和公开专题材料的人 | 承载说明书、版本说明和公开专题记录 |
 | [CHANGELOG.md](CHANGELOG.md) | 关心仓库变更账本的人 | 记录仓库层面的新增、调整和删除 |
 
@@ -220,52 +241,71 @@ flowchart LR
 - `docs` 是背景与公开说明
 - `CHANGELOG` 是账本
 
-## 当前 governed pack 约定
+## 当前受控资产包约定
 
-如果你要落一个受控 workflow 的 project pack，当前入口约定是：
+如果你要落一个受控流程的项目资产包，入口层先记住这几件事：
 
+- `BOUNDARY.md` 先锁首批场景、故事、测试、非目标、质量参考对象和验收责任人
 - `workflow.contract.json` 是控制合同
-- `objects/*.json` 是项目级 object contracts
+- `objects/*.json` 是项目级对象合同
 - `workflow.state.json` 与 `workflow.events.jsonl` 是运行实例
 - 可选 `status.projection.json` 只做派生摘要
-- workflow 顶层 `checks.route/evidence/write/stop` 是 v1 唯一 check 注册面
+- workflow 顶层 `checks.route/evidence/write/stop` 是 v1 唯一检查注册面
 - `agent_refs` 指向 `agent.contract.json` 的顶层 `agent_id`
 - `approver_ref` 指向 `roles[].role_id`
 - `workflow.events.jsonl.subject_ref` 在 v1 只指向 `node_id / transition_id`
 
-要特别区分两层 `schemas` 语义：
+如果你只是第一次接触这套做法，先把上面理解成：
 
-- 仓库根 [schemas/](/Users/jixiaokang/.agents/skills/files-driven/schemas) 是 schema draft
-- project pack 里的 object 合同不再放 `schemas/*.json`，而放 `objects/*.json`
+- `BOUNDARY.md` 先回答“这个 pack 到底服务谁、交付什么、怎么才算没跑偏”
+- `workflow.contract.json` 管流程怎么走
+- `objects/*.json` 管状态、证据、输出、批准对象这些定义
+- `workflow.state.json` 和 `workflow.events.jsonl` 记录这次运行到了哪里
+- `status.projection.json` 只是帮助恢复现场的摘要页，不能偷偷放行
 
-validator 也按这个边界工作：
+更细的键名和字段解释，放在 [QUICKSTART.md](QUICKSTART.md) 与 [schemas/README.md](schemas/README.md)。
+
+这里再特别区分两层 `schemas` 语义：
+
+- 仓库根 [schemas/](/Users/jixiaokang/.agents/skills/files-driven/schemas) 是结构草案目录
+- 项目资产包里的对象合同不再放 `schemas/*.json`，而放 `objects/*.json`
+
+校验脚本（validator）也按这个边界工作：
 
 - 参数是一个 `pack_root`
+- 它要求 `pack_root/BOUNDARY.md` 先把故事和测试锚点落成显式边界入口
 - 它读取 `pack_root/workflow.contract.json`
 - 它优先读取 `pack_root/objects/*.json`
 - 旧的 `pack_root/schemas/*.json` 只做兼容 warning，不再是首选布局
-- 它会对 pack 文件执行真实 schema 校验；本地运行前先安装 [requirements-dev.txt](/Users/jixiaokang/.agents/skills/files-driven/requirements-dev.txt)
+- 它会对资产包文件执行真实结构校验；本地运行前先安装 [requirements-dev.txt](/Users/jixiaokang/.agents/skills/files-driven/requirements-dev.txt)
 
 当前仓库还附带两层最小验证面：
 
-- [tests/](/Users/jixiaokang/.agents/skills/files-driven/tests) 提供 validator 的最小回归测试
-- [.github/workflows/governance-assets-ci.yml](/Users/jixiaokang/.agents/skills/files-driven/.github/workflows/governance-assets-ci.yml) 把 smoke pack、JSON 语法和单元测试接进 CI
+- [tests/](/Users/jixiaokang/.agents/skills/files-driven/tests) 提供校验脚本的最小回归测试
+- [.github/workflows/governance-assets-ci.yml](/Users/jixiaokang/.agents/skills/files-driven/.github/workflows/governance-assets-ci.yml) 把 smoke 资产包、JSON 语法和单元测试接进 CI
 
 ## 第一次怎么开始
 
-如果你是人在判断要不要用这套方法，先按这个顺序读：
+如果你只是第一次判断要不要用这套方法，先按这个顺序读：
 
 1. [README.md](README.md)
 2. [SKILL.md](SKILL.md)
 3. [docs/完整说明书.md](docs/完整说明书.md)
 
+如果你要继续开发这个仓库，先按这个顺序读：
+
+1. [README.md](README.md)
+2. [PROJECT_STORIES_AND_TESTS.md](PROJECT_STORIES_AND_TESTS.md)
+3. [QUICKSTART.md](QUICKSTART.md)
+4. [docs/项目治理能力模型_v1.md](docs/项目治理能力模型_v1.md)
+
 如果你关心这轮“项目治理能力模型 v1”和 JSON 合同方向，继续读：
 
-4. [docs/项目治理能力模型_v1.md](docs/项目治理能力模型_v1.md)
-5. [schemas/README.md](schemas/README.md)
-6. [QUICKSTART.md](QUICKSTART.md)
+1. [docs/项目治理能力模型_v1.md](docs/项目治理能力模型_v1.md)
+2. [schemas/README.md](schemas/README.md)
+3. [QUICKSTART.md](QUICKSTART.md)
 
-如果你手上已经有旧 pack，要直接做迁移，先读：
+如果你手上已经有旧资产包，要直接做迁移，先读：
 
 1. [MIGRATION.md](MIGRATION.md)
 2. [examples/smoke-governed-review/README.md](examples/smoke-governed-review/README.md)
@@ -274,7 +314,8 @@ validator 也按这个边界工作：
 
 - 边界还不稳：读 [references/起步阶段_故事与测试对齐.md](references/起步阶段_故事与测试对齐.md)、[references/说人话需求确认工具包.md](references/说人话需求确认工具包.md)
 - 仓库已经漂移或需要恢复：读 [references/场景手册.md](references/场景手册.md)、[references/基本原则.md](references/基本原则.md)
-- 多工具、多代理共享同一事实：读 [references/跨层共享约定.md](references/跨层共享约定.md)、[references/工具适配对照表.md](references/工具适配对照表.md)
+- 全员通过 AI 工具工作，并在 Git 上目录级全量共享：读 [references/AI-Native同构团队协作.md](references/AI-Native同构团队协作.md)
+- 只有复杂共享问题真的出现时，再读 [references/跨层共享约定.md](references/跨层共享约定.md)、[references/工具适配对照表.md](references/工具适配对照表.md)
 - 希望用短口令推进工作：读 [references/意图触发约定.md](references/意图触发约定.md)
 - 需要正式输出治理方案：读 [references/输出约定.md](references/输出约定.md)
 
@@ -331,7 +372,7 @@ validator 也按这个边界工作：
 
 ## 版本与变更
 
-- 当前公开版本是 `v0.2.7`
+- 当前公开版本是 `v0.3.0`
 - 未发布中的整理与修正统一记在 [CHANGELOG.md](CHANGELOG.md) 的 `Unreleased`
 - 每一版为什么重要、改变了什么理解或用法，读 [docs/](docs/) 里的 `v*_版本说明.md`
 - 研究过程留痕、任务计划、进度账本和内部案例默认留在本地忽略区，不进入公开仓库

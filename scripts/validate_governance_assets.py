@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import functools
 import json
+import re
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -19,6 +20,24 @@ except ImportError:  # pragma: no cover - exercised through CLI in tests
 
 SCHEMA_ROOT = Path(__file__).resolve().parents[1] / "schemas"
 SCHEMA_FORMAT_CHECKER = FormatChecker() if FormatChecker is not None else None
+
+BOUNDARY_FILENAME = "BOUNDARY.md"
+REQUIRED_BOUNDARY_SECTION_TAGS = {
+    "scenarios": "首批真实使用场景",
+    "deliverable": "首批交付物",
+    "user_stories": "用户故事",
+    "test_cases": "测试用例",
+    "non_goals": "非目标",
+    "quality_references": "质量参考对象",
+    "acceptance_owner": "验收责任人",
+}
+BOUNDARY_SECTION_RE = re.compile(r"^##\s+.+?\[(?P<tag>[a-z_]+)\]\s*$", re.MULTILINE)
+BOUNDARY_STORY_RE = re.compile(r"^###\s+(?:用户故事|User Story)\b.*$", re.MULTILINE)
+BOUNDARY_TEST_RE = re.compile(r"^###\s+(?:测试用例|Test Case)\b.*$", re.MULTILINE)
+BOUNDARY_FAILURE_RE = re.compile(
+    r"^[*-]\s*(?:失败/越界边界|Failure/Boundary)\s*[:：]",
+    re.MULTILINE,
+)
 
 
 REQUIRED_STATE_KEYS = {
@@ -153,6 +172,30 @@ def format_schema_path(path: list[object]) -> str:
         else:
             buffer += f".{item}"
     return buffer
+
+
+def extract_tagged_sections(text: str, errors: list[str]) -> dict[str, str]:
+    matches = list(BOUNDARY_SECTION_RE.finditer(text))
+    sections: dict[str, str] = {}
+    for index, match in enumerate(matches):
+        tag = match.group("tag")
+        start = match.end()
+        end = matches[index + 1].start() if index + 1 < len(matches) else len(text)
+        if tag in sections:
+            errors.append(f"{BOUNDARY_FILENAME}: duplicate section tag `[{tag}]`")
+            continue
+        sections[tag] = text[start:end].strip()
+    return sections
+
+
+def markdown_blocks(section_text: str, heading_re: re.Pattern[str]) -> list[str]:
+    matches = list(heading_re.finditer(section_text))
+    blocks: list[str] = []
+    for index, match in enumerate(matches):
+        start = match.start()
+        end = matches[index + 1].start() if index + 1 < len(matches) else len(section_text)
+        blocks.append(section_text[start:end].strip())
+    return blocks
 
 
 def validate_against_schema(
@@ -614,6 +657,41 @@ def validate_markdown_tokens(root: Path, warnings: list[str]) -> None:
             )
 
 
+def validate_boundary_anchor(root: Path, errors: list[str]) -> None:
+    boundary_path = root / BOUNDARY_FILENAME
+    if not boundary_path.exists():
+        errors.append(
+            f"{BOUNDARY_FILENAME} not found; governed packs must declare scenarios, stories, tests, non-goals, quality references, and an acceptance owner"
+        )
+        return
+
+    text = boundary_path.read_text(encoding="utf-8")
+    sections = extract_tagged_sections(text, errors)
+
+    for tag, label in REQUIRED_BOUNDARY_SECTION_TAGS.items():
+        if tag not in sections:
+            errors.append(f"{BOUNDARY_FILENAME}: missing section `[{tag}]` ({label})")
+            continue
+        if not sections[tag].strip():
+            errors.append(f"{BOUNDARY_FILENAME}: section `[{tag}]` ({label}) must not be empty")
+
+    story_blocks = markdown_blocks(sections.get("user_stories", ""), BOUNDARY_STORY_RE)
+    if not 1 <= len(story_blocks) <= 3:
+        errors.append(
+            f"{BOUNDARY_FILENAME}: expected 1-3 user stories under `[user_stories]`, got {len(story_blocks)}"
+        )
+
+    test_blocks = markdown_blocks(sections.get("test_cases", ""), BOUNDARY_TEST_RE)
+    if not 3 <= len(test_blocks) <= 8:
+        errors.append(
+            f"{BOUNDARY_FILENAME}: expected 3-8 test cases under `[test_cases]`, got {len(test_blocks)}"
+        )
+    elif not any(BOUNDARY_FAILURE_RE.search(block) for block in test_blocks):
+        errors.append(
+            f"{BOUNDARY_FILENAME}: at least one test case must declare `失败/越界边界` or `Failure/Boundary`"
+        )
+
+
 def main() -> int:
     if Draft202012Validator is None:
         print(
@@ -642,6 +720,7 @@ def main() -> int:
     status_projection = maybe_load(pack_root / "status.projection.json")
     object_contracts = collect_object_contracts(pack_root, warnings, errors)
 
+    validate_boundary_anchor(pack_root, errors)
     validate_against_schema(
         workflow,
         "workflow.contract.schema.json",

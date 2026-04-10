@@ -1,4 +1,5 @@
 import json
+import re
 import shutil
 import subprocess
 import sys
@@ -38,6 +39,12 @@ class ValidateGovernanceAssetsCliTests(unittest.TestCase):
             encoding="utf-8",
         )
 
+    def read_text(self, path: Path) -> str:
+        return path.read_text(encoding="utf-8")
+
+    def write_text(self, path: Path, text: str) -> None:
+        path.write_text(text, encoding="utf-8")
+
     def read_events(self, path: Path) -> list[dict]:
         events = []
         for line in path.read_text(encoding="utf-8").splitlines():
@@ -52,6 +59,74 @@ class ValidateGovernanceAssetsCliTests(unittest.TestCase):
     def test_smoke_pack_passes(self) -> None:
         result = self.run_validator(SMOKE_PACK)
         self.assertEqual(result.returncode, 0, result.stderr)
+
+    def test_missing_boundary_anchor_fails(self) -> None:
+        pack_root = self.make_pack()
+        (pack_root / "BOUNDARY.md").unlink()
+
+        result = self.run_validator(pack_root)
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("BOUNDARY.md not found", result.stderr)
+
+    def test_boundary_anchor_missing_user_stories_fails(self) -> None:
+        pack_root = self.make_pack()
+        boundary_path = pack_root / "BOUNDARY.md"
+        boundary = self.read_text(boundary_path)
+        boundary = re.sub(
+            r"## 用户故事 \[user_stories\]\n(?:.|\n)*?(?=\n## 测试用例 \[test_cases\])",
+            "## 用户故事 [user_stories]\n",
+            boundary,
+        )
+        self.write_text(boundary_path, boundary)
+
+        result = self.run_validator(pack_root)
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("expected 1-3 user stories under `[user_stories]`, got 0", result.stderr)
+
+    def test_boundary_anchor_requires_three_test_cases(self) -> None:
+        pack_root = self.make_pack()
+        boundary_path = pack_root / "BOUNDARY.md"
+        boundary = self.read_text(boundary_path)
+        boundary = re.sub(
+            r"\n### 测试用例 TC-3(?:.|\n)*?(?=\n## 非目标 \[non_goals\])",
+            "\n",
+            boundary,
+        )
+        self.write_text(boundary_path, boundary)
+
+        result = self.run_validator(pack_root)
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("expected 3-8 test cases under `[test_cases]`, got 2", result.stderr)
+
+    def test_boundary_anchor_requires_failure_boundary_case(self) -> None:
+        pack_root = self.make_pack()
+        boundary_path = pack_root / "BOUNDARY.md"
+        boundary = self.read_text(boundary_path).replace("失败/越界边界", "补充说明")
+        self.write_text(boundary_path, boundary)
+
+        result = self.run_validator(pack_root)
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("at least one test case must declare `失败/越界边界` or `Failure/Boundary`", result.stderr)
+
+    def test_boundary_anchor_requires_acceptance_owner(self) -> None:
+        pack_root = self.make_pack()
+        boundary_path = pack_root / "BOUNDARY.md"
+        boundary = self.read_text(boundary_path)
+        boundary = re.sub(
+            r"(## 验收责任人 \[acceptance_owner\]\n)(?:.|\n)*$",
+            r"\1",
+            boundary,
+        )
+        self.write_text(boundary_path, boundary)
+
+        result = self.run_validator(pack_root)
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("section `[acceptance_owner]` (验收责任人) must not be empty", result.stderr)
 
     def test_status_projection_authority_key_fails(self) -> None:
         pack_root = self.make_pack()

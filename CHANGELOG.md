@@ -8,6 +8,18 @@
 
 ### 新增
 
+- 新增 pack 级 [BOUNDARY.md](examples/smoke-governed-review/BOUNDARY.md) 约定，并在 smoke pack 中补出最小边界锚点：把首批场景、交付物、用户故事、测试用例、非目标、质量参考对象和验收责任人正式落成受控资产包入口。
+- 新增仓库级 [PROJECT_STORIES_AND_TESTS.md](PROJECT_STORIES_AND_TESTS.md) 与 [tests/test_project_stories_and_tests.py](tests/test_project_stories_and_tests.py)，把本项目自己当前的具体用户故事、具体测试用例、非目标和验收责任人固定成可回归的入口资产。
+
+### 调整
+
+- 调整 [scripts/validate_governance_assets.py](scripts/validate_governance_assets.py)、[tests/test_validate_governance_assets.py](tests/test_validate_governance_assets.py)、[QUICKSTART.md](QUICKSTART.md) 与 [MIGRATION.md](MIGRATION.md)，让 validator 和入口文档开始强制要求 `BOUNDARY.md` 的最小 section tag、故事数量、测试数量以及至少一个失败/越界边界。
+- 调整 [references/起步阶段_故事与测试对齐.md](references/起步阶段_故事与测试对齐.md)、[references/说人话需求确认工具包.md](references/说人话需求确认工具包.md) 与 [README.md](README.md)，把“先补故事和测试”从对话建议升级成 pack 级显式入口要求，并把仓库级项目故事/测试入口接进首次阅读路径。
+
+## v0.3.0 - 2026-04-07
+
+### 新增
+
 - 新增 [docs/语言体系规范.md](docs/语言体系规范.md)，把“中文优先、必要时补稳定键名”正式写成仓库级语言规范，用来约束后续 README、技能说明和参考件的写法。
 - 新增开发/运营并存治理的显式表达：在 [references/经典治理流程库.md](references/经典治理流程库.md) 中补入“运营信号分流”和“运行观察晋升关口”两条条件流程，在 [references/输出约定.md](references/输出约定.md) 中补入“开发/运营双治理结构”条件区块。
 - 新增 [references/关口硬化与稳定放行.md](references/关口硬化与稳定放行.md)，把“该停没停、该问没问、`partial / blocked` 无法约束下游”正式收编成可复用的治理问题，并提供最小稳定解。
@@ -25,6 +37,7 @@
 
 ### 调整
 
+- 收紧 [docs/语言体系规范.md](docs/语言体系规范.md) 与 [README.md](README.md) 的语言纪律：把入口层改回中文主叙事，新增“入口层 / 执行层 / 合同与实现层”的文档分层写法，并把英文稳定键名收回到第一次精确对齐和实现层文档中使用。
 - 在 [SKILL.md](SKILL.md)、[references/经典治理流程库.md](references/经典治理流程库.md) 与 [references/跨层共享约定.md](references/跨层共享约定.md) 中收编 `process_projection`：把它定义成从 `execution_object` 派生的统一过程投影，用于多工具过程可见性和交接压缩，不新增分层，也不提升为真源。
 - 进一步收紧 `process_projection` 的启用边界：默认只在多工具过程不透明时启用；若复杂性主要来自显式 `workflow` 或多 agent 协作，再条件补 `topology_supplement` 说明执行拓扑。
 - 统一 `docs/` 与 `references/` 主要文档的中文命名与中文表达，替换早期英文文件名和中英混写表述，并同步修正仓库内链接与对外包装文案。
