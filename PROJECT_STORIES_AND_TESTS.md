@@ -192,6 +192,16 @@
 - 这次明确不要求：不要求这一阶段就掌握所有 schema、validator 或源项目里的具体角色编排。
 - 失败/越界边界：如果读者看完仓库内材料后，仍然只能说出流程名，不能判断 discussion 何时晋升、何时质询、何时只补 process projection，说明这轮新增资产还没有形成真正可用的主路径。
 
+### 测试用例 TC-9
+
+- 对应故事：US-2
+- 前提：有人准备改造 `SKILL.md`、`references/输出约定.md` 或相关 metadata，希望默认执行路径更轻，但又不能伤到 skill 的召回面。
+- 当：对照 `SKILL.md`、`agents/openai.yaml`、`README.md`、`QUICKSTART.md`、examples、validator 和测试基线检查这轮改动。
+- 那么：应能确认本轮改造同时满足三件事：触发面不缩水、默认执行路径更轻、文档入口与 validator/examples/tests 仍保持一致。
+- 通过条件：现有 governed-pack 与 discussion 回归继续通过，并新增 skill 级回归冻结触发家族和轻量化指标，不再只靠人工记忆守住这些边界。
+- 这次明确不要求：不要求这一轮同时合并 schema、重写 validator 或清理所有历史背景资产。
+- 失败/越界边界：如果默认路径变短了，但老请求不再自然命中 skill，或入口文档与 validator/examples 口径重新漂移，说明这轮精简只是把风险藏起来，没有真正提升可维护性。
+
 ## 当前非目标
 
 - 不把 `files-driven` 在当前阶段扩成全功能平台产品。

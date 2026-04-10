@@ -1,0 +1,145 @@
+{
+  "trigger_families": [
+    {
+      "id": "existing_repo_drift",
+      "checks": [
+        {
+          "file": "SKILL.md",
+          "contains": "现有仓库开始出现规则、流程、状态页和说明页互相漂移"
+        }
+      ]
+    },
+    {
+      "id": "greenfield_governance",
+      "checks": [
+        {
+          "file": "SKILL.md",
+          "contains": "新项目需要一套够用但不过重的治理结构"
+        }
+      ]
+    },
+    {
+      "id": "recovery_or_realignment",
+      "checks": [
+        {
+          "file": "SKILL.md",
+          "contains": "项目已经失真，需要先止血、再收口、再重整"
+        }
+      ]
+    },
+    {
+      "id": "ai_native_shared_storage",
+      "checks": [
+        {
+          "file": "SKILL.md",
+          "contains": "全员通过 AI 工具工作 + 项目级规则文件跟仓共享 + Git 目录级全量共享"
+        }
+      ]
+    },
+    {
+      "id": "governed_pack_boundary",
+      "checks": [
+        {
+          "file": "SKILL.md",
+          "contains": "governed pack 或 harness 需要从 prose-first 说明推进到最小可执行合同链"
+        },
+        {
+          "file": "SKILL.md",
+          "contains": "`BOUNDARY.md`"
+        }
+      ]
+    },
+    {
+      "id": "workflow_harness_contract",
+      "checks": [
+        {
+          "file": "SKILL.md",
+          "contains": "我们要把 workflow 从 prose-first 说明推进成 harness 可消费的最小合同链"
+        }
+      ]
+    },
+    {
+      "id": "discussion_promotion",
+      "checks": [
+        {
+          "file": "SKILL.md",
+          "contains": "这个议题还没到 task 或 decision"
+        }
+      ]
+    },
+    {
+      "id": "adversarial_inquiry",
+      "checks": [
+        {
+          "file": "SKILL.md",
+          "contains": "反方质询"
+        }
+      ]
+    },
+    {
+      "id": "process_projection",
+      "checks": [
+        {
+          "file": "SKILL.md",
+          "contains": "`process_projection`"
+        }
+      ]
+    },
+    {
+      "id": "gate_hardening_short_intent",
+      "checks": [
+        {
+          "file": "SKILL.md",
+          "contains": "该停没停"
+        },
+        {
+          "file": "SKILL.md",
+          "contains": "继续开发"
+        }
+      ]
+    },
+    {
+      "id": "understanding_low_bandwidth",
+      "checks": [
+        {
+          "file": "SKILL.md",
+          "contains": "讲解一下"
+        },
+        {
+          "file": "SKILL.md",
+          "contains": "低带宽"
+        }
+      ]
+    }
+  ],
+  "lightness_targets": {
+    "required_skill_sections": [
+      "## 默认主路径",
+      "## 条件升级包",
+      "## 默认回答骨架"
+    ],
+    "required_output_sections": [
+      "## 默认回答骨架",
+      "## 条件加段"
+    ],
+    "skill_default_step_headings": 4,
+    "output_default_block_headings": 4,
+    "required_skill_phrases": [
+      "可选 `source_kind` 标签",
+      "truth_source",
+      "execution_object",
+      "status_projection",
+      "display_projection"
+    ],
+    "absent_output_headings": [
+      "### 4. 推荐治理模式",
+      "### 5. 推荐经典流程库",
+      "### 6. 项目结构家族图"
+    ],
+    "absent_skill_phrases_in_default_section": [
+      "先分八类结构家族",
+      "先做八维诊断",
+      "默认同时用三种视角做判断"
+    ]
+  }
+}

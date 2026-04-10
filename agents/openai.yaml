@@ -1,4 +1,4 @@
 interface:
   display_name: "文档驱动治理"
-  short_description: "为 AI、多代理与文档密集项目判断真源、分层和治理收口"
-  default_prompt: "使用 $files-driven 先锁定这个项目的方向与边界，再判断真源、结构家族、四层分层和最小治理流程；只在需要时下钻共享约定、短口令或解释型摩擦处理。"
+  short_description: "为 AI、多代理与文档密集项目先锁边界、判真源与四层，再按需升级治理收口"
+  default_prompt: "使用 $files-driven 先锁定这个项目的方向与边界，再画出 truth_source / execution_object / status_projection / display_projection 四层；只在需要时补结构家族标签、governed-pack/harness 合同链、discussion 晋升、跨层共享、关口硬化或低带宽压缩。"
