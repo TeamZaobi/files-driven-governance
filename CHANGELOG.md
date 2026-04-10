@@ -6,15 +6,22 @@
 
 ## Unreleased
 
+## v0.3.1 - 2026-04-10
+
 ### 新增
 
 - 新增 pack 级 [BOUNDARY.md](examples/smoke-governed-review/BOUNDARY.md) 约定，并在 smoke pack 中补出最小边界锚点：把首批场景、交付物、用户故事、测试用例、非目标、质量参考对象和验收责任人正式落成受控资产包入口。
 - 新增仓库级 [PROJECT_STORIES_AND_TESTS.md](PROJECT_STORIES_AND_TESTS.md) 与 [tests/test_project_stories_and_tests.py](tests/test_project_stories_and_tests.py)，把本项目自己当前的具体用户故事、具体测试用例、非目标和验收责任人固定成可回归的入口资产。
+- 新增 [references/AI-Native同构团队协作.md](references/AI-Native同构团队协作.md)，把“全员通过 AI 工具工作 + 项目级规则文件跟仓共享 + Git 目录级全量共享”这一协作前提正式收编为公开 reference。
 
 ### 调整
 
+- 新增 [docs/v0.3.1_版本说明.md](docs/v0.3.1_版本说明.md)，并同步更新当前公开版本、发布元数据与说明书入口，使这轮补丁正式作为 `v0.3.1` 发布。
+- 调整 [docs/v0.3.0_版本说明.md](docs/v0.3.0_版本说明.md)，补齐现有 `v0.3.0` 的历史说明文档。
+- 调整 [README.md](README.md)、[docs/完整说明书.md](docs/完整说明书.md)、[docs/语言体系规范.md](docs/语言体系规范.md)、[docs/仓库元数据建议.md](docs/仓库元数据建议.md)、[references/官方读取顺序.md](references/官方读取顺序.md)、[references/工具适配对照表.md](references/工具适配对照表.md) 与 [references/结构家族定位约定.md](references/结构家族定位约定.md)，把 `AI-Native` 同构团队下的默认协作理解补清：先按“多个执行上下文共享同一 Git 存储”判断协作，再区分 runtime/工具入口与仓库级规则真源。
 - 调整 [scripts/validate_governance_assets.py](scripts/validate_governance_assets.py)、[tests/test_validate_governance_assets.py](tests/test_validate_governance_assets.py)、[QUICKSTART.md](QUICKSTART.md) 与 [MIGRATION.md](MIGRATION.md)，让 validator 和入口文档开始强制要求 `BOUNDARY.md` 的最小 section tag、故事数量、测试数量以及至少一个失败/越界边界。
 - 调整 [references/起步阶段_故事与测试对齐.md](references/起步阶段_故事与测试对齐.md)、[references/说人话需求确认工具包.md](references/说人话需求确认工具包.md) 与 [README.md](README.md)，把“先补故事和测试”从对话建议升级成 pack 级显式入口要求，并把仓库级项目故事/测试入口接进首次阅读路径。
+- 调整 [SKILL.md](SKILL.md)、[references/起步阶段_故事与测试对齐.md](references/起步阶段_故事与测试对齐.md)、[docs/完整说明书.md](docs/完整说明书.md)、[README.md](README.md)、[PROJECT_STORIES_AND_TESTS.md](PROJECT_STORIES_AND_TESTS.md) 与 [tests/test_project_stories_and_tests.py](tests/test_project_stories_and_tests.py)，统一 `1-3` 个用户故事、`3-8` 个测试用例的数量口径，把仓库级故事/测试文档从 pack `BOUNDARY` 的固定 section contract 中解耦，并收窄首次阅读路径，减少入口溢出、规则漂移和过度设计。
 
 ## v0.3.0 - 2026-04-07
 
