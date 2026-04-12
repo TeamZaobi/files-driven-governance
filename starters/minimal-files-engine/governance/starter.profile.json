@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "starter.example-project",
+  "project_id": "example-project",
+  "required_work_posts": [
+    {
+      "work_post": "boundary_anchor",
+      "path": "BOUNDARY.md"
+    },
+    {
+      "work_post": "file_registry",
+      "path": "governance/files.registry.json"
+    },
+    {
+      "work_post": "intent_routes",
+      "path": "governance/intent.routes.json"
+    },
+    {
+      "work_post": "scaffold_manifest",
+      "path": "governance/scaffold.manifest.json"
+    },
+    {
+      "work_post": "starter_profile",
+      "path": "governance/starter.profile.json"
+    }
+  ],
+  "required_family_entries": [
+    "skill"
+  ],
+  "required_entry_expectations": [
+    {
+      "path": "workflow.contract.json",
+      "family": "workflow",
+      "layer": "truth_source",
+      "work_post": "workflow_contract"
+    },
+    {
+      "path": "workflow.state.json",
+      "family": "execution_object",
+      "layer": "execution_object",
+      "work_post": "runtime_state",
+      "annotations": {
+        "truth_status": "runtime"
+      }
+    },
+    {
+      "path": "workflow.events.jsonl",
+      "family": "execution_object",
+      "layer": "execution_object",
+      "work_post": "runtime_event_log",
+      "annotations": {
+        "truth_status": "runtime"
+      }
+    },
+    {
+      "path": "status.projection.json",
+      "family": "status_projection",
+      "layer": "status_projection",
+      "work_post": "status_projection",
+      "annotations": {
+        "truth_status": "derived"
+      }
+    }
+  ]
+}

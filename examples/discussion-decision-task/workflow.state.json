@@ -12,7 +12,6 @@
     "evidence.task.or.decision"
   ],
   "missing_evidence_refs": [],
-  "allowed_next_step_refs": [],
   "forbidden_output_refs": [],
   "updated_at": "2026-04-10T09:00:00+08:00",
   "last_event_id": "event.discussion.004"

@@ -49,7 +49,6 @@ REQUIRED_STATE_KEYS = {
     "gate_state",
     "required_evidence_refs",
     "missing_evidence_refs",
-    "allowed_next_step_refs",
     "forbidden_output_refs",
     "updated_at",
     "last_event_id",
@@ -120,6 +119,11 @@ FORBIDDEN_STATUS_PROJECTION_KEYS = {
     "output_policy_refs",
     "required_check_refs",
     "release_decision",
+    "next_step",
+}
+
+FORBIDDEN_WORKFLOW_STATE_KEYS = {
+    "allowed_next_step_refs",
     "next_step",
 }
 
@@ -254,8 +258,8 @@ def collect_object_contracts(root: Path, warnings: list[str], errors: list[str])
                 if data.get("family") == "object":
                     legacy_contracts.append(path.name)
         if legacy_contracts:
-            warnings.append(
-                f"legacy object contracts under schemas/ were ignored; move them to objects/ ({', '.join(sorted(legacy_contracts))})"
+            errors.append(
+                f"schemas/: legacy pack object contracts are not allowed; keep only objects/*.json ({', '.join(sorted(legacy_contracts))})"
             )
         return contracts
 
@@ -274,7 +278,7 @@ def collect_object_contracts(root: Path, warnings: list[str], errors: list[str])
         if data.get("family") == "object":
             contracts.append(data)
     if contracts:
-        warnings.append("object contracts loaded from legacy schemas/ directory; prefer objects/")
+        errors.append("schemas/: legacy pack object contracts are not allowed; keep only objects/*.json")
     return contracts
 
 
@@ -483,6 +487,9 @@ def validate_state(
     missing = REQUIRED_STATE_KEYS.difference(state.keys())
     for key in sorted(missing):
         errors.append(f"workflow.state.json: missing required key `{key}`")
+    for key in sorted(FORBIDDEN_WORKFLOW_STATE_KEYS):
+        if key in state:
+            errors.append(f"workflow.state.json: forbidden authority key `{key}`")
     if state.get("workflow_id") != workflow.get("workflow_id"):
         errors.append("workflow.state.json: workflow_id does not match workflow.contract.json")
     current_node_id = state.get("current_node_id")

@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "run_id": "run.review.starter",
+  "workflow_id": "workflow.review.starter",
+  "contract_version": "v1",
+  "current_node_id": "node.review",
+  "gate_state": "partial",
+  "required_evidence_refs": [
+    "evidence.review.note"
+  ],
+  "missing_evidence_refs": [
+    "evidence.review.note"
+  ],
+  "forbidden_output_refs": [
+    "output.publish.review"
+  ],
+  "updated_at": "2026-04-12T12:00:00+08:00",
+  "last_event_id": "event.review.001"
+}

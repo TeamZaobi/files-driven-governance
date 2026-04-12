@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://files-driven.dev/schemas/starter.profile.schema.json",
+  "title": "Starter Profile",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "profile_id",
+    "project_id",
+    "required_work_posts",
+    "required_family_entries",
+    "required_entry_expectations"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "profile_id": {
+      "type": "string"
+    },
+    "project_id": {
+      "type": "string"
+    },
+    "required_work_posts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "work_post",
+          "path"
+        ],
+        "properties": {
+          "work_post": {
+            "type": "string",
+            "minLength": 1
+          },
+          "path": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^(?!/).+"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "required_family_entries": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "policy_or_rules",
+          "object",
+          "workflow",
+          "skill",
+          "agent",
+          "execution_object",
+          "status_projection",
+          "display_projection"
+        ]
+      }
+    },
+    "required_entry_expectations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "path",
+          "family",
+          "layer"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^(?!/).+"
+          },
+          "family": {
+            "type": "string",
+            "enum": [
+              "policy_or_rules",
+              "object",
+              "workflow",
+              "skill",
+              "agent",
+              "execution_object",
+              "status_projection",
+              "display_projection"
+            ]
+          },
+          "layer": {
+            "type": "string",
+            "enum": [
+              "truth_source",
+              "execution_object",
+              "status_projection",
+              "display_projection"
+            ]
+          },
+          "work_post": {
+            "type": "string",
+            "minLength": 1
+          },
+          "annotations": {
+            "type": "object",
+            "properties": {
+              "truth_status": {
+                "type": "string",
+                "enum": [
+                  "canonical",
+                  "supporting",
+                  "derived",
+                  "runtime"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "policy_id": "policy.guard.review",
+  "family": "policy_or_rules",
+  "version_anchor": "v1",
+  "scope": "workflow",
+  "rules": [
+    {
+      "rule_id": "rule.require-evidence",
+      "effect": "require_evidence",
+      "target_refs": [
+        "transition.review-to-review"
+      ],
+      "required_refs": [
+        "evidence.review.note"
+      ]
+    },
+    {
+      "rule_id": "rule.block-write-on-partial",
+      "effect": "deny",
+      "condition_ref": "state.review.partial",
+      "target_refs": [
+        "output.publish.review"
+      ]
+    }
+  ]
+}

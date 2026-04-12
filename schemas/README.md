@@ -4,6 +4,14 @@
 
 它不是要替代 `README.md`、`SKILL.md`、`references/` 或 `docs/`，
 而是为高风险控制语义提供机读入口。
+底层能力模型基线仍只认 [docs/项目治理能力模型.md](docs/项目治理能力模型.md)。
+
+这里也必须显式分开两条版本轴：
+
+1. 能力模型：`v1 -> v2 -> v2.1`
+2. governed pack / contract：`tranche v1`
+
+本目录里提到的 `v1`，除非另有说明，默认都指 governed pack / contract 的 `tranche v1`。
 
 当前放在这里的内容主要是：
 
@@ -14,6 +22,11 @@
 5. `workflow.state.schema.json`
 6. `workflow.event.schema.json`
 7. `status.projection.schema.json`
+8. `file.registration.schema.json`
+9. `files.registry.schema.json`
+10. `intent.routes.schema.json`
+11. `scaffold.manifest.schema.json`
+12. `starter.profile.schema.json`
 
 术语冻结：
 
@@ -42,6 +55,7 @@
 
 这些文件描述的是“合同的结构”，
 不是某个具体项目的实例数据。
+仓库根的 `schemas/` 目录是 repo 级 schema 草案目录，不是项目 pack 的 canonical object 合同路径；pack 内对象合同的 canonical pass path 仍是 `objects/*.json`，并且不再允许残留 `schemas/*.json`。
 
 当前默认的分工是：
 
@@ -55,6 +69,22 @@
    - 事件流复用同一组 `gate_state` 最小枚举，不承担运行生命周期扩词
 7. `status.projection.schema.json` 负责最小机读状态投影
    - 它只允许携带派生状态、阻断线索和来源锚点（如 `source_last_event_id / generated_at`），不允许携带新的放行字段
+8. `file.registration.schema.json` 负责单个文件注册项
+   - 它冻结文件出生时的最小注册事实：`file_id / path / family / layer / work_post`
+   - `evidence_type / workflow_binding` 更适合作为注册注释或消费注释
+9. `files.registry.schema.json` 负责仓库级文件注册表
+   - 它用于把 starter 或下游项目里的关键文件稳定注册成可被 workflow、tool 和 validator 消费的事实
+   - 它只定义文件身份核心、岗位和 annotations，不反向持有 route 绑定
+10. `intent.routes.schema.json` 负责 starter / files engine 的 route contract
+   - 它冻结入口动作、必读文件、写入目标和 route 与注册表之间的绑定关系
+   - 它单向消费 registry 里的 `file_id`，不要求 registry 反向登记 `route_id`
+11. `scaffold.manifest.schema.json` 负责 starter 拓扑合同
+   - 它冻结 `required_paths / tracked_globs / boundary_path / registry_path / routes_path / workflow_contract_path`
+   - scaffold validator 应读取 manifest，而不是把 starter 根目录拓扑硬编码在脚本里
+    - starter 专属形状约束不应继续塞进 manifest，应由单独的 starter profile contract 持有
+12. `starter.profile.schema.json` 负责 starter 专属形状约束合同
+   - 它冻结 `required_work_posts / required_family_entries / required_entry_expectations`
+   - `manage` CLI 和 scaffold validator 应读取它，而不是继续在代码里硬编码官方 starter 形状
 
 重要边界：
 
@@ -72,6 +102,10 @@
 12. `status.projection.json` 只允许复述 `current_node_id / gate_state / missing_evidence_refs / forbidden_output_refs / summary` 一类派生信息
     - 并应携带 `source_last_event_id / generated_at` 作为来源锚点
 13. `status.projection.json` 不得持有 `approver_ref`、`approval_ref`、`guard_policy_refs`、自由文本 `next_step` 或任何新的放行字段
+14. `governance/scaffold.manifest.json` 属于 starter / meta-skill 脚手架层
+    - 它定义的是“validator 要跟踪哪些路径与 glob”，不是 pack runtime 自己的执行状态
+15. starter profile 属于 starter / meta-skill 脚手架层
+    - 它定义的是官方 starter 的专属形状约束，不是 manifest 的职责
 
 使用原则：
 
@@ -86,3 +120,5 @@
 - 主要目标是冻结最小字段和引用关系
 - 还没有取代现有 reference 的解释职责
 - 这一轮已补最小实例 schema、`status_projection` 机读限制、gate/approval 语义冻结、真实 schema 校验，以及可跑的 smoke validator 链路
+- 新增的 `file registration / registry / intent routes / scaffold manifest / starter profile` schema 属于 starter / meta-skill 脚手架层，不属于 governed pack / contract `tranche v1`
+- 如果后续需要补 starter 专属形状约束，请把它放进单独的 starter profile contract，而不是回写到 `scaffold.manifest.schema.json`

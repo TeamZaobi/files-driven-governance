@@ -1,7 +1,7 @@
 # decision_package
 
-- `source_discussion`: [discussion.md](/Users/jixiaokang/.agents/skills/files-driven/examples/discussion-decision-task/discussion.md)
-- `source_issue_ledger`: [issue_ledger.md](/Users/jixiaokang/.agents/skills/files-driven/examples/discussion-decision-task/issue_ledger.md)
+- `source_discussion`: [discussion.md](discussion.md)
+- `source_issue_ledger`: [issue_ledger.md](issue_ledger.md)
 - `decision_authority`: `project-maintainer`
 - `recommended_outcome`: `promote to task_or_decision`
 
@@ -28,6 +28,6 @@
 
 下一步进入：
 
-- [task_or_decision.md](/Users/jixiaokang/.agents/skills/files-driven/examples/discussion-decision-task/task_or_decision.md)
+- [task_or_decision.md](task_or_decision.md)
 
 因为当前已经不该继续停留在讨论层，而要明确进入执行、裁定或归档。

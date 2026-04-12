@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://files-driven.dev/schemas/file.registration.schema.json",
+  "title": "File Registration",
+  "type": "object",
+  "required": [
+    "file_id",
+    "path",
+    "family",
+    "layer",
+    "work_post"
+  ],
+  "properties": {
+    "file_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._-]+$"
+    },
+    "path": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/).+"
+    },
+    "family": {
+      "type": "string",
+      "enum": [
+        "policy_or_rules",
+        "object",
+        "workflow",
+        "skill",
+        "agent",
+        "execution_object",
+        "status_projection",
+        "display_projection"
+      ]
+    },
+    "layer": {
+      "type": "string",
+      "enum": [
+        "truth_source",
+        "execution_object",
+        "status_projection",
+        "display_projection"
+      ]
+    },
+    "work_post": {
+      "type": "string",
+      "minLength": 1
+    },
+    "annotations": {
+      "type": "object",
+      "properties": {
+        "evidence_type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "truth_status": {
+          "type": "string",
+          "enum": [
+            "canonical",
+            "supporting",
+            "derived",
+            "runtime"
+          ]
+        },
+        "write_roles": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "consumed_as": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "upstream_refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "stale_policy": {
+          "type": "string",
+          "enum": [
+            "manual_review",
+            "refresh_on_upstream_change",
+            "immutable"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

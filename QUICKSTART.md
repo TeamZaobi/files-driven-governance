@@ -1,14 +1,27 @@
 # QUICKSTART
 
 这份文档只回答一件事：如何用当前约定搭出一个最小可验证的 governed pack。
+它不是本仓库的首屏总入口，而是当当前问题已经明确落在 governed pack / harness 后，
+用于回答一级动作怎么落盘的专项入口。
 
-## 1. 先认 5 个入口
+如果你当前要解决的是“给下游项目安装 `files engine`”，
+先读 [docs/files引擎脚手架工程.md](docs/files引擎脚手架工程.md)，
+再运行 [scripts/bootstrap_files_engine_starter.py](scripts/bootstrap_files_engine_starter.py)。
+这份 `QUICKSTART` 不负责替代 starter、registry 或 scaffold validator。
 
-1. 仓库根的 [schemas/](/Users/jixiaokang/.agents/skills/files-driven/schemas) 是 schema draft，不是 project pack 里的对象合同目录。
+底层模型本体以 [docs/项目治理能力模型.md](docs/项目治理能力模型.md) 为准。
+这份 `QUICKSTART` 只执行其中与 governed pack / harness 有关的派生约定。
+这里出现的 `v1` 默认指 governed pack / contract 的 `tranche v1`，
+不是能力模型世界观那条 `v1 -> v2 -> v2.1` 演进号。
+
+## 1. 先认 6 个入口
+
+1. 仓库根的 [schemas/](schemas/) 是 schema draft，不是 project pack 里的对象合同目录。
 2. project pack 的 object 合同放在 `objects/*.json`。
-3. `BOUNDARY.md` 是 pack 的边界锚点入口，先锁场景、故事、测试、非目标和验收责任人，再看 workflow 合同。
-4. workflow 顶层 `checks.route/evidence/write/stop` 是 v1 唯一 check 注册面。
-5. validator 的参数是 `pack_root`，应指向一个具体 pack 目录。
+3. 如果 pack 里还保留 `schemas/*.json`，先迁到 `objects/*.json` 并删除 legacy 目录，否则 validator 会直接报错。
+4. `BOUNDARY.md` 是 pack 的边界锚点入口，先锁场景、故事、测试、非目标和验收责任人，再看 workflow 合同。
+5. workflow 顶层 `checks.route/evidence/write/stop` 是 v1 唯一 check 注册面。
+6. validator 的参数是 `pack_root`，应指向一个具体 pack 目录。
 
 运行本地校验前，先安装最小开发依赖：
 
@@ -38,7 +51,7 @@ your-pack/
 ```
 
 参考现成示例：
-[examples/smoke-governed-review](/Users/jixiaokang/.agents/skills/files-driven/examples/smoke-governed-review)
+[examples/smoke-governed-review](examples/smoke-governed-review)
 
 其中 `BOUNDARY.md` 建议至少包含这些二级标题，并保留方括号里的稳定 section tag，方便人读和自动校验同时成立：
 
@@ -56,6 +69,7 @@ your-pack/
 
 1. 先写 `BOUNDARY.md`
    - 先锁首批场景、首批交付物、1 到 3 个用户故事、3 到 8 个测试用例、非目标、质量参考对象和验收责任人
+   - 先让 pack 的入口规则直接生效，不要把最关键约束藏进后置长文
    - 至少有一个测试用例明确写出 `失败/越界边界`
 2. 再写 `workflow.contract.json`
    - 定义节点、转移、`policy_refs`、`object_refs`、`agent_refs`
@@ -84,7 +98,7 @@ python3 scripts/validate_governance_assets.py examples/smoke-governed-review
 如果你在别的目录运行，参数必须仍然指向 pack root，例如：
 
 ```bash
-python3 /Users/jixiaokang/.agents/skills/files-driven/scripts/validate_governance_assets.py /abs/path/to/your-pack
+python3 /path/to/files-driven/scripts/validate_governance_assets.py /abs/path/to/your-pack
 ```
 
 不要把仓库根传给 validator，除非仓库根本身就是一个完整 pack。
@@ -105,7 +119,13 @@ python3 /Users/jixiaokang/.agents/skills/files-driven/scripts/validate_governanc
 ## 6. 下一步看什么
 
 如果你已经有旧 pack，要迁移：
-[MIGRATION.md](/Users/jixiaokang/.agents/skills/files-driven/MIGRATION.md)
+[MIGRATION.md](MIGRATION.md)
 
 如果你想看更完整的能力模型：
-[docs/项目治理能力模型_v1.md](/Users/jixiaokang/.agents/skills/files-driven/docs/项目治理能力模型_v1.md)
+[docs/项目治理能力模型.md](docs/项目治理能力模型.md)
+
+如果你要从零起一个官方 starter：
+[docs/files引擎脚手架工程.md](docs/files引擎脚手架工程.md)
+
+如果你是从旧入口继续跟进 `v1`：
+[docs/项目治理能力模型_v1.md](docs/项目治理能力模型_v1.md)

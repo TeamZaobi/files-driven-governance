@@ -125,21 +125,43 @@
     "skill_default_step_headings": 4,
     "output_default_block_headings": 4,
     "required_skill_phrases": [
+      "v2",
+      "v2.1",
+      "capability_scope",
+      "project_scope",
+      "runtime_scope",
+      "self-hosting",
+      "默认描述的是 `project_scope`",
+      "入口规则",
+      "能力规则",
+      "项目规则",
+      "项目实体",
+      "动作触发 -> 一级关口 -> 二级升级",
       "可选 `source_kind` 标签",
       "truth_source",
       "execution_object",
       "status_projection",
       "display_projection"
     ],
+    "required_output_phrases": [
+      "### 2. 当前作用域与归属判断",
+      "### 3. 四层与真源",
+      "### 4. 下一步动作与升级口",
+      "capability_scope",
+      "project_scope",
+      "runtime_scope",
+      "self-hosting"
+    ],
     "absent_output_headings": [
-      "### 4. 推荐治理模式",
-      "### 5. 推荐经典流程库",
-      "### 6. 项目结构家族图"
+      "### 5. 推荐治理模式",
+      "### 6. 推荐经典流程库",
+      "### 7. 项目结构家族图"
     ],
     "absent_skill_phrases_in_default_section": [
       "先分八类结构家族",
       "先做八维诊断",
-      "默认同时用三种视角做判断"
+      "默认同时用三种视角做判断",
+      "默认先把文档系统按四层看清"
     ]
   }
 }

@@ -1,10 +1,12 @@
 # MIGRATION
 
 这份文档说明如何把旧约定迁到当前 governed pack 约定。
+它只讨论 governed pack / contract 的 `tranche v1`，不重定义能力模型 `v1 -> v2 -> v2.1`。
+能力模型基线仍以 [docs/项目治理能力模型.md](docs/项目治理能力模型.md) 为准。
 
 ## 1. 这次迁移改了什么
 
-当前 tranche 有 7 个实质变化：
+当前 governed pack / contract `tranche v1` 有 7 个实质变化：
 
 1. pack 根目录现在要求补一份 `BOUNDARY.md`，把场景、交付物、故事、测试、非目标、质量参考对象和验收责任人显式落盘
 2. project-level object 合同目录从 `schemas/*.json` 迁到 `objects/*.json`
@@ -12,7 +14,7 @@
 4. workflow 不再在 node / transition 层重复登记 checks，只保留顶层 `checks.route/evidence/write/stop`
 5. `status.projection.json` 使用扁平来源锚点 `source_last_event_id / generated_at`，不再使用 `derived_from`
 6. `workflow.agent_refs` 固定指向 `agent.contract.json` 的顶层 `agent_id`
-7. `workflow.events.jsonl` 的 `subject_ref` 在 v1 固定指向 `node_id / transition_id`
+7. `workflow.events.jsonl` 的 `subject_ref` 在 `tranche v1` 固定指向 `node_id / transition_id`
 
 ## 2. 迁移顺序
 
@@ -143,23 +145,24 @@ pack/
 
 新：
 
-- `subject_ref` 在 v1 只写 `node_id / transition_id`
+- `subject_ref` 在 `tranche v1` 只写 `node_id / transition_id`
 
 ## 4. validator 的兼容策略
 
-当前 validator 仍保留一层轻兼容：
+当前 validator 已经不再保留 pack 内 `schemas/*.json` 的通过路径：
 
-1. 如果 pack 里还在用 `schemas/*.json`，会给 warning，并尽量继续读取
-2. 但缺少 `BOUNDARY.md` 或边界锚点不完整，会直接报错
+1. 只要 pack 里还保留 `schemas/*.json`，就会直接报迁移错误
+2. 缺少 `BOUNDARY.md` 或边界锚点不完整，会直接报错
 3. `rules.contract.json` 的旧 `statement` 形态不会再被视为合规
 4. `status.projection.json` 的旧 `derived_from` 形态也不会再通过
-5. `agent_refs` 如果继续写 role id，会报错
-6. `subject_ref` 如果继续写 object ref，会报错
+5. `workflow.state.json` 不再允许携带 `allowed_next_step_refs`
+6. `agent_refs` 如果继续写 role id，会报错
+7. `subject_ref` 如果继续写 object ref，会报错
 
 也就是说：
 
 - `BOUNDARY.md` 现在是“必须补齐”
-- `schemas/ -> objects/` 目前是“告警兼容”
+- `objects/*.json` 才是 canonical pass path；pack 内不再允许残留 `schemas/`
 - `statement -> effect` 与 `derived_from -> source_last_event_id/generated_at` 已经是“必须迁”
 
 ## 5. 迁完后的最低验证
@@ -172,4 +175,4 @@ python3 scripts/validate_governance_assets.py /abs/path/to/pack
 ```
 
 建议直接对照 smoke pack：
-[examples/smoke-governed-review](/Users/jixiaokang/.agents/skills/files-driven/examples/smoke-governed-review)
+[examples/smoke-governed-review](examples/smoke-governed-review)

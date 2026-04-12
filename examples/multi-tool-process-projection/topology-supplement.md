@@ -19,4 +19,4 @@
 
 ## 说明
 
-这份补充只解释拓扑，不替代 [process-projection.md](/Users/jixiaokang/.agents/skills/files-driven/examples/multi-tool-process-projection/process-projection.md) 本身。
+这份补充只解释拓扑，不替代 [process-projection.md](process-projection.md) 本身。

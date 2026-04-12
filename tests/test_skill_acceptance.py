@@ -33,7 +33,7 @@ class SkillAcceptanceTests(unittest.TestCase):
                     f"missing trigger anchor `{check['contains']}` for `{family['id']}`",
                 )
 
-    def test_skill_default_path_is_four_steps_and_keeps_four_layer_core(self) -> None:
+    def test_skill_default_path_is_four_steps_and_puts_ownership_before_layers(self) -> None:
         targets = self.baseline["lightness_targets"]
         for heading in targets["required_skill_sections"]:
             self.assertIn(heading, self.skill_text)
@@ -64,6 +64,9 @@ class SkillAcceptanceTests(unittest.TestCase):
         )
         headings = [line for line in default_section.splitlines() if line.startswith("### ")]
         self.assertEqual(len(headings), targets["output_default_block_headings"])
+
+        for phrase in targets["required_output_phrases"]:
+            self.assertIn(phrase, self.output_text)
 
         for heading in targets["absent_output_headings"]:
             self.assertNotIn(heading, self.output_text)

@@ -21,7 +21,7 @@
       "required": true
     },
     {
-      "field_id": "next_step",
+      "field_id": "handoff_focus",
       "type": "string",
       "required": false
     }

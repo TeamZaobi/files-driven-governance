@@ -12,7 +12,6 @@
     "gate_state",
     "required_evidence_refs",
     "missing_evidence_refs",
-    "allowed_next_step_refs",
     "forbidden_output_refs",
     "updated_at",
     "last_event_id"
@@ -50,13 +49,6 @@
       "default": []
     },
     "missing_evidence_refs": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      },
-      "default": []
-    },
-    "allowed_next_step_refs": {
       "type": "array",
       "items": {
         "type": "string"

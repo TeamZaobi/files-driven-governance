@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://files-driven.dev/schemas/intent.routes.schema.json",
+  "title": "Intent Routes",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "routes_id",
+    "project_id",
+    "routes"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "routes_id": {
+      "type": "string"
+    },
+    "project_id": {
+      "type": "string"
+    },
+    "routes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "route_id",
+          "intent_patterns",
+          "entrypoint_file_id",
+          "required_file_ids",
+          "write_targets",
+          "primary_gate"
+        ],
+        "properties": {
+          "route_id": {
+            "type": "string"
+          },
+          "intent_patterns": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "entrypoint_file_id": {
+            "type": "string"
+          },
+          "required_file_ids": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "write_targets": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "primary_gate": {
+            "type": "string",
+            "enum": [
+              "boundary",
+              "registry",
+              "workflow",
+              "execution",
+              "recovery"
+            ]
+          },
+          "notes": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

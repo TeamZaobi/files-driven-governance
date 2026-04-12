@@ -9,7 +9,7 @@
 - `required_roles`:
   - `maintainer`
   - `reviewer`
-- `issue_ledger`: [issue_ledger.md](/Users/jixiaokang/.agents/skills/files-driven/examples/discussion-decision-task/issue_ledger.md)
+- `issue_ledger`: [issue_ledger.md](issue_ledger.md)
 - `promotion_target`: `decision_package -> task_or_decision`
 - `closure_authority`: `project-maintainer`
 - `next_action`: `先压 decision_package，再决定进入 task 还是 decision`

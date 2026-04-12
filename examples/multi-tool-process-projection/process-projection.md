@@ -16,6 +16,6 @@
   - `review-trace.md`
   - `decision-note.md`
 - `status`: `partial`
-- `next_step`: `refresh README, 使用手册 and tests`
+- `handoff_focus`: `align repository entry docs and tests to docs/项目治理能力模型.md`
 
-这个文件只压缩过程，不发明新的放行权。
+这个文件只压缩过程，不生成新的 gate、next-step 或放行结论。

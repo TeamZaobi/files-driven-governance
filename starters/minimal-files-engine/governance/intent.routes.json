@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0",
+  "routes_id": "routes.example-project",
+  "project_id": "example-project",
+  "routes": [
+    {
+      "route_id": "route.bootstrap.files-engine",
+      "intent_patterns": [
+        "bootstrap files engine",
+        "start files-driven project",
+        "install files engine"
+      ],
+      "entrypoint_file_id": "boundary.root",
+      "required_file_ids": [
+        "boundary.root",
+        "registry.files",
+        "routes.intent",
+        "skill.review",
+        "readme.root"
+      ],
+      "write_targets": [
+        "boundary.root",
+        "registry.files",
+        "routes.intent",
+        "skill.review"
+      ],
+      "primary_gate": "boundary",
+      "notes": "Use this route when the project is still being bootstrapped."
+    },
+    {
+      "route_id": "route.review.runtime",
+      "intent_patterns": [
+        "start review",
+        "continue review",
+        "run governed review"
+      ],
+      "entrypoint_file_id": "workflow.contract.review",
+      "required_file_ids": [
+        "workflow.contract.review",
+        "rules.contract.review",
+        "agent.contract.review",
+        "state.object.review.partial",
+        "action.object.review",
+        "evidence.object.review.note",
+        "approval.object.review",
+        "output.object.publish.review",
+        "runtime.workflow.state",
+        "runtime.workflow.events",
+        "projection.status.current",
+        "registry.files"
+      ],
+      "write_targets": [
+        "runtime.workflow.state",
+        "runtime.workflow.events",
+        "projection.status.current"
+      ],
+      "primary_gate": "workflow",
+      "notes": "Pack runtime route. Control truth stays in workflow.contract.json."
+    }
+  ]
+}

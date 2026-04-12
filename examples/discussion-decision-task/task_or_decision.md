@@ -2,8 +2,8 @@
 
 - `owner`: `project-maintainer`
 - `current_object`: `discussion 主路径模板与 example`
-- `source_discussion`: [discussion.md](/Users/jixiaokang/.agents/skills/files-driven/examples/discussion-decision-task/discussion.md)
-- `source_decision_package`: [decision_package.md](/Users/jixiaokang/.agents/skills/files-driven/examples/discussion-decision-task/decision_package.md)
+- `source_discussion`: [discussion.md](discussion.md)
+- `source_decision_package`: [decision_package.md](decision_package.md)
 - `stop_condition`: `主路径资产已落仓，入口已可读，测试已通过`
 - `next_response_role`: `reviewer`
 

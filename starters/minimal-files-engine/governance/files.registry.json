@@ -1,0 +1,351 @@
+{
+  "schema_version": "1.0",
+  "registry_id": "registry.example-project",
+  "project_id": "example-project",
+  "entries": [
+    {
+      "file_id": "readme.root",
+      "path": "README.md",
+      "family": "display_projection",
+      "layer": "display_projection",
+      "work_post": "onboarding_entry",
+      "annotations": {
+        "evidence_type": "starter_readme",
+        "truth_status": "supporting",
+        "write_roles": [
+          "maintainer"
+        ],
+        "consumed_as": [
+          "starter_entry"
+        ],
+        "stale_policy": "manual_review"
+      }
+    },
+    {
+      "file_id": "boundary.root",
+      "path": "BOUNDARY.md",
+      "family": "policy_or_rules",
+      "layer": "truth_source",
+      "work_post": "boundary_anchor",
+      "annotations": {
+        "evidence_type": "boundary_evidence",
+        "truth_status": "canonical",
+        "write_roles": [
+          "maintainer"
+        ],
+        "consumed_as": [
+          "boundary_anchor"
+        ],
+        "stale_policy": "manual_review"
+      }
+    },
+    {
+      "file_id": "workflow.guide",
+      "path": "WORKFLOW.md",
+      "family": "display_projection",
+      "layer": "display_projection",
+      "work_post": "workflow_explanation",
+      "annotations": {
+        "evidence_type": "workflow_explanation",
+        "truth_status": "supporting",
+        "write_roles": [
+          "maintainer"
+        ],
+        "consumed_as": [
+          "workflow_guide"
+        ],
+        "stale_policy": "refresh_on_upstream_change"
+      }
+    },
+    {
+      "file_id": "workflow.contract.review",
+      "path": "workflow.contract.json",
+      "family": "workflow",
+      "layer": "truth_source",
+      "work_post": "workflow_contract",
+      "annotations": {
+        "evidence_type": "control_truth",
+        "truth_status": "canonical",
+        "write_roles": [
+          "maintainer"
+        ],
+        "consumed_as": [
+          "control_truth"
+        ],
+        "stale_policy": "manual_review"
+      }
+    },
+    {
+      "file_id": "rules.contract.review",
+      "path": "rules.contract.json",
+      "family": "policy_or_rules",
+      "layer": "truth_source",
+      "work_post": "rules_contract",
+      "annotations": {
+        "evidence_type": "rules_truth",
+        "truth_status": "canonical",
+        "write_roles": [
+          "maintainer"
+        ],
+        "consumed_as": [
+          "rules_truth"
+        ],
+        "stale_policy": "manual_review"
+      }
+    },
+    {
+      "file_id": "agent.contract.review",
+      "path": "agent.contract.json",
+      "family": "agent",
+      "layer": "truth_source",
+      "work_post": "agent_contract",
+      "annotations": {
+        "evidence_type": "agent_truth",
+        "truth_status": "canonical",
+        "write_roles": [
+          "maintainer"
+        ],
+        "consumed_as": [
+          "agent_truth"
+        ],
+        "stale_policy": "manual_review"
+      }
+    },
+    {
+      "file_id": "state.object.review.partial",
+      "path": "objects/state.review.partial.json",
+      "family": "object",
+      "layer": "truth_source",
+      "work_post": "state_contract",
+      "annotations": {
+        "evidence_type": "state_profile",
+        "truth_status": "canonical",
+        "write_roles": [
+          "maintainer"
+        ],
+        "consumed_as": [
+          "state_contract"
+        ],
+        "stale_policy": "manual_review"
+      }
+    },
+    {
+      "file_id": "action.object.review",
+      "path": "objects/action.review.json",
+      "family": "object",
+      "layer": "truth_source",
+      "work_post": "action_contract",
+      "annotations": {
+        "evidence_type": "action_profile",
+        "truth_status": "canonical",
+        "write_roles": [
+          "maintainer"
+        ],
+        "consumed_as": [
+          "action_contract"
+        ],
+        "stale_policy": "manual_review"
+      }
+    },
+    {
+      "file_id": "evidence.object.review.note",
+      "path": "objects/evidence.review.note.json",
+      "family": "object",
+      "layer": "truth_source",
+      "work_post": "evidence_contract",
+      "annotations": {
+        "evidence_type": "evidence_type",
+        "truth_status": "canonical",
+        "write_roles": [
+          "maintainer"
+        ],
+        "consumed_as": [
+          "evidence_contract"
+        ],
+        "stale_policy": "manual_review"
+      }
+    },
+    {
+      "file_id": "approval.object.review",
+      "path": "objects/approval.human.review.json",
+      "family": "object",
+      "layer": "truth_source",
+      "work_post": "approval_contract",
+      "annotations": {
+        "evidence_type": "approval_type",
+        "truth_status": "canonical",
+        "write_roles": [
+          "maintainer"
+        ],
+        "consumed_as": [
+          "approval_contract"
+        ],
+        "stale_policy": "manual_review"
+      }
+    },
+    {
+      "file_id": "output.object.publish.review",
+      "path": "objects/output.publish.review.json",
+      "family": "object",
+      "layer": "truth_source",
+      "work_post": "output_contract",
+      "annotations": {
+        "evidence_type": "output_type",
+        "truth_status": "canonical",
+        "write_roles": [
+          "maintainer"
+        ],
+        "consumed_as": [
+          "output_contract"
+        ],
+        "stale_policy": "manual_review"
+      }
+    },
+    {
+      "file_id": "runtime.workflow.state",
+      "path": "workflow.state.json",
+      "family": "execution_object",
+      "layer": "execution_object",
+      "work_post": "runtime_state",
+      "annotations": {
+        "evidence_type": "runtime_snapshot",
+        "truth_status": "runtime",
+        "write_roles": [
+          "maintainer",
+          "agent.review"
+        ],
+        "consumed_as": [
+          "runtime_state"
+        ],
+        "stale_policy": "refresh_on_upstream_change"
+      }
+    },
+    {
+      "file_id": "runtime.workflow.events",
+      "path": "workflow.events.jsonl",
+      "family": "execution_object",
+      "layer": "execution_object",
+      "work_post": "runtime_event_log",
+      "annotations": {
+        "evidence_type": "runtime_trace",
+        "truth_status": "runtime",
+        "write_roles": [
+          "maintainer",
+          "agent.review"
+        ],
+        "consumed_as": [
+          "runtime_trace"
+        ],
+        "stale_policy": "refresh_on_upstream_change"
+      }
+    },
+    {
+      "file_id": "projection.status.current",
+      "path": "status.projection.json",
+      "family": "status_projection",
+      "layer": "status_projection",
+      "work_post": "status_projection",
+      "annotations": {
+        "evidence_type": "handoff_projection",
+        "truth_status": "derived",
+        "write_roles": [
+          "maintainer"
+        ],
+        "consumed_as": [
+          "status_projection"
+        ],
+        "stale_policy": "refresh_on_upstream_change"
+      }
+    },
+    {
+      "file_id": "registry.files",
+      "path": "governance/files.registry.json",
+      "family": "policy_or_rules",
+      "layer": "truth_source",
+      "work_post": "file_registry",
+      "annotations": {
+        "evidence_type": "registry_truth",
+        "truth_status": "canonical",
+        "write_roles": [
+          "maintainer"
+        ],
+        "consumed_as": [
+          "registry_truth"
+        ],
+        "stale_policy": "manual_review"
+      }
+    },
+    {
+      "file_id": "routes.intent",
+      "path": "governance/intent.routes.json",
+      "family": "workflow",
+      "layer": "truth_source",
+      "work_post": "intent_routes",
+      "annotations": {
+        "evidence_type": "route_contract",
+        "truth_status": "canonical",
+        "write_roles": [
+          "maintainer"
+        ],
+        "consumed_as": [
+          "route_contract"
+        ],
+        "stale_policy": "manual_review"
+      }
+    },
+    {
+      "file_id": "manifest.scaffold",
+      "path": "governance/scaffold.manifest.json",
+      "family": "policy_or_rules",
+      "layer": "truth_source",
+      "work_post": "scaffold_manifest",
+      "annotations": {
+        "evidence_type": "topology_contract",
+        "truth_status": "canonical",
+        "write_roles": [
+          "maintainer"
+        ],
+        "consumed_as": [
+          "topology_manifest"
+        ],
+        "stale_policy": "manual_review"
+      }
+    },
+    {
+      "file_id": "profile.starter",
+      "path": "governance/starter.profile.json",
+      "family": "policy_or_rules",
+      "layer": "truth_source",
+      "work_post": "starter_profile",
+      "annotations": {
+        "evidence_type": "starter_profile",
+        "truth_status": "canonical",
+        "write_roles": [
+          "maintainer"
+        ],
+        "consumed_as": [
+          "starter_profile"
+        ],
+        "stale_policy": "manual_review"
+      }
+    },
+    {
+      "file_id": "skill.review",
+      "path": "skills/review-skill/SKILL.md",
+      "family": "skill",
+      "layer": "truth_source",
+      "work_post": "project_skill",
+      "annotations": {
+        "evidence_type": "skill_capability",
+        "truth_status": "canonical",
+        "write_roles": [
+          "maintainer"
+        ],
+        "consumed_as": [
+          "project_skill"
+        ],
+        "stale_policy": "manual_review"
+      }
+    }
+  ]
+}

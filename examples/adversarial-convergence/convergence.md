@@ -15,4 +15,4 @@
 
 - `result`: `partial_accept`
 - `reason`: `主路径已收敛，后续合同化仍需下一轮判断`
-- `next_step`: `继续用主路径和条件分支 example 收用户反馈`
+- `handoff_focus`: `继续用主路径和条件分支 example 收用户反馈`

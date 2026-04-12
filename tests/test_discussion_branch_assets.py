@@ -9,6 +9,8 @@ PROCESS_ROOT = ROOT / "examples" / "multi-tool-process-projection"
 README = ROOT / "README.md"
 MANUAL = ROOT / "docs" / "使用手册.md"
 STORIES = ROOT / "PROJECT_STORIES_AND_TESTS.md"
+DISCUSSION_ROOT = ROOT / "examples" / "discussion-decision-task"
+MODEL = ROOT / "docs" / "项目治理能力模型.md"
 
 
 class DiscussionBranchAssetsTests(unittest.TestCase):
@@ -31,7 +33,8 @@ class DiscussionBranchAssetsTests(unittest.TestCase):
         self.assertIn("`response_ref`", ledger)
         self.assertIn("`closure_authority`", ledger)
         self.assertIn("`result`", convergence)
-        self.assertIn("`next_step`", convergence)
+        self.assertIn("`handoff_focus`", convergence)
+        self.assertNotIn("`next_step`", convergence)
         self.assertIn("partial_accept", convergence)
 
     def test_process_projection_example_contains_required_assets(self) -> None:
@@ -55,6 +58,7 @@ class DiscussionBranchAssetsTests(unittest.TestCase):
         status_projection = json.loads(
             (PROCESS_ROOT / "status.projection.json").read_text(encoding="utf-8")
         )
+        process_readme = (PROCESS_ROOT / "README.md").read_text(encoding="utf-8")
 
         for field in (
             "`goal`",
@@ -63,10 +67,13 @@ class DiscussionBranchAssetsTests(unittest.TestCase):
             "`decisions`",
             "`artifacts`",
             "`status`",
-            "`next_step`",
+            "`handoff_focus`",
         ):
             self.assertIn(field, process_projection)
 
+        self.assertNotIn("`next_step`", process_projection)
+        self.assertIn("`handoff_focus`", process_readme)
+        self.assertNotIn("`next_step`", process_readme)
         self.assertIn("## 节点", topology)
         self.assertIn("## 流转", topology)
         self.assertIn("## 关口", topology)
@@ -79,16 +86,25 @@ class DiscussionBranchAssetsTests(unittest.TestCase):
         readme = README.read_text(encoding="utf-8")
         manual = MANUAL.read_text(encoding="utf-8")
         stories = STORIES.read_text(encoding="utf-8")
+        discussion_boundary = (DISCUSSION_ROOT / "BOUNDARY.md").read_text(encoding="utf-8")
+        discussion_workflow = (DISCUSSION_ROOT / "WORKFLOW.md").read_text(encoding="utf-8")
+        model = MODEL.read_text(encoding="utf-8")
 
         self.assertIn("议题还没到 `task / decision`", readme)
+        self.assertIn("docs/项目治理能力模型.md", readme)
         self.assertIn("examples/adversarial-convergence/README.md", readme)
-        self.assertIn("examples/multi-tool-process-projection/README.md", readme)
+        self.assertIn("examples/discussion-decision-task/BOUNDARY.md", readme)
+        self.assertIn("examples/discussion-decision-task/WORKFLOW.md", readme)
+        self.assertIn("examples/multi-tool-process-projection/process-projection.md", readme)
         self.assertIn("### 5.9 讨论一直停在聊天层", manual)
         self.assertIn("### 6.3 如果一个议题还没到 task 或 decision", manual)
         self.assertIn("discussion 什么时候开、什么时候晋升", manual)
         self.assertIn("### 想直接看 discussion 和收口样例", manual)
         self.assertIn("### 用户故事 US-8", stories)
         self.assertIn("### 测试用例 TC-8", stories)
+        self.assertIn("先读它，再读 `active-discussions.md`、`WORKFLOW.md`", discussion_boundary)
+        self.assertIn("`workflow.contract.json` is the control truth", discussion_workflow)
+        self.assertIn("后续多角度、多轮审计", model)
 
 
 if __name__ == "__main__":

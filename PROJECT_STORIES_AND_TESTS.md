@@ -9,9 +9,19 @@
 这份文档不是 pack 级 `BOUNDARY.md`。
 它不复用 pack 的固定 section contract，只服务于本仓库自己的开发和维护。
 
+能力模型基线只认 [docs/项目治理能力模型.md](docs/项目治理能力模型.md)。
+这份文档只记录仓库当前迭代的用户故事、测试锚点和非目标；如果与基线冲突，以基线为准。
+
+这里显式区分两条版本轴：
+
+1. 能力模型：`v1 -> v2 -> v2.1`
+2. governed pack / contract：`tranche v1`
+
+像 `checks.route / evidence / write / stop`、`subject_ref` 这类冻结语义，默认都属于后者。
+
 ## 当前使用场景
 
-- 仓库维护者准备继续推进 `项目治理能力模型 v1`，需要先确认当前 tranche 到底应该补哪些公开资产和验证面，避免边改边漂移。
+- 仓库维护者准备把能力模型 `v1 -> v2 -> v2.1` 收口到同一份底层真源上，并继续推进它的公开入口、专项 reference 和验证面，避免边改边漂移。
 - 新接手的 AI coding 代理需要在一次会话内判断：这个仓库当前是在完善方法论说明、推进可执行合同层，还是已经转向做一个更重的产品框架。
 - 外部贡献者希望判断自己提的文档、schema、validator 或示例改动，是否仍然落在当前项目目标之内。
 - AI-Native 团队负责人希望把“全员通过 AI 工具工作 + 项目级规则文件跟仓共享 + Git 目录级全量共享”这一协作前提讲清，避免团队继续按工具品牌而不是按共享存储理解协作。
@@ -19,16 +29,24 @@
 - 团队培训者希望快速把“files-driven 到底在解决什么问题、为什么常见做法不够、团队应该怎么工作”讲清楚，而不是再产出一份只讲概念和目录的说明文档。
 - 负责 harness、agent runtime 或治理执行链的人，希望把 `workflow` 从 prose-first 说明重构为最小可执行控制载体，减少运行时歧义、提高检查、恢复和自动化执行效能。
 - 团队负责人或新接手的协作者希望看到官方 `discussion` 模板、晋升路径和分支 example，不必再从其他项目逆向理解“讨论如何收口、何时升级到质询、何时进入执行”。
+- 下游项目的采用者或 AI coding 代理，希望拿到一条官方 starter 闭环，能把 `files-driven` 作为 `meta-skill` 安装进新项目，而不是继续从 example 和说明文里反推起步路径。
 
 ## 当前交付物
 
 - 一套可以公开理解、可以本地验证、也可以持续演进的 `files-driven` 项目基线：
   - 中文主叙事入口
   - 问题导向的团队使用手册
-  - 项目治理能力模型 v1 说明
+  - 项目治理能力模型统一真源
+  - `v1` 历史阶段兼容入口
   - AI-Native 同构团队协作 reference
   - discussion 收口与晋升 reference
   - 最小 schema 草案
+  - files engine 脚手架工程说明
+  - 官方 starter
+  - 文件注册表与路由合同 schema
+  - starter bootstrap 与 scaffold validator
+  - 统一 `manage` CLI 的动作面
+  - starter profile 与 manifest 分层约定
   - `workflow` 作为控制载体的最小合同化实现
   - pack 级 `BOUNDARY.md` 入口
   - smoke governed pack
@@ -41,10 +59,10 @@
 ### 用户故事 US-1
 
 - 谁在用：第一次接手这个仓库的维护者或 AI coding 代理。
-- 在什么场景下：需要先判断这个仓库当前阶段到底在做什么，再决定该优先改 README、SKILL、schemas、validator 还是示例 pack。
-- 他/她现在想完成什么：在不翻遍历史讨论的前提下，快速理解项目目标、当前 tranche、通过线和非目标。
+- 在什么场景下：需要先判断这个仓库当前阶段到底在做什么，再决定该优先改 README、SKILL、validator、示例 pack 或 schema 草案说明。
+- 他/她现在想完成什么：在不翻遍历史讨论的前提下，快速理解项目目标、能力模型基线、当前 governed pack / contract tranche、通过线和非目标。
 - 为什么这件事对当前阶段重要：如果项目本身的边界不清楚，后续文档、schema、示例和脚本会各自演化，重新制造这个仓库试图解决的“真源漂移”。
-- 这次完成后，用户应该看到什么变化：新接手的人可以直接解释这个仓库现在是“项目治理能力模型 v1 的最小可执行基线”，而不是泛化成任何文档治理都要全包的大全集。
+- 这次完成后，用户应该看到什么变化：新接手的人可以直接解释这个仓库现在是“以 [docs/项目治理能力模型.md](docs/项目治理能力模型.md) 为唯一底层真源、以 `v1 -> v2 -> v2.1` 为能力模型演进轴、并附带 governed pack / contract `tranche v1` 最小合同链”的项目治理模型，而不是泛化成任何文档治理都要全包的大全集。
 - 这次明确不包含什么：不要求一上来就覆盖生产级安全、完整平台化产品或所有外部工具生态。
 
 ### 用户故事 US-2
@@ -71,7 +89,7 @@
 - 在什么场景下：需要向团队解释为什么这个项目现在首先解决的是“共享存储上的事实漂移和写权失控”，而不是“选哪个 AI 工具最好用”。
 - 他/她现在想完成什么：让团队成员能明确区分 runtime / 工具入口 与仓库中的项目级规则文件，并接受“协作先按共享存储理解”的前提。
 - 为什么这件事对当前阶段重要：如果协作前提没讲清，团队后续仍会把 `Codex / Claude Code / AntiGravity` 的品牌差异误当成治理主问题，继续忽略真源、路径和写权。
-- 这次完成后，用户应该看到什么变化：团队成员能直接说明为什么 `AGENT.md / CLAUDE.md / CODEX.md / SKILL.md / RULES.md` 可能属于项目真源，并知道什么时候该读 AI-Native 协作 reference、什么时候才需要升级到复杂共享约定。
+- 这次完成后，用户应该看到什么变化：团队成员能直接说明为什么 `AGENT.md / CLAUDE.md / CODEX.md / SKILL.md / RULES.md` 可以作为协作入口或执行包装，但不能越过能力模型和项目规则真源，并知道什么时候该读 AI-Native 协作 reference、什么时候才需要升级到复杂共享约定。
 - 这次明确不包含什么：不要求把所有工具行为完全统一，也不要求团队只使用一种 AI 工具。
 
 ### 用户故事 US-5
@@ -110,14 +128,50 @@
 - 这次完成后，用户应该看到什么变化：第一次读仓库的人可以直接沿着 `discussion -> decision_package -> task_or_decision` 主路径理解收口方式，并知道什么时候再看 adversarial 和 process projection 分支。
 - 这次明确不包含什么：不要求这一阶段就把 `decision_package` 或 `process_projection` 合同化，也不要求把源项目角色名、领域对象和编号体系上升为通用模板。
 
+### 用户故事 US-9
+
+- 谁在用：第一次把 `files-driven` 装进新项目的维护者、AI coding 代理或团队负责人。
+- 在什么场景下：手头还没有现成 pack，但希望在短时间内起出一个最小可验证的 `files engine` 起点。
+- 他/她现在想完成什么：不用先读完整 example 和长文，就能生成一个带 `BOUNDARY.md`、项目 `Skill`、文件注册表、route 合同和最小 governed pack 的官方 starter。
+- 为什么这件事对当前阶段重要：如果 starter 闭环不存在，`files-driven` 就仍然只是解释型 skill，而不是能帮下游项目冷启动的 `meta-skill`。
+- 这次完成后，用户应该看到什么变化：从零目录出发，也能用官方 starter 在 `10-15` 分钟内起出一个最小项目起点，并知道先改哪里。
+- 这次明确不包含什么：不要求这一阶段就覆盖完整平台化产品、复杂生成 UI 或所有行业模板。
+
+### 用户故事 US-10
+
+- 谁在用：负责 workflow、validator、tool entry 或项目规则的人。
+- 在什么场景下：需要让新文件在创建时就稳定拥有工作职位、证据类型、写权和 route 绑定，而不是靠事后解释。
+- 他/她现在想完成什么：把 `file_id / path / family / layer / work_post` 这类 identity core，以及按需携带的 annotations，落成机读合同，并让 validator 能直接消费。
+- 为什么这件事对当前阶段重要：如果文件出生后没有注册事实，workflow、validator 和工具入口就会重新退化成从 prose 猜归属、猜用途、猜下一步。
+- 这次完成后，用户应该看到什么变化：新增、迁移或角色变化的文件会先改注册表，再刷新派生物，而不是靠 README 或状态页补口头说明。
+- 这次明确不包含什么：不要求这一阶段就完成全量 stale graph、自动推理拓扑或完整图数据库。
+
+### 用户故事 US-11
+
+- 谁在用：要把本仓库、当前 skill 和下游项目实例分清的人。
+- 在什么场景下：同时讨论 self-hosting、skill 执行导览和下游 starter，最容易把 `repo / skill / meta-skill / downstream` 混成一层。
+- 他/她现在想完成什么：看到一条稳定边界，知道哪些资产属于本仓库、哪些属于技能包、哪些属于引擎安装层、哪些属于下游项目实例。
+- 为什么这件事对当前阶段重要：如果这四层边界继续混写，后续即使加了 starter 和 registry，也会再次把 self-hosting 入口误当成下游模板。
+- 这次完成后，用户应该看到什么变化：维护者和采用者都能清楚区分仓库资产、技能资产、元技能安装资产和下游项目资产，并据此判断文件该落在哪里。
+- 这次明确不包含什么：不要求所有 scope 都进入 starter 合同；这里只要求把四层边界和资产职责讲清。
+
+### 用户故事 US-12
+
+- 谁在用：负责把 `files-driven` 作为可执行元 skill 交付的人。
+- 在什么场景下：不想再从长文里猜动作，而是要直接进入 install / register / repair / audit。
+- 他/她现在想完成什么：先知道 `install` 由 bootstrap 完成，`register / repair / audit` 由统一 `manage` CLI 完成；同时知道 registry 的 identity core / annotations 分层，以及 starter profile 与 manifest 的边界。
+- 为什么这件事对当前阶段重要：如果动作目录还藏在解释文档后面，`files-driven` 仍然只是说明书，不是元 skill。
+- 这次完成后，用户应该看到什么变化：维护者能直接把问题归到对应动作，并知道 starter 专属形状约束不应该回写 manifest。
+- 这次明确不包含什么：不要求这一阶段就做平台级 CLI、自动修复器或全量生成器。
+
 ## 项目测试用例
 
 ### 测试用例 TC-1
 
 - 对应故事：US-1
 - 前提：新接手的人或代理刚进入仓库，只知道这是 `files-driven` skill 项目。
-- 当：从 `README.md` 的“继续开发本仓库”入口进入，再读 `PROJECT_STORIES_AND_TESTS.md` 和相关入口文档。
-- 那么：应能说明这个项目当前的服务对象、当前 tranche 的交付物、最重要的通过线和明确非目标。
+- 当：从 `README.md` 的“继续开发本仓库”入口进入，先读 [docs/项目治理能力模型.md](docs/项目治理能力模型.md)，再读 `PROJECT_STORIES_AND_TESTS.md` 和相关入口文档。
+- 那么：应能说明这个项目当前的服务对象、能力模型基线、当前 governed pack / contract tranche 的交付物、最重要的通过线和明确非目标。
 - 通过条件：无需依赖历史聊天，也能解释“为什么这个仓库现在要同时维护文档、schema、smoke pack、validator 和测试”。
 - 这次明确不要求：不要求在首次阅读时就理解所有 reference 的细节。
 - 失败/越界边界：如果新接手的人仍然把项目理解成“只是在写一个 README 技巧集合”或“已经要做完整平台产品”，说明项目故事与测试入口不合格。
@@ -126,7 +180,7 @@
 
 - 对应故事：US-2
 - 前提：有人准备新增一份文档、schema 或脚本。
-- 当：用 `PROJECT_STORIES_AND_TESTS.md` 对照该改动是否服务当前 tranche 交付物。
+- 当：用 `PROJECT_STORIES_AND_TESTS.md` 对照该改动是否服务当前基线投影与当前 governed pack / contract tranche 交付物。
 - 那么：应能判断这项改动是在加强入口、合同层、示例链路还是回归面；若都对不上，应视为边界外或至少需要先澄清。
 - 通过条件：项目级故事与测试文档能帮助贡献者拒绝“看起来相关、实际上会扩范围”的改动。
 - 这次明确不要求：不要求这里替代详细设计评审。
@@ -176,7 +230,7 @@
 
 - 对应故事：US-7
 - 前提：有人需要判断这套仓库最近关于 `workflow`、schema、validator 和 smoke pack 的更新，是否真的在提升 harness 侧的可执行性与恢复能力。
-- 当：从 `README.md`、`docs/项目治理能力模型_v1.md`、`docs/治理能力模型_v1_下一阶段执行计划.md`、`QUICKSTART.md` 和 smoke pack 入口顺序阅读当前资产。
+- 当：从 `README.md`、`docs/项目治理能力模型.md`、`QUICKSTART.md`、`examples/smoke-governed-review/BOUNDARY.md` 和 `examples/smoke-governed-review/WORKFLOW.md` 的入口顺序阅读当前资产。
 - 那么：应能说明这轮 workflow 重构不是单纯“多了几个 JSON 文件”，而是把控制语义从 prose-first 解释推进到最小可执行合同链，并解释 `workflow.contract.json`、`workflow.state.json`、`workflow.events.jsonl`、顶层 `checks` 与 validator 分别承担什么职责。
 - 通过条件：读者能够用“减少运行时歧义、提高检查稳定性、降低恢复成本、提升 harness 可消费性”来解释这轮能力提升，而不是只把它理解成 schema 扩展或目录调整。
 - 这次明确不要求：不要求这里已经证明所有 runtime 或 harness 都与当前合同层完全适配，也不要求此时就覆盖全部高风险生产场景。
@@ -186,7 +240,7 @@
 
 - 对应故事：US-8
 - 前提：有人第一次需要把 discussion 管理和执行晋升讲清，但不想再去 HQMDClaw 或 AIJournal 里逆向找案例。
-- 当：从 `README.md` 和 `docs/使用手册.md` 进入，再读 `references/讨论收口与晋升.md`、`examples/discussion-decision-task/README.md`、`examples/adversarial-convergence/README.md` 与 `examples/multi-tool-process-projection/README.md`。
+- 当：从 `README.md` 和 `docs/使用手册.md` 进入，再读 `references/讨论收口与晋升.md`、`examples/discussion-decision-task/BOUNDARY.md`、`examples/discussion-decision-task/WORKFLOW.md`、`examples/adversarial-convergence/README.md` 与 `examples/multi-tool-process-projection/process-projection.md`。
 - 那么：应能说明什么时候开正式 discussion、什么时候升级到质询、什么时候压成 decision package、什么时候进入 task / decision，以及什么时候才需要补 process projection。
 - 通过条件：无需额外依赖外部项目，也能沿着仓库内的主路径和条件分支看懂 discussion 收口与晋升。
 - 这次明确不要求：不要求这一阶段就掌握所有 schema、validator 或源项目里的具体角色编排。
@@ -202,6 +256,46 @@
 - 这次明确不要求：不要求这一轮同时合并 schema、重写 validator 或清理所有历史背景资产。
 - 失败/越界边界：如果默认路径变短了，但老请求不再自然命中 skill，或入口文档与 validator/examples 口径重新漂移，说明这轮精简只是把风险藏起来，没有真正提升可维护性。
 
+### 测试用例 TC-10
+
+- 对应故事：US-9
+- 前提：有人从空目录开始，希望把 `files-driven` 安装进一个新项目。
+- 当：运行官方 starter bootstrap，再通过统一 `manage` CLI 执行 `register / repair / audit`，最后依次执行 scaffold validator 和 pack validator。
+- 那么：应能得到一个同时包含 `BOUNDARY.md`、最小 governed pack、`governance/files.registry.json`、`governance/intent.routes.json`、starter profile 线索和项目 `Skill` 骨架的 starter，并且两类 validator 都能通过。
+- 通过条件：冷启动不再要求先自己拼 example、schema 和目录；官方 starter 本身就是一个可跑的最小起点。
+- 这次明确不要求：不要求 starter 一次性生成生产级业务对象或复杂多 skill 拓扑。
+- 失败/越界边界：如果 starter 只能生成目录壳子，或者只能通过文档阅读手工补齐关键资产，说明它还不是有效脚手架。
+
+### 测试用例 TC-11
+
+- 对应故事：US-10
+- 前提：项目里新增、迁移或改义了一个核心文件。
+- 当：文件存在，但没有被注册到文件注册表，或者 identity core 与实际角色不一致，或者 annotations 与实际角色不一致。
+- 那么：scaffold validator 应直接报错，并指出缺失的是注册事实还是角色漂移。
+- 通过条件：文件出生和角色变更不再只靠人工约定，而有稳定的机读守卫。
+- 这次明确不要求：不要求这一阶段就做自动修复；只要求先把 drift 打回去。
+- 失败/越界边界：如果新增文件、路由漏绑或角色漂移仍然能通过回归，说明 `files engine` 还没有真正站起来。
+
+### 测试用例 TC-12
+
+- 对应故事：US-11
+- 前提：同一轮讨论里同时涉及本仓库入口、当前 skill 的执行导览和下游 starter。
+- 当：从 README、统一真源、脚手架工程说明和 starter README 进入。
+- 那么：应能说明哪些是 `repo.files-driven` 资产，哪些是 `skill.files-driven` 资产，哪些是 `meta-skill capability`，哪些属于 `downstream project instance`。
+- 通过条件：不依赖额外聊天补充，也能判断某个文档、schema、脚本或 starter 文件该落在哪一层。
+- 这次明确不要求：不要求把四层边界直接编码成所有 starter 字段。
+- 失败/越界边界：如果读完入口材料后，维护者仍会把 self-hosting 仓库入口误当成下游模板，或把下游 starter 误写回本仓库入口，说明这轮收口仍然不稳。
+
+### 测试用例 TC-13
+
+- 对应故事：US-12
+- 前提：有人只看仓库入口、执行导览、脚手架工程说明和 starter README，不额外依赖对话记忆。
+- 当：读取 `README.md`、`SKILL.md`、`docs/files引擎脚手架工程.md`、`schemas/README.md` 和 `starters/minimal-files-engine/README.md`。
+- 那么：应能明确说出 `install` 由 bootstrap 完成，`register / repair / audit` 由统一 `manage` CLI 完成，registry 只保留 identity core + annotations，starter 专属形状约束不放进 manifest。
+- 通过条件：不需要再翻 examples 或 tests，也能把动作面、注册面和 starter profile 边界说清。
+- 这次明确不要求：不要求这里已经扩成平台级 CLI；只要求最小命令面和动作路径可用。
+- 失败/越界边界：如果读者仍然只能把这些内容理解成“又多了一套解释文档”，说明元 skill 的动作面还没有真正上首屏。
+
 ## 当前非目标
 
 - 不把 `files-driven` 在当前阶段扩成全功能平台产品。
@@ -212,9 +306,10 @@
 ## 质量判断参考
 
 - 参考标准是“一个对新接手的人和 AI coding 都足够清楚、最小可执行、可持续回归的开源方法项目”。
-- 质量重点是边界清楚、入口稳定、合同层最小闭环可跑、示例与校验链相互印证，并且 workflow 重构能真实提升 harness 的可执行性、可验证性和可恢复性，而不是材料数量越多越好。
-- 当前 tranche 以 [docs/项目治理能力模型_v1.md](/Users/jixiaokang/.agents/skills/files-driven/docs/项目治理能力模型_v1.md) 和 [docs/治理能力模型_v1_下一阶段执行计划.md](/Users/jixiaokang/.agents/skills/files-driven/docs/治理能力模型_v1_下一阶段执行计划.md) 作为阶段判断参考，而不是把它们直接当成新增范围清单。
+- 质量重点是边界清楚、入口稳定、合同层最小闭环可跑、starter 与校验链相互印证，并且 workflow 重构能真实提升 harness 的可执行性、可验证性和可恢复性，而不是材料数量越多越好。
+- 能力模型阶段判断只认 [docs/项目治理能力模型.md](docs/项目治理能力模型.md)；`docs/项目治理能力模型_v1.md` 与 `docs/治理能力模型_v1_下一阶段执行计划.md` 只保留为历史兼容与迁移背景，不再作为并行阶段基线。
+- governed pack / contract 侧的最小通过线则单独按 `tranche v1` 理解，不与能力模型 `v1 -> v2 -> v2.1` 混写。
 
 ## 验收责任人
 
-- `files-driven` 仓库维护者，以及任何负责审查是否继续按“项目治理能力模型 v1 最小可执行基线”推进的人。
+- `files-driven` 仓库维护者，以及任何负责审查是否继续按“统一底层真源 + 最小可执行基线”推进的人。

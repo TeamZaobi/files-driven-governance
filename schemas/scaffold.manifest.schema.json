@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://files-driven.dev/schemas/scaffold.manifest.schema.json",
+  "title": "Scaffold Manifest",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "manifest_id",
+    "project_id",
+    "boundary_path",
+    "registry_path",
+    "profile_path",
+    "routes_path",
+    "workflow_contract_path",
+    "required_paths",
+    "tracked_globs"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "manifest_id": {
+      "type": "string"
+    },
+    "project_id": {
+      "type": "string"
+    },
+    "boundary_path": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/).+"
+    },
+    "registry_path": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/).+"
+    },
+    "profile_path": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/).+"
+    },
+    "routes_path": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/).+"
+    },
+    "workflow_contract_path": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/).+"
+    },
+    "required_paths": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(?!/).+"
+      }
+    },
+    "tracked_globs": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(?!/).+"
+      }
+    }
+  },
+  "additionalProperties": false
+}

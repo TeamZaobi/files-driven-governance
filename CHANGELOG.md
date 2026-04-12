@@ -6,6 +6,23 @@
 
 ## Unreleased
 
+## v0.4.0 - 2026-04-12
+
+### 新增
+
+- 新增 [docs/项目治理能力模型.md](docs/项目治理能力模型.md)，把 `v1 -> v2 -> v2.1` 收成统一底层真源，并显式分开能力模型演进轴与 governed pack / contract `tranche v1`。
+- 新增 `files engine` starter 与元 skill 执行动作闭环： [starters/minimal-files-engine/](starters/minimal-files-engine/)、[schemas/file.registration.schema.json](schemas/file.registration.schema.json)、[schemas/files.registry.schema.json](schemas/files.registry.schema.json)、[schemas/intent.routes.schema.json](schemas/intent.routes.schema.json)、[schemas/scaffold.manifest.schema.json](schemas/scaffold.manifest.schema.json)、[schemas/starter.profile.schema.json](schemas/starter.profile.schema.json)。
+- 新增 [scripts/bootstrap_files_engine_starter.py](scripts/bootstrap_files_engine_starter.py)、[scripts/manage_files_engine.py](scripts/manage_files_engine.py)、[scripts/validate_files_engine_scaffold.py](scripts/validate_files_engine_scaffold.py)，把 `install / register / repair / audit` 从文档口径推进成真实动作入口。
+- 新增 [docs/files引擎脚手架工程.md](docs/files引擎脚手架工程.md) 与 [docs/files引擎元skill优化方案.md](docs/files引擎元skill优化方案.md)，把“制造引擎的脚手架资产”“registry identity core + annotations”“starter profile 与 manifest 解耦”正式写成仓库资产。
+- 新增 [tests/test_end_to_end_governance_alignment.py](tests/test_end_to_end_governance_alignment.py)、[tests/test_files_engine_scaffold.py](tests/test_files_engine_scaffold.py)、[tests/test_files_engine_actions.py](tests/test_files_engine_actions.py)，把统一真源、starter 冷启动、register/audit/repair 流程与耦合边界冻结成回归。
+
+### 调整
+
+- 调整 [README.md](README.md)、[SKILL.md](SKILL.md)、[QUICKSTART.md](QUICKSTART.md)、[PROJECT_STORIES_AND_TESTS.md](PROJECT_STORIES_AND_TESTS.md)、[schemas/README.md](schemas/README.md)、[docs/完整说明书.md](docs/完整说明书.md) 与相关 references，把默认叙事从“结构说明”收回到“统一真源 + 动作入口 + 元 skill 执行闭环”。
+- 调整 [scripts/validate_governance_assets.py](scripts/validate_governance_assets.py)、[schemas/workflow.state.schema.json](schemas/workflow.state.schema.json)、canonical examples 与相应测试，清出 legacy `schemas/` 路径、`allowed_next_step_refs` / `next_step` 旧授权语义，并把旧动作路径回流继续锁死。
+- 调整 starter 与 registry 级联模型：`manifest` 只管拓扑，starter 专属形状约束移到 starter profile；`files.registry.json` 只保留 `file_id / path / family / layer / work_post` 身份核心，其余信息下沉到 annotations。
+- 调整 [agents/openai.yaml](agents/openai.yaml) 与入口测试，使 runtime prompt、入口文案、故事和回归都显式理解 `install / register / repair / audit` 与 `reference implementation + regression fixture` 的定位。
+
 ## v0.3.1 - 2026-04-10
 
 ### 新增

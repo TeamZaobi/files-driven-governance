@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0",
+  "object_id": "approval.human.review",
+  "family": "object",
+  "version_anchor": "v1",
+  "kind": "approval_type",
+  "fields": [
+    {
+      "field_id": "approval_id",
+      "type": "string",
+      "required": true
+    }
+  ],
+  "semantics": [
+    {
+      "value": "review",
+      "meaning": "Human reviewer approval is required before downstream release."
+    }
+  ]
+}

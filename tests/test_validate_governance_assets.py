@@ -60,6 +60,10 @@ class ValidateGovernanceAssetsCliTests(unittest.TestCase):
         result = self.run_validator(SMOKE_PACK)
         self.assertEqual(result.returncode, 0, result.stderr)
 
+    def test_smoke_pack_uses_canonical_objects_directory(self) -> None:
+        self.assertTrue((SMOKE_PACK / "objects").is_dir())
+        self.assertFalse((SMOKE_PACK / "schemas").exists())
+
     def test_missing_boundary_anchor_fails(self) -> None:
         pack_root = self.make_pack()
         (pack_root / "BOUNDARY.md").unlink()
@@ -139,6 +143,18 @@ class ValidateGovernanceAssetsCliTests(unittest.TestCase):
 
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("forbidden authority key `allowed_next_step_refs`", result.stderr)
+
+    def test_workflow_state_authority_key_fails(self) -> None:
+        pack_root = self.make_pack()
+        state_path = pack_root / "workflow.state.json"
+        state = self.read_json(state_path)
+        state["allowed_next_step_refs"] = ["transition.review-to-review"]
+        self.write_json(state_path, state)
+
+        result = self.run_validator(pack_root)
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("workflow.state.json: forbidden authority key `allowed_next_step_refs`", result.stderr)
 
     def test_status_projection_invalid_datetime_fails_schema(self) -> None:
         pack_root = self.make_pack()
@@ -266,14 +282,30 @@ class ValidateGovernanceAssetsCliTests(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("subject_ref `evidence.review.note` not found in node/transition ids", result.stderr)
 
-    def test_legacy_schemas_directory_warns_but_passes(self) -> None:
+    def test_legacy_schemas_directory_only_fails_migration_gate(self) -> None:
         pack_root = self.make_pack()
         (pack_root / "objects").rename(pack_root / "schemas")
 
         result = self.run_validator(pack_root)
 
-        self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertIn("object contracts loaded from legacy schemas/ directory", result.stderr)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn(
+            "schemas/: legacy pack object contracts are not allowed; keep only objects/*.json",
+            result.stderr,
+        )
+        self.assertFalse((pack_root / "objects").exists())
+
+    def test_legacy_schemas_alongside_objects_still_fail_migration_gate(self) -> None:
+        pack_root = self.make_pack()
+        shutil.copytree(pack_root / "objects", pack_root / "schemas")
+
+        result = self.run_validator(pack_root)
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn(
+            "schemas/: legacy pack object contracts are not allowed; keep only objects/*.json",
+            result.stderr,
+        )
 
 
 if __name__ == "__main__":

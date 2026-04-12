@@ -5,7 +5,7 @@
   "governance_level": "controlled",
   "execution_mode": "gated",
   "version_anchor": "v1",
-  "explanation_ref": "README.md",
+  "explanation_ref": "WORKFLOW.md",
   "policy_refs": [
     "policy.discussion.flow"
   ],

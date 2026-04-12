@@ -19,8 +19,8 @@ The example assumes those traces exist upstream and are not replaced by the proj
 - 来源：`execution_object`
 - 作用：把“这次实际跑了什么”压成统一语义，方便人和下游 agent 快速接手
 - 允许动作：`summarize`、`display`
-- 最小字段：`goal`、`actions`、`findings`、`decisions`、`artifacts`、`status`、`next_step`
-- 约束：只压缩过程，不定义事实；不发明新的 `allowed_next_steps`；不冒充真源
+- 最小字段：`goal`、`actions`、`findings`、`decisions`、`artifacts`、`status`、`handoff_focus`
+- 约束：只压缩过程，不定义事实；不生成新的 gate、next-step 或放行结论；不冒充真源
 
 ## 可选 `topology_supplement`
 
