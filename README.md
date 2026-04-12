@@ -19,6 +19,7 @@
 ## 统一真源
 
 当前底层能力模型的唯一真源是 [docs/项目治理能力模型.md](docs/项目治理能力模型.md)。
+新增的 `AI-Native E2E` 也并入同一主真源，作为正确性开始依赖模型解释、路由、读写边界和恢复判断时的验证能力，不单独发明第二套世界观。
 `README.md`、`SKILL.md`、`PROJECT_STORIES_AND_TESTS.md`、`MIGRATION.md` 与 [schemas/README.md](schemas/README.md) 都只做入口、执行导览、迭代边界或合同说明，不与这份真源平行定义本体。
 
 这里还要分清两条版本轴：
@@ -286,7 +287,7 @@ flowchart LR
 | 文件 | 主要读者 | 主要职责 |
 | --- | --- | --- |
 | [README.md](README.md) | 第一次接触这个项目的人 | 解释这是什么、什么时候该用、怎么开始 |
-| [docs/项目治理能力模型.md](docs/项目治理能力模型.md) | 维护底层模型的人或审计者 | 作为 `v1 / v2 / v2.1` 的统一底层真源 |
+| [docs/项目治理能力模型.md](docs/项目治理能力模型.md) | 维护底层模型的人或审计者 | 作为 `v1 / v2 / v2.1` 以及 `AI-Native E2E` 的统一底层真源 |
 | [docs/使用手册.md](docs/使用手册.md) | 已决定按这套方式工作的团队成员 | 从项目要解决的问题出发，说明问题为什么会出现、常见方式为什么不够，以及团队今天该怎么执行 |
 | [PROJECT_STORIES_AND_TESTS.md](PROJECT_STORIES_AND_TESTS.md) | 会继续开发这个仓库的人或代理 | 直接写清本项目当前的具体用户故事、测试用例、非目标和验收责任人 |
 | [SKILL.md](SKILL.md) | 会执行这个技能的代理 | 给出主流程、判断规则、边界约束和参考件路由 |
@@ -325,6 +326,7 @@ flowchart LR
 `files-driven` 作为 meta-skill 的首屏动作只保留四个：`install / register / repair / audit`。
 其中 `install` 通过 [scripts/bootstrap_files_engine_starter.py](scripts/bootstrap_files_engine_starter.py) 完成，`register / repair / audit` 通过统一的 [scripts/manage_files_engine.py](scripts/manage_files_engine.py) 完成。
 本仓库本身是 `reference implementation + regression fixture`，不是通用模板本体。
+如果问题已经升级到 `self-hosting` 的 `conversation/replay E2E`，这里仍只负责当前入口和下游起点，不重新定义验证世界观；那条验证路径已并入统一真源，并会在下游以 `replay/harness starter` 承接。
 
 当前官方脚手架主路径是：
 

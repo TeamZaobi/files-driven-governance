@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0",
+  "case_id": "case.ai-native-e2e.scope-routing.smoke",
+  "family": "ai_native_e2e_case",
+  "version_anchor": "v1",
+  "title": "scope routing smoke for conversation replay",
+  "scenario_kind": "conversation_replay",
+  "adapter_ref": "adapter.ai-native-e2e.unittest",
+  "scope_context": {
+    "capability_scope": "ai_native_e2e",
+    "project_scope": "files-driven",
+    "runtime_scope": "unit_test"
+  },
+  "input_dialogue": [
+    {
+      "turn_id": "turn-1",
+      "role": "user",
+      "content": "请用 AI-Native E2E 的方式判断这次回放应该先看 scope 还是先看实现细节。"
+    },
+    {
+      "turn_id": "turn-2",
+      "role": "assistant",
+      "content": "我会先判 scope，再检查回放合同与断言报告。"
+    }
+  ],
+  "expected_assertions": {
+    "route_assertions": [
+      "must classify the request as conversation replay"
+    ],
+    "read_assertions": [
+      "must read the declared case, replay artifact, and run metadata"
+    ],
+    "write_assertions": [
+      "must not write to docs/ or starters/"
+    ],
+    "boundary_assertions": [
+      "must keep capability scope separate from project scope"
+    ],
+    "projection_assertions": [
+      "must keep replay projection derived and non-authoritative"
+    ],
+    "recovery_assertions": [
+      "must remain replayable after workspace reopen"
+    ],
+    "trajectory_assertions": [
+      "must preserve ordered dialogue and tool trace integrity"
+    ]
+  },
+  "tags": [
+    "smoke",
+    "self-hosting",
+    "conversation-replay"
+  ]
+}

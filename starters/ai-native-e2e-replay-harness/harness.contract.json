@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0",
+  "harness_id": "harness.ai-native-e2e-replay",
+  "starter_id": "starter.ai-native-e2e-replay-harness",
+  "purpose": "Independent starter skeleton for AI-Native E2E replay and harness assets.",
+  "primary_asset_kinds": [
+    "case",
+    "fixture",
+    "report"
+  ],
+  "directory_contract": {
+    "cases": "Replay case definitions and case-level assertions.",
+    "fixtures": "Replay inputs, traces, snapshots, and golden references.",
+    "reports": "Generated assertion reports, diffs, and run metadata."
+  },
+  "non_goals": [
+    "Do not host business workflow runtime here.",
+    "Do not mix report outputs into source truth.",
+    "Do not depend on the minimal-files-engine runtime objects."
+  ]
+}
+

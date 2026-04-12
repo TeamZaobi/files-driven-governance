@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0",
+  "adapter_id": "adapter.ai-native-e2e.mock-cli",
+  "family": "ai_native_e2e_adapter",
+  "version_anchor": "v1",
+  "name": "mock cli replay judge adapter",
+  "entrypoint": "python scripts/run_ai_native_e2e_cli_judge.py --cli-command-json '[\"python\",\"tests/fixtures/ai_native_e2e/mock_runtime_cli.py\"]' --runtime-name mock-cli --runtime-version fixture-v1 --case <case> --observed-replay-artifact <replay-artifact> --observed-run-metadata <run-metadata> --adapter-contract tests/fixtures/ai_native_e2e/adapter_contract.mock_cli.json --output-dir <output-dir>",
+  "execution_model": "subprocess",
+  "supported_scenarios": [
+    "conversation_replay",
+    "replay",
+    "regression"
+  ],
+  "emitted_artifacts": [
+    "run_metadata",
+    "replay_artifact",
+    "assertion_report",
+    "transcript",
+    "workspace_diff"
+  ],
+  "input_contracts": [
+    "case_contract",
+    "replay_artifact",
+    "run_metadata"
+  ],
+  "output_contracts": [
+    "run_metadata",
+    "replay_artifact",
+    "assertion_report"
+  ],
+  "notes": "Deterministic fixture adapter used to prove CLI-neutral replay judgement without depending on a specific provider."
+}

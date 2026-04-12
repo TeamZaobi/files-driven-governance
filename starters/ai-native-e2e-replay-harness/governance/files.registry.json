@@ -1,0 +1,187 @@
+{
+  "schema_version": "1.0",
+  "registry_id": "registry.ai-native-e2e-replay-harness",
+  "project_id": "ai-native-e2e-replay-harness",
+  "entries": [
+    {
+      "file_id": "readme.root",
+      "path": "README.md",
+      "family": "display_projection",
+      "layer": "display_projection",
+      "work_post": "onboarding_entry",
+      "annotations": {
+        "evidence_type": "starter_readme",
+        "truth_status": "supporting",
+        "write_roles": [
+          "maintainer"
+        ],
+        "consumed_as": [
+          "starter_entry"
+        ],
+        "stale_policy": "manual_review"
+      }
+    },
+    {
+      "file_id": "boundary.root",
+      "path": "BOUNDARY.md",
+      "family": "policy_or_rules",
+      "layer": "truth_source",
+      "work_post": "boundary_anchor",
+      "annotations": {
+        "evidence_type": "boundary_evidence",
+        "truth_status": "canonical",
+        "write_roles": [
+          "maintainer"
+        ],
+        "consumed_as": [
+          "boundary_anchor"
+        ],
+        "stale_policy": "manual_review"
+      }
+    },
+    {
+      "file_id": "harness.contract.root",
+      "path": "harness.contract.json",
+      "family": "policy_or_rules",
+      "layer": "truth_source",
+      "work_post": "harness_contract",
+      "annotations": {
+        "evidence_type": "harness_control_truth",
+        "truth_status": "canonical",
+        "write_roles": [
+          "maintainer"
+        ],
+        "consumed_as": [
+          "harness_contract"
+        ],
+        "stale_policy": "manual_review"
+      }
+    },
+    {
+      "file_id": "registry.files",
+      "path": "governance/files.registry.json",
+      "family": "policy_or_rules",
+      "layer": "truth_source",
+      "work_post": "file_registry",
+      "annotations": {
+        "evidence_type": "registry_truth",
+        "truth_status": "canonical",
+        "write_roles": [
+          "maintainer"
+        ],
+        "consumed_as": [
+          "registry_truth"
+        ],
+        "stale_policy": "manual_review"
+      }
+    },
+    {
+      "file_id": "routes.intent",
+      "path": "governance/intent.routes.json",
+      "family": "workflow",
+      "layer": "truth_source",
+      "work_post": "intent_routes",
+      "annotations": {
+        "evidence_type": "route_contract",
+        "truth_status": "canonical",
+        "write_roles": [
+          "maintainer"
+        ],
+        "consumed_as": [
+          "route_contract"
+        ],
+        "stale_policy": "manual_review"
+      }
+    },
+    {
+      "file_id": "manifest.scaffold",
+      "path": "governance/scaffold.manifest.json",
+      "family": "policy_or_rules",
+      "layer": "truth_source",
+      "work_post": "scaffold_manifest",
+      "annotations": {
+        "evidence_type": "topology_contract",
+        "truth_status": "canonical",
+        "write_roles": [
+          "maintainer"
+        ],
+        "consumed_as": [
+          "topology_manifest"
+        ],
+        "stale_policy": "manual_review"
+      }
+    },
+    {
+      "file_id": "profile.starter",
+      "path": "governance/starter.profile.json",
+      "family": "policy_or_rules",
+      "layer": "truth_source",
+      "work_post": "starter_profile",
+      "annotations": {
+        "evidence_type": "starter_profile",
+        "truth_status": "canonical",
+        "write_roles": [
+          "maintainer"
+        ],
+        "consumed_as": [
+          "starter_profile"
+        ],
+        "stale_policy": "manual_review"
+      }
+    },
+    {
+      "file_id": "cases.readme",
+      "path": "cases/README.md",
+      "family": "display_projection",
+      "layer": "display_projection",
+      "work_post": "case_catalog",
+      "annotations": {
+        "evidence_type": "case_catalog",
+        "truth_status": "supporting",
+        "write_roles": [
+          "maintainer"
+        ],
+        "consumed_as": [
+          "case_catalog"
+        ],
+        "stale_policy": "refresh_on_upstream_change"
+      }
+    },
+    {
+      "file_id": "fixtures.readme",
+      "path": "fixtures/README.md",
+      "family": "display_projection",
+      "layer": "display_projection",
+      "work_post": "fixture_catalog",
+      "annotations": {
+        "evidence_type": "fixture_catalog",
+        "truth_status": "supporting",
+        "write_roles": [
+          "maintainer"
+        ],
+        "consumed_as": [
+          "fixture_catalog"
+        ],
+        "stale_policy": "refresh_on_upstream_change"
+      }
+    },
+    {
+      "file_id": "reports.readme",
+      "path": "reports/README.md",
+      "family": "display_projection",
+      "layer": "display_projection",
+      "work_post": "report_catalog",
+      "annotations": {
+        "evidence_type": "report_catalog",
+        "truth_status": "supporting",
+        "write_roles": [
+          "maintainer"
+        ],
+        "consumed_as": [
+          "report_catalog"
+        ],
+        "stale_policy": "refresh_on_upstream_change"
+      }
+    }
+  ]
+}

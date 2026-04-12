@@ -1,0 +1,83 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "starter.ai-native-e2e-replay-harness",
+  "project_id": "ai-native-e2e-replay-harness",
+  "required_work_posts": [
+    {
+      "work_post": "boundary_anchor",
+      "path": "BOUNDARY.md"
+    },
+    {
+      "work_post": "file_registry",
+      "path": "governance/files.registry.json"
+    },
+    {
+      "work_post": "intent_routes",
+      "path": "governance/intent.routes.json"
+    },
+    {
+      "work_post": "scaffold_manifest",
+      "path": "governance/scaffold.manifest.json"
+    },
+    {
+      "work_post": "starter_profile",
+      "path": "governance/starter.profile.json"
+    },
+    {
+      "work_post": "harness_contract",
+      "path": "harness.contract.json"
+    },
+    {
+      "work_post": "case_catalog",
+      "path": "cases/README.md"
+    },
+    {
+      "work_post": "fixture_catalog",
+      "path": "fixtures/README.md"
+    },
+    {
+      "work_post": "report_catalog",
+      "path": "reports/README.md"
+    }
+  ],
+  "required_family_entries": [
+    "policy_or_rules",
+    "workflow",
+    "display_projection"
+  ],
+  "required_entry_expectations": [
+    {
+      "path": "harness.contract.json",
+      "family": "policy_or_rules",
+      "layer": "truth_source",
+      "work_post": "harness_contract"
+    },
+    {
+      "path": "cases/README.md",
+      "family": "display_projection",
+      "layer": "display_projection",
+      "work_post": "case_catalog",
+      "annotations": {
+        "truth_status": "supporting"
+      }
+    },
+    {
+      "path": "fixtures/README.md",
+      "family": "display_projection",
+      "layer": "display_projection",
+      "work_post": "fixture_catalog",
+      "annotations": {
+        "truth_status": "supporting"
+      }
+    },
+    {
+      "path": "reports/README.md",
+      "family": "display_projection",
+      "layer": "display_projection",
+      "work_post": "report_catalog",
+      "annotations": {
+        "truth_status": "supporting"
+      }
+    }
+  ]
+}

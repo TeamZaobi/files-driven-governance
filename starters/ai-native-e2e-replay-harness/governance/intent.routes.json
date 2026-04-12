@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0",
+  "routes_id": "routes.ai-native-e2e-replay-harness",
+  "project_id": "ai-native-e2e-replay-harness",
+  "routes": [
+    {
+      "route_id": "route.harness.case.authoring",
+      "intent_patterns": [
+        "add replay case",
+        "define e2e case",
+        "author harness case"
+      ],
+      "entrypoint_file_id": "cases.readme",
+      "required_file_ids": [
+        "boundary.root",
+        "harness.contract.root",
+        "cases.readme",
+        "fixtures.readme",
+        "reports.readme"
+      ],
+      "write_targets": [
+        "cases.readme"
+      ],
+      "primary_gate": "boundary",
+      "notes": "Use this route for replay case design and case-level assertions."
+    },
+    {
+      "route_id": "route.harness.fixture.capture",
+      "intent_patterns": [
+        "add fixture",
+        "capture replay fixture",
+        "refresh harness fixture"
+      ],
+      "entrypoint_file_id": "fixtures.readme",
+      "required_file_ids": [
+        "boundary.root",
+        "harness.contract.root",
+        "cases.readme",
+        "fixtures.readme",
+        "reports.readme"
+      ],
+      "write_targets": [
+        "fixtures.readme"
+      ],
+      "primary_gate": "registry",
+      "notes": "Use this route for fixture capture and golden material management."
+    },
+    {
+      "route_id": "route.harness.report.review",
+      "intent_patterns": [
+        "emit report",
+        "review assertion report",
+        "inspect replay output"
+      ],
+      "entrypoint_file_id": "reports.readme",
+      "required_file_ids": [
+        "boundary.root",
+        "harness.contract.root",
+        "cases.readme",
+        "fixtures.readme",
+        "reports.readme"
+      ],
+      "write_targets": [
+        "reports.readme"
+      ],
+      "primary_gate": "recovery",
+      "notes": "Use this route for generated artifacts, not source truth."
+    }
+  ]
+}

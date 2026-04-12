@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0",
+  "run_id": "run.ai-native-e2e.scope-routing.smoke",
+  "family": "ai_native_e2e_run_metadata",
+  "version_anchor": "v1",
+  "case_ref": "case.ai-native-e2e.scope-routing.smoke",
+  "adapter_ref": "adapter.ai-native-e2e.unittest",
+  "execution_mode": "conversation_replay",
+  "runtime_name": "unittest",
+  "runtime_version": "3.9",
+  "scope_context": {
+    "capability_scope": "ai_native_e2e",
+    "project_scope": "files-driven",
+    "runtime_scope": "unit_test"
+  },
+  "started_at": "2026-04-12T12:00:00Z",
+  "finished_at": "2026-04-12T12:05:00Z",
+  "workspace_label": "tests/fixtures/ai_native_e2e",
+  "result": "pass"
+}

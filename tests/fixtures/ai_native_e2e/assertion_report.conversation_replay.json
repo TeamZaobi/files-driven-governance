@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0",
+  "report_id": "report.ai-native-e2e.scope-routing.smoke",
+  "family": "ai_native_e2e_assertion_report",
+  "version_anchor": "v1",
+  "case_ref": "case.ai-native-e2e.scope-routing.smoke",
+  "replay_artifact_ref": "replay.ai-native-e2e.scope-routing.smoke",
+  "run_ref": "run.ai-native-e2e.scope-routing.smoke",
+  "overall_status": "pass",
+  "assertions": [
+    {
+      "assertion_id": "route.scope-first",
+      "category": "route",
+      "status": "pass",
+      "expected": "request is routed as conversation replay",
+      "actual": "request was routed as conversation replay",
+      "evidence_refs": [
+        "replay.ai-native-e2e.scope-routing.smoke#turn-1"
+      ]
+    },
+    {
+      "assertion_id": "read.contract-first",
+      "category": "read",
+      "status": "pass",
+      "expected": "read case, replay artifact, and run metadata before concluding",
+      "actual": "case, replay artifact, and run metadata were loaded first",
+      "evidence_refs": [
+        "replay.ai-native-e2e.scope-routing.smoke#turn-3"
+      ]
+    },
+    {
+      "assertion_id": "write.boundary-safe",
+      "category": "write",
+      "status": "pass",
+      "expected": "no writes to docs/ or starters/",
+      "actual": "no write targets outside tests/fixtures/ai_native_e2e were produced",
+      "evidence_refs": [
+        "replay.ai-native-e2e.scope-routing.smoke#turn-3"
+      ]
+    },
+    {
+      "assertion_id": "boundary.scope-separation",
+      "category": "boundary",
+      "status": "pass",
+      "expected": "capability scope stays separate from project scope",
+      "actual": "scope separation remained explicit in the fixture",
+      "evidence_refs": [
+        "case.ai-native-e2e.scope-routing.smoke"
+      ]
+    },
+    {
+      "assertion_id": "projection.derived-only",
+      "category": "projection",
+      "status": "pass",
+      "expected": "projection remains derived and non-authoritative",
+      "actual": "workspace diff recorded observed projection only",
+      "evidence_refs": [
+        "replay.ai-native-e2e.scope-routing.smoke#status.projection.json"
+      ]
+    },
+    {
+      "assertion_id": "recovery.replayable",
+      "category": "recovery",
+      "status": "pass",
+      "expected": "replay stays valid after workspace reopen",
+      "actual": "all references are file-local and replayable",
+      "evidence_refs": [
+        "run.ai-native-e2e.scope-routing.smoke"
+      ]
+    },
+    {
+      "assertion_id": "trajectory.ledger-intact",
+      "category": "trajectory",
+      "status": "pass",
+      "expected": "ordered dialogue and tool trace remain intact",
+      "actual": "turn order and tool evidence remained stable across replay capture",
+      "evidence_refs": [
+        "replay.ai-native-e2e.scope-routing.smoke#turn-1",
+        "replay.ai-native-e2e.scope-routing.smoke#turn-2",
+        "replay.ai-native-e2e.scope-routing.smoke#turn-3"
+      ]
+    }
+  ],
+  "generated_at": "2026-04-12T12:05:00Z"
+}

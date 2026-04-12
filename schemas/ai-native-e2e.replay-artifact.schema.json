@@ -1,0 +1,145 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://files-driven.dev/schemas/ai-native-e2e.replay-artifact.schema.json",
+  "title": "AI Native E2E Replay Artifact Contract",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "replay_artifact_id",
+    "family",
+    "version_anchor",
+    "case_ref",
+    "adapter_ref",
+    "run_ref",
+    "scope_context",
+    "captured_at",
+    "transcript",
+    "workspace_diff"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "replay_artifact_id": {
+      "type": "string"
+    },
+    "family": {
+      "const": "ai_native_e2e_replay_artifact"
+    },
+    "version_anchor": {
+      "type": "string"
+    },
+    "case_ref": {
+      "type": "string"
+    },
+    "adapter_ref": {
+      "type": "string"
+    },
+    "run_ref": {
+      "type": "string"
+    },
+    "scope_context": {
+      "type": "object",
+      "required": [
+        "capability_scope",
+        "project_scope",
+        "runtime_scope"
+      ],
+      "properties": {
+        "capability_scope": {
+          "type": "string",
+          "minLength": 1
+        },
+        "project_scope": {
+          "type": "string",
+          "minLength": 1
+        },
+        "runtime_scope": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "captured_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "transcript": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "turn_id",
+          "role",
+          "content"
+        ],
+        "properties": {
+          "turn_id": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "system",
+              "user",
+              "assistant",
+              "tool"
+            ]
+          },
+          "content": {
+            "type": "string",
+            "minLength": 1
+          },
+          "tool_name": {
+            "type": "string"
+          },
+          "tool_call_id": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "workspace_diff": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "path",
+          "change_kind",
+          "summary"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "change_kind": {
+            "type": "string",
+            "enum": [
+              "added",
+              "modified",
+              "deleted",
+              "observed"
+            ]
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "before_ref": {
+            "type": "string"
+          },
+          "after_ref": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "default": []
+    }
+  },
+  "additionalProperties": false
+}

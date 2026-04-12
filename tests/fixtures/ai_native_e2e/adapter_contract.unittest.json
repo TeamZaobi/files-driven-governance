@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "adapter_id": "adapter.ai-native-e2e.unittest",
+  "family": "ai_native_e2e_adapter",
+  "version_anchor": "v1",
+  "name": "unit test replay adapter",
+  "entrypoint": "python scripts/validate_ai_native_e2e_bundle.py --case tests/fixtures/ai_native_e2e/case.conversation_replay.json --replay-artifact tests/fixtures/ai_native_e2e/replay_artifact.conversation_replay.json --assertion-report tests/fixtures/ai_native_e2e/assertion_report.conversation_replay.json --run-metadata tests/fixtures/ai_native_e2e/run_metadata.conversation_replay.json --adapter-contract tests/fixtures/ai_native_e2e/adapter_contract.unittest.json",
+  "execution_model": "subprocess",
+  "supported_scenarios": [
+    "conversation_replay",
+    "replay",
+    "regression"
+  ],
+  "emitted_artifacts": [
+    "run_metadata",
+    "replay_artifact",
+    "assertion_report",
+    "transcript",
+    "workspace_diff"
+  ],
+  "input_contracts": [
+    "case_contract",
+    "scope_context"
+  ],
+  "output_contracts": [
+    "run_metadata",
+    "replay_artifact",
+    "assertion_report"
+  ],
+  "notes": "Minimal baseline adapter for self-hosting conversation/replay bundle validation."
+}

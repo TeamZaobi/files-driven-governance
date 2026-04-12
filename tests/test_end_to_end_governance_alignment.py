@@ -45,6 +45,9 @@ class EndToEndGovernanceAlignmentTests(unittest.TestCase):
         self.assertIn("后续多角度、多轮审计", model)
         self.assertIn("meta-skill capability", model)
         self.assertIn("downstream project instance", model)
+        self.assertIn("AI-Native E2E", model)
+        self.assertIn("trajectory integrity", model)
+        self.assertIn("self-hosting conversation/replay E2E", model)
 
     def test_scope_first_path_replaces_family_first_boot(self) -> None:
         manual = MANUAL.read_text(encoding="utf-8")
@@ -103,6 +106,9 @@ class EndToEndGovernanceAlignmentTests(unittest.TestCase):
         self.assertIn("只要 pack 里还保留 `pack_root/schemas/*.json`，validator 就会直接报迁移错误", readme)
         self.assertIn("`workflow.events.jsonl.subject_ref`", skill)
         self.assertIn("仓库根的 `schemas/` 目录是 repo 级 schema 草案目录", schema)
+        self.assertIn("ai-native-e2e.case.schema.json", schema)
+        self.assertIn("AI-Native E2E", readme)
+        self.assertIn("conversation/replay E2E", skill)
 
     def test_execution_state_and_contract_examples_do_not_carry_legacy_next_step_authority(self) -> None:
         state_schema = json.loads(STATE_SCHEMA.read_text(encoding="utf-8"))

@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://files-driven.dev/schemas/ai-native-e2e.run-metadata.schema.json",
+  "title": "AI Native E2E Run Metadata Contract",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "run_id",
+    "family",
+    "version_anchor",
+    "case_ref",
+    "adapter_ref",
+    "execution_mode",
+    "runtime_name",
+    "runtime_version",
+    "scope_context",
+    "started_at",
+    "finished_at",
+    "result"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "run_id": {
+      "type": "string"
+    },
+    "family": {
+      "const": "ai_native_e2e_run_metadata"
+    },
+    "version_anchor": {
+      "type": "string"
+    },
+    "case_ref": {
+      "type": "string"
+    },
+    "adapter_ref": {
+      "type": "string"
+    },
+    "execution_mode": {
+      "type": "string",
+      "enum": [
+        "conversation_replay",
+        "replay",
+        "stress",
+        "regression"
+      ]
+    },
+    "runtime_name": {
+      "type": "string"
+    },
+    "runtime_version": {
+      "type": "string"
+    },
+    "scope_context": {
+      "type": "object",
+      "required": [
+        "capability_scope",
+        "project_scope",
+        "runtime_scope"
+      ],
+      "properties": {
+        "capability_scope": {
+          "type": "string",
+          "minLength": 1
+        },
+        "project_scope": {
+          "type": "string",
+          "minLength": 1
+        },
+        "runtime_scope": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "started_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "finished_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "workspace_label": {
+      "type": "string"
+    },
+    "result": {
+      "type": "string",
+      "enum": [
+        "pass",
+        "fail",
+        "blocked"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

@@ -70,6 +70,14 @@
 
 **仓库维护资产，技能负责判路，元技能负责装引擎，下游实例负责承载项目事实。**
 
+### 2.5 能力模型下的 `AI-Native E2E` / replay-harness 承接层
+
+当问题已经从“给下游项目装 files engine”升级到“证明这套治理能力在 `self-hosting` 下仍可回放、可恢复、可复核”时，这里不再只讲 starter 安装，而要承接能力模型真源已经定义好的 `AI-Native E2E` 执行骨架。
+
+- `AI-Native E2E` 已并入统一能力模型主真源，不单独发明第二套世界观
+- 下游会有独立的 `replay/harness starter`，但它只承接 `conversation/replay E2E` 的执行骨架，不定义新的断言世界观
+- 这条验证线仍然消费本节定义的四层边界、`manifest / registry / routes / validator` 分工，不反过来重写它们
+
 ## 3. 从多个角色看缺口
 
 ### 3.1 产品 / 架构负责人

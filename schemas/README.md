@@ -27,6 +27,11 @@
 10. `intent.routes.schema.json`
 11. `scaffold.manifest.schema.json`
 12. `starter.profile.schema.json`
+13. `ai-native-e2e.case.schema.json`
+14. `ai-native-e2e.replay-artifact.schema.json`
+15. `ai-native-e2e.assertion-report.schema.json`
+16. `ai-native-e2e.run-metadata.schema.json`
+17. `ai-native-e2e.adapter-contract.schema.json`
 
 术语冻结：
 
@@ -85,6 +90,19 @@
 12. `starter.profile.schema.json` 负责 starter 专属形状约束合同
    - 它冻结 `required_work_posts / required_family_entries / required_entry_expectations`
    - `manage` CLI 和 scaffold validator 应读取它，而不是继续在代码里硬编码官方 starter 形状
+13. `ai-native-e2e.case.schema.json` 负责 replay case 定义
+   - 它冻结 `scope_context / input_dialogue / expected_assertions`
+   - 当前最小断言桶固定为 `route / read / write / boundary / projection / recovery / trajectory`
+   - `case.adapter_ref` 表示 authoring-time / baseline adapter 锚点，不表示后续 replay 只能由这一种 CLI / runtime 复核
+14. `ai-native-e2e.replay-artifact.schema.json` 负责回放采样产物
+   - 它冻结 transcript、workspace diff、作用域上下文和 case/run/adpater 引用
+15. `ai-native-e2e.assertion-report.schema.json` 负责断言报告
+   - 它冻结断言分类、状态、证据引用和总体结果
+16. `ai-native-e2e.run-metadata.schema.json` 负责回放运行元数据
+   - 它冻结 runtime、execution mode、时间戳、结果和作用域上下文
+17. `ai-native-e2e.adapter-contract.schema.json` 负责 replay 执行器合同
+   - 它冻结输入合同、输出合同、执行模型和可产出的 artifact 类型
+   - 它绑定的是项目当前选定的合适 CLI / runtime，不把某个具体工具上升成仓库级默认真源
 
 重要边界：
 
@@ -106,6 +124,10 @@
     - 它定义的是“validator 要跟踪哪些路径与 glob”，不是 pack runtime 自己的执行状态
 15. starter profile 属于 starter / meta-skill 脚手架层
     - 它定义的是官方 starter 的专属形状约束，不是 manifest 的职责
+16. `AI-Native E2E` schema 属于 replay / harness 合同层
+    - 它们不重新定义能力模型，只承接 `docs/项目治理能力模型.md` 里冻结的一等断言对象
+17. replay / harness starter 当前继续复用 `workflow_contract_path`、`primary_gate` 等 tranche v1 兼容面
+    - 当 starter 持有的是 `harness.contract.json` 时，`workflow_contract_path` 只是在当前 validator 兼容面里的字段名复用，不表示把 replay starter 误降成业务 workflow
 
 使用原则：
 
@@ -121,4 +143,5 @@
 - 还没有取代现有 reference 的解释职责
 - 这一轮已补最小实例 schema、`status_projection` 机读限制、gate/approval 语义冻结、真实 schema 校验，以及可跑的 smoke validator 链路
 - 新增的 `file registration / registry / intent routes / scaffold manifest / starter profile` schema 属于 starter / meta-skill 脚手架层，不属于 governed pack / contract `tranche v1`
+- 新增的 `AI-Native E2E` schema 属于 replay / harness 合同层，用来承接 self-hosting 和下游 adopt 的 conversation/replay E2E
 - 如果后续需要补 starter 专属形状约束，请把它放进单独的 starter profile contract，而不是回写到 `scaffold.manifest.schema.json`

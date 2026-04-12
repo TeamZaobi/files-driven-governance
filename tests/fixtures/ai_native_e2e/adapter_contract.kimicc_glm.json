@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "adapter_id": "adapter.ai-native-e2e.kimicc.glm",
+  "family": "ai_native_e2e_adapter",
+  "version_anchor": "v1",
+  "name": "example kimicc glm live replay judge adapter",
+  "entrypoint": "python scripts/run_ai_native_e2e_cli_judge.py --cli-command-json '[\"kimicc\",\"--profile\",\"glm\",\"--print\",\"--output-format\",\"json\",\"--tools=\"]' --runtime-name kimicc:glm --runtime-version glm-4.7 --case <case> --observed-replay-artifact <replay-artifact> --observed-run-metadata <run-metadata> --adapter-contract tests/fixtures/ai_native_e2e/adapter_contract.kimicc_glm.json --output-dir <output-dir>",
+  "execution_model": "subprocess",
+  "supported_scenarios": [
+    "conversation_replay",
+    "replay",
+    "regression"
+  ],
+  "emitted_artifacts": [
+    "run_metadata",
+    "replay_artifact",
+    "assertion_report",
+    "transcript",
+    "workspace_diff"
+  ],
+  "input_contracts": [
+    "case_contract",
+    "scope_context"
+  ],
+  "output_contracts": [
+    "run_metadata",
+    "replay_artifact",
+    "assertion_report"
+  ],
+  "notes": "Example live adapter showing how a project-selected CLI can judge an observed replay bundle; kimicc is only one runtime choice."
+}

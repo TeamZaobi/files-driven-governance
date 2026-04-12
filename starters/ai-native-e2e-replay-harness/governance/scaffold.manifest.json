@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "manifest_id": "scaffold.ai-native-e2e-replay-harness",
+  "project_id": "ai-native-e2e-replay-harness",
+  "boundary_path": "BOUNDARY.md",
+  "registry_path": "governance/files.registry.json",
+  "profile_path": "governance/starter.profile.json",
+  "routes_path": "governance/intent.routes.json",
+  "workflow_contract_path": "harness.contract.json",
+  "required_paths": [
+    "README.md",
+    "BOUNDARY.md",
+    "harness.contract.json",
+    "cases",
+    "cases/README.md",
+    "fixtures",
+    "fixtures/README.md",
+    "reports",
+    "reports/README.md",
+    "governance",
+    "governance/files.registry.json",
+    "governance/intent.routes.json",
+    "governance/scaffold.manifest.json",
+    "governance/starter.profile.json"
+  ],
+  "tracked_globs": [
+    "governance/*.json",
+    "cases/*.md",
+    "fixtures/*.md",
+    "reports/*.md",
+    "*.json"
+  ]
+}

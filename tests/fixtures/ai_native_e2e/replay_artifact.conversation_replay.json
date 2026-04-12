@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "replay_artifact_id": "replay.ai-native-e2e.scope-routing.smoke",
+  "family": "ai_native_e2e_replay_artifact",
+  "version_anchor": "v1",
+  "case_ref": "case.ai-native-e2e.scope-routing.smoke",
+  "adapter_ref": "adapter.ai-native-e2e.unittest",
+  "run_ref": "run.ai-native-e2e.scope-routing.smoke",
+  "scope_context": {
+    "capability_scope": "ai_native_e2e",
+    "project_scope": "files-driven",
+    "runtime_scope": "unit_test"
+  },
+  "captured_at": "2026-04-12T12:00:00Z",
+  "transcript": [
+    {
+      "turn_id": "turn-1",
+      "role": "user",
+      "content": "请用 AI-Native E2E 的方式判断这次回放应该先看 scope 还是先看实现细节。"
+    },
+    {
+      "turn_id": "turn-2",
+      "role": "assistant",
+      "content": "我会先判 scope，再检查回放合同与断言报告。"
+    },
+    {
+      "turn_id": "turn-3",
+      "role": "tool",
+      "content": "validated the replay contract and emitted an assertion report",
+      "tool_name": "ai-native-e2e-runner",
+      "tool_call_id": "call-1"
+    }
+  ],
+  "workspace_diff": [
+    {
+      "path": "status.projection.json",
+      "change_kind": "observed",
+      "summary": "projection remains derived and non-authoritative"
+    }
+  ]
+}

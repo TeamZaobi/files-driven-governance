@@ -11,6 +11,7 @@
 
 底层模型本体以 [docs/项目治理能力模型.md](docs/项目治理能力模型.md) 为准。
 这份 `QUICKSTART` 只执行其中与 governed pack / harness 有关的派生约定。
+如果当前问题已经升级到 `self-hosting` 或 `AI-Native E2E`，这份文档仍只负责 pack / harness 的落盘，不负责替代 `conversation/replay E2E`；那条能力已经并入统一真源，下游的 `replay/harness starter` 也只承接执行骨架，不承接定义、断言或验收标准。
 这里出现的 `v1` 默认指 governed pack / contract 的 `tranche v1`，
 不是能力模型世界观那条 `v1 -> v2 -> v2.1` 演进号。
 
@@ -129,3 +130,5 @@ python3 /path/to/files-driven/scripts/validate_governance_assets.py /abs/path/to
 
 如果你是从旧入口继续跟进 `v1`：
 [docs/项目治理能力模型_v1.md](docs/项目治理能力模型_v1.md)
+
+如果你现在处理的是 `self-hosting` 或 `AI-Native E2E`，先回到 [docs/项目治理能力模型.md](docs/项目治理能力模型.md) 再决定是否进入回放验证路径；不要把这份 `QUICKSTART` 当成那条路径的替代入口。
