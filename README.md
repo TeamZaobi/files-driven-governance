@@ -412,8 +412,18 @@ starter 内部的默认级联顺序也要分开：
 2. [README.md](README.md)
 3. [docs/使用手册.md](docs/使用手册.md)
 
+如果你是要把这套 skill 给非工程背景读者或零基础使用者看，
+不要一上来就让他们读完整模型、完整说明书或全部 reference。
+先让他们读 [docs/非工程背景起步.md](docs/非工程背景起步.md)，
+先只学会：
+
+1. 哪份文件算数
+2. 今天先做什么
+3. 哪些文件先别改
+
 如果还要继续往下钻，再按问题进入：
 
+- 非工程背景读者先上手：读 [docs/非工程背景起步.md](docs/非工程背景起步.md)、[docs/使用手册.md](docs/使用手册.md)
 - 团队培训：读 [references/AI-Native同构团队协作.md](references/AI-Native同构团队协作.md)、[QUICKSTART.md](QUICKSTART.md)
 - 继续开发本仓库：读 [PROJECT_STORIES_AND_TESTS.md](PROJECT_STORIES_AND_TESTS.md)、[SKILL.md](SKILL.md)、[docs/完整说明书.md](docs/完整说明书.md)
 - 为下游项目安装 `files engine`：读 [docs/files引擎脚手架工程.md](docs/files引擎脚手架工程.md)，再跑 [scripts/bootstrap_files_engine_starter.py](scripts/bootstrap_files_engine_starter.py)
@@ -429,6 +439,7 @@ starter 内部的默认级联顺序也要分开：
 - 多工具过程已经不透明，需要统一接手面：读 [references/跨层共享约定.md](references/跨层共享约定.md)、[examples/multi-tool-process-projection/process-projection.md](examples/multi-tool-process-projection/process-projection.md)
 - 全员通过 AI 工具工作，并在 Git 上目录级全量共享：读 [references/AI-Native同构团队协作.md](references/AI-Native同构团队协作.md)
 - 只有复杂共享问题真的出现时，再读 [references/跨层共享约定.md](references/跨层共享约定.md)、[references/工具适配对照表.md](references/工具适配对照表.md)
+- 需要同时处理工具全局 rules、项目级规则、局部 pack 规则和适配入口，并确保改动不漏：读 [references/多规则工具治理与精准修改协议.md](references/多规则工具治理与精准修改协议.md)
 - 希望用短口令推进工作：读 [references/意图触发约定.md](references/意图触发约定.md)
 - 需要正式输出治理方案：读 [references/输出约定.md](references/输出约定.md)
 
@@ -442,7 +453,9 @@ starter 内部的默认级联顺序也要分开：
 - “这条议题还不适合进 task，请先帮我开 discussion，并判断什么时候该晋升。”
 - “这条讨论争议已经很大，请按质询-答辩-收敛来帮我收口。”
 - “我们现在有多工具过程，但接手时看不清到底跑了什么，请补一个 process projection。”
+- “我们要统一多个工具的全局 / 项目 / pack 级 rules，请先列出应改文件，再做完整修改。”
 - “我们想用‘继续开发’和‘开始审计’这类短口令驱动工作，帮我做成稳定约定。”
+- “我的目标读者几乎没有软件工程基础，先别讲理论，告诉我哪份文件算数、今天先做什么。”
 
 ## 阅读路线
 
@@ -456,6 +469,11 @@ starter 内部的默认级联顺序也要分开：
 
 1. [docs/语言体系规范.md](docs/语言体系规范.md)
 2. [references/说人话需求确认工具包.md](references/说人话需求确认工具包.md)
+
+如果你只想先让非工程背景读者能开工，先读：
+
+1. [docs/非工程背景起步.md](docs/非工程背景起步.md)
+2. [docs/使用手册.md](docs/使用手册.md)
 
 ## 仓库结构
 

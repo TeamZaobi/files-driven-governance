@@ -9,6 +9,7 @@ README = ROOT / "README.md"
 QUICKSTART = ROOT / "QUICKSTART.md"
 SKILL = ROOT / "SKILL.md"
 MANUAL = ROOT / "docs" / "使用手册.md"
+BEGINNER_GUIDE = ROOT / "docs" / "非工程背景起步.md"
 FULL_GUIDE = ROOT / "docs" / "完整说明书.md"
 LANGUAGE = ROOT / "docs" / "语言体系规范.md"
 STORIES = ROOT / "PROJECT_STORIES_AND_TESTS.md"
@@ -18,6 +19,8 @@ STARTER_DOC = ROOT / "docs" / "files引擎脚手架工程.md"
 STATE_SCHEMA = ROOT / "schemas" / "workflow.state.schema.json"
 SHARED_REF = ROOT / "references" / "跨层共享约定.md"
 CROSS_PROJECT_REF = ROOT / "references" / "跨项目共享模式提炼.md"
+OUTPUT_CONVENTION = ROOT / "references" / "输出约定.md"
+LOW_BANDWIDTH_REF = ROOT / "references" / "理解型输入与低带宽压缩包.md"
 DISCUSSION_ROOT = ROOT / "examples" / "discussion-decision-task"
 PROCESS_ROOT = ROOT / "examples" / "multi-tool-process-projection"
 SMOKE_ROOT = ROOT / "examples" / "smoke-governed-review"
@@ -62,6 +65,25 @@ class EndToEndGovernanceAlignmentTests(unittest.TestCase):
         self.assertNotIn("### 4.1 先分四层", manual)
         self.assertNotIn("### 2. 先分结构家族，再谈文档层", cross_project)
         self.assertNotIn("先按结构家族判归属，再谈共享矩阵", shared)
+
+    def test_beginner_entrypoints_offer_low_bandwidth_path(self) -> None:
+        readme = README.read_text(encoding="utf-8")
+        manual = MANUAL.read_text(encoding="utf-8")
+        beginner = BEGINNER_GUIDE.read_text(encoding="utf-8")
+        skill = SKILL.read_text(encoding="utf-8")
+        output = OUTPUT_CONVENTION.read_text(encoding="utf-8")
+        low_bandwidth = LOW_BANDWIDTH_REF.read_text(encoding="utf-8")
+        stories = STORIES.read_text(encoding="utf-8")
+
+        self.assertIn("非工程背景起步.md", readme)
+        self.assertIn("非工程背景起步", manual)
+        self.assertIn("哪份文件算数", beginner)
+        self.assertIn("今天先做什么", beginner)
+        self.assertIn("哪些文件先别改", beginner)
+        self.assertIn("如果用户明确说“看不懂”或明显不是工程背景", skill)
+        self.assertIn("这次要做什么 / 先别做什么 / 卡住时找哪里", output)
+        self.assertIn("给非工程背景读者的最小压缩形状", low_bandwidth)
+        self.assertIn("docs/非工程背景起步.md", stories)
 
     def test_examples_close_entry_to_contract_to_handoff_chain(self) -> None:
         discussion_boundary = (DISCUSSION_ROOT / "BOUNDARY.md").read_text(encoding="utf-8")
