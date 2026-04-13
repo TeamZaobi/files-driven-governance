@@ -168,8 +168,8 @@ CONTEXT_SOURCES = (
     ("README.md", "context/repo_readme.md"),
     ("SKILL.md", "context/skill.md"),
     ("references/工具适配对照表.md", "context/tool_adapter_matrix.md"),
-    ("references/运行观察与能力晋升.md", "context/runtime_promotion.md"),
-    ("examples/capture-candidate-activation/WORKFLOW.md", "context/capture_candidate_workflow.md"),
+    ("references/经典治理流程库.md", "context/runtime_promotion.md"),
+    ("examples/discussion-decision-task/WORKFLOW.md", "context/capture_candidate_workflow.md"),
 )
 
 BENCHMARK_NOTES = (

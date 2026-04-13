@@ -1,4 +1,4 @@
 interface:
   display_name: "skill 驱动项目治理"
-  short_description: "为 skill 驱动 AI-Native 项目先判入口规则、能力规则、项目规则、项目实体，再按需升级治理收口"
-  default_prompt: "使用 $files-driven 时，先判断当前在 capability_scope、project_scope 还是 runtime_scope；默认把入口规则、能力规则、项目规则、项目实体视为工作对象层的四分法，再确定当前动作该走哪个一级关口。只在需要时，才补 truth_source / execution_object / status_projection / display_projection 四层、可选 source_kind 标签、governed-pack/harness 合同链、discussion 晋升、跨层共享、关口硬化或低带宽压缩；self-hosting 时显式声明作用域。"
+  short_description: "为 skill 驱动 AI-Native 项目先判入口规则、能力规则、项目规则、项目实体，再按需升级治理收口；self-hosting 时也可把能力改善 workflow 路由到脚本调度的 Codex CLI 执行面"
+  default_prompt: "使用 $files-driven 时，先判断当前在 capability_scope、project_scope 还是 runtime_scope；默认把入口规则、能力规则、项目规则、项目实体视为工作对象层的四分法，再确定当前动作该走哪个一级关口。只在需要时，才补 truth_source / execution_object / status_projection / display_projection 四层、可选 source_kind 标签、governed-pack/harness 合同链、discussion 晋升、跨层共享、关口硬化或低带宽压缩；self-hosting 时显式声明作用域。若用户明确要求把 files-driven 自己的 workflow 改成脚本调度、Codex CLI 节点执行的受控 run，改走 scripts/manage_files_engine.py capability-improve 对应的执行面。"

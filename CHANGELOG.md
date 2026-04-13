@@ -6,6 +6,15 @@
 
 ## Unreleased
 
+### 新增
+
+- 新增 [scripts/manage_files_engine.py](scripts/manage_files_engine.py) `capability-improve` 子命令，把 `files-driven` 自己的 `self-hosting capability_scope` 改善 workflow 暴露成脚本调度、`Codex CLI` 节点执行的正式入口。
+
+### 调整
+
+- 调整 [README.md](README.md)、[SKILL.md](SKILL.md) 与 [agents/openai.yaml](agents/openai.yaml)，把“脚本控制流程、Codex CLI 只做节点内产物”的 self-hosting 路由写进正式入口文案。
+- 调整 [tests/test_entrypoint_consistency.py](tests/test_entrypoint_consistency.py) 与 [tests/test_files_engine_actions.py](tests/test_files_engine_actions.py)，把 `capability-improve` 的入口暴露和 `manage` CLI 包装执行补成回归。
+
 ## v0.4.0 - 2026-04-12
 
 ### 新增

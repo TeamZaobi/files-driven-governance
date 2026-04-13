@@ -3,15 +3,19 @@ from __future__ import annotations
 
 import argparse
 import json
+import subprocess
 import sys
 from pathlib import Path
 
 import validate_files_engine_scaffold as scaffold
 
+ROOT = Path(__file__).resolve().parents[1]
+CAPABILITY_RUNNER = ROOT / "scripts" / "run_project_director_capability_improvement.py"
+
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Operate files-driven meta-skill actions: register, repair, and audit.",
+        description="Operate files-driven meta-skill actions such as register, repair, audit, and capability improvement runs.",
     )
     subparsers = parser.add_subparsers(dest="command", required=True)
 
@@ -38,6 +42,34 @@ def parse_args() -> argparse.Namespace:
     repair = subparsers.add_parser("repair", help="Produce an ordered repair plan for scaffold drift.")
     repair.add_argument("project_root", help="Root directory of a files engine project.")
     repair.add_argument("--format", choices=["text", "json"], default="text")
+
+    capability = subparsers.add_parser(
+        "capability-improve",
+        help="Run the self-hosting project-director capability-improvement workflow through a script-controlled Codex CLI runner.",
+    )
+    capability.add_argument("output_root", help="Directory where the governed run pack should be written.")
+    capability.add_argument(
+        "--workspace-root",
+        default=str(ROOT),
+        help="Workspace root whose canonical docs should be snapshotted into the run pack.",
+    )
+    capability.add_argument(
+        "--benchmark",
+        action="append",
+        default=[],
+        help="Benchmark anchor or conversation id. Repeat for multiple anchors.",
+    )
+    capability.add_argument("--codex-bin", default="codex", help="Codex CLI binary to call. Defaults to `codex`.")
+    capability.add_argument("--model", help="Optional Codex model override.")
+    capability.add_argument("--profile", help="Optional Codex profile override.")
+    capability.add_argument(
+        "--reasoning-effort",
+        default="high",
+        choices=("minimal", "low", "medium", "high"),
+        help="Safe Codex reasoning effort override. Defaults to `high`.",
+    )
+    capability.add_argument("--force", action="store_true", help="Allow overwriting an existing output directory.")
+    capability.add_argument("--format", choices=["text", "json"], default="text")
 
     return parser.parse_args()
 
@@ -219,6 +251,63 @@ def run_repair(args: argparse.Namespace) -> int:
     return 0 if not steps else 1
 
 
+def run_capability_improve(args: argparse.Namespace) -> int:
+    output_root = Path(args.output_root).expanduser().resolve()
+    workspace_root = Path(args.workspace_root).expanduser().resolve()
+
+    if not workspace_root.exists():
+        print(f"error: workspace root does not exist: `{workspace_root}`", file=sys.stderr)
+        return 1
+    if not CAPABILITY_RUNNER.exists():
+        print(f"error: capability runner not found: `{CAPABILITY_RUNNER}`", file=sys.stderr)
+        return 1
+
+    command = [
+        sys.executable,
+        str(CAPABILITY_RUNNER),
+        str(output_root),
+        "--workspace-root",
+        str(workspace_root),
+        "--codex-bin",
+        args.codex_bin,
+        "--reasoning-effort",
+        args.reasoning_effort,
+    ]
+    if args.model:
+        command.extend(["--model", args.model])
+    if args.profile:
+        command.extend(["--profile", args.profile])
+    if args.force:
+        command.append("--force")
+    for benchmark in args.benchmark:
+        command.extend(["--benchmark", benchmark])
+
+    result = subprocess.run(
+        command,
+        cwd=workspace_root,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    payload = {
+        "status": "completed" if result.returncode == 0 else "failed",
+        "output_root": str(output_root),
+        "workspace_root": str(workspace_root),
+        "command": command,
+        "message": (
+            f"capability improvement run completed at `{output_root}`"
+            if result.returncode == 0
+            else f"capability improvement run failed at `{output_root}`"
+        ),
+    }
+    if result.stdout.strip():
+        payload["stdout"] = result.stdout.strip()
+    if result.stderr.strip():
+        payload["stderr"] = result.stderr.strip()
+    print_payload(payload, args.format)
+    return result.returncode
+
+
 def main() -> int:
     args = parse_args()
     if args.command == "register":
@@ -227,6 +316,8 @@ def main() -> int:
         return run_audit(args)
     if args.command == "repair":
         return run_repair(args)
+    if args.command == "capability-improve":
+        return run_capability_improve(args)
     print(f"error: unknown command `{args.command}`", file=sys.stderr)
     return 1
 

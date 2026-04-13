@@ -80,6 +80,12 @@ class EntrypointConsistencyTests(unittest.TestCase):
         self.assertIn("不允许携带新的放行字段", schema)
         self.assertIn("install / register / repair / audit", readme)
         self.assertIn("`manage` CLI", skill)
+        self.assertIn("capability-improve", readme)
+        self.assertIn("capability-improve", skill)
+        self.assertIn("run_project_director_capability_improvement.py", readme)
+        self.assertIn("run_project_director_capability_improvement.py", skill)
+        self.assertIn("Codex CLI", readme)
+        self.assertIn("Codex CLI", skill)
 
     def test_metadata_matches_skill_default_path_language(self) -> None:
         metadata = METADATA.read_text(encoding="utf-8")
@@ -90,6 +96,8 @@ class EntrypointConsistencyTests(unittest.TestCase):
         self.assertIn("只在需要时", metadata)
         self.assertIn("governed-pack/harness", metadata)
         self.assertIn("discussion 晋升", metadata)
+        self.assertIn("capability-improve", metadata)
+        self.assertIn("Codex CLI", metadata)
 
     def test_markdown_entry_links_resolve(self) -> None:
         for path in [README, QUICKSTART, MIGRATION, SKILL, *EXAMPLE_READMES]:

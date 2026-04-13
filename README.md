@@ -326,6 +326,27 @@ flowchart LR
 其中 `install` 通过 [scripts/bootstrap_files_engine_starter.py](scripts/bootstrap_files_engine_starter.py) 完成，`register / repair / audit` 通过统一的 [scripts/manage_files_engine.py](scripts/manage_files_engine.py) 完成。
 本仓库本身是 `reference implementation + regression fixture`，不是通用模板本体。
 
+如果对象不是下游项目冷启动，而是 `files-driven` 自己的 `self-hosting capability_scope` 改善，
+仓库现在另外暴露一条专项执行面：
+
+- [scripts/manage_files_engine.py](scripts/manage_files_engine.py) `capability-improve`
+- 底层 runner 是 [scripts/run_project_director_capability_improvement.py](scripts/run_project_director_capability_improvement.py)
+- 它用脚本维护 `workflow.state.json`、`workflow.events.jsonl`、`status.projection.json`
+- `Codex CLI` 只负责当前节点产物，不负责控制文件和流转判断
+- 官方真实 run 例子见 [research_gate_lessons/project_director_capability_runs/run_20260413_02/summary.md](research_gate_lessons/project_director_capability_runs/run_20260413_02/summary.md)
+
+最小调用面：
+
+```bash
+python3 scripts/manage_files_engine.py capability-improve \
+  research_gate_lessons/project_director_capability_runs/run_YYYYMMDD_XX \
+  --benchmark 019d859b-41f3-7752-bc49-ca9282c784ca
+```
+
+如果用户明确说“把当前 workflow 改造成脚本调度、Codex CLI 节点执行”，
+并且当前对象是 `files-driven` 自己的能力改善，
+就应该先路由到这条专项 runner，而不是继续停在 prompt-only 解释层。
+
 当前官方脚手架主路径是：
 
 1. 先读 [docs/files引擎脚手架工程.md](docs/files引擎脚手架工程.md)
