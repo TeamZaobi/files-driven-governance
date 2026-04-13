@@ -1,0 +1,373 @@
+# 项目治理能力模型
+
+> 状态：`canonical source`
+> 适用范围：`files-driven` 的底层能力模型统一真源
+
+## 1. 文档定位
+
+这份文档是 `files-driven` 当前唯一的底层真源。
+它统一收口 `v1`、`v2`、`v2.1`，用于回答“这套治理模型到底是什么、先判什么、哪些关系不能混”。
+
+从现在开始：
+
+1. 其他入口文档只能引用、解释、执行或投影这份文档
+2. 其他 reference 只能从这里裁出专题焦点，不能平行定义本体
+3. 如果仓库内出现口径冲突，以这份文档为准
+4. 后续多角度、多轮审计，默认都以这份文档作为比对基线
+
+## 2. 版本轴先分开
+
+统一真源里，至少同时存在两条版本轴，不能压成一条扁平版本号：
+
+1. `能力模型演进层`
+2. `受控合同链 tranche`
+
+它们的职责不同：
+
+1. `能力模型演进层` 回答“这套治理世界观怎么演进”，当前用 `v1 -> v2 -> v2.1`
+2. `受控合同链 tranche` 回答“governed pack / contract 语义当前冻结到哪一层”，当前仍有一条 `v1` tranche 在运行
+
+因此：
+
+1. `能力模型演进层` 的 `v1`，说的是底层模型的基础分层、真源设计和合同化起点
+2. `受控合同链 tranche` 的 `v1`，说的是 pack / contract 侧当前冻结的最小机读语义
+3. `checks.route / evidence / write / stop`、`workflow.events.jsonl.subject_ref` 等表述，默认属于 `受控合同链 tranche`，不是在给世界观层重新编号
+
+## 3. 演进关系：`能力模型 v1 -> v2 -> v2.1`
+
+### 3.1 `能力模型 v1` 解决的基础问题
+
+`v1` 不是被推翻的旧稿，而是这套模型的基础层。
+它主要解决的是：项目治理不能继续只依赖 prose 和聊天习惯，必须把事实、控制和执行分层落到文件系统里。
+
+`v1` 的基础贡献包括：
+
+1. 把文档系统稳定分成 `truth_source / execution_object / status_projection / display_projection`
+2. 保留系统、信息、控制三视角作为分析基点
+3. 保留八类结构家族作为稳定分类法，而不是无限增生新家族
+4. 把高风险 `workflow` 从 prose-first 说明，推进到可合同化、可实例化、可验证的最小链路
+5. 明确“解释资产 / 合同资产 / 实例资产 / 检查执行面”与四层分层是正交关系，不是替代关系
+
+一句话概括：
+
+**`v1` 先解决“真源、投影、控制语义和执行实例到底怎么分层落盘”。**
+
+### 3.2 `v2` 的升级
+
+`v2` 在 `v1` 之上补的是治理主语和工作对象。
+
+`v2` 明确：
+
+1. `files-driven` 在默认口径下扮演项目总监，而不是某个项目实体本身
+2. 默认工作对象是项目里的 `Writer Skill`、`Coder Skill` 和其他项目 `Skill`
+3. 默认工作对象也包括这些 `Skill` 生产和维护的小说、软件、任务实例、状态页和展示页
+4. 入口层先问谁持有能力、谁承载项目事实、哪些规则必须运行时直接生效、当前动作先走哪个关口
+
+一句话概括：
+
+**`v2` 解决“谁在治理谁、谁是能力主容器、谁是项目事实承载面”。**
+
+### 3.3 `v2.1` 的升级
+
+`v2.1` 在 `v2` 之上补的是 `scope-binding / anti-deformation`。
+它解决的是：世界观统一以后，实际操作怎样不滑形。
+
+`v2.1` 明确三类默认作用域：
+
+1. `capability_scope`
+2. `project_scope`
+3. `runtime_scope`
+
+并补三条硬约束：
+
+1. `入口规则 / 能力规则 / 项目规则 / 项目实体` 默认描述的是 `project_scope`
+2. 默认四分法只在被治理项目层成立，不自动拿来描述 `files-driven` 自己的能力仓
+3. 一旦进入 `self-hosting`，必须先显式声明当前到底在谈 `capability_scope` 还是把 `repo.files-driven` 当 `project_scope`
+
+一句话概括：
+
+**`v2.1` 解决“同一套模型在不同作用域里怎样保持身份稳定，不让能力仓、项目事实和运行时缓存互相冒充”。**
+
+### 3.4 三者关系
+
+`v1`、`v2`、`v2.1` 是演进关系，不是互斥关系：
+
+1. `v1` 提供分层、合同化和结构分类的基础底座
+2. `v2` 把治理主语切到 `files-driven = 项目总监`
+3. `v2.1` 给 `v2` 补上作用域绑定与防变形约束
+
+因此，当前统一口径不是“放弃 `v1` 改用 `v2/v2.1`”，
+而是：
+
+**以 `v1` 为底座，以 `v2` 明确治理主语，以 `v2.1` 约束作用域与防变形。**
+
+## 4. 治理主语与工作对象
+
+默认情况下：
+
+1. `files-driven` 站在 `capability_scope` 发起治理，角色是项目总监
+2. 被治理对象默认位于 `project_scope`
+3. 项目里的各类 `Skill` 是能力工作对象，不是治理者本身
+4. 项目中的事实、实例、状态和展示属于项目实体体系
+
+默认判断顺序不是先看目录，也不是先看八类结构家族。
+而是先回答：
+
+1. 当前动作是什么
+2. 当前站在哪个作用域说话
+3. 当前对象属于能力还是实体
+4. 当前该停在哪个一级关口
+
+### 4.1 仓库、技能、元技能与下游实例
+
+为了避免把 self-hosting 资产、技能导览和下游项目实例混成一层，
+当前仓库还显式区分四个工作层次：
+
+1. `repo.files-driven`
+   - 这是本仓库自己作为被维护对象的架构资产层
+   - 它持有本仓库的入口、故事、测试、公开文档、schema 草案、starter 和脚本
+2. `skill.files-driven`
+   - 这是当前技能包本身
+   - 它负责解释、判路、给出治理动作与引用路径
+3. `meta-skill capability`
+   - 这是 `files-driven` 帮下游项目安装 `files engine` 的能力层
+   - 它持有 starter、registry schema、bootstrap 脚本和 scaffold validator
+4. `downstream project instance`
+   - 这是被这套方法驱动的具体项目实例
+   - 它持有项目自己的 `BOUNDARY.md`、`workflow.contract.json`、`objects/*.json`、项目 `Skill` 和项目实体
+
+一句话区分：
+
+**仓库负责维护资产，技能负责给出动作，元技能负责安装引擎，下游实例负责承载项目事实。**
+
+## 5. `v2.1` 作用域模型
+
+### 5.1 `capability_scope`
+
+`capability_scope` 持有 `files-driven` 自己的治理能力资产，例如：
+
+- 分类法
+- 触发法
+- 读取顺序
+- 升级规则
+- schema
+- validator
+- template
+
+这里定义的是“如何治理”，不是外部项目的最终事实。
+
+### 5.2 `project_scope`
+
+`project_scope` 持有被治理项目的工作对象和项目事实，例如：
+
+- 项目里的 `Writer Skill`、`Coder Skill` 和其他项目 `Skill`
+- 项目规则
+- 项目实体
+- 真源与投影
+- 写权边界
+- 当前漂移状态
+
+这里定义的是“当前项目是什么”。
+
+### 5.3 `runtime_scope`
+
+`runtime_scope` 持有本轮执行现场，例如：
+
+- 路由判断
+- 临时读取栈
+- 派生图谱
+- 恢复缓存
+- stale 标记
+
+这里定义的是“这一轮怎么执行”，不是长期真源。
+
+### 5.4 自迭代能力链的位置
+
+当项目希望 agent 在运行中持续吸收经验时，
+不要额外发明一个与 `capability_scope / project_scope / runtime_scope` 并列的新作用域。
+
+自迭代仍然沿现有三作用域和四层分层运行，
+只是多了一条受控迁移链：
+
+1. 用户原话、失败样本、运行观察和临时纠偏，先停在 `runtime_scope`
+2. 进入正式收口后，先压成 `execution_object` 里的候选包、待试验项或 `decision_package`
+3. 只有跨场景复用、验证通过且具备回退路径的候选，才允许吸收到 `capability_scope`
+4. `status_projection / display_projection` 可以展示“这轮学到了什么”“准备试什么”，但不能宣布已经完成能力晋升
+5. 默认激活时机应晚于当前回合；运行中的核心控制面先保持稳定，不边执行边热改真源
+
+一句话说：
+
+**自迭代不是新作用域，而是 `runtime -> candidate -> capability` 的受控升级链。**
+
+### 5.5 防变形约束
+
+默认必须同时遵守：
+
+1. 先标当前 `scope`，再谈归属
+2. 不要让能力仓资产冒充外部项目事实
+3. 不要让外部项目事实直接反过来定义治理能力
+4. 不要让 `runtime_scope` 缓存越级改写 `capability_scope` 或 `project_scope`
+5. 同一文件跨作用域时，判断主键是 `(scope, file_ref)`，不是文件名本身
+6. 不要让候选结论、展示性总结或召回结果冒充正式能力升级
+
+## 6. `project_scope` 的默认四分法
+
+除非显式进入 `self-hosting`，以下四分法默认描述 `project_scope`：
+
+1. `入口规则`
+2. `能力规则`
+3. `项目规则`
+4. `项目实体`
+
+判断要点如下。
+
+### 6.1 `入口规则`
+
+回答“每轮必须先看到什么、什么要立刻生效”。
+
+要求：
+
+- 稳定携带
+- 长度克制
+- 直接影响本轮动作边界
+
+### 6.2 `能力规则`
+
+回答“某个工作对象 `Skill` 怎么工作、怎么判断、怎么验证、怎么迁移”。
+
+这里默认承载项目里的 `Writer Skill`、`Coder Skill` 和其他项目 `Skill` 的能力说明，
+而不是 `files-driven` 自己的能力仓定义。
+
+### 6.3 `项目规则`
+
+回答“哪些约束只对当前项目成立”。
+
+例如：
+
+- 业务法则
+- 命名法
+- 版本法
+- 作品规程
+
+### 6.4 `项目实体`
+
+回答“项目现在是什么”。
+
+它承载：
+
+- 事实
+- 实例
+- 候选稿
+- 状态
+- 展示
+
+一句话原则：
+
+**具体能力归 `Skill`，项目内容归实体。**
+
+## 7. 分层、家族与实现形态
+
+### 7.1 四层分层
+
+统一使用这四层判断治理位置：
+
+1. `truth_source`
+2. `execution_object`
+3. `status_projection`
+4. `display_projection`
+
+至少要回答三件事：
+
+1. 当前可信真源在哪里
+2. 哪些文件承载执行、实例或过程
+3. 哪些文件只是摘要、恢复入口或展示出口
+
+### 7.2 八类结构家族
+
+八类结构家族继续保留：
+
+1. `policy_or_rules`
+2. `object`
+3. `workflow`
+4. `skill`
+5. `agent`
+6. `execution_object`
+7. `status_projection`
+8. `display_projection`
+
+但在当前统一口径里，它们降为二级观察标签：
+
+1. 先判作用域
+2. 再判四分法归属
+3. 只有在需要说明责任边界、机读合同或工具适配时，再补结构家族标签
+
+### 7.3 `v1` 的实现资产关系仍然有效
+
+`v1` 建立的这组关系继续有效：
+
+1. 解释资产通常落在 `truth_source`
+2. 合同资产落在 `truth_source`
+3. 实例资产落在 `execution_object`
+4. 检查执行面属于 `skill` 或工具适配执行面，不单独占一个文档分层
+
+## 8. 受控合同链 tranche 与 workflow / harness 基线
+
+这里说的是另一条版本轴：`受控合同链 tranche`。
+它和上面的能力模型演进层有关联，但不是同一个版本号体系。
+
+当前仍在运行的是一条 `contract tranche v1`。
+它用于冻结 governed pack / harness 的最小机读语义，而不是给整套能力模型重新命名。
+
+当问题已经进入 governed pack / harness，默认沿用当前 `contract tranche v1` 的最小受控链：
+
+1. `BOUNDARY.md`
+2. `workflow.contract.json`
+3. `objects/*.json`
+4. `rules.contract.json` + `agent.contract.json`
+5. `workflow.state.json` / `workflow.events.jsonl`
+6. 可选 `status.projection.json`
+
+这里的关键不是文件变多，而是控制语义不再只寄居在 prose 中：
+
+1. `BOUNDARY.md` 先锁场景、故事、测试、非目标和验收责任人
+2. `workflow.contract.json` 承载机读控制语义
+3. `objects/*.json` 承载状态、证据、批准和输出对象定义
+4. 运行实例与状态投影必须和合同分层对齐
+5. `status_projection` 只能派生摘要，不能私自产生新的放行结论
+
+当前 `contract tranche v1` 还显式冻结了若干 pack / contract 语义，例如：
+
+1. workflow 顶层 `checks.route / evidence / write / stop` 是唯一检查注册面
+2. `workflow.events.jsonl.subject_ref` 在这一 tranche 里只指向 `node_id / transition_id`
+
+这些约束属于 governed pack / contract 侧的 tranche 规则。
+它们应被理解为“当前合同链怎么冻结”，而不是“能力模型世界观现在回到了 `v1`”。
+
+## 9. 派生文档约束
+
+这份文档是底层真源后，仓库内相关文件的职责应当稳定为：
+
+1. `README.md`：首屏入口，声明真源指向与最短读取顺序
+2. `docs/项目治理能力模型_v1.md`：历史阶段入口，说明 `v1` 已并入统一真源
+3. `references/作用域绑定与防变形规则.md`：只聚焦 `v2.1` 专题，不再独立定义世界观
+4. `QUICKSTART.md`：受控 workflow / governed pack 的专项执行入口
+5. `docs/使用手册.md`、`docs/完整说明书.md`：面向人类读者的解释性材料
+6. `PROJECT_STORIES_AND_TESTS.md`：本仓库当前迭代的项目故事与测试锚点
+7. `docs/files引擎脚手架工程.md`：修正后的需求、四层边界、脚手架缺口、质询与收敛决议
+8. `starters/minimal-files-engine/`：面向下游项目的官方最小 starter
+9. `scripts/bootstrap_files_engine_starter.py`、`scripts/validate_files_engine_scaffold.py`：负责冷启动生成与 scaffold 校验
+
+这些文件都可以摘要、解释、举例或执行这份模型，
+但不应再把自己写成并列本体。
+
+## 10. 后续审计基线
+
+后续多角度、多轮审计，至少应围绕以下问题展开：
+
+1. 入口文件是否真的把这份文档当成唯一真源
+2. `能力模型 v1` 的分层和合同化基线是否被 `v2/v2.1` 继承，而不是被遮蔽
+3. `contract tranche v1` 是否被明确限定在 governed pack / contract 侧，而没有被误读成世界观版本
+4. `project_scope` 四分法是否被误用到 `capability_scope`
+5. `self-hosting` 场景是否有显式声明
+6. reference、manual、quickstart 是否只做派生解释，而不偷带新的本体定义
+7. 运行中的自迭代链是否先停在候选层，而不是直接热改能力真源

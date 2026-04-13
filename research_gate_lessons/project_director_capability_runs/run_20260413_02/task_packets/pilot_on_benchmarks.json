@@ -1,0 +1,37 @@
+{
+  "workflow_id": "workflow.project.director.capability.improvement",
+  "node_id": "node.pilot_on_benchmarks",
+  "title": "Pilot On Benchmarks",
+  "goal": "Use the improved capability graph and runtime protocol to design benchmark-based validation, anchored on the strong positive sample and additional failure patterns.",
+  "deliverable_path": "pilot_on_benchmarks.md",
+  "required_sections": [
+    "## Objective",
+    "## Benchmark Matrix",
+    "## Pilot Result",
+    "## Residual Risks",
+    "## Follow-up Checks"
+  ],
+  "context_paths": [
+    "context/project_governance_model.md",
+    "context/repo_readme.md",
+    "context/skill.md",
+    "context/tool_adapter_matrix.md",
+    "context/runtime_promotion.md",
+    "context/capture_candidate_workflow.md",
+    "context/benchmarks.md"
+  ],
+  "previous_artifacts": [
+    "observe_gaps.md",
+    "map_capability_graph.md",
+    "design_control_upgrade.md",
+    "define_runtime_protocol.md"
+  ],
+  "benchmark_anchors": [
+    "019d859b-41f3-7752-bc49-ca9282c784ca"
+  ],
+  "control_constraints": [
+    "The runner owns workflow.state.json, workflow.events.jsonl, and status.projection.json.",
+    "Do not modify control contracts, agent contracts, policy contracts, or object contracts.",
+    "Only write the requested deliverable."
+  ]
+}

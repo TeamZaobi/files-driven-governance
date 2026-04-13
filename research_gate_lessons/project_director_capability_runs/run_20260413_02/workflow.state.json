@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0",
+  "run_id": "run.project.director.capability.improvement.20260413181427",
+  "workflow_id": "workflow.project.director.capability.improvement",
+  "contract_version": "v1",
+  "current_node_id": "node.promote_or_rollback",
+  "gate_state": "ready",
+  "required_evidence_refs": [
+    "evidence.observe_gaps",
+    "evidence.map_capability_graph",
+    "evidence.design_control_upgrade",
+    "evidence.define_runtime_protocol",
+    "evidence.pilot_on_benchmarks",
+    "evidence.promote_or_rollback"
+  ],
+  "missing_evidence_refs": [],
+  "forbidden_output_refs": [],
+  "updated_at": "2026-04-13T18:29:53+08:00",
+  "last_event_id": "event.capability.007"
+}

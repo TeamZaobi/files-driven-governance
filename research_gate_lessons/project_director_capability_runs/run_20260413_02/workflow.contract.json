@@ -1,0 +1,191 @@
+{
+  "schema_version": "1.0",
+  "workflow_id": "workflow.project.director.capability.improvement",
+  "family": "workflow",
+  "governance_level": "controlled",
+  "execution_mode": "gated",
+  "version_anchor": "v1",
+  "explanation_ref": "WORKFLOW.md",
+  "policy_refs": [
+    "policy.capability.improvement.control"
+  ],
+  "object_refs": [
+    "state.observe_gaps",
+    "action.observe_gaps",
+    "evidence.observe_gaps",
+    "approval.transition.1",
+    "state.map_capability_graph",
+    "action.map_capability_graph",
+    "evidence.map_capability_graph",
+    "approval.transition.2",
+    "state.design_control_upgrade",
+    "action.design_control_upgrade",
+    "evidence.design_control_upgrade",
+    "approval.transition.3",
+    "state.define_runtime_protocol",
+    "action.define_runtime_protocol",
+    "evidence.define_runtime_protocol",
+    "approval.transition.4",
+    "state.pilot_on_benchmarks",
+    "action.pilot_on_benchmarks",
+    "evidence.pilot_on_benchmarks",
+    "approval.transition.5",
+    "state.promote_or_rollback",
+    "action.promote_or_rollback",
+    "evidence.promote_or_rollback"
+  ],
+  "agent_refs": [
+    "agent.capability.governor"
+  ],
+  "entry_intents": [
+    {
+      "intent_id": "intent.project.director.capability.improvement",
+      "entry_node": "node.observe_gaps",
+      "aliases": [
+        "improve project director capability graph",
+        "externalize workflow control",
+        "run capability improvement workflow"
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "node_id": "node.observe_gaps",
+      "state_ref": "state.observe_gaps",
+      "action_ref": "action.observe_gaps",
+      "evidence_refs": [
+        "evidence.observe_gaps"
+      ],
+      "output_policy_refs": [
+        "policy.capability.improvement.control"
+      ],
+      "approver_ref": "role.governance_owner"
+    },
+    {
+      "node_id": "node.map_capability_graph",
+      "state_ref": "state.map_capability_graph",
+      "action_ref": "action.map_capability_graph",
+      "evidence_refs": [
+        "evidence.map_capability_graph"
+      ],
+      "output_policy_refs": [
+        "policy.capability.improvement.control"
+      ],
+      "approver_ref": "role.governance_owner"
+    },
+    {
+      "node_id": "node.design_control_upgrade",
+      "state_ref": "state.design_control_upgrade",
+      "action_ref": "action.design_control_upgrade",
+      "evidence_refs": [
+        "evidence.design_control_upgrade"
+      ],
+      "output_policy_refs": [
+        "policy.capability.improvement.control"
+      ],
+      "approver_ref": "role.governance_owner"
+    },
+    {
+      "node_id": "node.define_runtime_protocol",
+      "state_ref": "state.define_runtime_protocol",
+      "action_ref": "action.define_runtime_protocol",
+      "evidence_refs": [
+        "evidence.define_runtime_protocol"
+      ],
+      "output_policy_refs": [
+        "policy.capability.improvement.control"
+      ],
+      "approver_ref": "role.governance_owner"
+    },
+    {
+      "node_id": "node.pilot_on_benchmarks",
+      "state_ref": "state.pilot_on_benchmarks",
+      "action_ref": "action.pilot_on_benchmarks",
+      "evidence_refs": [
+        "evidence.pilot_on_benchmarks"
+      ],
+      "output_policy_refs": [
+        "policy.capability.improvement.control"
+      ],
+      "approver_ref": "role.test_owner"
+    },
+    {
+      "node_id": "node.promote_or_rollback",
+      "state_ref": "state.promote_or_rollback",
+      "action_ref": "action.promote_or_rollback",
+      "evidence_refs": [
+        "evidence.promote_or_rollback"
+      ],
+      "output_policy_refs": [
+        "policy.capability.improvement.control"
+      ],
+      "approver_ref": "role.capability_owner"
+    }
+  ],
+  "transitions": [
+    {
+      "transition_id": "transition.observe-gaps-to-map-capability-graph",
+      "from_node": "node.observe_gaps",
+      "to_node": "node.map_capability_graph",
+      "guard_policy_refs": [
+        "policy.capability.improvement.control"
+      ],
+      "approval_ref": "approval.transition.1",
+      "rollback_to": "node.observe_gaps"
+    },
+    {
+      "transition_id": "transition.map-capability-graph-to-design-control-upgrade",
+      "from_node": "node.map_capability_graph",
+      "to_node": "node.design_control_upgrade",
+      "guard_policy_refs": [
+        "policy.capability.improvement.control"
+      ],
+      "approval_ref": "approval.transition.2",
+      "rollback_to": "node.observe_gaps"
+    },
+    {
+      "transition_id": "transition.design-control-upgrade-to-define-runtime-protocol",
+      "from_node": "node.design_control_upgrade",
+      "to_node": "node.define_runtime_protocol",
+      "guard_policy_refs": [
+        "policy.capability.improvement.control"
+      ],
+      "approval_ref": "approval.transition.3",
+      "rollback_to": "node.map_capability_graph"
+    },
+    {
+      "transition_id": "transition.define-runtime-protocol-to-pilot-on-benchmarks",
+      "from_node": "node.define_runtime_protocol",
+      "to_node": "node.pilot_on_benchmarks",
+      "guard_policy_refs": [
+        "policy.capability.improvement.control"
+      ],
+      "approval_ref": "approval.transition.4",
+      "rollback_to": "node.design_control_upgrade"
+    },
+    {
+      "transition_id": "transition.pilot-on-benchmarks-to-promote-or-rollback",
+      "from_node": "node.pilot_on_benchmarks",
+      "to_node": "node.promote_or_rollback",
+      "guard_policy_refs": [
+        "policy.capability.improvement.control"
+      ],
+      "approval_ref": "approval.transition.5",
+      "rollback_to": "node.define_runtime_protocol"
+    }
+  ],
+  "checks": {
+    "route": [
+      "check.route.capability.improvement"
+    ],
+    "evidence": [
+      "check.evidence.capability.improvement"
+    ],
+    "write": [
+      "check.write.capability.improvement"
+    ],
+    "stop": [
+      "check.stop.capability.improvement"
+    ]
+  }
+}
