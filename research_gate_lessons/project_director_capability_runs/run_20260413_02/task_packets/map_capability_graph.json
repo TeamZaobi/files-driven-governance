@@ -1,0 +1,34 @@
+{
+  "workflow_id": "workflow.project.director.capability.improvement",
+  "node_id": "node.map_capability_graph",
+  "title": "Map Capability Graph",
+  "goal": "Map the current project-director capability graph, separating what the model already does well from what still lives as implicit runtime control.",
+  "deliverable_path": "map_capability_graph.md",
+  "required_sections": [
+    "## Objective",
+    "## Current Graph",
+    "## Strengths",
+    "## Capability Gaps",
+    "## Boundary Corrections"
+  ],
+  "context_paths": [
+    "context/project_governance_model.md",
+    "context/repo_readme.md",
+    "context/skill.md",
+    "context/tool_adapter_matrix.md",
+    "context/runtime_promotion.md",
+    "context/capture_candidate_workflow.md",
+    "context/benchmarks.md"
+  ],
+  "previous_artifacts": [
+    "observe_gaps.md"
+  ],
+  "benchmark_anchors": [
+    "019d859b-41f3-7752-bc49-ca9282c784ca"
+  ],
+  "control_constraints": [
+    "The runner owns workflow.state.json, workflow.events.jsonl, and status.projection.json.",
+    "Do not modify control contracts, agent contracts, policy contracts, or object contracts.",
+    "Only write the requested deliverable."
+  ]
+}

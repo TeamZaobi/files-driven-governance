@@ -1,0 +1,31 @@
+{
+  "workflow_id": "workflow.project.director.capability.improvement",
+  "node_id": "node.observe_gaps",
+  "title": "Observe Gaps",
+  "goal": "Collect the concrete failure modes behind low complex-workflow adherence in Mobius, using the current repository as the canonical source and the benchmark anchors as external evidence.",
+  "deliverable_path": "observe_gaps.md",
+  "required_sections": [
+    "## Objective",
+    "## Evidence Inventory",
+    "## Failure Modes",
+    "## Baseline Claims"
+  ],
+  "context_paths": [
+    "context/project_governance_model.md",
+    "context/repo_readme.md",
+    "context/skill.md",
+    "context/tool_adapter_matrix.md",
+    "context/runtime_promotion.md",
+    "context/capture_candidate_workflow.md",
+    "context/benchmarks.md"
+  ],
+  "previous_artifacts": [],
+  "benchmark_anchors": [
+    "019d859b-41f3-7752-bc49-ca9282c784ca"
+  ],
+  "control_constraints": [
+    "The runner owns workflow.state.json, workflow.events.jsonl, and status.projection.json.",
+    "Do not modify control contracts, agent contracts, policy contracts, or object contracts.",
+    "Only write the requested deliverable."
+  ]
+}

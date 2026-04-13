@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "object_id": "evidence.pilot_on_benchmarks",
+  "family": "object",
+  "version_anchor": "v1",
+  "kind": "evidence_type",
+  "fields": [
+    {
+      "field_id": "artifact_path",
+      "type": "string",
+      "required": true
+    },
+    {
+      "field_id": "summary",
+      "type": "string",
+      "required": true
+    },
+    {
+      "field_id": "benchmark_anchor",
+      "type": "string",
+      "required": false
+    }
+  ]
+}

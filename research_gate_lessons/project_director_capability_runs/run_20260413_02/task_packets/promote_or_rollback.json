@@ -1,0 +1,38 @@
+{
+  "workflow_id": "workflow.project.director.capability.improvement",
+  "node_id": "node.promote_or_rollback",
+  "title": "Promote Or Rollback",
+  "goal": "Decide whether the improved project-director capability graph is ready for promotion, needs another controlled pilot, or should be rolled back.",
+  "deliverable_path": "promote_or_rollback.md",
+  "required_sections": [
+    "## Objective",
+    "## Promotion Decision",
+    "## Reasons",
+    "## Rollback Conditions",
+    "## Next Actions"
+  ],
+  "context_paths": [
+    "context/project_governance_model.md",
+    "context/repo_readme.md",
+    "context/skill.md",
+    "context/tool_adapter_matrix.md",
+    "context/runtime_promotion.md",
+    "context/capture_candidate_workflow.md",
+    "context/benchmarks.md"
+  ],
+  "previous_artifacts": [
+    "observe_gaps.md",
+    "map_capability_graph.md",
+    "design_control_upgrade.md",
+    "define_runtime_protocol.md",
+    "pilot_on_benchmarks.md"
+  ],
+  "benchmark_anchors": [
+    "019d859b-41f3-7752-bc49-ca9282c784ca"
+  ],
+  "control_constraints": [
+    "The runner owns workflow.state.json, workflow.events.jsonl, and status.projection.json.",
+    "Do not modify control contracts, agent contracts, policy contracts, or object contracts.",
+    "Only write the requested deliverable."
+  ]
+}

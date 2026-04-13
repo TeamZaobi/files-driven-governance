@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "policy_id": "policy.capability.improvement.control",
+  "family": "policy_or_rules",
+  "version_anchor": "v1",
+  "risk_level": "high",
+  "scope": "workflow",
+  "applies_to_refs": [
+    "workflow.project.director.capability.improvement"
+  ],
+  "rules": [
+    {
+      "rule_id": "rule.runner.controls.runtime",
+      "effect": "require_evidence",
+      "target_refs": [
+        "evidence.observe_gaps",
+        "evidence.map_capability_graph",
+        "evidence.design_control_upgrade",
+        "evidence.define_runtime_protocol",
+        "evidence.pilot_on_benchmarks",
+        "evidence.promote_or_rollback"
+      ],
+      "required_refs": [
+        "evidence.observe_gaps",
+        "evidence.map_capability_graph",
+        "evidence.design_control_upgrade",
+        "evidence.define_runtime_protocol",
+        "evidence.pilot_on_benchmarks",
+        "evidence.promote_or_rollback"
+      ]
+    }
+  ]
+}
