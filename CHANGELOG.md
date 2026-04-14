@@ -14,6 +14,7 @@
 
 - 调整 [README.md](README.md)、[SKILL.md](SKILL.md) 与 [agents/openai.yaml](agents/openai.yaml)，把“脚本控制流程、Codex CLI 只做节点内产物”的 self-hosting 路由写进正式入口文案。
 - 调整 [README.md](README.md)、[SKILL.md](SKILL.md)、[docs/项目治理能力模型.md](docs/项目治理能力模型.md) 与 [agents/openai.yaml](agents/openai.yaml)，把“帮助用户识别问题，解决问题”“长期路线是强化控制能力”收成正式口径，并明确控制面外移、Workflow 脚本化、CLI backend 化只是当前阶段的实现策略。
+- 新增 [docs/v0.4.1_版本说明.md](docs/v0.4.1_版本说明.md)，系统解释这一版为什么强调强化控制能力、宿主原生能力优先，以及脚本/CLI 在当前阶段的补强角色。
 - 调整 [tests/test_entrypoint_consistency.py](tests/test_entrypoint_consistency.py) 与 [tests/test_files_engine_actions.py](tests/test_files_engine_actions.py)，把 `capability-improve` 的入口暴露和 `manage` CLI 包装执行补成回归。
 
 ## v0.4.0 - 2026-04-12

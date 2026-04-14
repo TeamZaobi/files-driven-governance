@@ -12,6 +12,7 @@ SKILL = ROOT / "SKILL.md"
 METADATA = ROOT / "agents" / "openai.yaml"
 MODEL = ROOT / "docs" / "项目治理能力模型.md"
 MODEL_V1 = ROOT / "docs" / "项目治理能力模型_v1.md"
+VERSION_NEXT = ROOT / "docs" / "v0.4.1_版本说明.md"
 PROJECT_STORIES = ROOT / "PROJECT_STORIES_AND_TESTS.md"
 EXAMPLE_READMES = [
     ROOT / "examples" / "smoke-governed-review" / "README.md",
@@ -32,6 +33,7 @@ class EntrypointConsistencyTests(unittest.TestCase):
         skill = SKILL.read_text(encoding="utf-8")
         model = MODEL.read_text(encoding="utf-8")
         model_v1 = MODEL_V1.read_text(encoding="utf-8")
+        version_next = VERSION_NEXT.read_text(encoding="utf-8")
         stories = PROJECT_STORIES.read_text(encoding="utf-8")
 
         self.assertTrue(readme.startswith("# files-driven\n"))
@@ -53,6 +55,9 @@ class EntrypointConsistencyTests(unittest.TestCase):
         self.assertIn("v1 -> v2 -> v2.1", model)
         self.assertIn("帮助用户识别问题，解决问题", model)
         self.assertIn("强化控制能力", model)
+        self.assertIn("强化控制能力", version_next)
+        self.assertIn("宿主原生能力优先", version_next)
+        self.assertIn("CLI", version_next)
         self.assertIn("历史阶段入口", model_v1)
         self.assertIn("统一底层真源", stories)
         self.assertNotIn("skill 驱动 AI-Native 项目治理（files-driven）", readme)
@@ -108,7 +113,7 @@ class EntrypointConsistencyTests(unittest.TestCase):
         self.assertIn("强化控制能力", metadata)
 
     def test_markdown_entry_links_resolve(self) -> None:
-        for path in [README, QUICKSTART, MIGRATION, SKILL, *EXAMPLE_READMES]:
+        for path in [README, QUICKSTART, MIGRATION, SKILL, VERSION_NEXT, *EXAMPLE_READMES]:
             text = path.read_text(encoding="utf-8")
             for raw_target in LINK_RE.findall(text):
                 if raw_target.startswith(("http://", "https://", "mailto:", "app://", "#")):
