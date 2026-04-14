@@ -75,6 +75,14 @@
 - checker
 - actuator
 
+这里把词收回到本项目现有语言里：
+
+- `producer`：当前节点直接产出 `execution_object` 或明确交付物
+- `checker`：执行校验、validator 或 gate 判断，不新增项目事实
+- `actuator`：执行明确动作，把既定命令或流程推进落地，但不改写 control truth
+
+它们只是执行面角色说明，不是新的顶层结构家族。
+
 ## `CLI` 什么时候只该做 checker / actuator
 
 如果下面情况更明显，就不要让 `CLI` 直接当 producer：

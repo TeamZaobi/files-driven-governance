@@ -40,6 +40,23 @@
 2. 宿主原生 `workflow / subagents / approvals` 能稳住时优先复用
 3. 只有当复杂流程需要编排、恢复、回放、审计或宿主无力兜住时，才把部分控制责任外移到脚本 runner 和 `CLI`
 
+这里先按三条判断轴把方法讲清，但不要并列乱用：
+
+1. 世界观轴：`v1 -> v2 -> v2.1`
+   - 负责看清真源、治理主语、作用域和工作对象
+2. 控制强度轴：`L0 -> L4`
+   - 负责决定当前问题需要多强控制
+3. 执行面轴：主线程 / `subagent` / 宿主 workflow / `CLI` / runner
+   - 负责决定具体由谁执行、怎样执行
+
+默认顺序是：
+
+1. 先用世界观轴看清“谁在治理谁”
+2. 再用控制强度轴判断“该上多强控制”
+3. 最后才用执行面轴决定“主线程、宿主、CLI、runner 怎么分工”
+
+不要跳过前两步，直接从“要不要脚本化”开始。
+
 ## 统一真源
 
 当前底层能力模型的唯一真源是 [docs/项目治理能力模型.md](docs/项目治理能力模型.md)。
@@ -484,6 +501,7 @@ starter 内部的默认级联顺序也要分开：
 - 需要决定主线程 / `subagent` / `CLI` / runner 怎么分工：读 [references/执行面判定与CLI生产策略.md](references/执行面判定与CLI生产策略.md)
 - 仓库已经漂移或需要恢复：读 [references/场景手册.md](references/场景手册.md)、[references/基本原则.md](references/基本原则.md)
 - 需要把外部项目现有 workflow 改造成宿主优先、脚本补强：读 [docs/外部项目Workflow改造脚手架.md](docs/外部项目Workflow改造脚手架.md)
+  这份文档先把方法和判断路径讲清；当前它还不是 `manage` CLI 的正式动作面
 - 议题还没到 `task / decision`，但已经不能只留在聊天里：读 [references/讨论收口与晋升.md](references/讨论收口与晋升.md)、[examples/discussion-decision-task/BOUNDARY.md](examples/discussion-decision-task/BOUNDARY.md)、[examples/discussion-decision-task/WORKFLOW.md](examples/discussion-decision-task/WORKFLOW.md)
 - 议题争议很大，需要逐点质询后再收敛：读 [references/反方质询与收敛回路.md](references/反方质询与收敛回路.md)、[examples/adversarial-convergence/README.md](examples/adversarial-convergence/README.md)
 - 多工具过程已经不透明，需要统一接手面：读 [references/跨层共享约定.md](references/跨层共享约定.md)、[examples/multi-tool-process-projection/process-projection.md](examples/multi-tool-process-projection/process-projection.md)
