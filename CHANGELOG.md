@@ -23,6 +23,7 @@
 
 - 调整 [README.md](README.md)、[SKILL.md](SKILL.md)、[docs/项目治理能力模型.md](docs/项目治理能力模型.md) 与 [agents/openai.yaml](agents/openai.yaml)，把“帮助用户识别问题，解决问题”“长期路线是强化控制能力”收成正式口径，并明确控制面外移、`Workflow` 脚本化、`CLI` backend 化只是当前阶段的实现策略。
 - 调整 [README.md](README.md)、[SKILL.md](SKILL.md)、[docs/v0.4.1_版本说明.md](docs/v0.4.1_版本说明.md)、[references/执行面判定与CLI生产策略.md](references/执行面判定与CLI生产策略.md) 与 [docs/外部项目Workflow改造脚手架.md](docs/外部项目Workflow改造脚手架.md)，把三条判断轴的顺序、`CLI` 角色映射、外部 workflow 改造的正式边界和 benchmark 示例直接讲清，统一改成老师直接讲方法的口径。
+- 调整 [README.md](README.md)、[SKILL.md](SKILL.md) 与 [agents/openai.yaml](agents/openai.yaml)，把“脚本控制流程、Codex CLI 只做节点内产物”的 self-hosting 路由写进正式入口文案。
 - 调整 [tests/test_entrypoint_consistency.py](tests/test_entrypoint_consistency.py) 与 [tests/test_files_engine_actions.py](tests/test_files_engine_actions.py)，把 `capability-improve` 的入口暴露和 `manage` CLI 包装执行补成回归。
 - 调整 [README.md](README.md)、[SKILL.md](SKILL.md)、[docs/使用手册.md](docs/使用手册.md)、[references/输出约定.md](references/输出约定.md) 与 [PROJECT_STORIES_AND_TESTS.md](PROJECT_STORIES_AND_TESTS.md)，把“运行观察 -> 证据包 -> 历史召回 -> 拆分出口 -> 候选试验 -> 激活或回退”接成统一入口，不再让读者从旧 smoke pack 或隐含流程名反推自迭代链。
 - 调整 [agents/openai.yaml](agents/openai.yaml)、[README.md](README.md)、[PROJECT_STORIES_AND_TESTS.md](PROJECT_STORIES_AND_TESTS.md) 与 [docs/当前阶段补完计划.md](docs/当前阶段补完计划.md)，把“Skill 的使用界面是 Agent”显式写进仓库入口，并补 agent-facing e2e 回归目标。
