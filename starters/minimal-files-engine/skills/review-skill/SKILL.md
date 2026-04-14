@@ -1,6 +1,8 @@
 # review-skill
 
 这个文件是下游项目里的项目 `Skill`，不是 `files-driven` 仓库自身的 `SKILL.md`。
+它默认处在 `project_scope`，不是 `repo.files-driven`。
+它只维护 review 路由的执行边界，不与治理真源平行定义本体。
 
 默认先读：
 

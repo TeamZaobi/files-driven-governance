@@ -84,6 +84,7 @@ class CapturePromotionAssetsTests(unittest.TestCase):
         state = self.read_json(EXAMPLE_ROOT / "workflow.state.json")
         projection = self.read_json(EXAMPLE_ROOT / "status.projection.json")
         workflow_md = (EXAMPLE_ROOT / "WORKFLOW.md").read_text(encoding="utf-8")
+        recall = (EXAMPLE_ROOT / "recall_note.md").read_text(encoding="utf-8")
         trial = (EXAMPLE_ROOT / "candidate_trial.md").read_text(encoding="utf-8")
         activation = (EXAMPLE_ROOT / "activation_decision.md").read_text(encoding="utf-8")
 
@@ -114,6 +115,10 @@ class CapturePromotionAssetsTests(unittest.TestCase):
         )
         self.assertEqual(state["current_node_id"], "node.activation_or_rollback")
         self.assertEqual(projection["family"], "status_projection")
+        self.assertIn("recall_id", recall)
+        self.assertIn("history_refs", recall)
+        self.assertIn("kept_invariants", recall)
+        self.assertIn("decision_memory", recall)
         self.assertIn("failure_signals", trial)
         self.assertIn("rollback_path", trial)
         self.assertIn("展示页", activation)
@@ -147,6 +152,8 @@ class CapturePromotionAssetsTests(unittest.TestCase):
         self.assertEqual(activation_state["fields"][1]["field_id"], "decision_kind")
 
         events = self.read_events(EXAMPLE_ROOT / "workflow.events.jsonl")
+        self.assertIn("reason_refs", events[0])
+        self.assertIn("artifact_refs", events[0])
         self.assertEqual(events[-1]["state_after"]["current_node_id"], "node.activation_or_rollback")
         self.assertEqual(events[-1]["state_after"]["gate_state"], "ready")
         self.assertEqual(events[-1]["subject_ref"], "transition.candidate-trial-to-activation-or-rollback")
@@ -168,7 +175,10 @@ class CapturePromotionAssetsTests(unittest.TestCase):
 
         self.assertIn("runtime -> candidate -> capability", plan)
         self.assertIn("starter / manage 接入", plan)
-        self.assertIn("validator / audit 加深", plan)
+        self.assertIn("governance / memory chain 加深", plan)
+        self.assertIn("hidden authority", plan)
+        self.assertIn("reason_refs / artifact_refs / recall chain", plan)
+        self.assertIn("外部 workflow 个案 benchmark", plan)
         self.assertIn("不接受什么", plan)
 
 

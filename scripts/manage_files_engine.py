@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -200,6 +201,18 @@ def text_contains_any(text: str, markers: tuple[str, ...]) -> bool:
 
 def missing_markers(text: str, markers: tuple[str, ...]) -> list[str]:
     return [marker for marker in markers if marker not in text]
+
+
+def contains_positive_parallel_truth(text: str) -> bool:
+    return any(
+        re.search(pattern, text) is not None
+        for pattern in (
+            r"(?<!不)与这份真源平行定义本体",
+            r"(?<!不)与治理真源平行定义本体",
+            r"(?<!不)是 control truth",
+            r"(?<!不)是真源",
+        )
+    )
 
 
 def discover_hook_adapter_paths(project_root: Path) -> list[str]:
@@ -597,6 +610,25 @@ def run_governance_audit(project_root: Path, fmt: str) -> int:
                     "README.md must point back to `docs/项目治理能力模型.md` instead of defining parallel truth",
                 )
             )
+        elif contains_positive_parallel_truth(readme) or not text_contains_any(
+            readme,
+            ("不与这份真源平行定义本体", "不与治理真源平行定义本体", "不是 control truth", "不是真源"),
+        ):
+            findings.append(
+                governance_finding(
+                    "authority_surface",
+                    "README.md must explicitly deny parallel ontology and stay an entry guide",
+                )
+            )
+        missing_scope_markers = missing_markers(readme, ("capability_scope", "self-hosting"))
+        if missing_scope_markers:
+            findings.append(
+                governance_finding(
+                    "scope_binding",
+                    "README.md must explicitly anchor self-hosting scope markers: "
+                    + ", ".join(missing_scope_markers),
+                )
+            )
 
         skill = read_text_if_exists(project_root / "SKILL.md")
         if skill is None:
@@ -674,6 +706,23 @@ def run_governance_audit(project_root: Path, fmt: str) -> int:
                         + ", ".join(missing_readme_markers),
                     )
                 )
+            if "project_scope" not in readme:
+                findings.append(
+                    governance_finding(
+                        "scope_binding",
+                        "README.md must explicitly anchor downstream project_scope",
+                    )
+                )
+            if contains_positive_parallel_truth(readme) or not text_contains_any(
+                readme,
+                ("不与这份真源平行定义本体", "不与治理真源平行定义本体", "不是 control truth", "不是真源"),
+            ):
+                findings.append(
+                    governance_finding(
+                        "authority_surface",
+                        "README.md must explicitly deny parallel ontology and stay a downstream entry guide",
+                    )
+                )
 
         for skill_path in downstream_skill_paths(project_root):
             skill_text = read_text_if_exists(skill_path)
@@ -694,6 +743,23 @@ def run_governance_audit(project_root: Path, fmt: str) -> int:
                         "skill_entry",
                         f"{skill_path.relative_to(project_root).as_posix()} must route back to truth assets: "
                         + ", ".join(missing_skill_markers),
+                    )
+                )
+            if "project_scope" not in skill_text:
+                findings.append(
+                    governance_finding(
+                        "scope_binding",
+                        f"{skill_path.relative_to(project_root).as_posix()} must explicitly anchor downstream project_scope",
+                    )
+                )
+            if contains_positive_parallel_truth(skill_text) or not text_contains_any(
+                skill_text,
+                ("不与治理真源平行定义本体", "不与这份真源平行定义本体"),
+            ):
+                findings.append(
+                    governance_finding(
+                        "authority_surface",
+                        f"{skill_path.relative_to(project_root).as_posix()} must explicitly deny parallel ontology",
                     )
                 )
             if not text_contains_any(
@@ -719,7 +785,10 @@ def run_governance_audit(project_root: Path, fmt: str) -> int:
                         "tooling/hooks/README.md must point back to `governance/hooks.policy.md`",
                     )
                 )
-            if not text_contains_any(hooks_readme, ("不是 control truth", "不是真源")):
+            if contains_positive_parallel_truth(hooks_readme) or not text_contains_any(
+                hooks_readme,
+                ("不是 control truth", "不是真源"),
+            ):
                 findings.append(
                     governance_finding(
                         "authority_surface",
@@ -970,6 +1039,42 @@ def run_runtime_audit(project_root: Path, fmt: str) -> int:
                     )
                 )
 
+    recall_note = read_text_if_exists(project_root / "recall_note.md")
+    if recall_note is None:
+        findings.append(
+            runtime_finding(
+                "recall_note",
+                "recall_note.md missing; runtime recall page is required for this draft runtime audit",
+            )
+        )
+    else:
+        for required in ("recall_id", "history_refs", "kept_invariants", "decision_memory"):
+            if required not in recall_note:
+                findings.append(
+                    runtime_finding(
+                        "recall_note",
+                        f"recall_note.md missing `{required}`",
+                    )
+                )
+
+    split_decision = read_text_if_exists(project_root / "split_decision.md")
+    if split_decision is None:
+        findings.append(
+            runtime_finding(
+                "split_decision",
+                "split_decision.md missing; runtime split page is required for this draft runtime audit",
+            )
+        )
+    else:
+        for required in ("project_export_ref", "candidate_ref", "residual_risk", "rollback_ref"):
+            if required not in split_decision:
+                findings.append(
+                    runtime_finding(
+                        "split_decision",
+                        f"split_decision.md missing `{required}`",
+                    )
+                )
+
     activation_decision = read_text_if_exists(project_root / "activation_decision.md")
     if activation_decision is None:
         findings.append(
@@ -1052,22 +1157,115 @@ def run_runtime_audit(project_root: Path, fmt: str) -> int:
     events = read_events_if_exists(project_root / "workflow.events.jsonl")
     if not events:
         findings.append(runtime_finding("workflow_events", "workflow.events.jsonl missing or empty"))
-    elif state and state.get("current_node_id") == "node.activation_or_rollback":
-        last_event = events[-1]
-        if last_event.get("subject_ref") != "transition.candidate-trial-to-activation-or-rollback":
+    else:
+        expected_trace = [
+            (
+                "active-observations.md",
+                "evidence_package.md",
+                "node.capture_evidence",
+                "node.capture_evidence",
+            ),
+            (
+                "evidence_package.md",
+                "recall_note.md",
+                "transition.capture-evidence-to-recall-history",
+                "node.recall_history",
+            ),
+            (
+                "recall_note.md",
+                "split_decision.md",
+                "transition.recall-history-to-split-target",
+                "node.split_target",
+            ),
+            (
+                "split_decision.md",
+                "candidate_trial.md",
+                "transition.split-target-to-candidate-trial",
+                "node.candidate_trial",
+            ),
+            (
+                "candidate_trial.md",
+                "activation_decision.md",
+                "transition.candidate-trial-to-activation-or-rollback",
+                "node.activation_or_rollback",
+            ),
+        ]
+        if len(events) < len(expected_trace):
             findings.append(
                 runtime_finding(
                     "workflow_events",
-                    "last runtime event must land through transition.candidate-trial-to-activation-or-rollback",
+                    f"workflow.events.jsonl must contain at least {len(expected_trace)} ordered trace events for the official runtime chain",
                 )
             )
-        if last_event.get("state_after", {}).get("current_node_id") != "node.activation_or_rollback":
-            findings.append(
-                runtime_finding(
-                    "workflow_events",
-                    "last runtime event must land on node.activation_or_rollback",
+        for event in events:
+            event_id = event.get("event_id", "<unknown>")
+            reason_refs = event.get("reason_refs")
+            artifact_refs = event.get("artifact_refs")
+            if not isinstance(reason_refs, list) or not reason_refs:
+                findings.append(
+                    runtime_finding(
+                        "workflow_events",
+                        f"{event_id} must keep non-empty reason_refs for recall and split traceability",
+                    )
                 )
-            )
+            if not isinstance(artifact_refs, list) or not artifact_refs:
+                findings.append(
+                    runtime_finding(
+                        "workflow_events",
+                        f"{event_id} must keep non-empty artifact_refs for recall and split traceability",
+                    )
+                )
+        for index, (expected_reason, expected_artifact, expected_subject, expected_node) in enumerate(expected_trace):
+            if index >= len(events):
+                break
+            event = events[index]
+            event_id = event.get("event_id", f"event[{index}]")
+            reason_refs = event.get("reason_refs") if isinstance(event.get("reason_refs"), list) else []
+            artifact_refs = event.get("artifact_refs") if isinstance(event.get("artifact_refs"), list) else []
+            if event.get("subject_ref") != expected_subject:
+                findings.append(
+                    runtime_finding(
+                        "workflow_events",
+                        f"{event_id} must land on `{expected_subject}` in the official runtime chain",
+                    )
+                )
+            if expected_reason not in reason_refs:
+                findings.append(
+                    runtime_finding(
+                        "workflow_events",
+                        f"{event_id} must keep `{expected_reason}` in reason_refs for recall-chain traceability",
+                    )
+                )
+            if expected_artifact not in artifact_refs:
+                findings.append(
+                    runtime_finding(
+                        "workflow_events",
+                        f"{event_id} must keep `{expected_artifact}` in artifact_refs for recall-chain traceability",
+                    )
+                )
+            if event.get("state_after", {}).get("current_node_id") != expected_node:
+                findings.append(
+                    runtime_finding(
+                        "workflow_events",
+                        f"{event_id} must land on `{expected_node}` in state_after for the official runtime chain",
+                    )
+                )
+        if state and state.get("current_node_id") == "node.activation_or_rollback":
+            last_event = events[-1]
+            if last_event.get("subject_ref") != "transition.candidate-trial-to-activation-or-rollback":
+                findings.append(
+                    runtime_finding(
+                        "workflow_events",
+                        "last runtime event must land through transition.candidate-trial-to-activation-or-rollback",
+                    )
+                )
+            if last_event.get("state_after", {}).get("current_node_id") != "node.activation_or_rollback":
+                findings.append(
+                    runtime_finding(
+                        "workflow_events",
+                        "last runtime event must land on node.activation_or_rollback",
+                    )
+                )
 
     payload = {
         "status": "valid" if not findings else "invalid",

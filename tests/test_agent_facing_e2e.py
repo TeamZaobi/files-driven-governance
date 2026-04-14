@@ -44,6 +44,9 @@ class AgentFacingE2ETests(unittest.TestCase):
         self.assertIn("Agent-facing", stories)
         self.assertIn("agent-facing", plan)
         self.assertIn("真实 runtime 黑盒级 agent e2e", plan)
+        self.assertIn("外部 workflow 个案 benchmark", plan)
+        self.assertIn("不把一次外部 workflow 改造经验直接抬成仓库级通用模板", plan)
+        self.assertIn("AI-Native 与 Skill 驱动 E2E 验收矩阵", plan)
 
     def test_common_agent_requests_route_to_expected_assets_and_output_shapes(self) -> None:
         for case in self.fixture["cases"]:

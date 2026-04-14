@@ -17,6 +17,7 @@ STORIES = ROOT / "PROJECT_STORIES_AND_TESTS.md"
 MIGRATION = ROOT / "MIGRATION.md"
 SCHEMA_README = ROOT / "schemas" / "README.md"
 STARTER_DOC = ROOT / "docs" / "files引擎脚手架工程.md"
+STARTER_ROOT = ROOT / "starters" / "minimal-files-engine"
 STATE_SCHEMA = ROOT / "schemas" / "workflow.state.schema.json"
 SHARED_REF = ROOT / "references" / "跨层共享约定.md"
 CROSS_PROJECT_REF = ROOT / "references" / "跨项目共享模式提炼.md"
@@ -30,6 +31,9 @@ TOOL_ADAPTER_REF = ROOT / "references" / "工具适配对照表.md"
 HOSTED_KNOWLEDGE_MATRIX = ROOT / "docs" / "宿主化知识工作场景矩阵.md"
 AUDIT_MATRIX = ROOT / "docs" / "体检分层矩阵.md"
 COVERAGE_DIFF = ROOT / "docs" / "能力覆盖矩阵与历史差分.md"
+E2E_MATRIX = ROOT / "docs" / "AI-Native与Skill驱动E2E验收矩阵.md"
+EXTERNAL_WORKFLOW_RETROFIT = ROOT / "docs" / "外部项目Workflow改造脚手架.md"
+CHECKPOINT_DOC = ROOT / "docs" / "阶段状态检查点_2026-04-14.md"
 HOSTED_FIXTURE_ROOT = ROOT / "examples" / "hosted-knowledge-governance"
 DISCUSSION_ROOT = ROOT / "examples" / "discussion-decision-task"
 PROCESS_ROOT = ROOT / "examples" / "multi-tool-process-projection"
@@ -195,6 +199,65 @@ class EndToEndGovernanceAlignmentTests(unittest.TestCase):
         self.assertIn("宿主化知识工作场景", matrix)
         self.assertIn("audit` 五层体检", matrix)
 
+    def test_external_workflow_retrofit_benchmark_is_explicit(self) -> None:
+        readme = README.read_text(encoding="utf-8")
+        skill = SKILL.read_text(encoding="utf-8")
+        metadata = (ROOT / "agents" / "openai.yaml").read_text(encoding="utf-8")
+        radar = (ROOT / "docs" / "能力雷达与版本演进盘点.md").read_text(encoding="utf-8")
+        coverage = COVERAGE_DIFF.read_text(encoding="utf-8")
+        plan = (ROOT / "docs" / "当前阶段补完计划.md").read_text(encoding="utf-8")
+        retrofit = EXTERNAL_WORKFLOW_RETROFIT.read_text(encoding="utf-8")
+        checkpoint = CHECKPOINT_DOC.read_text(encoding="utf-8")
+
+        self.assertIn("docs/外部项目Workflow改造脚手架.md", readme)
+        self.assertIn("workflow-control-plane / model-routing / hook-policy / state / events", skill)
+        self.assertIn("human authority", metadata)
+        self.assertIn("machine-readable control plane", metadata)
+        self.assertIn("candidate benchmark", retrofit)
+        self.assertIn("个案 benchmark", retrofit)
+        self.assertIn("benchmark 晋升原则", retrofit)
+        self.assertIn("薄共同骨架", retrofit)
+        self.assertIn("workflow 是这次的实例", retrofit)
+        self.assertIn("下次可能是 hooks 或 scaffolding", retrofit)
+        self.assertIn("变量槽位", retrofit)
+        self.assertIn("不少于 `2-3` 个外部项目样本", retrofit)
+        self.assertIn("human authority", retrofit)
+        self.assertIn("machine-readable control plane", retrofit)
+        self.assertIn("config/workflow-control-plane.json", retrofit)
+        self.assertIn("config/model-routing.json", retrofit)
+        self.assertIn("config/hook-policy.json", retrofit)
+        self.assertIn("逻辑角色", retrofit)
+        self.assertIn("Gemini / Codex / Claude", retrofit)
+        self.assertIn("外部 workflow 改造 benchmark", radar)
+        self.assertIn("个案 benchmark", radar)
+        self.assertIn("benchmark family", coverage)
+        self.assertIn("薄共同骨架 + 变量槽位", coverage)
+        self.assertIn("外部 workflow 控制面合同化 benchmark", coverage)
+        self.assertIn("human authority layer", checkpoint)
+        self.assertIn("薄共同骨架 + 变量槽位", plan)
+        self.assertIn("hooks 或 scaffolding", plan)
+
+    def test_ai_native_skill_e2e_matrix_is_wired_into_docs(self) -> None:
+        readme = README.read_text(encoding="utf-8")
+        skill = SKILL.read_text(encoding="utf-8")
+        plan = (ROOT / "docs" / "当前阶段补完计划.md").read_text(encoding="utf-8")
+        matrix = E2E_MATRIX.read_text(encoding="utf-8")
+
+        self.assertIn("docs/AI-Native与Skill驱动E2E验收矩阵.md", readme)
+        self.assertIn("AI-Native 与 Skill 驱动 E2E 验收矩阵", skill)
+        self.assertIn("AI-Native 与 Skill 驱动 E2E 验收矩阵", plan)
+        self.assertIn("agent-facing skill route", matrix)
+        self.assertIn("downstream starter governance", matrix)
+        self.assertIn("host-name-first triage", matrix)
+        self.assertIn("runtime promotion chain", matrix)
+        self.assertIn("self-hosting control capability", matrix)
+        self.assertIn("CLI / runner", matrix)
+        self.assertIn("模拟真实生产场景", matrix)
+        self.assertIn("route contract", matrix)
+        self.assertIn("宿主 CLI 或 runner", matrix)
+        self.assertIn("reason_refs / artifact_refs / recall chain", matrix)
+        self.assertIn("真实在线模型 + 多 agent + 外部工具的黑盒 runtime", matrix)
+
     def test_examples_close_entry_to_contract_to_handoff_chain(self) -> None:
         discussion_boundary = (DISCUSSION_ROOT / "BOUNDARY.md").read_text(encoding="utf-8")
         discussion_workflow = (DISCUSSION_ROOT / "WORKFLOW.md").read_text(encoding="utf-8")
@@ -264,6 +327,18 @@ class EndToEndGovernanceAlignmentTests(unittest.TestCase):
         self.assertIn("self-hosting", skill)
         self.assertIn("repo.files-driven / skill.files-driven / meta-skill capability / downstream project instance", skill)
         self.assertIn("runtime -> candidate -> capability", skill)
+
+    def test_downstream_starter_sources_keep_scope_drift_guards(self) -> None:
+        starter_readme = (STARTER_ROOT / "README.md").read_text(encoding="utf-8")
+        starter_skill = (STARTER_ROOT / "skills" / "review-skill" / "SKILL.md").read_text(encoding="utf-8")
+        hooks_readme = (STARTER_ROOT / "tooling" / "hooks" / "README.md").read_text(encoding="utf-8")
+
+        self.assertIn("project_scope", starter_readme)
+        self.assertIn("不与治理真源平行定义本体", starter_readme)
+        self.assertIn("project_scope", starter_skill)
+        self.assertIn("不与治理真源平行定义本体", starter_skill)
+        self.assertIn("不是 control truth", hooks_readme)
+        self.assertIn("不是真源", hooks_readme)
 
     def test_execution_state_and_contract_examples_do_not_carry_legacy_next_step_authority(self) -> None:
         state_schema = json.loads(STATE_SCHEMA.read_text(encoding="utf-8"))

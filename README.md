@@ -276,9 +276,10 @@
 | [docs/能力覆盖矩阵与历史差分.md](docs/能力覆盖矩阵与历史差分.md) | 想反向检查能力模型今天到底照进了哪些入口、脚本和回归的人 | 对照 `v1 / v2 / v2.1` 与 `v0.2.0 -> v0.5.0`，盘清能力覆盖和历史差分 |
 | [docs/宿主化知识工作场景矩阵.md](docs/宿主化知识工作场景矩阵.md) | 宿主名先行、但真正要判断真源与写权的人 | 把 `Obsidian / Notion / Docs / Sheets / Slides` 翻译回治理判断 |
 | [docs/体检分层矩阵.md](docs/体检分层矩阵.md) | 想弄清当前 `audit` 到底覆盖到哪一层的人 | 盘清 `scaffold / pack / runtime / governance / adoption` 五层体检边界 |
+| [docs/AI-Native与Skill驱动E2E验收矩阵.md](docs/AI-Native与Skill驱动E2E验收矩阵.md) | 想把 AI-Native / skill-driven 场景改动收口成端到端验收的人 | 把 agent-facing、downstream starter、宿主名先行、runtime 晋升链和 self-hosting rollout 统一到一张 E2E 矩阵 |
 | [docs/使用手册.md](docs/使用手册.md) | 已决定按这套方式工作的团队成员 | 从项目要解决的问题出发，说明问题为什么会出现、常见方式为什么不够，以及团队今天该怎么执行 |
 | [docs/v0.4.1_版本说明.md](docs/v0.4.1_版本说明.md) | 想理解这一版为何强调控制能力的人 | 说明当前版本的设计目标、实现纠偏和宿主/脚本/CLI 的关系 |
-| [docs/外部项目Workflow改造脚手架.md](docs/外部项目Workflow改造脚手架.md) | 需要改造外部项目现有 workflow 的人 | 提供“宿主优先、脚本补强”的最小改造 starter |
+| [docs/外部项目Workflow改造脚手架.md](docs/外部项目Workflow改造脚手架.md) | 需要改造外部项目现有 workflow 的人 | 提供“宿主优先、脚本补强”的 benchmark family 入口；当前 workflow 只是一个实例，并显式分开 `human authority`、机读控制面和 hook policy |
 | [PROJECT_STORIES_AND_TESTS.md](PROJECT_STORIES_AND_TESTS.md) | 会继续开发这个仓库的人或代理 | 直接写清本项目当前的具体用户故事、测试用例、非目标和验收责任人 |
 | [SKILL.md](SKILL.md) | 会执行这个技能的代理 | 给出主流程、判断规则、边界约束和参考件路由 |
 | [agents/openai.yaml](agents/openai.yaml) | 通过 Agent 使用这个 skill 的人或代理 | 作为 agent-facing 入口表面，固定显示名、简短定位和默认 prompt 路由 |
@@ -322,6 +323,7 @@
 先检查 scaffold、registry、route 和 starter profile 这类脚手架资产是否闭环，
 不直接冒充对下游项目的全量系统体检；如果你明确要查 pack / contract 资产，可显式运行 `manage audit --layer pack`；如果你在查官方的 observation -> candidate -> activation 链，可运行 `manage audit --layer runtime`；如果你在查入口冒充真源、scope 混写或 hidden authority surface，可运行 `manage audit --layer governance`；如果你在查本仓库的新手路径、低带宽解释和宿主名先行分诊是否站得住，可运行 `manage audit --layer adoption`。
 如果你要系统区分 `scaffold / pack / runtime / governance / adoption` 五层体检，直接读 [docs/体检分层矩阵.md](docs/体检分层矩阵.md)。
+如果你要把 AI-Native / skill-driven 场景改动收口成端到端验收，直接读 [docs/AI-Native与Skill驱动E2E验收矩阵.md](docs/AI-Native与Skill驱动E2E验收矩阵.md)。
 本仓库本身是 `reference implementation + regression fixture`，不是通用模板本体。
 
 最小主路径只记下面 5 步：
@@ -432,7 +434,7 @@
 - 手上已经有旧资产包：读 [MIGRATION.md](MIGRATION.md)、[examples/smoke-governed-review/BOUNDARY.md](examples/smoke-governed-review/BOUNDARY.md)、[examples/smoke-governed-review/WORKFLOW.md](examples/smoke-governed-review/WORKFLOW.md)
 - 需要先判断问题在哪里、该上多强控制：读 [references/问题诊断与控制强度分级.md](references/问题诊断与控制强度分级.md)
 - 需要决定主线程 / `subagent` / `CLI` / runner 怎么分工：读 [references/执行面判定与CLI生产策略.md](references/执行面判定与CLI生产策略.md)
-- 需要把外部项目现有 workflow 改造成宿主优先、脚本补强：读 [docs/外部项目Workflow改造脚手架.md](docs/外部项目Workflow改造脚手架.md)
+- 需要把外部项目现有 workflow 改造成宿主优先、脚本补强，或显式分开 `human authority`、机读控制面和 hook policy：读 [docs/外部项目Workflow改造脚手架.md](docs/外部项目Workflow改造脚手架.md)
 - 议题还没到 `task / decision`：读 [examples/discussion-decision-task/BOUNDARY.md](examples/discussion-decision-task/BOUNDARY.md)、[examples/discussion-decision-task/WORKFLOW.md](examples/discussion-decision-task/WORKFLOW.md)
 - 争议已经很大，需要逐点质询后再收敛：读 [examples/adversarial-convergence/README.md](examples/adversarial-convergence/README.md)
 - hooks 已经成为工具适配面的一部分：读 [references/hooks使用方法论与脚手架.md](references/hooks使用方法论与脚手架.md)、[references/工具适配对照表.md](references/工具适配对照表.md)、[references/关口硬化与稳定放行.md](references/关口硬化与稳定放行.md)

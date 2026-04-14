@@ -94,7 +94,9 @@ class FilesEngineActionTests(unittest.TestCase):
 
         (target / "README.md").write_text(
             "# files-driven fixture\n\n"
-            "入口回到 [docs/项目治理能力模型.md](docs/项目治理能力模型.md)。\n",
+            "入口回到 [docs/项目治理能力模型.md](docs/项目治理能力模型.md)。\n"
+            "README 只做入口、执行导览、迭代边界或合同说明，不与这份真源平行定义本体。\n"
+            "先明确当前对象到底是 capability_scope、repo.files-driven 还是某个下游项目实例；在 self-hosting 场景下也不例外。\n",
             encoding="utf-8",
         )
         (target / "docs" / "项目治理能力模型.md").write_text(
@@ -297,6 +299,64 @@ class FilesEngineActionTests(unittest.TestCase):
             self.assertEqual(invalid_payload["status"], "invalid")
             self.assertTrue(any(item["category"] == "candidate_trial" for item in invalid_payload["findings"]))
 
+    def test_runtime_layer_requires_recall_and_event_trace_fields(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            target = Path(temp_dir) / "runtime-pack"
+            shutil.copytree(RUNTIME_EXAMPLE, target)
+
+            recall_note_path = target / "recall_note.md"
+            recall_note = recall_note_path.read_text(encoding="utf-8").replace("decision_memory", "decision_trace")
+            recall_note_path.write_text(recall_note, encoding="utf-8")
+
+            events_path = target / "workflow.events.jsonl"
+            events_text = events_path.read_text(encoding="utf-8").replace('"reason_refs"', '"reason_trace_refs"', 1)
+            events_path.write_text(events_text, encoding="utf-8")
+
+            result = self.run_cmd(
+                str(MANAGE),
+                "audit",
+                str(target),
+                "--layer",
+                "runtime",
+                "--format",
+                "json",
+            )
+            self.assertNotEqual(result.returncode, 0)
+            payload = json.loads(result.stdout)
+            self.assertEqual(payload["status"], "invalid")
+            categories = {item["category"] for item in payload["findings"]}
+            self.assertIn("recall_note", categories)
+            self.assertIn("workflow_events", categories)
+
+    def test_runtime_layer_requires_traceable_event_chain_alignment(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            target = Path(temp_dir) / "runtime-pack"
+            shutil.copytree(RUNTIME_EXAMPLE, target)
+
+            events_path = target / "workflow.events.jsonl"
+            lines = events_path.read_text(encoding="utf-8").splitlines()
+            mutated_lines = []
+            for line in lines:
+                if '"event_id":"event.capture.003"' in line:
+                    line = line.replace('"reason_refs":["recall_note.md"]', '"reason_refs":["split_decision.md"]')
+                mutated_lines.append(line)
+            events_path.write_text("\n".join(mutated_lines) + "\n", encoding="utf-8")
+
+            result = self.run_cmd(
+                str(MANAGE),
+                "audit",
+                str(target),
+                "--layer",
+                "runtime",
+                "--format",
+                "json",
+            )
+            self.assertNotEqual(result.returncode, 0)
+            payload = json.loads(result.stdout)
+            self.assertEqual(payload["status"], "invalid")
+            categories = {item["category"] for item in payload["findings"]}
+            self.assertIn("workflow_events", categories)
+
     def test_governance_layer_validates_downstream_authority_boundaries(self) -> None:
         target = self.bootstrap()
 
@@ -317,7 +377,9 @@ class FilesEngineActionTests(unittest.TestCase):
         self.assertTrue(payload["implemented"])
 
         hooks_readme_path = target / "tooling" / "hooks" / "README.md"
-        hooks_readme = hooks_readme_path.read_text(encoding="utf-8").replace("不是 control truth", "是 control truth")
+        hooks_readme = hooks_readme_path.read_text(encoding="utf-8")
+        hooks_readme = hooks_readme.replace("不是 control truth", "是 control truth")
+        hooks_readme = hooks_readme.replace("不是真源", "是真源")
         hooks_readme_path.write_text(hooks_readme, encoding="utf-8")
 
         invalid = self.run_cmd(
@@ -333,6 +395,86 @@ class FilesEngineActionTests(unittest.TestCase):
         invalid_payload = json.loads(invalid.stdout)
         self.assertEqual(invalid_payload["status"], "invalid")
         self.assertTrue(any(item["category"] == "authority_surface" for item in invalid_payload["findings"]))
+
+    def test_governance_layer_validates_downstream_readme_scope_and_authority(self) -> None:
+        target = self.bootstrap()
+
+        result = self.run_cmd(
+            str(MANAGE),
+            "audit",
+            str(target),
+            "--layer",
+            "governance",
+            "--format",
+            "json",
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        payload = json.loads(result.stdout)
+        self.assertEqual(payload["status"], "valid")
+        self.assertEqual(payload["profile"], "downstream_project_instance")
+        self.assertTrue(payload["implemented"])
+
+        readme_path = target / "README.md"
+        readme_text = readme_path.read_text(encoding="utf-8")
+        readme_text = readme_text.replace("project_scope", "runtime_scope")
+        readme_text = readme_text.replace("不与治理真源平行定义本体", "与治理真源平行定义本体")
+        readme_path.write_text(readme_text, encoding="utf-8")
+
+        invalid = self.run_cmd(
+            str(MANAGE),
+            "audit",
+            str(target),
+            "--layer",
+            "governance",
+            "--format",
+            "json",
+        )
+        self.assertNotEqual(invalid.returncode, 0)
+        invalid_payload = json.loads(invalid.stdout)
+        self.assertEqual(invalid_payload["status"], "invalid")
+        categories = {item["category"] for item in invalid_payload["findings"]}
+        self.assertIn("scope_binding", categories)
+        self.assertIn("authority_surface", categories)
+
+    def test_governance_layer_validates_downstream_skill_scope_and_authority(self) -> None:
+        target = self.bootstrap()
+
+        result = self.run_cmd(
+            str(MANAGE),
+            "audit",
+            str(target),
+            "--layer",
+            "governance",
+            "--format",
+            "json",
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        payload = json.loads(result.stdout)
+        self.assertEqual(payload["status"], "valid")
+        self.assertEqual(payload["profile"], "downstream_project_instance")
+        self.assertTrue(payload["implemented"])
+
+        skill_path = target / "skills" / "review-skill" / "SKILL.md"
+        skill_text = skill_path.read_text(encoding="utf-8")
+        skill_text = skill_text.replace("project_scope", "runtime_scope")
+        skill_text = skill_text.replace("不与治理真源平行定义本体", "与治理真源平行定义本体")
+        skill_path.write_text(skill_text, encoding="utf-8")
+
+        invalid = self.run_cmd(
+            str(MANAGE),
+            "audit",
+            str(target),
+            "--layer",
+            "governance",
+            "--format",
+            "json",
+        )
+        self.assertNotEqual(invalid.returncode, 0)
+        invalid_payload = json.loads(invalid.stdout)
+        self.assertEqual(invalid_payload["status"], "invalid")
+        categories = {item["category"] for item in invalid_payload["findings"]}
+        self.assertIn("scope_binding", categories)
+        self.assertIn("authority_surface", categories)
 
     def test_governance_layer_validates_self_hosting_scope_binding(self) -> None:
         target = self.make_self_hosting_fixture()
@@ -356,6 +498,78 @@ class FilesEngineActionTests(unittest.TestCase):
         skill_path = target / "SKILL.md"
         skill_text = skill_path.read_text(encoding="utf-8").replace(" 和 self-hosting", "")
         skill_path.write_text(skill_text, encoding="utf-8")
+
+        invalid = self.run_cmd(
+            str(MANAGE),
+            "audit",
+            str(target),
+            "--layer",
+            "governance",
+            "--format",
+            "json",
+        )
+        self.assertNotEqual(invalid.returncode, 0)
+        invalid_payload = json.loads(invalid.stdout)
+        self.assertEqual(invalid_payload["status"], "invalid")
+        self.assertTrue(any(item["category"] == "scope_binding" for item in invalid_payload["findings"]))
+
+    def test_governance_layer_validates_self_hosting_readme_authority_denial(self) -> None:
+        target = self.make_self_hosting_fixture()
+
+        result = self.run_cmd(
+            str(MANAGE),
+            "audit",
+            str(target),
+            "--layer",
+            "governance",
+            "--format",
+            "json",
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        payload = json.loads(result.stdout)
+        self.assertEqual(payload["status"], "valid")
+        self.assertEqual(payload["profile"], "self_hosting_capability_repo")
+        self.assertTrue(payload["implemented"])
+
+        readme_path = target / "README.md"
+        readme_text = readme_path.read_text(encoding="utf-8").replace("不与这份真源平行定义本体", "与这份真源平行定义本体")
+        readme_path.write_text(readme_text, encoding="utf-8")
+
+        invalid = self.run_cmd(
+            str(MANAGE),
+            "audit",
+            str(target),
+            "--layer",
+            "governance",
+            "--format",
+            "json",
+        )
+        self.assertNotEqual(invalid.returncode, 0)
+        invalid_payload = json.loads(invalid.stdout)
+        self.assertEqual(invalid_payload["status"], "invalid")
+        self.assertTrue(any(item["category"] == "authority_surface" for item in invalid_payload["findings"]))
+
+    def test_governance_layer_validates_self_hosting_readme_scope_binding(self) -> None:
+        target = self.make_self_hosting_fixture()
+
+        result = self.run_cmd(
+            str(MANAGE),
+            "audit",
+            str(target),
+            "--layer",
+            "governance",
+            "--format",
+            "json",
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        payload = json.loads(result.stdout)
+        self.assertEqual(payload["status"], "valid")
+        self.assertEqual(payload["profile"], "self_hosting_capability_repo")
+        self.assertTrue(payload["implemented"])
+
+        readme_path = target / "README.md"
+        readme_text = readme_path.read_text(encoding="utf-8").replace("capability_scope", "runtime_scope")
+        readme_path.write_text(readme_text, encoding="utf-8")
 
         invalid = self.run_cmd(
             str(MANAGE),

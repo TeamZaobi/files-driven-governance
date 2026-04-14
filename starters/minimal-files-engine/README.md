@@ -7,6 +7,8 @@
 这里要先记住：
 
 - 这是 `downstream project instance`，不是 `repo.files-driven`
+- 它默认处在 `project_scope`，不是 `repo.files-driven`
+- 它只做入口和合同说明，不与治理真源平行定义本体
 - 它包含最小 governed pack，也包含 starter 层的 `scaffold manifest`、`files registry` 与 `intent routes`
 - 冷启动后先跑 scaffold validator，再跑 pack validator
 

@@ -5,7 +5,7 @@
 这里先记住两件事：
 
 1. 项目级 hook 真源在 [governance/hooks.policy.md](../../governance/hooks.policy.md)
-2. 这里的模板和脚本只是适配层，不是 control truth
+2. 这里的模板和脚本只是适配层，不是 control truth，也不是真源
 
 ## 目录说明
 
