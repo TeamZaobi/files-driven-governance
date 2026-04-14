@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "run_id": "run.capture.candidate.activation.001",
+  "workflow_id": "workflow.capture.candidate.activation",
+  "contract_version": "v1",
+  "current_node_id": "node.activation_or_rollback",
+  "gate_state": "ready",
+  "required_evidence_refs": [
+    "evidence.capture.evidence",
+    "evidence.recall.note",
+    "evidence.split.decision",
+    "evidence.candidate.trial",
+    "evidence.activation.decision"
+  ],
+  "missing_evidence_refs": [],
+  "forbidden_output_refs": [],
+  "updated_at": "2026-04-13T10:00:00+08:00",
+  "last_event_id": "event.capture.005"
+}

@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0",
+  "policy_id": "policy.capture.candidate.activation",
+  "family": "policy_or_rules",
+  "version_anchor": "v1",
+  "risk_level": "high",
+  "scope": "workflow",
+  "applies_to_refs": [
+    "workflow.capture.candidate.activation"
+  ],
+  "rules": [
+    {
+      "rule_id": "rule.capture-runtime-observation-only",
+      "effect": "require_evidence",
+      "condition_ref": "current round only records runtime observations and does not rewrite capability truth",
+      "target_refs": [
+        "node.capture_evidence"
+      ],
+      "required_refs": [
+        "evidence.capture.evidence"
+      ]
+    },
+    {
+      "rule_id": "rule.recall-before-split",
+      "effect": "require_evidence",
+      "condition_ref": "history must be recalled before splitting the target",
+      "target_refs": [
+        "node.recall_history"
+      ],
+      "required_refs": [
+        "evidence.recall.note"
+      ]
+    },
+    {
+      "rule_id": "rule.split-project-export-and-candidate",
+      "effect": "require_review",
+      "condition_ref": "project export and capability candidate must be separated before trial",
+      "target_refs": [
+        "node.split_target"
+      ],
+      "required_refs": [
+        "approval.capture.candidate.activation"
+      ]
+    },
+    {
+      "rule_id": "rule.trial-needs-signal-definition",
+      "effect": "require_evidence",
+      "condition_ref": "candidate trial must declare success criteria, failure signals, and rollback path",
+      "target_refs": [
+        "node.candidate_trial"
+      ],
+      "required_refs": [
+        "evidence.candidate.trial"
+      ]
+    },
+    {
+      "rule_id": "rule.activation-or-rollback-must-be-explicit",
+      "effect": "require_rollback",
+      "condition_ref": "activation is only allowed after trial outcome is explicit; rollback path must already exist",
+      "target_refs": [
+        "node.activation_or_rollback"
+      ],
+      "required_refs": [
+        "evidence.activation.decision"
+      ]
+    }
+  ]
+}

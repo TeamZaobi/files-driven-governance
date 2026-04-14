@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "object_id": "evidence.split.decision",
+  "family": "object",
+  "version_anchor": "v1",
+  "kind": "evidence_type",
+  "fields": [
+    {
+      "field_id": "split_id",
+      "type": "string",
+      "required": true
+    },
+    {
+      "field_id": "source_refs",
+      "type": "array<string>",
+      "required": true
+    },
+    {
+      "field_id": "split_criteria",
+      "type": "array<string>",
+      "required": false
+    },
+    {
+      "field_id": "rollback_paths",
+      "type": "array<string>",
+      "required": false
+    }
+  ]
+}

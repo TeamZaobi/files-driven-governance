@@ -12,12 +12,15 @@ SKILL = ROOT / "SKILL.md"
 METADATA = ROOT / "agents" / "openai.yaml"
 MODEL = ROOT / "docs" / "项目治理能力模型.md"
 MODEL_V1 = ROOT / "docs" / "项目治理能力模型_v1.md"
+MANUAL = ROOT / "docs" / "使用手册.md"
+PLAN = ROOT / "docs" / "当前阶段补完计划.md"
 PROJECT_STORIES = ROOT / "PROJECT_STORIES_AND_TESTS.md"
 EXAMPLE_READMES = [
     ROOT / "examples" / "smoke-governed-review" / "README.md",
     ROOT / "examples" / "discussion-decision-task" / "README.md",
     ROOT / "examples" / "adversarial-convergence" / "README.md",
     ROOT / "examples" / "multi-tool-process-projection" / "README.md",
+    ROOT / "examples" / "capture-candidate-activation" / "README.md",
 ]
 
 LINK_RE = re.compile(r"\[[^\]]+\]\(([^)]+)\)")
@@ -32,6 +35,8 @@ class EntrypointConsistencyTests(unittest.TestCase):
         skill = SKILL.read_text(encoding="utf-8")
         model = MODEL.read_text(encoding="utf-8")
         model_v1 = MODEL_V1.read_text(encoding="utf-8")
+        manual = MANUAL.read_text(encoding="utf-8")
+        plan = PLAN.read_text(encoding="utf-8")
         stories = PROJECT_STORIES.read_text(encoding="utf-8")
 
         self.assertTrue(readme.startswith("# files-driven\n"))
@@ -62,6 +67,8 @@ class EntrypointConsistencyTests(unittest.TestCase):
         self.assertIn("validate_files_engine_scaffold.py", readme)
         self.assertIn("scaffold.manifest.json", readme)
         self.assertIn("starter profile", readme)
+        self.assertIn("运行观察与能力晋升", readme)
+        self.assertIn("capture-candidate-activation", readme)
         self.assertIn("bootstrap_files_engine_starter.py", quickstart)
         self.assertIn("objects/*.json", quickstart)
         self.assertIn("objects/*.json", migration)
@@ -75,14 +82,25 @@ class EntrypointConsistencyTests(unittest.TestCase):
         self.assertIn("intent.routes.schema.json", schema)
         self.assertIn("scaffold.manifest.schema.json", schema)
         self.assertIn("starter.profile.schema.json", schema)
+        self.assertIn("hooks使用方法论与脚手架", readme)
+        self.assertIn("hooks使用方法论与脚手架", skill)
+        self.assertIn("hooks使用方法论与脚手架", manual)
         self.assertIn("文件身份核心", schema)
         self.assertIn("annotations", schema)
         self.assertIn("不允许携带新的放行字段", schema)
         self.assertIn("install / register / repair / audit", readme)
         self.assertIn("`manage` CLI", skill)
+        self.assertIn("运行观察与能力晋升", skill)
+        self.assertIn("capture-candidate-activation", skill)
+        self.assertIn("运行观察与能力晋升", manual)
+        self.assertIn("capture-candidate-activation", manual)
+        self.assertIn("runtime -> candidate -> capability", plan)
+        self.assertIn("补完顺序", plan)
+        self.assertIn("不接受什么", plan)
 
     def test_metadata_matches_skill_default_path_language(self) -> None:
         metadata = METADATA.read_text(encoding="utf-8")
+        self.assertIn('display_name: "files-driven"', metadata)
         self.assertIn("capability_scope、project_scope", metadata)
         self.assertIn("入口规则、能力规则、项目规则、项目实体", metadata)
         self.assertIn("一级关口", metadata)
@@ -92,7 +110,7 @@ class EntrypointConsistencyTests(unittest.TestCase):
         self.assertIn("discussion 晋升", metadata)
 
     def test_markdown_entry_links_resolve(self) -> None:
-        for path in [README, QUICKSTART, MIGRATION, SKILL, *EXAMPLE_READMES]:
+        for path in [README, QUICKSTART, MIGRATION, SKILL, MANUAL, PLAN, *EXAMPLE_READMES]:
             text = path.read_text(encoding="utf-8")
             for raw_target in LINK_RE.findall(text):
                 if raw_target.startswith(("http://", "https://", "mailto:", "app://", "#")):

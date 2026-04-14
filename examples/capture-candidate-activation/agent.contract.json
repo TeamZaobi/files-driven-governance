@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0",
+  "agent_id": "agent.capture.candidate.activation",
+  "family": "agent",
+  "version_anchor": "v1",
+  "roles": [
+    {
+      "role_id": "role.governance_owner",
+      "can_execute_refs": [
+        "action.capture.evidence",
+        "action.recall.note",
+        "action.split.decision",
+        "action.candidate.trial",
+        "action.activation.decision"
+      ],
+      "can_review_refs": [
+        "action.capture.evidence",
+        "action.recall.note",
+        "action.split.decision",
+        "action.candidate.trial",
+        "action.activation.decision"
+      ],
+      "can_approve_refs": [
+        "approval.capture.candidate.activation"
+      ],
+      "blocked_action_refs": [
+        "output.hot_edit_capability_truth",
+        "output.display_claims_activation"
+      ]
+    }
+  ]
+}

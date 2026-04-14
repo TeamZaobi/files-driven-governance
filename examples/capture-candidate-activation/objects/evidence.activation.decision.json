@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "object_id": "evidence.activation.decision",
+  "family": "object",
+  "version_anchor": "v1",
+  "kind": "evidence_type",
+  "fields": [
+    {
+      "field_id": "decision_id",
+      "type": "string",
+      "required": true
+    },
+    {
+      "field_id": "source_refs",
+      "type": "array<string>",
+      "required": true
+    },
+    {
+      "field_id": "activation_requirements",
+      "type": "array<string>",
+      "required": true
+    },
+    {
+      "field_id": "rollback_paths",
+      "type": "array<string>",
+      "required": true
+    }
+  ]
+}
