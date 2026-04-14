@@ -54,6 +54,7 @@
 - 为 `register / repair / audit` 提供统一 `manage` CLI
 - 为 starter 专属形状约束提供单独的 starter profile
 - 为 starter 完整性提供 scaffold validator
+- 为 repo-local hooks 提供项目级 policy 真源与工具适配模板
 
 ### 2.4 `downstream project instance`
 
@@ -96,9 +97,11 @@
 缺的是 repo 级引擎执行面：
 
 - `scaffold manifest`
+- `hooks policy`
 - `file registration schema`
 - `files registry`
 - `intent routes`
+- hooks template / script scaffold
 - bootstrap / resolve / validate 脚本
 - 能把 unregistered file、route 漏绑、角色漂移打回的测试
 
@@ -130,14 +133,16 @@
 当前决定先补一条最小而完整的执行链：
 
 1. [starters/minimal-files-engine/](../starters/minimal-files-engine/): 官方最小 starter
-2. [schemas/scaffold.manifest.schema.json](../schemas/scaffold.manifest.schema.json): starter 拓扑合同
-3. starter profile: starter 专属形状约束合同
-4. [schemas/file.registration.schema.json](../schemas/file.registration.schema.json): 单个文件注册项
-5. [schemas/files.registry.schema.json](../schemas/files.registry.schema.json): 仓库级文件注册表
-6. [schemas/intent.routes.schema.json](../schemas/intent.routes.schema.json): workflow / tool 可消费的路由合同
-7. [scripts/bootstrap_files_engine_starter.py](../scripts/bootstrap_files_engine_starter.py): 冷启动脚本
-8. 统一 `manage` CLI: `register / repair / audit`
-9. [scripts/validate_files_engine_scaffold.py](../scripts/validate_files_engine_scaffold.py): scaffold 校验脚本
+2. `governance/hooks.policy.md`: 项目级 hooks 真源
+3. `tooling/hooks/`: repo-local hooks 模板与脚本
+4. [schemas/scaffold.manifest.schema.json](../schemas/scaffold.manifest.schema.json): starter 拓扑合同
+5. starter profile: starter 专属形状约束合同
+6. [schemas/file.registration.schema.json](../schemas/file.registration.schema.json): 单个文件注册项
+7. [schemas/files.registry.schema.json](../schemas/files.registry.schema.json): 仓库级文件注册表
+8. [schemas/intent.routes.schema.json](../schemas/intent.routes.schema.json): workflow / tool 可消费的路由合同
+9. [scripts/bootstrap_files_engine_starter.py](../scripts/bootstrap_files_engine_starter.py): 冷启动脚本
+10. 统一 `manage` CLI: `register / repair / audit`
+11. [scripts/validate_files_engine_scaffold.py](../scripts/validate_files_engine_scaffold.py): scaffold 校验脚本
 
 这条链的目标不是一次性做成全功能引擎，而是先让这件事从“隐含知识”变成“官方可执行资产”。
 
@@ -159,13 +164,15 @@
 
 这意味着默认改动顺序也必须分开：
 
-1. 只改 route 行为：只改 `intent.routes.json`
-2. 新增或移动 tracked 文件：先改 `scaffold.manifest.json`，再改 `files.registry.json`，最后按需改 route
-3. 文件岗位或证据类型变化：先改 `files.registry.json`，再检查 route 消费面是否需要刷新
-4. starter 专属形状变化：先改 starter profile，再看 validator 是否需要同步
+1. 只改某个工具的 hook 接法：先改 `tooling/hooks/`，不要先改项目真源
+2. 要改“哪些动作可拦、哪些只记录”：先改 `governance/hooks.policy.md`
+3. 只改 route 行为：只改 `intent.routes.json`
+4. 新增或移动 tracked 文件：先改 `scaffold.manifest.json`，再改 `files.registry.json`，最后按需改 route
+5. 文件岗位或证据类型变化：先改 `files.registry.json`，再检查 route 消费面是否需要刷新
+6. starter 专属形状变化：先改 starter profile，再看 validator 是否需要同步
 
 `bootstrap` 只负责播种 starter。
-starter 起出来以后，拓扑由 manifest 管，身份由 registry 管，动作编排由 routes 管。
+starter 起出来以后，hook 真源由 `governance/hooks.policy.md` 管，拓扑由 manifest 管，身份由 registry 管，动作编排由 routes 管。
 
 ## 7. 新文件注册表的最小变量
 

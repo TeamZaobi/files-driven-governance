@@ -8,6 +8,10 @@
       "path": "BOUNDARY.md"
     },
     {
+      "work_post": "hook_policy",
+      "path": "governance/hooks.policy.md"
+    },
+    {
       "work_post": "file_registry",
       "path": "governance/files.registry.json"
     },
@@ -33,6 +37,15 @@
       "family": "workflow",
       "layer": "truth_source",
       "work_post": "workflow_contract"
+    },
+    {
+      "path": "governance/hooks.policy.md",
+      "family": "policy_or_rules",
+      "layer": "truth_source",
+      "work_post": "hook_policy",
+      "annotations": {
+        "truth_status": "canonical"
+      }
     },
     {
       "path": "workflow.state.json",
