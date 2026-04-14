@@ -11,6 +11,7 @@ import validate_files_engine_scaffold as scaffold
 
 ROOT = Path(__file__).resolve().parents[1]
 CAPABILITY_RUNNER = ROOT / "scripts" / "run_project_director_capability_improvement.py"
+HOOK_POLICY_PATH = Path("governance/hooks.policy.md")
 
 
 def parse_args() -> argparse.Namespace:
@@ -125,6 +126,107 @@ def print_payload(payload: dict, fmt: str) -> None:
                 print(f"   - {finding['message']}")
 
 
+def registry_entry_by_path(registry: dict | None, relative_path: str) -> dict | None:
+    if registry is None:
+        return None
+    for entry in registry.get("entries", []):
+        if entry.get("path") == relative_path:
+            return entry
+    return None
+
+
+def route_references_file_id(routes: dict | None, file_id: str) -> bool:
+    if routes is None:
+        return False
+
+    for route in routes.get("routes", []):
+        refs = [
+            route.get("entrypoint_file_id"),
+            *route.get("required_file_ids", []),
+            *route.get("write_targets", []),
+        ]
+        if file_id in refs:
+            return True
+    return False
+
+
+def discover_hook_adapter_paths(project_root: Path) -> list[str]:
+    matches: set[str] = set()
+
+    for relative in [
+        Path("tooling/hooks/README.md"),
+        Path(".codex/hooks.json"),
+    ]:
+        path = project_root / relative
+        if path.exists() and path.is_file():
+            matches.add(relative.as_posix())
+
+    for relative_dir in [
+        Path("tooling/hooks/templates"),
+        Path("tooling/hooks/scripts"),
+        Path(".github/hooks"),
+    ]:
+        root = project_root / relative_dir
+        if not root.exists() or not root.is_dir():
+            continue
+        for child in root.rglob("*"):
+            if child.is_file():
+                matches.add(child.relative_to(project_root).as_posix())
+
+    return sorted(matches)
+
+
+def build_hook_findings(
+    project_root: Path,
+    registry: dict | None,
+    routes: dict | None,
+) -> list[dict]:
+    findings: list[dict] = []
+    adapter_paths = discover_hook_adapter_paths(project_root)
+    policy_path = project_root / HOOK_POLICY_PATH
+    policy_entry = registry_entry_by_path(registry, HOOK_POLICY_PATH.as_posix())
+
+    if adapter_paths and not policy_path.exists():
+        findings.append(
+            {
+                "category": "hooks",
+                "message": (
+                    "hook adapters are present but `governance/hooks.policy.md` is missing: "
+                    + ", ".join(adapter_paths[:4])
+                ),
+            }
+        )
+
+    if policy_path.exists() and policy_entry is None:
+        findings.append(
+            {
+                "category": "hooks",
+                "message": (
+                    "`governance/hooks.policy.md` exists but is not registered in "
+                    "`governance/files.registry.json`"
+                ),
+            }
+        )
+
+    if (
+        adapter_paths
+        and policy_entry is not None
+        and routes is not None
+        and not route_references_file_id(routes, policy_entry["file_id"])
+    ):
+        findings.append(
+            {
+                "category": "hooks",
+                "message": (
+                    "hook adapters are present but no route consumes "
+                    f"`{policy_entry['file_id']}` from `governance/intent.routes.json`"
+                ),
+            }
+        )
+
+    return findings
+
+
 def run_register(args: argparse.Namespace) -> int:
     project_root = Path(args.project_root).expanduser().resolve()
     if not project_root.exists():
@@ -195,8 +297,9 @@ def run_audit(args: argparse.Namespace) -> int:
         print(f"error: project root does not exist: `{project_root}`", file=sys.stderr)
         return 1
 
-    _, _, _, _, errors = scaffold.load_scaffold_assets(project_root)
+    _, _, registry, routes, errors = scaffold.load_scaffold_assets(project_root)
     findings = scaffold.build_findings(errors)
+    findings.extend(build_hook_findings(project_root, registry, routes))
     payload = {
         "status": "valid" if not findings else "invalid",
         "project_root": str(project_root),
@@ -208,9 +311,10 @@ def run_audit(args: argparse.Namespace) -> int:
 
 
 def build_repair_steps(findings: list[dict]) -> list[dict]:
-    priorities = ["manifest", "starter_profile", "registry", "routes", "scaffold"]
+    priorities = ["manifest", "hooks", "starter_profile", "registry", "routes", "scaffold"]
     summaries = {
         "manifest": "Fix starter topology and tracked-path declarations first",
+        "hooks": "Restore project-level hook truth before wiring or keeping adapters",
         "starter_profile": "Align starter-specific shape expectations with registry second",
         "registry": "Fix file registrations, identity drift, and annotations next",
         "routes": "Repair route references after registry is stable",
@@ -238,8 +342,9 @@ def run_repair(args: argparse.Namespace) -> int:
         print(f"error: project root does not exist: `{project_root}`", file=sys.stderr)
         return 1
 
-    _, _, _, _, errors = scaffold.load_scaffold_assets(project_root)
+    _, _, registry, routes, errors = scaffold.load_scaffold_assets(project_root)
     findings = scaffold.build_findings(errors)
+    findings.extend(build_hook_findings(project_root, registry, routes))
     steps = build_repair_steps(findings)
     payload = {
         "status": "clean" if not steps else "repair_needed",

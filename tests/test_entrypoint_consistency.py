@@ -16,12 +16,15 @@ VERSION_NEXT = ROOT / "docs" / "v0.4.1_版本说明.md"
 CONTROL_STRENGTH = ROOT / "references" / "问题诊断与控制强度分级.md"
 EXECUTION_SURFACE = ROOT / "references" / "执行面判定与CLI生产策略.md"
 EXTERNAL_WORKFLOW = ROOT / "docs" / "外部项目Workflow改造脚手架.md"
+MANUAL = ROOT / "docs" / "使用手册.md"
+PLAN = ROOT / "docs" / "当前阶段补完计划.md"
 PROJECT_STORIES = ROOT / "PROJECT_STORIES_AND_TESTS.md"
 EXAMPLE_READMES = [
     ROOT / "examples" / "smoke-governed-review" / "README.md",
     ROOT / "examples" / "discussion-decision-task" / "README.md",
     ROOT / "examples" / "adversarial-convergence" / "README.md",
     ROOT / "examples" / "multi-tool-process-projection" / "README.md",
+    ROOT / "examples" / "capture-candidate-activation" / "README.md",
 ]
 
 LINK_RE = re.compile(r"\[[^\]]+\]\(([^)]+)\)")
@@ -40,6 +43,8 @@ class EntrypointConsistencyTests(unittest.TestCase):
         control_strength = CONTROL_STRENGTH.read_text(encoding="utf-8")
         execution_surface = EXECUTION_SURFACE.read_text(encoding="utf-8")
         external_workflow = EXTERNAL_WORKFLOW.read_text(encoding="utf-8")
+        manual = MANUAL.read_text(encoding="utf-8")
+        plan = PLAN.read_text(encoding="utf-8")
         stories = PROJECT_STORIES.read_text(encoding="utf-8")
 
         self.assertTrue(readme.startswith("# files-driven\n"))
@@ -86,6 +91,8 @@ class EntrypointConsistencyTests(unittest.TestCase):
         self.assertIn("validate_files_engine_scaffold.py", readme)
         self.assertIn("scaffold.manifest.json", readme)
         self.assertIn("starter profile", readme)
+        self.assertIn("运行观察与能力晋升", readme)
+        self.assertIn("capture-candidate-activation", readme)
         self.assertIn("bootstrap_files_engine_starter.py", quickstart)
         self.assertIn("objects/*.json", quickstart)
         self.assertIn("objects/*.json", migration)
@@ -99,6 +106,9 @@ class EntrypointConsistencyTests(unittest.TestCase):
         self.assertIn("intent.routes.schema.json", schema)
         self.assertIn("scaffold.manifest.schema.json", schema)
         self.assertIn("starter.profile.schema.json", schema)
+        self.assertIn("hooks使用方法论与脚手架", readme)
+        self.assertIn("hooks使用方法论与脚手架", skill)
+        self.assertIn("hooks使用方法论与脚手架", manual)
         self.assertIn("文件身份核心", schema)
         self.assertIn("annotations", schema)
         self.assertIn("不允许携带新的放行字段", schema)
@@ -124,9 +134,24 @@ class EntrypointConsistencyTests(unittest.TestCase):
         self.assertIn("最小 starter 模板", external_workflow)
         self.assertIn("不是 `manage` CLI 的正式子命令", external_workflow)
         self.assertIn("最小 benchmark 模板", external_workflow)
+        self.assertIn("运行观察与能力晋升", skill)
+        self.assertIn("capture-candidate-activation", skill)
+        self.assertIn("运行观察与能力晋升", manual)
+        self.assertIn("capture-candidate-activation", manual)
+        self.assertIn("runtime -> candidate -> capability", plan)
+        self.assertIn("补完顺序", plan)
+        self.assertIn("不接受什么", plan)
+        self.assertIn("运行观察与能力晋升", skill)
+        self.assertIn("capture-candidate-activation", skill)
+        self.assertIn("运行观察与能力晋升", manual)
+        self.assertIn("capture-candidate-activation", manual)
+        self.assertIn("runtime -> candidate -> capability", plan)
+        self.assertIn("补完顺序", plan)
+        self.assertIn("不接受什么", plan)
 
     def test_metadata_matches_skill_default_path_language(self) -> None:
         metadata = METADATA.read_text(encoding="utf-8")
+        self.assertIn('display_name: "files-driven"', metadata)
         self.assertIn("capability_scope、project_scope", metadata)
         self.assertIn("入口规则、能力规则、项目规则、项目实体", metadata)
         self.assertIn("一级关口", metadata)
@@ -136,11 +161,23 @@ class EntrypointConsistencyTests(unittest.TestCase):
         self.assertIn("discussion 晋升", metadata)
         self.assertIn("capability-improve", metadata)
         self.assertIn("Codex CLI", metadata)
-        self.assertIn("帮助 skill 驱动 AI-Native 项目识别问题、解决问题", metadata)
+        self.assertIn("识别问题并按需强化控制能力", metadata)
         self.assertIn("强化控制能力", metadata)
 
     def test_markdown_entry_links_resolve(self) -> None:
-        for path in [README, QUICKSTART, MIGRATION, SKILL, VERSION_NEXT, CONTROL_STRENGTH, EXECUTION_SURFACE, EXTERNAL_WORKFLOW, *EXAMPLE_READMES]:
+        for path in [
+            README,
+            QUICKSTART,
+            MIGRATION,
+            SKILL,
+            MANUAL,
+            PLAN,
+            VERSION_NEXT,
+            CONTROL_STRENGTH,
+            EXECUTION_SURFACE,
+            EXTERNAL_WORKFLOW,
+            *EXAMPLE_READMES,
+        ]:
             text = path.read_text(encoding="utf-8")
             for raw_target in LINK_RE.findall(text):
                 if raw_target.startswith(("http://", "https://", "mailto:", "app://", "#")):

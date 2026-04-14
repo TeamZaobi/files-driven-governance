@@ -1,0 +1,159 @@
+{
+  "schema_version": "1.0",
+  "workflow_id": "workflow.capture.candidate.activation",
+  "family": "workflow",
+  "governance_level": "controlled",
+  "execution_mode": "gated",
+  "version_anchor": "v1",
+  "explanation_ref": "WORKFLOW.md",
+  "policy_refs": [
+    "policy.capture.candidate.activation"
+  ],
+  "object_refs": [
+    "state.capture.evidence",
+    "action.capture.evidence",
+    "evidence.capture.evidence",
+    "state.recall.note",
+    "action.recall.note",
+    "evidence.recall.note",
+    "state.split.decision",
+    "action.split.decision",
+    "evidence.split.decision",
+    "state.candidate.trial",
+    "action.candidate.trial",
+    "evidence.candidate.trial",
+    "state.activation.decision",
+    "action.activation.decision",
+    "evidence.activation.decision",
+    "approval.capture.candidate.activation"
+  ],
+  "agent_refs": [
+    "agent.capture.candidate.activation"
+  ],
+  "entry_intents": [
+    {
+      "intent_id": "intent.capture.observation.start",
+      "entry_node": "node.capture_evidence",
+      "aliases": [
+        "start capture",
+        "capture evidence",
+        "record observation"
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "node_id": "node.capture_evidence",
+      "state_ref": "state.capture.evidence",
+      "action_ref": "action.capture.evidence",
+      "evidence_refs": [
+        "evidence.capture.evidence"
+      ],
+      "output_policy_refs": [
+        "policy.capture.candidate.activation"
+      ],
+      "approver_ref": "role.governance_owner"
+    },
+    {
+      "node_id": "node.recall_history",
+      "state_ref": "state.recall.note",
+      "action_ref": "action.recall.note",
+      "evidence_refs": [
+        "evidence.recall.note"
+      ],
+      "output_policy_refs": [
+        "policy.capture.candidate.activation"
+      ],
+      "approver_ref": "role.governance_owner"
+    },
+    {
+      "node_id": "node.split_target",
+      "state_ref": "state.split.decision",
+      "action_ref": "action.split.decision",
+      "evidence_refs": [
+        "evidence.split.decision"
+      ],
+      "output_policy_refs": [
+        "policy.capture.candidate.activation"
+      ],
+      "approver_ref": "role.governance_owner"
+    },
+    {
+      "node_id": "node.candidate_trial",
+      "state_ref": "state.candidate.trial",
+      "action_ref": "action.candidate.trial",
+      "evidence_refs": [
+        "evidence.candidate.trial"
+      ],
+      "output_policy_refs": [
+        "policy.capture.candidate.activation"
+      ],
+      "approver_ref": "role.governance_owner"
+    },
+    {
+      "node_id": "node.activation_or_rollback",
+      "state_ref": "state.activation.decision",
+      "action_ref": "action.activation.decision",
+      "evidence_refs": [
+        "evidence.activation.decision"
+      ],
+      "output_policy_refs": [
+        "policy.capture.candidate.activation"
+      ],
+      "approver_ref": "role.governance_owner"
+    }
+  ],
+  "transitions": [
+    {
+      "transition_id": "transition.capture-evidence-to-recall-history",
+      "from_node": "node.capture_evidence",
+      "to_node": "node.recall_history",
+      "guard_policy_refs": [
+        "policy.capture.candidate.activation"
+      ],
+      "approval_ref": "approval.capture.candidate.activation"
+    },
+    {
+      "transition_id": "transition.recall-history-to-split-target",
+      "from_node": "node.recall_history",
+      "to_node": "node.split_target",
+      "guard_policy_refs": [
+        "policy.capture.candidate.activation"
+      ],
+      "approval_ref": "approval.capture.candidate.activation"
+    },
+    {
+      "transition_id": "transition.split-target-to-candidate-trial",
+      "from_node": "node.split_target",
+      "to_node": "node.candidate_trial",
+      "guard_policy_refs": [
+        "policy.capture.candidate.activation"
+      ],
+      "approval_ref": "approval.capture.candidate.activation"
+    },
+    {
+      "transition_id": "transition.candidate-trial-to-activation-or-rollback",
+      "from_node": "node.candidate_trial",
+      "to_node": "node.activation_or_rollback",
+      "guard_policy_refs": [
+        "policy.capture.candidate.activation"
+      ],
+      "approval_ref": "approval.capture.candidate.activation",
+      "rollback_to": "node.split_target"
+    }
+  ],
+  "checks": {
+    "route": [
+      "check.route.capture.candidate.activation"
+    ],
+    "evidence": [
+      "check.evidence.capture.candidate.activation"
+    ],
+    "write": [
+      "check.write.capture.candidate.activation"
+    ],
+    "stop": [
+      "check.stop.capture.candidate.activation"
+    ]
+  }
+}

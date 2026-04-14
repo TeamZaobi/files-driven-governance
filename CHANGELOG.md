@@ -6,19 +6,28 @@
 
 ## Unreleased
 
+- 暂无
+
+## v0.5.0 - 2026-04-14
+
 ### 新增
 
-- 新增 [scripts/manage_files_engine.py](scripts/manage_files_engine.py) `capability-improve` 子命令，把 `files-driven` 自己的 `self-hosting capability_scope` 改善 workflow 暴露成脚本调度、`Codex CLI` 节点执行的正式入口。
-- 新增 [references/问题诊断与控制强度分级.md](references/问题诊断与控制强度分级.md)、[references/执行面判定与CLI生产策略.md](references/执行面判定与CLI生产策略.md)、[docs/外部项目Workflow改造脚手架.md](docs/外部项目Workflow改造脚手架.md)，把“先诊断问题、再选控制强度、再定宿主/CLI/runner 分工”补成正式脚手架。
+- 新增 [scripts/manage_files_engine.py](scripts/manage_files_engine.py) `capability-improve` 子命令，以及 [references/问题诊断与控制强度分级.md](references/问题诊断与控制强度分级.md)、[references/执行面判定与CLI生产策略.md](references/执行面判定与CLI生产策略.md)、[docs/外部项目Workflow改造脚手架.md](docs/外部项目Workflow改造脚手架.md)，把 `files-driven` 自己的 `self-hosting capability_scope` 改善 workflow、控制强度判断和宿主 / `CLI` / runner 分工补成正式脚手架。
+- 新增 [docs/v0.4.1_版本说明.md](docs/v0.4.1_版本说明.md)，系统解释这一版为什么强调强化控制能力、宿主原生能力优先，以及脚本 / `CLI` 在当前阶段的补强角色。
+- 新增 [references/运行观察与能力晋升.md](references/运行观察与能力晋升.md)、[examples/capture-candidate-activation/README.md](examples/capture-candidate-activation/README.md) 与 [tests/test_capture_promotion_assets.py](tests/test_capture_promotion_assets.py)，把 `runtime -> candidate -> capability` 这条自迭代能力链正式落成官方 reference、官方 example pack 和专项回归入口。
+- 新增 [docs/当前阶段补完计划.md](docs/当前阶段补完计划.md)，把本项目当前完成状态、剩余缺口、下一 tranche 的执行顺序、验收线和非目标显式收成仓库资产。
+- 新增 [scripts/run_repo_treatment_rollout.py](scripts/run_repo_treatment_rollout.py) 与 [tests/test_repo_treatment_rollout_runner.py](tests/test_repo_treatment_rollout_runner.py)，把“系统体检后的一轮治疗推进”编码成受控 runner：生成 governed run pack、调度 `codex exec`、并由脚本维护 `workflow.state.json / workflow.events.jsonl / status.projection.json`。
+- 新增 [docs/v0.5.0_版本说明.md](docs/v0.5.0_版本说明.md)，正式给出这一版的公开发布锚点。
 
 ### 调整
 
-- 调整 [README.md](README.md)、[SKILL.md](SKILL.md) 与 [agents/openai.yaml](agents/openai.yaml)，把“脚本控制流程、Codex CLI 只做节点内产物”的 self-hosting 路由写进正式入口文案。
-- 调整 [README.md](README.md)、[SKILL.md](SKILL.md)、[docs/项目治理能力模型.md](docs/项目治理能力模型.md) 与 [agents/openai.yaml](agents/openai.yaml)，把“帮助用户识别问题，解决问题”“长期路线是强化控制能力”收成正式口径，并明确控制面外移、Workflow 脚本化、CLI backend 化只是当前阶段的实现策略。
-- 新增 [docs/v0.4.1_版本说明.md](docs/v0.4.1_版本说明.md)，系统解释这一版为什么强调强化控制能力、宿主原生能力优先，以及脚本/CLI 在当前阶段的补强角色。
-- 调整 [README.md](README.md)、[SKILL.md](SKILL.md) 与 [docs/v0.4.1_版本说明.md](docs/v0.4.1_版本说明.md)，把新脚手架挂进正式入口和版本说明。
+- 调整 [README.md](README.md)、[SKILL.md](SKILL.md)、[docs/项目治理能力模型.md](docs/项目治理能力模型.md) 与 [agents/openai.yaml](agents/openai.yaml)，把“帮助用户识别问题，解决问题”“长期路线是强化控制能力”收成正式口径，并明确控制面外移、`Workflow` 脚本化、`CLI` backend 化只是当前阶段的实现策略。
 - 调整 [README.md](README.md)、[SKILL.md](SKILL.md)、[docs/v0.4.1_版本说明.md](docs/v0.4.1_版本说明.md)、[references/执行面判定与CLI生产策略.md](references/执行面判定与CLI生产策略.md) 与 [docs/外部项目Workflow改造脚手架.md](docs/外部项目Workflow改造脚手架.md)，把三条判断轴的顺序、`CLI` 角色映射、外部 workflow 改造的正式边界和 benchmark 示例直接讲清，统一改成老师直接讲方法的口径。
 - 调整 [tests/test_entrypoint_consistency.py](tests/test_entrypoint_consistency.py) 与 [tests/test_files_engine_actions.py](tests/test_files_engine_actions.py)，把 `capability-improve` 的入口暴露和 `manage` CLI 包装执行补成回归。
+- 调整 [README.md](README.md)、[SKILL.md](SKILL.md)、[docs/使用手册.md](docs/使用手册.md)、[references/输出约定.md](references/输出约定.md) 与 [PROJECT_STORIES_AND_TESTS.md](PROJECT_STORIES_AND_TESTS.md)，把“运行观察 -> 证据包 -> 历史召回 -> 拆分出口 -> 候选试验 -> 激活或回退”接成统一入口，不再让读者从旧 smoke pack 或隐含流程名反推自迭代链。
+- 调整 [agents/openai.yaml](agents/openai.yaml)、[README.md](README.md)、[PROJECT_STORIES_AND_TESTS.md](PROJECT_STORIES_AND_TESTS.md) 与 [docs/当前阶段补完计划.md](docs/当前阶段补完计划.md)，把“Skill 的使用界面是 Agent”显式写进仓库入口，并补 agent-facing e2e 回归目标。
+- 调整 [README.md](README.md)、[docs/非工程背景起步.md](docs/非工程背景起步.md)、[docs/使用手册.md](docs/使用手册.md)、[docs/完整说明书.md](docs/完整说明书.md) 与 [docs/仓库元数据建议.md](docs/仓库元数据建议.md)，把用户侧入口压成 `体检 -> 诊断 -> 治疗 -> 复查 -> 随访` 的翻译层，同时明确 `audit` 当前默认是脚手架“基础体检”，不再冒充对下游项目的全量系统体检。
+- 调整 [README.md](README.md)、[docs/完整说明书.md](docs/完整说明书.md) 与 [agents/openai.yaml](agents/openai.yaml)，统一当前公开版本锚点和 agent-facing 显示名口径，收回到单一主名 `files-driven`。
 
 ## v0.4.0 - 2026-04-12
 

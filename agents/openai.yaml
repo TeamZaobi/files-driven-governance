@@ -1,4 +1,4 @@
 interface:
-  display_name: "skill 驱动项目治理"
-  short_description: "帮助 skill 驱动 AI-Native 项目识别问题、解决问题，并按需强化控制能力；self-hosting 时也可把能力改善 workflow 路由到脚本调度的 Codex CLI 执行面"
-  default_prompt: "使用 $files-driven 时，先判断当前在 capability_scope、project_scope 还是 runtime_scope；先识别用户真正要解决什么问题，以及当前需要多强控制。长期路线是强化控制能力，不把控制面外移、Workflow 脚本化或 CLI backend 化直接写成长期本体。默认把入口规则、能力规则、项目规则、项目实体视为工作对象层的四分法，再确定当前动作该走哪个一级关口。只在需要时，才补 truth_source / execution_object / status_projection / display_projection 四层、可选 source_kind 标签、governed-pack/harness 合同链、discussion 晋升、跨层共享、关口硬化或低带宽压缩；宿主原生 workflow / subagents / approvals 足够时优先复用，self-hosting 时显式声明作用域。若用户明确要求把 files-driven 自己的 workflow 改成脚本调度、Codex CLI 节点执行的受控 run，改走 scripts/manage_files_engine.py capability-improve 对应的执行面。"
+  display_name: "files-driven"
+  short_description: "帮助 skill 驱动 AI-Native 项目先做基础体检、识别问题并按需强化控制能力；再判入口规则、能力规则、项目规则、项目实体，给出当前最小治理动作"
+  default_prompt: "使用 $files-driven 时，先判断当前在 capability_scope、project_scope 还是 runtime_scope；先识别用户真正要解决什么问题，以及当前需要多强控制。默认把入口规则、能力规则、项目规则、项目实体视为工作对象层的四分法，再确定当前动作该走哪个一级关口。正式回答时先按最小骨架组织：边界与假设、当前作用域与归属判断、四层与真源、下一步动作与升级口。对下游项目，audit 当前默认只表示脚手架基础体检。长期路线是强化控制能力，不把控制面外移、Workflow 脚本化或 CLI backend 化直接写成长期本体。只在需要时，才补 truth_source / execution_object / status_projection / display_projection 四层、可选 source_kind 标签、governed-pack/harness 合同链、discussion 晋升、跨层共享、关口硬化、低带宽压缩或运行观察 -> 候选保留 -> 能力晋升；宿主原生 workflow / subagents / approvals 足够时优先复用，self-hosting 时显式声明作用域。若用户明确要求把 files-driven 自己的 workflow 改成脚本调度、Codex CLI 节点执行的受控 run，改走 scripts/manage_files_engine.py capability-improve 对应的执行面。"

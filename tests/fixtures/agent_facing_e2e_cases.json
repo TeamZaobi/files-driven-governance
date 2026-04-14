@@ -1,0 +1,126 @@
+{
+  "global_contract": {
+    "metadata_required_phrases": [
+      "capability_scope、project_scope",
+      "入口规则、能力规则、项目规则、项目实体",
+      "边界与假设、当前作用域与归属判断、四层与真源、下一步动作与升级口",
+      "governed-pack/harness",
+      "discussion 晋升",
+      "运行观察 -> 候选保留 -> 能力晋升"
+    ],
+    "readme_required_phrases": [
+      "agents/openai.yaml",
+      "Agent 使用这个 skill 时的入口表面"
+    ]
+  },
+  "cases": [
+    {
+      "id": "greenfield_agent_project",
+      "request_anchor": {
+        "file": "README.md",
+        "contains": "我要搭一个 AI Agent 驱动的新项目，先帮我锁方向与边界。"
+      },
+      "route_checks": [
+        {
+          "file": "SKILL.md",
+          "contains": "边界还不稳：读 [起步阶段：故事与测试对齐]"
+        },
+        {
+          "file": "SKILL.md",
+          "contains": "[说人话需求确认工具包](references/说人话需求确认工具包.md)"
+        }
+      ],
+      "output_checks": [
+        {
+          "file": "references/输出约定.md",
+          "contains": "### 1. 边界与假设"
+        },
+        {
+          "file": "references/输出约定.md",
+          "contains": "### 4. 下一步动作与升级口"
+        }
+      ]
+    },
+    {
+      "id": "discussion_before_task",
+      "request_anchor": {
+        "file": "README.md",
+        "contains": "这条议题还不适合进 task，请先帮我开 discussion，并判断什么时候该晋升。"
+      },
+      "route_checks": [
+        {
+          "file": "SKILL.md",
+          "contains": "[讨论收口与晋升](references/讨论收口与晋升.md)"
+        },
+        {
+          "file": "SKILL.md",
+          "contains": "[examples/discussion-decision-task/WORKFLOW.md](examples/discussion-decision-task/WORKFLOW.md)"
+        }
+      ],
+      "output_checks": [
+        {
+          "file": "references/输出约定.md",
+          "contains": "### B. discussion 收口与晋升"
+        },
+        {
+          "file": "references/输出约定.md",
+          "contains": "当前停在 `discussion`、`adversarial inquiry`、`decision_package` 还是 `task_or_decision`"
+        }
+      ]
+    },
+    {
+      "id": "runtime_observation_promotion",
+      "request_anchor": {
+        "file": "README.md",
+        "contains": "运行里同类纠偏反复出现，但我不想直接热改能力真源，先帮我判断该停在记录、候选还是晋升。"
+      },
+      "route_checks": [
+        {
+          "file": "SKILL.md",
+          "contains": "[运行观察与能力晋升](references/运行观察与能力晋升.md)"
+        },
+        {
+          "file": "SKILL.md",
+          "contains": "[examples/capture-candidate-activation/README.md](examples/capture-candidate-activation/README.md)"
+        }
+      ],
+      "output_checks": [
+        {
+          "file": "references/输出约定.md",
+          "contains": "### H. 运行观察 / 候选保留 / 能力晋升"
+        },
+        {
+          "file": "references/输出约定.md",
+          "contains": "为什么这次不能直接热改真源，或者为什么已经可以晋升"
+        }
+      ]
+    },
+    {
+      "id": "low_bandwidth_reader",
+      "request_anchor": {
+        "file": "README.md",
+        "contains": "我的目标读者几乎没有软件工程基础，先别讲理论，告诉我哪份文件算数、今天先做什么。"
+      },
+      "route_checks": [
+        {
+          "file": "SKILL.md",
+          "contains": "[docs/非工程背景起步.md](docs/非工程背景起步.md)"
+        },
+        {
+          "file": "SKILL.md",
+          "contains": "[理解型输入与低带宽压缩包](references/理解型输入与低带宽压缩包.md)"
+        }
+      ],
+      "output_checks": [
+        {
+          "file": "references/输出约定.md",
+          "contains": "### F. 低带宽理解 / 短口令"
+        },
+        {
+          "file": "references/理解型输入与低带宽压缩包.md",
+          "contains": "1. 现在哪份文件算数"
+        }
+      ]
+    }
+  ]
+}

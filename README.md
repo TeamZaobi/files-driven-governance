@@ -1,6 +1,6 @@
 # files-driven
 
-当前公开版本：`v0.4.0`<br>
+当前公开版本：`v0.5.0`<br>
 未发布中的整理与修正见 [CHANGELOG.md](CHANGELOG.md) 的 `Unreleased`。
 当前版本方向与设计纠偏见 [docs/v0.4.1_版本说明.md](docs/v0.4.1_版本说明.md)。
 
@@ -333,15 +333,17 @@ flowchart LR
 | [docs/外部项目Workflow改造脚手架.md](docs/外部项目Workflow改造脚手架.md) | 需要改造外部项目现有 workflow 的人 | 提供“宿主优先、脚本补强”的最小改造 starter |
 | [PROJECT_STORIES_AND_TESTS.md](PROJECT_STORIES_AND_TESTS.md) | 会继续开发这个仓库的人或代理 | 直接写清本项目当前的具体用户故事、测试用例、非目标和验收责任人 |
 | [SKILL.md](SKILL.md) | 会执行这个技能的代理 | 给出主流程、判断规则、边界约束和参考件路由 |
+| [agents/openai.yaml](agents/openai.yaml) | 通过 Agent 使用这个 skill 的人或代理 | 作为 agent-facing 入口表面，固定显示名、简短定位和默认 prompt 路由 |
 | [QUICKSTART.md](QUICKSTART.md) | 第一次搭建受控资产包的人 | 给出最小资产包形状、校验脚本（validator）用法和起步顺序 |
 | [docs/files引擎脚手架工程.md](docs/files引擎脚手架工程.md) | 需要给下游项目安装 `files engine` 的人 | 说明修正后的需求、四层边界、脚手架缺口、质询与收敛决议 |
 | [MIGRATION.md](MIGRATION.md) | 已有资产包的维护者 | 说明从旧约定迁到当前约定要改什么 |
-| [references/](references/) | 需要深入某一专题的人或代理 | 承载输出约定、流程库、读取顺序、共享约定等稳定参考 |
-| [examples/](examples/) | 想先看一条完整样例的人或代理 | 承载 discussion 主路径、受控 workflow 和条件分支 example |
+| [references/](references/) | 需要深入某一专题的人或代理 | 承载输出约定、流程库、读取顺序、共享约定和专项判断 reference |
+| [examples/](examples/) | 想先看一条完整样例的人或代理 | 承载 discussion 主路径、受控 workflow、运行观察晋升链和条件分支 example |
 | [schemas/](schemas/) | 需要结构化合同草案的人或代理 | 承载控制语义的机读结构草案（schema） |
 | [starters/minimal-files-engine/](starters/minimal-files-engine/) | 第一次从零安装 `files engine` 的人或代理 | 提供官方最小 starter、拓扑 manifest、注册表样例和项目 skill 骨架 |
 | [scripts/bootstrap_files_engine_starter.py](scripts/bootstrap_files_engine_starter.py) / [scripts/validate_files_engine_scaffold.py](scripts/validate_files_engine_scaffold.py) | 需要冷启动或回归 starter 的人或代理 | 负责 starter 生成与 scaffold 校验 |
-| [docs/](docs/) | 想看完整背景、版本说明和公开专题材料的人 | 承载说明书、版本说明和公开专题记录 |
+| [scripts/run_repo_treatment_rollout.py](scripts/run_repo_treatment_rollout.py) | 需要在 `self-hosting` 场景把仓库级收口方案编码成受控执行的人或代理 | 负责编排 repo treatment rollout、写 runtime artifact，并调度 `codex exec` 落地本轮推进 |
+| [docs/](docs/) | 想看完整背景、版本说明和公开专题材料的人 | 承载说明书、版本说明、公开专题记录和当前阶段补完计划 |
 | [CHANGELOG.md](CHANGELOG.md) | 关心仓库变更账本的人 | 记录仓库层面的新增、调整和删除 |
 
 除 [docs/项目治理能力模型.md](docs/项目治理能力模型.md) 外，上面这些文件都不负责重定义底层能力模型本体。
@@ -350,6 +352,7 @@ flowchart LR
 
 - `README` 是入口
 - `SKILL` 是执行导览
+- `agents/openai.yaml` 是 Agent 使用这个 skill 时的入口表面
 - `QUICKSTART` 是最小上手
 - `MIGRATION` 是迁移说明
 - `references` 是按需下钻
@@ -367,6 +370,9 @@ flowchart LR
 
 `files-driven` 作为 meta-skill 的首屏动作只保留四个：`install / register / repair / audit`。
 其中 `install` 通过 [scripts/bootstrap_files_engine_starter.py](scripts/bootstrap_files_engine_starter.py) 完成，`register / repair / audit` 通过统一的 [scripts/manage_files_engine.py](scripts/manage_files_engine.py) 完成。
+这里的 `audit` 当前默认只表示“基础体检”：
+先检查 scaffold、registry、route 和 starter profile 这类脚手架资产是否闭环，
+不直接冒充对下游项目的全量系统体检；`pack / runtime` 级体检仍属于下一 tranche。
 本仓库本身是 `reference implementation + regression fixture`，不是通用模板本体。
 
 如果对象不是下游项目冷启动，而是 `files-driven` 自己的 `self-hosting capability_scope` 改善，
@@ -394,7 +400,7 @@ python3 scripts/manage_files_engine.py capability-improve \
 
 1. 先读 [docs/files引擎脚手架工程.md](docs/files引擎脚手架工程.md)
 2. 再用 bootstrap 起一个最小 starter
-3. 检查 [starters/minimal-files-engine/](starters/minimal-files-engine/) 里的 `governance/scaffold.manifest.json`、`governance/files.registry.json`、`governance/intent.routes.json`、starter profile 线索和项目 `Skill` 骨架
+3. 检查 [starters/minimal-files-engine/](starters/minimal-files-engine/) 里的 `governance/hooks.policy.md`、`governance/scaffold.manifest.json`、`governance/files.registry.json`、`governance/intent.routes.json`、starter profile 线索和项目 `Skill` 骨架
 4. 用统一的 [scripts/manage_files_engine.py](scripts/manage_files_engine.py) 完成 `register / repair / audit`
 5. 先跑 [scripts/validate_files_engine_scaffold.py](scripts/validate_files_engine_scaffold.py)，再跑 [scripts/validate_governance_assets.py](scripts/validate_governance_assets.py)
 
@@ -421,6 +427,11 @@ starter 内部的默认级联顺序也要分开：
 - 只改 route 名称或入口动作时，只改 `intent.routes.json`
 - 新增或移动 tracked 文件时，先改 `scaffold.manifest.json`，再改 `files.registry.json`，最后按需改 route
 - 如果只是 starter 专属形状变化，先改 starter profile，再按需碰 validator，不要回写 manifest
+
+如果当前要处理的是 `files-driven` 自己这套仓库资产，而不是某个下游 starter，
+并且你已经完成一轮诊断、准备把收口方案编码成一次受控执行，
+可直接使用 [scripts/run_repo_treatment_rollout.py](scripts/run_repo_treatment_rollout.py)。
+这个 runner 负责生成 governed run pack、调度 `codex exec`，并把 `workflow.state.json / workflow.events.jsonl / status.projection.json` 的运行写权收回脚本侧。
 
 ## 当前受控资产包约定
 
@@ -460,6 +471,8 @@ starter 内部的默认级联顺序也要分开：
 - 只要 pack 里还保留 `pack_root/schemas/*.json`，validator 就会直接报迁移错误
 - 它会对资产包文件执行真实结构校验；本地运行前先安装 [requirements-dev.txt](requirements-dev.txt)
 
+如果运行中反复出现同类纠偏，不要直接把它们写回上游真源；先读 [references/运行观察与能力晋升.md](references/运行观察与能力晋升.md)，再按 [examples/capture-candidate-activation/README.md](examples/capture-candidate-activation/README.md) 的官方路径把信号停在 `运行观察 -> 证据包 -> 历史召回 -> 拆分出口 -> 候选试验 -> 激活或回退`。只有候选已经跨场景验证、试验通过且具备回退路径，才回到 [docs/项目治理能力模型.md](docs/项目治理能力模型.md) 判断是否允许晋升到能力真源。
+
 当前仓库还附带两层最小验证面：
 
 - [tests/](tests/) 提供校验脚本的最小回归测试
@@ -489,8 +502,9 @@ starter 内部的默认级联顺序也要分开：
 
 - 非工程背景读者先上手：读 [docs/非工程背景起步.md](docs/非工程背景起步.md)、[docs/使用手册.md](docs/使用手册.md)
 - 团队培训：读 [references/AI-Native同构团队协作.md](references/AI-Native同构团队协作.md)、[QUICKSTART.md](QUICKSTART.md)
-- 继续开发本仓库：读 [PROJECT_STORIES_AND_TESTS.md](PROJECT_STORIES_AND_TESTS.md)、[SKILL.md](SKILL.md)、[docs/完整说明书.md](docs/完整说明书.md)
+- 继续开发本仓库：读 [PROJECT_STORIES_AND_TESTS.md](PROJECT_STORIES_AND_TESTS.md)、[docs/当前阶段补完计划.md](docs/当前阶段补完计划.md)、[SKILL.md](SKILL.md)、[docs/完整说明书.md](docs/完整说明书.md)
 - 为下游项目安装 `files engine`：读 [docs/files引擎脚手架工程.md](docs/files引擎脚手架工程.md)，再跑 [scripts/bootstrap_files_engine_starter.py](scripts/bootstrap_files_engine_starter.py)
+- hooks 已经成为工具适配面的一部分：读 [references/hooks使用方法论与脚手架.md](references/hooks使用方法论与脚手架.md)、[references/工具适配对照表.md](references/工具适配对照表.md)、[references/关口硬化与稳定放行.md](references/关口硬化与稳定放行.md)
 - 统一底层模型与 JSON 合同方向：读 [schemas/README.md](schemas/README.md)、[QUICKSTART.md](QUICKSTART.md)、[MIGRATION.md](MIGRATION.md)
 - 手上已经有旧资产包：读 [MIGRATION.md](MIGRATION.md)、[examples/smoke-governed-review/BOUNDARY.md](examples/smoke-governed-review/BOUNDARY.md)、[examples/smoke-governed-review/WORKFLOW.md](examples/smoke-governed-review/WORKFLOW.md)
 
@@ -504,6 +518,7 @@ starter 内部的默认级联顺序也要分开：
   这份文档先把方法和判断路径讲清；当前它还不是 `manage` CLI 的正式动作面
 - 议题还没到 `task / decision`，但已经不能只留在聊天里：读 [references/讨论收口与晋升.md](references/讨论收口与晋升.md)、[examples/discussion-decision-task/BOUNDARY.md](examples/discussion-decision-task/BOUNDARY.md)、[examples/discussion-decision-task/WORKFLOW.md](examples/discussion-decision-task/WORKFLOW.md)
 - 议题争议很大，需要逐点质询后再收敛：读 [references/反方质询与收敛回路.md](references/反方质询与收敛回路.md)、[examples/adversarial-convergence/README.md](examples/adversarial-convergence/README.md)
+- 运行中反复出现纠偏、又不能直接热改能力真源：先读 [references/运行观察与能力晋升.md](references/运行观察与能力晋升.md)，再看 [examples/capture-candidate-activation/README.md](examples/capture-candidate-activation/README.md) 和 [examples/capture-candidate-activation/WORKFLOW.md](examples/capture-candidate-activation/WORKFLOW.md)；如果还需要把它放回总模型，再回看 [references/经典治理流程库.md](references/经典治理流程库.md) 和 [docs/项目治理能力模型.md](docs/项目治理能力模型.md)
 - 多工具过程已经不透明，需要统一接手面：读 [references/跨层共享约定.md](references/跨层共享约定.md)、[examples/multi-tool-process-projection/process-projection.md](examples/multi-tool-process-projection/process-projection.md)
 - 全员通过 AI 工具工作，并在 Git 上目录级全量共享：读 [references/AI-Native同构团队协作.md](references/AI-Native同构团队协作.md)
 - 只有复杂共享问题真的出现时，再读 [references/跨层共享约定.md](references/跨层共享约定.md)、[references/工具适配对照表.md](references/工具适配对照表.md)
@@ -520,6 +535,7 @@ starter 内部的默认级联顺序也要分开：
 - “我要搭一个 AI Agent 驱动的新项目，先帮我锁方向与边界。”
 - “这条议题还不适合进 task，请先帮我开 discussion，并判断什么时候该晋升。”
 - “这条讨论争议已经很大，请按质询-答辩-收敛来帮我收口。”
+- “运行里同类纠偏反复出现，但我不想直接热改能力真源，先帮我判断该停在记录、候选还是晋升。”
 - “我们现在有多工具过程，但接手时看不清到底跑了什么，请补一个 process projection。”
 - “我们要统一多个工具的全局 / 项目 / pack 级 rules，请先列出应改文件，再做完整修改。”
 - “我们想用‘继续开发’和‘开始审计’这类短口令驱动工作，帮我做成稳定约定。”
@@ -575,7 +591,7 @@ starter 内部的默认级联顺序也要分开：
 
 ## 版本与变更
 
-- 当前公开版本是 `v0.4.0`
+- 当前公开版本是 `v0.5.0`
 - 未发布中的整理与修正统一记在 [CHANGELOG.md](CHANGELOG.md) 的 `Unreleased`
 - 每一版为什么重要、改变了什么理解或用法，读 [docs/](docs/) 里的 `v*_版本说明.md`
 - 研究过程留痕、任务计划、进度账本和内部案例默认留在本地忽略区，不进入公开仓库

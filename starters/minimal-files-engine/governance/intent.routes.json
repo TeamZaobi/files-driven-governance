@@ -13,6 +13,8 @@
       "entrypoint_file_id": "boundary.root",
       "required_file_ids": [
         "boundary.root",
+        "hooks.policy.project",
+        "hooks.adapter.guide",
         "registry.files",
         "routes.intent",
         "skill.review",
@@ -20,6 +22,7 @@
       ],
       "write_targets": [
         "boundary.root",
+        "hooks.policy.project",
         "registry.files",
         "routes.intent",
         "skill.review"
