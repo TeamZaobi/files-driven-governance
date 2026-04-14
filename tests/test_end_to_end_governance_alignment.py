@@ -12,6 +12,7 @@ MANUAL = ROOT / "docs" / "使用手册.md"
 BEGINNER_GUIDE = ROOT / "docs" / "非工程背景起步.md"
 FULL_GUIDE = ROOT / "docs" / "完整说明书.md"
 LANGUAGE = ROOT / "docs" / "语言体系规范.md"
+INFO_ARCH_REVIEW = ROOT / "docs" / "三层信息架构复盘.md"
 STORIES = ROOT / "PROJECT_STORIES_AND_TESTS.md"
 MIGRATION = ROOT / "MIGRATION.md"
 SCHEMA_README = ROOT / "schemas" / "README.md"
@@ -21,6 +22,15 @@ SHARED_REF = ROOT / "references" / "跨层共享约定.md"
 CROSS_PROJECT_REF = ROOT / "references" / "跨项目共享模式提炼.md"
 OUTPUT_CONVENTION = ROOT / "references" / "输出约定.md"
 LOW_BANDWIDTH_REF = ROOT / "references" / "理解型输入与低带宽压缩包.md"
+SCENE_MANUAL_REF = ROOT / "references" / "场景手册.md"
+HOMOGENEOUS_TEAM_REF = ROOT / "references" / "AI-Native同构团队协作.md"
+STRUCTURE_FAMILY_REF = ROOT / "references" / "结构家族定位约定.md"
+READING_ORDER_REF = ROOT / "references" / "官方读取顺序.md"
+TOOL_ADAPTER_REF = ROOT / "references" / "工具适配对照表.md"
+HOSTED_KNOWLEDGE_MATRIX = ROOT / "docs" / "宿主化知识工作场景矩阵.md"
+AUDIT_MATRIX = ROOT / "docs" / "体检分层矩阵.md"
+COVERAGE_DIFF = ROOT / "docs" / "能力覆盖矩阵与历史差分.md"
+HOSTED_FIXTURE_ROOT = ROOT / "examples" / "hosted-knowledge-governance"
 DISCUSSION_ROOT = ROOT / "examples" / "discussion-decision-task"
 PROCESS_ROOT = ROOT / "examples" / "multi-tool-process-projection"
 SMOKE_ROOT = ROOT / "examples" / "smoke-governed-review"
@@ -54,12 +64,16 @@ class EndToEndGovernanceAlignmentTests(unittest.TestCase):
         full_guide = FULL_GUIDE.read_text(encoding="utf-8")
         shared = SHARED_REF.read_text(encoding="utf-8")
         cross_project = CROSS_PROJECT_REF.read_text(encoding="utf-8")
+        structure_family = STRUCTURE_FAMILY_REF.read_text(encoding="utf-8")
+        reading_order = READING_ORDER_REF.read_text(encoding="utf-8")
         language = LANGUAGE.read_text(encoding="utf-8")
 
         self.assertIn("先判动作、scope 和一级关口", manual)
         self.assertIn("默认判断顺序不是先分四层，也不是先分结构家族", full_guide)
         self.assertIn("先判当前动作、`scope` 和一级关口", shared)
         self.assertIn("先看当前动作、`scope` 和一级关口", cross_project)
+        self.assertIn("先把主诉答清，再决定是否需要下钻结构家族标签", structure_family)
+        self.assertIn("先把当前可信真源、最小下一步和暂时不要动的地方说清", reading_order)
         self.assertIn("先确认这次到底要做什么、站在哪个 `scope`、先过哪个一级关口", language)
 
         self.assertNotIn("### 4.1 先分四层", manual)
@@ -73,6 +87,12 @@ class EndToEndGovernanceAlignmentTests(unittest.TestCase):
         skill = SKILL.read_text(encoding="utf-8")
         output = OUTPUT_CONVENTION.read_text(encoding="utf-8")
         low_bandwidth = LOW_BANDWIDTH_REF.read_text(encoding="utf-8")
+        scene_manual = SCENE_MANUAL_REF.read_text(encoding="utf-8")
+        homogeneous_team = HOMOGENEOUS_TEAM_REF.read_text(encoding="utf-8")
+        structure_family = STRUCTURE_FAMILY_REF.read_text(encoding="utf-8")
+        reading_order = READING_ORDER_REF.read_text(encoding="utf-8")
+        tool_adapter = TOOL_ADAPTER_REF.read_text(encoding="utf-8")
+        full_guide = FULL_GUIDE.read_text(encoding="utf-8")
         stories = STORIES.read_text(encoding="utf-8")
 
         self.assertIn("非工程背景起步.md", readme)
@@ -82,8 +102,98 @@ class EndToEndGovernanceAlignmentTests(unittest.TestCase):
         self.assertIn("哪些文件先别改", beginner)
         self.assertIn("如果用户明确说“看不懂”或明显不是工程背景", skill)
         self.assertIn("这次要做什么 / 先别做什么 / 卡住时找哪里", output)
+        self.assertIn("先把回答翻回“哪份文件算数、今天先做什么、哪些先别改”", output)
         self.assertIn("给非工程背景读者的最小压缩形状", low_bandwidth)
+        self.assertIn("如果你第一次读这份说明书，先只抓四件事", full_guide)
+        self.assertIn("这份说明书不替代动作路径", full_guide)
+        self.assertIn("这一节只保留够用的动作顺序，不重新展开完整模型总论", manual)
+        self.assertIn("现有项目 / 新项目 / 止血收口", scene_manual)
+        self.assertIn("先不要从这里起讲；先把主诉答清", homogeneous_team)
+        self.assertIn("哪份文件算数、今天先做什么、哪些先别改", structure_family)
+        self.assertIn("哪份文件算数、今天先做什么、哪些先别改", reading_order)
+        self.assertIn("先不要从品牌差异或适配表开始讲", tool_adapter)
+        self.assertIn("哪份文件算数", SHARED_REF.read_text(encoding="utf-8"))
         self.assertIn("docs/非工程背景起步.md", stories)
+
+    def test_hosted_knowledge_work_matrix_is_wired_into_docs(self) -> None:
+        readme = README.read_text(encoding="utf-8")
+        manual = MANUAL.read_text(encoding="utf-8")
+        info_arch = INFO_ARCH_REVIEW.read_text(encoding="utf-8")
+        tool_adapter = TOOL_ADAPTER_REF.read_text(encoding="utf-8")
+        matrix = HOSTED_KNOWLEDGE_MATRIX.read_text(encoding="utf-8")
+
+        self.assertIn("docs/宿主化知识工作场景矩阵.md", readme)
+        self.assertIn("宿主化知识工作场景矩阵", info_arch)
+        self.assertIn("宿主化知识工作场景矩阵", tool_adapter)
+        self.assertIn("Obsidian", matrix)
+        self.assertIn("Notion", matrix)
+        self.assertIn("Docs / Sheets / Slides", matrix)
+        self.assertIn("治理问题", matrix)
+        self.assertIn("工具操作问题", matrix)
+        self.assertIn("MOC", matrix)
+        self.assertIn("Canvas", matrix)
+        self.assertIn("database view", matrix)
+        self.assertIn("默认都先按索引、状态或展示处理", manual)
+
+    def test_hosted_knowledge_fixture_is_wired_and_machine_checked(self) -> None:
+        matrix = HOSTED_KNOWLEDGE_MATRIX.read_text(encoding="utf-8")
+        fixture_readme = (HOSTED_FIXTURE_ROOT / "README.md").read_text(encoding="utf-8")
+        expected = json.loads((HOSTED_FIXTURE_ROOT / "classification.expected.json").read_text(encoding="utf-8"))
+
+        self.assertIn("examples/hosted-knowledge-governance/README.md", matrix)
+        self.assertIn("host-name-first governance triage", fixture_readme)
+        self.assertIn("Obsidian", fixture_readme)
+        self.assertIn("Notion", fixture_readme)
+        self.assertIn("Docs, Sheets, or Slides", fixture_readme)
+        self.assertEqual(expected["fixture_id"], "hosted-knowledge-governance")
+        self.assertGreaterEqual(len(expected["checks"]), 8)
+        self.assertGreaterEqual(len(expected["tool_operation_non_goals"]), 5)
+        for item in expected["checks"]:
+            self.assertTrue((HOSTED_FIXTURE_ROOT / item["path"]).exists(), item["path"])
+
+    def test_audit_layer_matrix_is_wired_into_docs(self) -> None:
+        readme = README.read_text(encoding="utf-8")
+        manual = MANUAL.read_text(encoding="utf-8")
+        info_arch = INFO_ARCH_REVIEW.read_text(encoding="utf-8")
+        radar = (ROOT / "docs" / "能力雷达与版本演进盘点.md").read_text(encoding="utf-8")
+        matrix = AUDIT_MATRIX.read_text(encoding="utf-8")
+
+        self.assertIn("docs/体检分层矩阵.md", readme)
+        self.assertIn("体检分层矩阵", info_arch)
+        self.assertIn("体检分层矩阵", radar)
+        self.assertIn("scaffold", matrix)
+        self.assertIn("pack", matrix)
+        self.assertIn("runtime", matrix)
+        self.assertIn("governance", matrix)
+        self.assertIn("adoption", matrix)
+        self.assertIn("默认 `audit = scaffold 基础体检`", matrix)
+        self.assertIn("manage audit --layer pack", matrix)
+        self.assertIn("manage audit --layer runtime", matrix)
+        self.assertIn("manage audit --layer governance", matrix)
+        self.assertIn("manage audit --layer adoption", matrix)
+        self.assertIn("manage audit --layer pack", manual)
+        self.assertIn("manage audit --layer runtime", manual)
+        self.assertIn("manage audit --layer governance", manual)
+        self.assertIn("manage audit --layer adoption", manual)
+
+    def test_coverage_diff_matrix_is_wired_into_docs(self) -> None:
+        readme = README.read_text(encoding="utf-8")
+        info_arch = INFO_ARCH_REVIEW.read_text(encoding="utf-8")
+        radar = (ROOT / "docs" / "能力雷达与版本演进盘点.md").read_text(encoding="utf-8")
+        full_guide = FULL_GUIDE.read_text(encoding="utf-8")
+        matrix = COVERAGE_DIFF.read_text(encoding="utf-8")
+
+        self.assertIn("docs/能力覆盖矩阵与历史差分.md", readme)
+        self.assertIn("能力覆盖矩阵与历史差分", info_arch)
+        self.assertIn("能力覆盖矩阵与历史差分", radar)
+        self.assertIn("能力覆盖矩阵与历史差分", full_guide)
+        self.assertIn("v1 -> v2 -> v2.1", matrix)
+        self.assertIn("v0.2.0 -> v0.5.0", matrix)
+        self.assertIn("tranche v1", matrix)
+        self.assertIn("README / SKILL / metadata / 手册", matrix)
+        self.assertIn("真源 / 说明 / 执行 / 闭环", matrix)
+        self.assertIn("宿主化知识工作场景", matrix)
+        self.assertIn("audit` 五层体检", matrix)
 
     def test_examples_close_entry_to_contract_to_handoff_chain(self) -> None:
         discussion_boundary = (DISCUSSION_ROOT / "BOUNDARY.md").read_text(encoding="utf-8")
@@ -114,6 +224,7 @@ class EndToEndGovernanceAlignmentTests(unittest.TestCase):
         migration = MIGRATION.read_text(encoding="utf-8")
         schema = SCHEMA_README.read_text(encoding="utf-8")
         skill = SKILL.read_text(encoding="utf-8")
+        manual = MANUAL.read_text(encoding="utf-8")
         readme = README.read_text(encoding="utf-8")
 
         for text in (stories, migration, schema, skill, readme):
@@ -121,10 +232,38 @@ class EndToEndGovernanceAlignmentTests(unittest.TestCase):
 
         self.assertIn("能力模型阶段判断只认", stories)
         self.assertIn("只保留为历史兼容与迁移背景", stories)
-        self.assertIn("无论你是什么场景，先用这 3 份建立共同口径", readme)
+        self.assertIn("如果你还没按前面的“先看你是哪种场景”分过一次诊", readme)
+        self.assertIn("如果你是继续开发本仓库，或需要先建立统一基线，再用这 3 份建立共同口径", readme)
+        self.assertIn("共享存储治理能力基线", stories)
+        self.assertIn("这份手册只解释“怎么用这套", manual)
+        self.assertIn("你希望把协作建立在共享存储上", manual)
+        self.assertIn("如果你今天主要想知道怎么处理，先读 [docs/使用手册.md]", readme)
+        self.assertIn("不要把 `README` 当成压缩版本体", readme)
+        self.assertIn(
+            "即使需要讲方法学，也默认优先用新手能接住的颗粒度来解释",
+            FULL_GUIDE.read_text(encoding="utf-8"),
+        )
         self.assertIn("只要 pack 里还保留 `pack_root/schemas/*.json`，validator 就会直接报迁移错误", readme)
         self.assertIn("`workflow.events.jsonl.subject_ref`", skill)
         self.assertIn("仓库根的 `schemas/` 目录是 repo 级 schema 草案目录", schema)
+
+    def test_model_audit_baseline_is_reflected_into_skill_audit_path(self) -> None:
+        model = MODEL.read_text(encoding="utf-8")
+        skill = SKILL.read_text(encoding="utf-8")
+
+        self.assertIn("派生文档约束", model)
+        self.assertIn("后续审计基线", model)
+        self.assertIn("### H. 真源对照与反向审计", skill)
+        self.assertIn("派生文档约束", skill)
+        self.assertIn("后续审计基线", skill)
+        self.assertIn("没有把自己写成并列本体", skill)
+        self.assertIn("contract tranche v1", skill)
+        self.assertIn("误读成世界观版本", skill)
+        self.assertIn("project_scope", skill)
+        self.assertIn("capability_scope", skill)
+        self.assertIn("self-hosting", skill)
+        self.assertIn("repo.files-driven / skill.files-driven / meta-skill capability / downstream project instance", skill)
+        self.assertIn("runtime -> candidate -> capability", skill)
 
     def test_execution_state_and_contract_examples_do_not_carry_legacy_next_step_authority(self) -> None:
         state_schema = json.loads(STATE_SCHEMA.read_text(encoding="utf-8"))

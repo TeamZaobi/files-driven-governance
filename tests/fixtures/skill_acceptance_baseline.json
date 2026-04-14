@@ -110,6 +110,45 @@
           "contains": "低带宽"
         }
       ]
+    },
+    {
+      "id": "reverse_model_coverage_audit",
+      "checks": [
+        {
+          "file": "SKILL.md",
+          "contains": "需要反向检查能力模型有没有照进 `README / SKILL / 使用手册 / metadata`"
+        },
+        {
+          "file": "SKILL.md",
+          "contains": "### H. 真源对照与反向审计"
+        }
+      ]
+    },
+    {
+      "id": "hosted_knowledge_governance_boundary",
+      "checks": [
+        {
+          "file": "SKILL.md",
+          "contains": "先把 `Obsidian / Notion / Docs / Sheets / Slides` 视为宿主名"
+        },
+        {
+          "file": "SKILL.md",
+          "contains": "先判断用户是在问治理问题还是工具操作问题"
+        }
+      ]
+    },
+    {
+      "id": "audit_layer_split",
+      "checks": [
+        {
+          "file": "SKILL.md",
+          "contains": "scaffold / pack / runtime / governance / adoption"
+        },
+        {
+          "file": "SKILL.md",
+          "contains": "当前统一动作面已覆盖："
+        }
+      ]
     }
   ],
   "lightness_targets": {

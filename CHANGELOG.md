@@ -6,7 +6,17 @@
 
 ## Unreleased
 
-- 暂无
+### 新增
+
+- 新增 [docs/三层信息架构复盘.md](docs/三层信息架构复盘.md)、[docs/能力雷达与版本演进盘点.md](docs/能力雷达与版本演进盘点.md)、[docs/能力覆盖矩阵与历史差分.md](docs/能力覆盖矩阵与历史差分.md)、[docs/宿主化知识工作场景矩阵.md](docs/宿主化知识工作场景矩阵.md) 与 [docs/体检分层矩阵.md](docs/体检分层矩阵.md)，把入口层/说明层/真源层边界、能力簇、宿主化知识工作场景和 `audit` 五层体检边界正式收成仓库资产。
+- 新增 [examples/hosted-knowledge-governance/README.md](examples/hosted-knowledge-governance/README.md) 及其配套 fixture，把 `Obsidian / Notion / Docs / Sheets / Slides` 这类宿主名先行场景推进到官方样例层。
+- 新增 [docs/阶段状态检查点_2026-04-14.md](docs/阶段状态检查点_2026-04-14.md)，冻结本轮暂停前的完成状态、未完成边界和外部治理反思吸收结果。
+
+### 调整
+
+- 调整 [README.md](README.md)、[SKILL.md](SKILL.md)、[docs/使用手册.md](docs/使用手册.md)、[docs/完整说明书.md](docs/完整说明书.md)、[PROJECT_STORIES_AND_TESTS.md](PROJECT_STORIES_AND_TESTS.md)、[references/输出约定.md](references/输出约定.md) 与多份 high-frequency reference，把入口统一压成“先回答哪份文件算数、今天先做哪一步、哪些先别改，再按需补方法学”的分层叙事。
+- 调整 [scripts/manage_files_engine.py](scripts/manage_files_engine.py) 与 [tests/test_files_engine_actions.py](tests/test_files_engine_actions.py)，把 `manage audit` 扩到 `pack / runtime / governance / adoption` 四个 draft checker 入口；其中 `adoption` 当前只覆盖本仓库的新手路径、低带宽解释和宿主名先行分诊。
+- 调整 [agents/openai.yaml](agents/openai.yaml)、[tests/test_entrypoint_consistency.py](tests/test_entrypoint_consistency.py) 与 [tests/test_end_to_end_governance_alignment.py](tests/test_end_to_end_governance_alignment.py)，把宿主名先行分诊、`audit` 五层边界和入口/说明/执行面的对齐冻结进回归。
 
 ## v0.5.0 - 2026-04-14
 

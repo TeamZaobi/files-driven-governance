@@ -1,5 +1,6 @@
 import json
 import os
+import shutil
 import stat
 import subprocess
 import sys
@@ -13,6 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 BOOTSTRAP = ROOT / "scripts" / "bootstrap_files_engine_starter.py"
 MANAGE = ROOT / "scripts" / "manage_files_engine.py"
 SCAFFOLD_VALIDATOR = ROOT / "scripts" / "validate_files_engine_scaffold.py"
+RUNTIME_EXAMPLE = ROOT / "examples" / "capture-candidate-activation"
 
 
 class FilesEngineActionTests(unittest.TestCase):
@@ -83,6 +85,79 @@ class FilesEngineActionTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         return target
 
+    def make_self_hosting_fixture(self) -> Path:
+        temp_dir = tempfile.TemporaryDirectory()
+        self.addCleanup(temp_dir.cleanup)
+        target = Path(temp_dir.name) / "capability-repo"
+        (target / "docs").mkdir(parents=True)
+        (target / "agents").mkdir(parents=True)
+
+        (target / "README.md").write_text(
+            "# files-driven fixture\n\n"
+            "入口回到 [docs/项目治理能力模型.md](docs/项目治理能力模型.md)。\n",
+            encoding="utf-8",
+        )
+        (target / "docs" / "项目治理能力模型.md").write_text(
+            "# 模型\n\n唯一的底层真源。\n",
+            encoding="utf-8",
+        )
+        (target / "SKILL.md").write_text(
+            "# files-driven\n\n"
+            "底层能力模型回到 [docs/项目治理能力模型.md](docs/项目治理能力模型.md)。\n"
+            "`SKILL.md` 只负责执行导览，不与真源平行定义本体。\n"
+            "当前要显式区分 capability_scope、project_scope 和 self-hosting。\n",
+            encoding="utf-8",
+        )
+        (target / "agents" / "openai.yaml").write_text(
+            "interface:\n"
+            '  display_name: "files-driven"\n'
+            "  default_prompt: >-\n"
+            "    先判断 capability_scope、project_scope 和 self-hosting；不要把 metadata 自己写成压缩版本体。\n",
+            encoding="utf-8",
+        )
+        return target
+
+    def make_self_hosting_adoption_fixture(self) -> Path:
+        temp_dir = tempfile.TemporaryDirectory()
+        self.addCleanup(temp_dir.cleanup)
+        target = Path(temp_dir.name) / "capability-repo"
+        (target / "docs").mkdir(parents=True)
+        (target / "agents").mkdir(parents=True)
+
+        (target / "README.md").write_text(
+            "# files-driven fixture\n\n"
+            "先读 [docs/非工程背景起步.md](docs/非工程背景起步.md)。\n"
+            "默认动作是 install / register / repair / audit。\n"
+            "宿主名先行时回 [docs/宿主化知识工作场景矩阵.md](docs/宿主化知识工作场景矩阵.md)。\n",
+            encoding="utf-8",
+        )
+        (target / "SKILL.md").write_text(
+            "# files-driven\n\n"
+            "目标读者几乎没有软件工程基础时，先降到低带宽解释。\n"
+            "先把 `Obsidian / Notion / Docs / Sheets / Slides` 视为宿主名。\n"
+            "先判断用户是在问治理问题还是工具操作问题。\n",
+            encoding="utf-8",
+        )
+        (target / "agents" / "openai.yaml").write_text(
+            "interface:\n"
+            '  display_name: "files-driven"\n'
+            "  default_prompt: >-\n"
+            "    先回哪份文件算数 / 今天先做哪一步 / 哪些先别改；再判断 `Obsidian / Notion / Docs / Sheets / Slides` 是治理问题还是工具操作问题。\n",
+            encoding="utf-8",
+        )
+        (target / "docs" / "非工程背景起步.md").write_text(
+            "# 起步\n\n"
+            "先记住哪份文件算数、今天先做什么、哪些文件先别改。\n"
+            "如果听到 audit，先把它理解成基础体检。\n",
+            encoding="utf-8",
+        )
+        (target / "docs" / "宿主化知识工作场景矩阵.md").write_text(
+            "# 宿主矩阵\n\n"
+            "先区分治理问题和工具操作问题。\n",
+            encoding="utf-8",
+        )
+        return target
+
     def test_install_register_and_audit_round_trip(self) -> None:
         target = self.bootstrap()
         new_file = target / "objects" / "state.review.extra.json"
@@ -139,6 +214,217 @@ class FilesEngineActionTests(unittest.TestCase):
 
         scaffold = self.run_cmd(str(SCAFFOLD_VALIDATOR), str(target))
         self.assertEqual(scaffold.returncode, 0, scaffold.stderr)
+
+    def test_pack_layer_uses_governance_validator(self) -> None:
+        target = self.bootstrap()
+        status_projection_path = target / "status.projection.json"
+        status_projection = self.read_json(status_projection_path)
+        status_projection["allowed_next_step_refs"] = []
+        status_projection_path.write_text(
+            json.dumps(status_projection, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
+
+        result = self.run_cmd(
+            str(MANAGE),
+            "audit",
+            str(target),
+            "--layer",
+            "pack",
+            "--format",
+            "json",
+        )
+        self.assertNotEqual(result.returncode, 0)
+        payload = json.loads(result.stdout)
+        self.assertEqual(payload["layer"], "pack")
+        self.assertEqual(payload["status"], "invalid")
+        self.assertTrue(any(item["category"] == "status_projection" for item in payload["findings"]))
+
+    def test_runtime_layer_is_not_applicable_for_plain_starter(self) -> None:
+        target = self.bootstrap()
+
+        result = self.run_cmd(
+            str(MANAGE),
+            "audit",
+            str(target),
+            "--layer",
+            "runtime",
+            "--format",
+            "json",
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        payload = json.loads(result.stdout)
+        self.assertEqual(payload["status"], "not_applicable")
+        self.assertEqual(payload["layer"], "runtime")
+        self.assertTrue(payload["implemented"])
+        self.assertGreaterEqual(len(payload["next_refs"]), 1)
+
+    def test_runtime_layer_validates_official_runtime_chain(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            target = Path(temp_dir) / "runtime-pack"
+            shutil.copytree(RUNTIME_EXAMPLE, target)
+
+            result = self.run_cmd(
+                str(MANAGE),
+                "audit",
+                str(target),
+                "--layer",
+                "runtime",
+                "--format",
+                "json",
+            )
+            self.assertEqual(result.returncode, 0, result.stderr)
+            payload = json.loads(result.stdout)
+            self.assertEqual(payload["status"], "valid")
+            self.assertEqual(payload["layer"], "runtime")
+            self.assertTrue(payload["implemented"])
+
+            candidate_trial_path = target / "candidate_trial.md"
+            candidate_trial = candidate_trial_path.read_text(encoding="utf-8").replace("failure_signals", "trial_failures")
+            candidate_trial_path.write_text(candidate_trial, encoding="utf-8")
+
+            invalid = self.run_cmd(
+                str(MANAGE),
+                "audit",
+                str(target),
+                "--layer",
+                "runtime",
+                "--format",
+                "json",
+            )
+            self.assertNotEqual(invalid.returncode, 0)
+            invalid_payload = json.loads(invalid.stdout)
+            self.assertEqual(invalid_payload["status"], "invalid")
+            self.assertTrue(any(item["category"] == "candidate_trial" for item in invalid_payload["findings"]))
+
+    def test_governance_layer_validates_downstream_authority_boundaries(self) -> None:
+        target = self.bootstrap()
+
+        result = self.run_cmd(
+            str(MANAGE),
+            "audit",
+            str(target),
+            "--layer",
+            "governance",
+            "--format",
+            "json",
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        payload = json.loads(result.stdout)
+        self.assertEqual(payload["status"], "valid")
+        self.assertEqual(payload["layer"], "governance")
+        self.assertEqual(payload["profile"], "downstream_project_instance")
+        self.assertTrue(payload["implemented"])
+
+        hooks_readme_path = target / "tooling" / "hooks" / "README.md"
+        hooks_readme = hooks_readme_path.read_text(encoding="utf-8").replace("不是 control truth", "是 control truth")
+        hooks_readme_path.write_text(hooks_readme, encoding="utf-8")
+
+        invalid = self.run_cmd(
+            str(MANAGE),
+            "audit",
+            str(target),
+            "--layer",
+            "governance",
+            "--format",
+            "json",
+        )
+        self.assertNotEqual(invalid.returncode, 0)
+        invalid_payload = json.loads(invalid.stdout)
+        self.assertEqual(invalid_payload["status"], "invalid")
+        self.assertTrue(any(item["category"] == "authority_surface" for item in invalid_payload["findings"]))
+
+    def test_governance_layer_validates_self_hosting_scope_binding(self) -> None:
+        target = self.make_self_hosting_fixture()
+
+        result = self.run_cmd(
+            str(MANAGE),
+            "audit",
+            str(target),
+            "--layer",
+            "governance",
+            "--format",
+            "json",
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        payload = json.loads(result.stdout)
+        self.assertEqual(payload["status"], "valid")
+        self.assertEqual(payload["layer"], "governance")
+        self.assertEqual(payload["profile"], "self_hosting_capability_repo")
+        self.assertTrue(payload["implemented"])
+
+        skill_path = target / "SKILL.md"
+        skill_text = skill_path.read_text(encoding="utf-8").replace(" 和 self-hosting", "")
+        skill_path.write_text(skill_text, encoding="utf-8")
+
+        invalid = self.run_cmd(
+            str(MANAGE),
+            "audit",
+            str(target),
+            "--layer",
+            "governance",
+            "--format",
+            "json",
+        )
+        self.assertNotEqual(invalid.returncode, 0)
+        invalid_payload = json.loads(invalid.stdout)
+        self.assertEqual(invalid_payload["status"], "invalid")
+        self.assertTrue(any(item["category"] == "scope_binding" for item in invalid_payload["findings"]))
+
+    def test_adoption_layer_is_not_applicable_for_downstream_starter(self) -> None:
+        target = self.bootstrap()
+
+        result = self.run_cmd(
+            str(MANAGE),
+            "audit",
+            str(target),
+            "--layer",
+            "adoption",
+            "--format",
+            "json",
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        payload = json.loads(result.stdout)
+        self.assertEqual(payload["status"], "not_applicable")
+        self.assertEqual(payload["layer"], "adoption")
+        self.assertTrue(payload["implemented"])
+        self.assertGreaterEqual(len(payload["next_refs"]), 1)
+
+    def test_adoption_layer_validates_self_hosting_entrypoints(self) -> None:
+        target = self.make_self_hosting_adoption_fixture()
+
+        result = self.run_cmd(
+            str(MANAGE),
+            "audit",
+            str(target),
+            "--layer",
+            "adoption",
+            "--format",
+            "json",
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        payload = json.loads(result.stdout)
+        self.assertEqual(payload["status"], "valid")
+        self.assertEqual(payload["profile"], "self_hosting_capability_repo")
+        self.assertTrue(payload["implemented"])
+
+        beginner_path = target / "docs" / "非工程背景起步.md"
+        beginner_text = beginner_path.read_text(encoding="utf-8").replace("哪些文件先别改", "哪些文件以后再说")
+        beginner_path.write_text(beginner_text, encoding="utf-8")
+
+        invalid = self.run_cmd(
+            str(MANAGE),
+            "audit",
+            str(target),
+            "--layer",
+            "adoption",
+            "--format",
+            "json",
+        )
+        self.assertNotEqual(invalid.returncode, 0)
+        invalid_payload = json.loads(invalid.stdout)
+        self.assertEqual(invalid_payload["status"], "invalid")
+        self.assertTrue(any(item["category"] == "beginner_guide" for item in invalid_payload["findings"]))
 
     def test_register_replace_overwrites_existing_entry(self) -> None:
         target = self.bootstrap()

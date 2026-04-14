@@ -19,6 +19,7 @@ EXTERNAL_WORKFLOW = ROOT / "docs" / "外部项目Workflow改造脚手架.md"
 MANUAL = ROOT / "docs" / "使用手册.md"
 PLAN = ROOT / "docs" / "当前阶段补完计划.md"
 PROJECT_STORIES = ROOT / "PROJECT_STORIES_AND_TESTS.md"
+INFO_ARCH_REVIEW = ROOT / "docs" / "三层信息架构复盘.md"
 EXAMPLE_READMES = [
     ROOT / "examples" / "smoke-governed-review" / "README.md",
     ROOT / "examples" / "discussion-decision-task" / "README.md",
@@ -72,6 +73,8 @@ class EntrypointConsistencyTests(unittest.TestCase):
         self.assertIn("v1 -> v2 -> v2.1", model)
         self.assertIn("帮助用户识别问题，解决问题", model)
         self.assertIn("强化控制能力", model)
+        self.assertIn("真源层", INFO_ARCH_REVIEW.read_text(encoding="utf-8"))
+        self.assertIn("README / SKILL / metadata", INFO_ARCH_REVIEW.read_text(encoding="utf-8"))
         self.assertIn("未发布方向说明", version_next)
         self.assertIn("强化控制能力", version_next)
         self.assertIn("宿主原生能力优先", version_next)
@@ -148,6 +151,42 @@ class EntrypointConsistencyTests(unittest.TestCase):
         self.assertIn("runtime -> candidate -> capability", plan)
         self.assertIn("补完顺序", plan)
         self.assertIn("不接受什么", plan)
+        self.assertIn("docs/宿主化知识工作场景矩阵.md", skill)
+        self.assertIn("docs/体检分层矩阵.md", skill)
+        self.assertIn("先判断用户是在问治理问题还是工具操作问题", skill)
+        self.assertIn("scaffold / pack / runtime / governance / adoption", skill)
+        self.assertIn("draft checker", skill)
+
+    def test_readme_front_page_prioritizes_routing_before_theory(self) -> None:
+        readme = README.read_text(encoding="utf-8")
+
+        self.assertIn("## 目录", readme)
+        self.assertIn("## 先看你是哪种场景", readme)
+        self.assertIn("## 首屏动作", readme)
+        self.assertIn("继续开发本仓库", readme)
+        self.assertIn("哪份文件算数", readme)
+        self.assertIn("默认也先用新手能接住的颗粒度来讲", readme)
+        self.assertIn("docs/三层信息架构复盘.md", readme)
+        self.assertIn("入口层", readme)
+        self.assertIn("说明层", readme)
+        self.assertIn("真源层", readme)
+        self.assertNotIn("不再只回答“文档怎么分层”", readme)
+
+        self.assertLess(readme.index("## 目录"), readme.index("## 第一性原理与当前版本方向"))
+        self.assertLess(readme.index("## 先看你是哪种场景"), readme.index("## 第一性原理与当前版本方向"))
+        self.assertLess(readme.index("## 首屏动作"), readme.index("## 第一性原理与当前版本方向"))
+
+    def test_skill_front_page_starts_from_problem_then_control_model(self) -> None:
+        skill = SKILL.read_text(encoding="utf-8")
+
+        self.assertIn("现在哪份文件算数", skill)
+        self.assertIn("今天先做哪一步", skill)
+        self.assertIn("这次到底需不需要更强控制", skill)
+        self.assertIn("如果当前主要想知道怎么处理现有问题，优先按下面的“默认主路径”执行", skill)
+        self.assertIn("如果主要想系统理解为什么这样判断，读 [docs/完整说明书.md]", skill)
+        self.assertIn("如果要改底层本体，回 [docs/项目治理能力模型.md]", skill)
+        self.assertNotIn("不再把自己写成“结构治理顾问”", skill)
+        self.assertLess(skill.index("现在哪份文件算数"), skill.index("世界观轴"))
 
     def test_metadata_matches_skill_default_path_language(self) -> None:
         metadata = METADATA.read_text(encoding="utf-8")
@@ -163,6 +202,16 @@ class EntrypointConsistencyTests(unittest.TestCase):
         self.assertIn("Codex CLI", metadata)
         self.assertIn("识别问题并按需强化控制能力", metadata)
         self.assertIn("强化控制能力", metadata)
+        self.assertIn("哪份文件算数 / 今天先做哪一步 / 哪些先别改", metadata)
+        self.assertIn("install / register / repair / audit", metadata)
+        self.assertIn("若当前主要是在处理现有问题，优先给最小动作", metadata)
+        self.assertIn("Obsidian / Notion / Docs / Sheets / Slides", metadata)
+        self.assertIn("治理问题还是工具操作问题", metadata)
+        self.assertIn("真源、写权、投影、漂移、恢复或读取顺序", metadata)
+        self.assertIn("scaffold / pack / runtime / governance / adoption", metadata)
+        self.assertIn("当前统一动作面已覆盖 `scaffold`、`pack`、`runtime`、`governance`、`adoption` 五层", metadata)
+        self.assertIn("如果用户需要系统理解为什么这样判断，再补完整说明", metadata)
+        self.assertIn("不要把 metadata 自己写成压缩版本体", metadata)
 
     def test_markdown_entry_links_resolve(self) -> None:
         for path in [
