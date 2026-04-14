@@ -42,11 +42,17 @@ class EntrypointConsistencyTests(unittest.TestCase):
         self.assertIn("v2.1", readme)
         self.assertIn("作用域绑定与防变形规则", readme)
         self.assertIn("docs/项目治理能力模型.md", readme)
+        self.assertIn("帮助用户识别问题，解决问题", readme)
+        self.assertIn("强化控制能力", readme)
         self.assertIn("动作触发 -> 一级关口 -> 二级升级", skill)
+        self.assertIn("帮助用户识别问题，解决问题", skill)
+        self.assertIn("强化控制能力", skill)
         self.assertIn("唯一的底层真源", model)
         self.assertIn("能力模型演进层", model)
         self.assertIn("受控合同链 tranche", model)
         self.assertIn("v1 -> v2 -> v2.1", model)
+        self.assertIn("帮助用户识别问题，解决问题", model)
+        self.assertIn("强化控制能力", model)
         self.assertIn("历史阶段入口", model_v1)
         self.assertIn("统一底层真源", stories)
         self.assertNotIn("skill 驱动 AI-Native 项目治理（files-driven）", readme)
@@ -98,6 +104,8 @@ class EntrypointConsistencyTests(unittest.TestCase):
         self.assertIn("discussion 晋升", metadata)
         self.assertIn("capability-improve", metadata)
         self.assertIn("Codex CLI", metadata)
+        self.assertIn("帮助 skill 驱动 AI-Native 项目识别问题、解决问题", metadata)
+        self.assertIn("强化控制能力", metadata)
 
     def test_markdown_entry_links_resolve(self) -> None:
         for path in [README, QUICKSTART, MIGRATION, SKILL, *EXAMPLE_READMES]:
