@@ -312,6 +312,8 @@ flowchart LR
 | [README.md](README.md) | 第一次接触这个项目的人 | 解释这是什么、什么时候该用、怎么开始 |
 | [docs/项目治理能力模型.md](docs/项目治理能力模型.md) | 维护底层模型的人或审计者 | 作为 `v1 / v2 / v2.1` 的统一底层真源 |
 | [docs/使用手册.md](docs/使用手册.md) | 已决定按这套方式工作的团队成员 | 从项目要解决的问题出发，说明问题为什么会出现、常见方式为什么不够，以及团队今天该怎么执行 |
+| [docs/v0.4.1_版本说明.md](docs/v0.4.1_版本说明.md) | 想理解这一版为何强调控制能力的人 | 说明当前版本的设计目标、实现纠偏和宿主/脚本/CLI 的关系 |
+| [docs/外部项目Workflow改造脚手架.md](docs/外部项目Workflow改造脚手架.md) | 需要改造外部项目现有 workflow 的人 | 提供“宿主优先、脚本补强”的最小改造 starter |
 | [PROJECT_STORIES_AND_TESTS.md](PROJECT_STORIES_AND_TESTS.md) | 会继续开发这个仓库的人或代理 | 直接写清本项目当前的具体用户故事、测试用例、非目标和验收责任人 |
 | [SKILL.md](SKILL.md) | 会执行这个技能的代理 | 给出主流程、判断规则、边界约束和参考件路由 |
 | [QUICKSTART.md](QUICKSTART.md) | 第一次搭建受控资产包的人 | 给出最小资产包形状、校验脚本（validator）用法和起步顺序 |
@@ -478,7 +480,10 @@ starter 内部的默认级联顺序也要分开：
 如果你已经确定要落地治理，继续按问题下钻：
 
 - 边界还不稳：读 [references/起步阶段_故事与测试对齐.md](references/起步阶段_故事与测试对齐.md)、[references/说人话需求确认工具包.md](references/说人话需求确认工具包.md)
+- 需要先判断问题在哪里、该上多强控制：读 [references/问题诊断与控制强度分级.md](references/问题诊断与控制强度分级.md)
+- 需要决定主线程 / `subagent` / `CLI` / runner 怎么分工：读 [references/执行面判定与CLI生产策略.md](references/执行面判定与CLI生产策略.md)
 - 仓库已经漂移或需要恢复：读 [references/场景手册.md](references/场景手册.md)、[references/基本原则.md](references/基本原则.md)
+- 需要把外部项目现有 workflow 改造成宿主优先、脚本补强：读 [docs/外部项目Workflow改造脚手架.md](docs/外部项目Workflow改造脚手架.md)
 - 议题还没到 `task / decision`，但已经不能只留在聊天里：读 [references/讨论收口与晋升.md](references/讨论收口与晋升.md)、[examples/discussion-decision-task/BOUNDARY.md](examples/discussion-decision-task/BOUNDARY.md)、[examples/discussion-decision-task/WORKFLOW.md](examples/discussion-decision-task/WORKFLOW.md)
 - 议题争议很大，需要逐点质询后再收敛：读 [references/反方质询与收敛回路.md](references/反方质询与收敛回路.md)、[examples/adversarial-convergence/README.md](examples/adversarial-convergence/README.md)
 - 多工具过程已经不透明，需要统一接手面：读 [references/跨层共享约定.md](references/跨层共享约定.md)、[examples/multi-tool-process-projection/process-projection.md](examples/multi-tool-process-projection/process-projection.md)

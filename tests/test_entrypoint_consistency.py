@@ -13,6 +13,9 @@ METADATA = ROOT / "agents" / "openai.yaml"
 MODEL = ROOT / "docs" / "项目治理能力模型.md"
 MODEL_V1 = ROOT / "docs" / "项目治理能力模型_v1.md"
 VERSION_NEXT = ROOT / "docs" / "v0.4.1_版本说明.md"
+CONTROL_STRENGTH = ROOT / "references" / "问题诊断与控制强度分级.md"
+EXECUTION_SURFACE = ROOT / "references" / "执行面判定与CLI生产策略.md"
+EXTERNAL_WORKFLOW = ROOT / "docs" / "外部项目Workflow改造脚手架.md"
 PROJECT_STORIES = ROOT / "PROJECT_STORIES_AND_TESTS.md"
 EXAMPLE_READMES = [
     ROOT / "examples" / "smoke-governed-review" / "README.md",
@@ -34,6 +37,9 @@ class EntrypointConsistencyTests(unittest.TestCase):
         model = MODEL.read_text(encoding="utf-8")
         model_v1 = MODEL_V1.read_text(encoding="utf-8")
         version_next = VERSION_NEXT.read_text(encoding="utf-8")
+        control_strength = CONTROL_STRENGTH.read_text(encoding="utf-8")
+        execution_surface = EXECUTION_SURFACE.read_text(encoding="utf-8")
+        external_workflow = EXTERNAL_WORKFLOW.read_text(encoding="utf-8")
         stories = PROJECT_STORIES.read_text(encoding="utf-8")
 
         self.assertTrue(readme.startswith("# files-driven\n"))
@@ -97,6 +103,17 @@ class EntrypointConsistencyTests(unittest.TestCase):
         self.assertIn("run_project_director_capability_improvement.py", skill)
         self.assertIn("Codex CLI", readme)
         self.assertIn("Codex CLI", skill)
+        self.assertIn("问题诊断与控制强度分级", readme)
+        self.assertIn("执行面判定与CLI生产策略", readme)
+        self.assertIn("外部项目Workflow改造脚手架", readme)
+        self.assertIn("问题诊断与控制强度分级", skill)
+        self.assertIn("执行面判定与CLI生产策略", skill)
+        self.assertIn("外部项目Workflow改造脚手架", skill)
+        self.assertIn("L0", control_strength)
+        self.assertIn("L4", control_strength)
+        self.assertIn("CLI", execution_surface)
+        self.assertIn("producer", execution_surface)
+        self.assertIn("最小 starter 模板", external_workflow)
 
     def test_metadata_matches_skill_default_path_language(self) -> None:
         metadata = METADATA.read_text(encoding="utf-8")
@@ -113,7 +130,7 @@ class EntrypointConsistencyTests(unittest.TestCase):
         self.assertIn("强化控制能力", metadata)
 
     def test_markdown_entry_links_resolve(self) -> None:
-        for path in [README, QUICKSTART, MIGRATION, SKILL, VERSION_NEXT, *EXAMPLE_READMES]:
+        for path in [README, QUICKSTART, MIGRATION, SKILL, VERSION_NEXT, CONTROL_STRENGTH, EXECUTION_SURFACE, EXTERNAL_WORKFLOW, *EXAMPLE_READMES]:
             text = path.read_text(encoding="utf-8")
             for raw_target in LINK_RE.findall(text):
                 if raw_target.startswith(("http://", "https://", "mailto:", "app://", "#")):
