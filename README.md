@@ -440,6 +440,7 @@
 - hooks 已经成为工具适配面的一部分：读 [references/hooks使用方法论与脚手架.md](references/hooks使用方法论与脚手架.md)、[references/工具适配对照表.md](references/工具适配对照表.md)、[references/关口硬化与稳定放行.md](references/关口硬化与稳定放行.md)
 - 运行中反复出现纠偏、又不能直接热改能力真源：读 [references/运行观察与能力晋升.md](references/运行观察与能力晋升.md)、[examples/capture-candidate-activation/README.md](examples/capture-candidate-activation/README.md)
 - 多工具过程已经不透明，需要统一接手面：读 [references/跨层共享约定.md](references/跨层共享约定.md)、[examples/multi-tool-process-projection/process-projection.md](examples/multi-tool-process-projection/process-projection.md)
+- 需要把对话里的可点击文件链接、Obsidian vault 内 `.md` 双向链接和库外 Markdown 链接分开：读 [docs/宿主化知识工作场景矩阵.md](docs/宿主化知识工作场景矩阵.md)、[references/工具适配对照表.md](references/工具适配对照表.md)、[references/输出约定.md](references/输出约定.md)
 - 希望用短口令推进工作或正式输出治理方案：读 [references/意图触发约定.md](references/意图触发约定.md)、[references/输出约定.md](references/输出约定.md)
 
 ## 常见开口方式
@@ -455,6 +456,7 @@
 - “我们现在有多工具过程，但接手时看不清到底跑了什么，请补一个 process projection。”
 - “我们要统一多个工具的全局 / 项目 / pack 级 rules，请先列出应改文件，再做完整修改。”
 - “我们想用‘继续开发’和‘开始审计’这类短口令驱动工作，帮我做成稳定约定。”
+- “我的项目在 Obsidian 里，仓库 Markdown 内链要进双向链接，但对话里仍要保留可点击文件链接，请先帮我定分流规则。”
 - “我的目标读者几乎没有软件工程基础，先别讲理论，告诉我哪份文件算数、今天先做什么。”
 
 ## 阅读路线

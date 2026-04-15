@@ -6,7 +6,8 @@
 
 ## Unreleased
 
-- 暂无。
+- 调整 [README.md](README.md)、[SKILL.md](SKILL.md)、[agents/openai.yaml](agents/openai.yaml)、[references/输出约定.md](references/输出约定.md)、[references/工具适配对照表.md](references/工具适配对照表.md) 与 [docs/宿主化知识工作场景矩阵.md](docs/宿主化知识工作场景矩阵.md)，新增“对话层展示链接 / 宿主内 Markdown 内链 / 库外 Markdown 链接”分流协议，明确 Obsidian vault 内 `.md` 引用默认进入 `[[...]]` 双向链接体系，不再把桌面端可点击绝对路径文件链接直接落盘成项目内链。
+- 调整 [tests/test_agent_facing_e2e.py](tests/test_agent_facing_e2e.py)、[tests/test_end_to_end_governance_alignment.py](tests/test_end_to_end_governance_alignment.py)、[tests/test_entrypoint_consistency.py](tests/test_entrypoint_consistency.py) 与相关 fixture，把 Obsidian Markdown 内链分流协议冻结进 agent-facing 回归。
 
 ## v0.5.1 - 2026-04-15
 

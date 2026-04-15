@@ -125,6 +125,7 @@ class EndToEndGovernanceAlignmentTests(unittest.TestCase):
         info_arch = INFO_ARCH_REVIEW.read_text(encoding="utf-8")
         tool_adapter = TOOL_ADAPTER_REF.read_text(encoding="utf-8")
         matrix = HOSTED_KNOWLEDGE_MATRIX.read_text(encoding="utf-8")
+        output = OUTPUT_CONVENTION.read_text(encoding="utf-8")
 
         self.assertIn("docs/宿主化知识工作场景矩阵.md", readme)
         self.assertIn("宿主化知识工作场景矩阵", info_arch)
@@ -137,6 +138,12 @@ class EndToEndGovernanceAlignmentTests(unittest.TestCase):
         self.assertIn("MOC", matrix)
         self.assertIn("Canvas", matrix)
         self.assertIn("database view", matrix)
+        self.assertIn("Obsidian Markdown 内链的最低协议", matrix)
+        self.assertIn("[[笔记名]]", matrix)
+        self.assertIn("桌面端可点击文件链接", matrix)
+        self.assertIn("宿主化 Markdown 链接分流", tool_adapter)
+        self.assertIn("### I. 对话链接 / 宿主内链分流", output)
+        self.assertIn("不要把桌面端可点击绝对路径文件链接直接落盘进项目 Markdown", output)
         self.assertIn("默认都先按索引、状态或展示处理", manual)
 
     def test_hosted_knowledge_fixture_is_wired_and_machine_checked(self) -> None:

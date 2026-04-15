@@ -121,6 +121,33 @@
           "contains": "1. 现在哪份文件算数"
         }
       ]
+    },
+    {
+      "id": "obsidian_markdown_link_split",
+      "request_anchor": {
+        "file": "README.md",
+        "contains": "我的项目在 Obsidian 里，仓库 Markdown 内链要进双向链接，但对话里仍要保留可点击文件链接，请先帮我定分流规则。"
+      },
+      "route_checks": [
+        {
+          "file": "SKILL.md",
+          "contains": "需要判断对话层展示链接、Obsidian vault 内 `.md` 双向链接和库外 Markdown 链接怎么分流"
+        },
+        {
+          "file": "SKILL.md",
+          "contains": "[工具适配对照表](references/工具适配对照表.md)"
+        }
+      ],
+      "output_checks": [
+        {
+          "file": "references/输出约定.md",
+          "contains": "### I. 对话链接 / 宿主内链分流"
+        },
+        {
+          "file": "references/输出约定.md",
+          "contains": "不要把桌面端可点击绝对路径文件链接直接落盘进项目 Markdown"
+        }
+      ]
     }
   ]
 }
