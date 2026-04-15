@@ -257,6 +257,16 @@ class EndToEndGovernanceAlignmentTests(unittest.TestCase):
         self.assertIn("宿主 CLI 或 runner", matrix)
         self.assertIn("reason_refs / artifact_refs / recall chain", matrix)
         self.assertIn("真实在线模型 + 多 agent + 外部工具的黑盒 runtime", matrix)
+        self.assertIn("测试目标直达协议（下游默认）", matrix)
+        self.assertIn("E2E 通过 = 真实入口触发 + 真源读取正确 + 写权受控执行 + 冷启动可恢复重放 + 结果 oracle 一致。", matrix)
+        self.assertIn("truth_source_allowlist", matrix)
+        self.assertIn("projection_denylist", matrix)
+        self.assertIn("write_allowlist", matrix)
+        self.assertIn("write_role", matrix)
+        self.assertIn("oracle", matrix)
+        self.assertIn("replay_seed", matrix)
+        self.assertIn("failure_boundary", matrix)
+        self.assertIn("下游如果反馈“测试目标不够直接”", skill)
 
     def test_examples_close_entry_to_contract_to_handoff_chain(self) -> None:
         discussion_boundary = (DISCUSSION_ROOT / "BOUNDARY.md").read_text(encoding="utf-8")
