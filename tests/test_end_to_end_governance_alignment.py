@@ -118,6 +118,9 @@ class EndToEndGovernanceAlignmentTests(unittest.TestCase):
         self.assertIn("先不要从品牌差异或适配表开始讲", tool_adapter)
         self.assertIn("哪份文件算数", SHARED_REF.read_text(encoding="utf-8"))
         self.assertIn("docs/非工程背景起步.md", stories)
+        self.assertIn("### 4.9 用户说“用 files-driven 治理知识管理”时", manual)
+        self.assertIn("## 如果你在做 wiki / Obsidian 知识管理", beginner)
+        self.assertIn("### 8.3 宿主化知识管理的默认流程", full_guide)
 
     def test_hosted_knowledge_work_matrix_is_wired_into_docs(self) -> None:
         readme = README.read_text(encoding="utf-8")
