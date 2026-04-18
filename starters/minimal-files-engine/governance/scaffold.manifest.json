@@ -19,13 +19,19 @@
     "status.projection.json",
     "objects",
     "governance",
+    "governance/hooks.policy.md",
     "governance/files.registry.json",
     "governance/intent.routes.json",
     "governance/scaffold.manifest.json",
     "governance/starter.profile.json",
     "skills",
     "skills/review-skill",
-    "skills/review-skill/SKILL.md"
+    "skills/review-skill/SKILL.md",
+    "tooling",
+    "tooling/hooks",
+    "tooling/hooks/README.md",
+    "tooling/hooks/scripts",
+    "tooling/hooks/templates"
   ],
   "tracked_globs": [
     "objects/*.json",

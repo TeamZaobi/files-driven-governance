@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "object_id": "state.observe_gaps",
+  "family": "object",
+  "version_anchor": "v1",
+  "kind": "state_profile",
+  "fields": [
+    {
+      "field_id": "objective",
+      "type": "string",
+      "required": true
+    },
+    {
+      "field_id": "completion_signal",
+      "type": "string",
+      "required": true
+    }
+  ]
+}

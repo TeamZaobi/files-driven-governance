@@ -276,6 +276,24 @@
       }
     },
     {
+      "file_id": "hooks.policy.project",
+      "path": "governance/hooks.policy.md",
+      "family": "policy_or_rules",
+      "layer": "truth_source",
+      "work_post": "hook_policy",
+      "annotations": {
+        "evidence_type": "hook_policy",
+        "truth_status": "canonical",
+        "write_roles": [
+          "maintainer"
+        ],
+        "consumed_as": [
+          "hook_policy"
+        ],
+        "stale_policy": "manual_review"
+      }
+    },
+    {
       "file_id": "routes.intent",
       "path": "governance/intent.routes.json",
       "family": "workflow",
@@ -343,6 +361,24 @@
         ],
         "consumed_as": [
           "project_skill"
+        ],
+        "stale_policy": "manual_review"
+      }
+    },
+    {
+      "file_id": "hooks.adapter.guide",
+      "path": "tooling/hooks/README.md",
+      "family": "display_projection",
+      "layer": "display_projection",
+      "work_post": "hook_scaffold_guide",
+      "annotations": {
+        "evidence_type": "hook_scaffold",
+        "truth_status": "supporting",
+        "write_roles": [
+          "maintainer"
+        ],
+        "consumed_as": [
+          "hook_scaffold_guide"
         ],
         "stale_policy": "manual_review"
       }

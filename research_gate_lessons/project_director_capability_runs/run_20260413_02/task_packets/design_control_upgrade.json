@@ -1,0 +1,35 @@
+{
+  "workflow_id": "workflow.project.director.capability.improvement",
+  "node_id": "node.design_control_upgrade",
+  "title": "Design Control Upgrade",
+  "goal": "Reallocate control responsibilities away from the model and into the runner, Codex CLI worker surface, and explicit approval points.",
+  "deliverable_path": "design_control_upgrade.md",
+  "required_sections": [
+    "## Objective",
+    "## Control Reallocation",
+    "## Runtime Governor Duties",
+    "## LLM Boundary",
+    "## Risks If Not Adopted"
+  ],
+  "context_paths": [
+    "context/project_governance_model.md",
+    "context/repo_readme.md",
+    "context/skill.md",
+    "context/tool_adapter_matrix.md",
+    "context/runtime_promotion.md",
+    "context/capture_candidate_workflow.md",
+    "context/benchmarks.md"
+  ],
+  "previous_artifacts": [
+    "observe_gaps.md",
+    "map_capability_graph.md"
+  ],
+  "benchmark_anchors": [
+    "019d859b-41f3-7752-bc49-ca9282c784ca"
+  ],
+  "control_constraints": [
+    "The runner owns workflow.state.json, workflow.events.jsonl, and status.projection.json.",
+    "Do not modify control contracts, agent contracts, policy contracts, or object contracts.",
+    "Only write the requested deliverable."
+  ]
+}

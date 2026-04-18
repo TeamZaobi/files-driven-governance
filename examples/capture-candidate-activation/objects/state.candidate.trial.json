@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "object_id": "state.candidate.trial",
+  "family": "object",
+  "version_anchor": "v1",
+  "kind": "state_profile",
+  "fields": [
+    {
+      "field_id": "candidate_id",
+      "type": "string",
+      "required": true
+    },
+    {
+      "field_id": "trial_status",
+      "type": "string",
+      "required": true
+    },
+    {
+      "field_id": "trial_conditions",
+      "type": "array<string>",
+      "required": true
+    },
+    {
+      "field_id": "failure_signals",
+      "type": "array<string>",
+      "required": false
+    },
+    {
+      "field_id": "rollback_ref",
+      "type": "string",
+      "required": false
+    }
+  ],
+  "semantics": [
+    {
+      "value": "trialing",
+      "meaning": "候选已经进入试验，但尚未形成最终结论。"
+    },
+    {
+      "value": "ready_to_activate",
+      "meaning": "试验结果满足激活条件，可以进入最终决策。"
+    },
+    {
+      "value": "rollback_required",
+      "meaning": "失败信号已经出现，必须回退。"
+    }
+  ]
+}

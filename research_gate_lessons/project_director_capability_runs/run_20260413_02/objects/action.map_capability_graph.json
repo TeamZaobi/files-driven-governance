@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "object_id": "action.map_capability_graph",
+  "family": "object",
+  "version_anchor": "v1",
+  "kind": "action_class",
+  "fields": [
+    {
+      "field_id": "deliverable_path",
+      "type": "string",
+      "required": true
+    },
+    {
+      "field_id": "required_sections",
+      "type": "array",
+      "required": true
+    },
+    {
+      "field_id": "task_packet_path",
+      "type": "string",
+      "required": true
+    }
+  ]
+}

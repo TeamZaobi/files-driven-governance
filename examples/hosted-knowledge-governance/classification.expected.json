@@ -1,0 +1,76 @@
+{
+  "fixture_id": "hosted-knowledge-governance",
+  "purpose": "Translate host-name-first requests back into files-driven governance judgments.",
+  "checks": [
+    {
+      "path": "obsidian.project-spec.md",
+      "host": "obsidian",
+      "default_layer": "truth_source",
+      "default_role": "project_rule_or_spec",
+      "reason": "This note carries formal project rules and stable fact definitions."
+    },
+    {
+      "path": "obsidian.project-moc.md",
+      "host": "obsidian",
+      "default_layer": "status_projection",
+      "default_role": "index_or_navigation",
+      "reason": "The MOC links upstream notes and current status, but should not define new authority."
+    },
+    {
+      "path": "obsidian.project-status.md",
+      "host": "obsidian",
+      "default_layer": "status_projection",
+      "default_role": "status_summary",
+      "reason": "The status note summarizes progress and blockers rather than redefining the spec."
+    },
+    {
+      "path": "obsidian.canvas-brief.md",
+      "host": "obsidian",
+      "default_layer": "display_projection",
+      "default_role": "canvas_projection",
+      "reason": "The canvas brief compresses relationships for display and discussion."
+    },
+    {
+      "path": "notion.rules-home.md",
+      "host": "notion",
+      "default_layer": "truth_source",
+      "default_role": "project_rule_or_spec",
+      "reason": "The Notion rules home acts as the canonical rules page for this fixture."
+    },
+    {
+      "path": "notion.database-view.md",
+      "host": "notion",
+      "default_layer": "status_projection",
+      "default_role": "database_view",
+      "reason": "The board view is a derived planning surface and must not outrank its upstream rules."
+    },
+    {
+      "path": "google-docs-spec.md",
+      "host": "google_docs",
+      "default_layer": "truth_source",
+      "default_role": "spec_doc",
+      "reason": "The shared doc carries the canonical scope and acceptance language."
+    },
+    {
+      "path": "google-sheets-dashboard.md",
+      "host": "google_sheets",
+      "default_layer": "status_projection",
+      "default_role": "dashboard",
+      "reason": "The dashboard aggregates upstream records and should not decide truth by itself."
+    },
+    {
+      "path": "google-slides-weekly-review.md",
+      "host": "google_slides",
+      "default_layer": "display_projection",
+      "default_role": "weekly_review_deck",
+      "reason": "The deck is for reporting and display, not for writing upstream rules."
+    }
+  ],
+  "tool_operation_non_goals": [
+    "Create or edit an Obsidian Canvas layout",
+    "Tune an Obsidian Bases view",
+    "Adjust a Notion database view",
+    "Edit a single Google Doc paragraph",
+    "Polish a Google Slides layout"
+  ]
+}

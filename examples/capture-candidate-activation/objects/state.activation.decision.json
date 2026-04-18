@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "object_id": "state.activation.decision",
+  "family": "object",
+  "version_anchor": "v1",
+  "kind": "state_profile",
+  "fields": [
+    {
+      "field_id": "decision_id",
+      "type": "string",
+      "required": true
+    },
+    {
+      "field_id": "decision_kind",
+      "type": "string",
+      "required": true
+    },
+    {
+      "field_id": "activation_ref",
+      "type": "string",
+      "required": true
+    },
+    {
+      "field_id": "rollback_ref",
+      "type": "string",
+      "required": true
+    },
+    {
+      "field_id": "owner_ref",
+      "type": "string",
+      "required": false
+    }
+  ],
+  "semantics": [
+    {
+      "value": "activate",
+      "meaning": "候选通过试验，可以激活。"
+    },
+    {
+      "value": "rollback",
+      "meaning": "候选试验失败，必须回退。"
+    }
+  ]
+}

@@ -6,6 +6,47 @@
 
 ## Unreleased
 
+- 调整 [README.md](README.md)、[SKILL.md](SKILL.md)、[agents/openai.yaml](agents/openai.yaml)、[references/输出约定.md](references/输出约定.md)、[references/工具适配对照表.md](references/工具适配对照表.md) 与 [docs/宿主化知识工作场景矩阵.md](docs/宿主化知识工作场景矩阵.md)，新增“对话层展示链接 / 宿主内 Markdown 内链 / 库外 Markdown 链接”分流协议，明确 Obsidian vault 内 `.md` 引用默认进入 `[[...]]` 双向链接体系，不再把桌面端可点击绝对路径文件链接直接落盘成项目内链。
+- 调整 [tests/test_agent_facing_e2e.py](tests/test_agent_facing_e2e.py)、[tests/test_end_to_end_governance_alignment.py](tests/test_end_to_end_governance_alignment.py)、[tests/test_entrypoint_consistency.py](tests/test_entrypoint_consistency.py) 与相关 fixture，把 Obsidian Markdown 内链分流协议冻结进 agent-facing 回归。
+
+## v0.5.1 - 2026-04-15
+
+### 新增
+
+- 新增 [docs/三层信息架构复盘.md](docs/三层信息架构复盘.md)、[docs/能力雷达与版本演进盘点.md](docs/能力雷达与版本演进盘点.md)、[docs/能力覆盖矩阵与历史差分.md](docs/能力覆盖矩阵与历史差分.md)、[docs/宿主化知识工作场景矩阵.md](docs/宿主化知识工作场景矩阵.md) 与 [docs/体检分层矩阵.md](docs/体检分层矩阵.md)，把入口层/说明层/真源层边界、能力簇、宿主化知识工作场景和 `audit` 五层体检边界正式收成仓库资产。
+- 新增 [examples/hosted-knowledge-governance/README.md](examples/hosted-knowledge-governance/README.md) 及其配套 fixture，把 `Obsidian / Notion / Docs / Sheets / Slides` 这类宿主名先行场景推进到官方样例层。
+- 新增 [docs/阶段状态检查点_2026-04-14.md](docs/阶段状态检查点_2026-04-14.md)，冻结本轮暂停前的完成状态、未完成边界和外部治理反思吸收结果。
+- 新增 [docs/v0.5.1_版本说明.md](docs/v0.5.1_版本说明.md)，把这次 E2E 目标直达协议补丁版作为正式发布锚点落盘。
+
+### 调整
+
+- 调整 [README.md](README.md)、[SKILL.md](SKILL.md)、[docs/使用手册.md](docs/使用手册.md)、[docs/完整说明书.md](docs/完整说明书.md)、[PROJECT_STORIES_AND_TESTS.md](PROJECT_STORIES_AND_TESTS.md)、[references/输出约定.md](references/输出约定.md) 与多份 high-frequency reference，把入口统一压成“先回答哪份文件算数、今天先做哪一步、哪些先别改，再按需补方法学”的分层叙事。
+- 调整 [scripts/manage_files_engine.py](scripts/manage_files_engine.py) 与 [tests/test_files_engine_actions.py](tests/test_files_engine_actions.py)，把 `manage audit` 扩到 `pack / runtime / governance / adoption` 四个 draft checker 入口；其中 `adoption` 当前只覆盖本仓库的新手路径、低带宽解释和宿主名先行分诊。
+- 调整 [agents/openai.yaml](agents/openai.yaml)、[tests/test_entrypoint_consistency.py](tests/test_entrypoint_consistency.py) 与 [tests/test_end_to_end_governance_alignment.py](tests/test_end_to_end_governance_alignment.py)，把宿主名先行分诊、`audit` 五层边界和入口/说明/执行面的对齐冻结进回归。
+- 调整 [docs/AI-Native与Skill驱动E2E验收矩阵.md](docs/AI-Native与Skill驱动E2E验收矩阵.md)、[SKILL.md](SKILL.md)、[references/起步阶段_故事与测试对齐.md](references/起步阶段_故事与测试对齐.md) 与 [tests/test_end_to_end_governance_alignment.py](tests/test_end_to_end_governance_alignment.py)，新增“测试目标直达协议”：统一 `entrypoint / truth_source_allowlist / projection_denylist / write_allowlist / write_role / oracle / replay_seed / failure_boundary` 八字段，并按“真实入口触发 + 真源读取正确 + 写权受控执行 + 冷启动可恢复重放 + oracle 一致”判定 E2E 通过线。
+
+## v0.5.0 - 2026-04-14
+
+### 新增
+
+- 新增 [scripts/manage_files_engine.py](scripts/manage_files_engine.py) `capability-improve` 子命令，以及 [references/问题诊断与控制强度分级.md](references/问题诊断与控制强度分级.md)、[references/执行面判定与CLI生产策略.md](references/执行面判定与CLI生产策略.md)、[docs/外部项目Workflow改造脚手架.md](docs/外部项目Workflow改造脚手架.md)，把 `files-driven` 自己的 `self-hosting capability_scope` 改善 workflow、控制强度判断和宿主 / `CLI` / runner 分工补成正式脚手架。
+- 新增 [docs/v0.4.1_版本说明.md](docs/v0.4.1_版本说明.md)，系统解释这一版为什么强调强化控制能力、宿主原生能力优先，以及脚本 / `CLI` 在当前阶段的补强角色。
+- 新增 [references/运行观察与能力晋升.md](references/运行观察与能力晋升.md)、[examples/capture-candidate-activation/README.md](examples/capture-candidate-activation/README.md) 与 [tests/test_capture_promotion_assets.py](tests/test_capture_promotion_assets.py)，把 `runtime -> candidate -> capability` 这条自迭代能力链正式落成官方 reference、官方 example pack 和专项回归入口。
+- 新增 [docs/当前阶段补完计划.md](docs/当前阶段补完计划.md)，把本项目当前完成状态、剩余缺口、下一 tranche 的执行顺序、验收线和非目标显式收成仓库资产。
+- 新增 [scripts/run_repo_treatment_rollout.py](scripts/run_repo_treatment_rollout.py) 与 [tests/test_repo_treatment_rollout_runner.py](tests/test_repo_treatment_rollout_runner.py)，把“系统体检后的一轮治疗推进”编码成受控 runner：生成 governed run pack、调度 `codex exec`、并由脚本维护 `workflow.state.json / workflow.events.jsonl / status.projection.json`。
+- 新增 [docs/v0.5.0_版本说明.md](docs/v0.5.0_版本说明.md)，正式给出这一版的公开发布锚点。
+
+### 调整
+
+- 调整 [README.md](README.md)、[SKILL.md](SKILL.md)、[docs/项目治理能力模型.md](docs/项目治理能力模型.md) 与 [agents/openai.yaml](agents/openai.yaml)，把“帮助用户识别问题，解决问题”“长期路线是强化控制能力”收成正式口径，并明确控制面外移、`Workflow` 脚本化、`CLI` backend 化只是当前阶段的实现策略。
+- 调整 [README.md](README.md)、[SKILL.md](SKILL.md)、[docs/v0.4.1_版本说明.md](docs/v0.4.1_版本说明.md)、[references/执行面判定与CLI生产策略.md](references/执行面判定与CLI生产策略.md) 与 [docs/外部项目Workflow改造脚手架.md](docs/外部项目Workflow改造脚手架.md)，把三条判断轴的顺序、`CLI` 角色映射、外部 workflow 改造的正式边界和 benchmark 示例直接讲清，统一改成老师直接讲方法的口径。
+- 调整 [README.md](README.md)、[SKILL.md](SKILL.md) 与 [agents/openai.yaml](agents/openai.yaml)，把“脚本控制流程、Codex CLI 只做节点内产物”的 self-hosting 路由写进正式入口文案。
+- 调整 [tests/test_entrypoint_consistency.py](tests/test_entrypoint_consistency.py) 与 [tests/test_files_engine_actions.py](tests/test_files_engine_actions.py)，把 `capability-improve` 的入口暴露和 `manage` CLI 包装执行补成回归。
+- 调整 [README.md](README.md)、[SKILL.md](SKILL.md)、[docs/使用手册.md](docs/使用手册.md)、[references/输出约定.md](references/输出约定.md) 与 [PROJECT_STORIES_AND_TESTS.md](PROJECT_STORIES_AND_TESTS.md)，把“运行观察 -> 证据包 -> 历史召回 -> 拆分出口 -> 候选试验 -> 激活或回退”接成统一入口，不再让读者从旧 smoke pack 或隐含流程名反推自迭代链。
+- 调整 [agents/openai.yaml](agents/openai.yaml)、[README.md](README.md)、[PROJECT_STORIES_AND_TESTS.md](PROJECT_STORIES_AND_TESTS.md) 与 [docs/当前阶段补完计划.md](docs/当前阶段补完计划.md)，把“Skill 的使用界面是 Agent”显式写进仓库入口，并补 agent-facing e2e 回归目标。
+- 调整 [README.md](README.md)、[docs/非工程背景起步.md](docs/非工程背景起步.md)、[docs/使用手册.md](docs/使用手册.md)、[docs/完整说明书.md](docs/完整说明书.md) 与 [docs/仓库元数据建议.md](docs/仓库元数据建议.md)，把用户侧入口压成 `体检 -> 诊断 -> 治疗 -> 复查 -> 随访` 的翻译层，同时明确 `audit` 当前默认是脚手架“基础体检”，不再冒充对下游项目的全量系统体检。
+- 调整 [README.md](README.md)、[docs/完整说明书.md](docs/完整说明书.md) 与 [agents/openai.yaml](agents/openai.yaml)，统一当前公开版本锚点和 agent-facing 显示名口径，收回到单一主名 `files-driven`。
+
 ## v0.4.0 - 2026-04-12
 
 ### 新增

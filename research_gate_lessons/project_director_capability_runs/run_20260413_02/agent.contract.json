@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0",
+  "agent_id": "agent.capability.governor",
+  "family": "agent",
+  "version_anchor": "v1",
+  "roles": [
+    {
+      "role_id": "role.governance_owner",
+      "can_execute_refs": [
+        "action.observe_gaps",
+        "action.map_capability_graph",
+        "action.design_control_upgrade",
+        "action.define_runtime_protocol"
+      ],
+      "can_review_refs": [
+        "action.observe_gaps",
+        "action.map_capability_graph",
+        "action.design_control_upgrade",
+        "action.define_runtime_protocol"
+      ],
+      "can_approve_refs": [
+        "approval.transition.1",
+        "approval.transition.2",
+        "approval.transition.3",
+        "approval.transition.4"
+      ],
+      "blocked_action_refs": []
+    },
+    {
+      "role_id": "role.test_owner",
+      "can_execute_refs": [
+        "action.pilot_on_benchmarks"
+      ],
+      "can_review_refs": [
+        "action.pilot_on_benchmarks"
+      ],
+      "can_approve_refs": [
+        "approval.transition.5"
+      ],
+      "blocked_action_refs": []
+    },
+    {
+      "role_id": "role.capability_owner",
+      "can_execute_refs": [
+        "action.promote_or_rollback"
+      ],
+      "can_review_refs": [
+        "action.promote_or_rollback"
+      ],
+      "can_approve_refs": [],
+      "blocked_action_refs": []
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "object_id": "state.capture.evidence",
+  "family": "object",
+  "version_anchor": "v1",
+  "kind": "state_profile",
+  "fields": [
+    {
+      "field_id": "observation_id",
+      "type": "string",
+      "required": true
+    },
+    {
+      "field_id": "observation_scope",
+      "type": "string",
+      "required": true
+    },
+    {
+      "field_id": "hot_edit_blocked",
+      "type": "boolean",
+      "required": true
+    },
+    {
+      "field_id": "next_read",
+      "type": "string",
+      "required": false
+    }
+  ],
+  "semantics": [
+    {
+      "value": "observed",
+      "meaning": "只记录了运行观察，还没有进入能力晋升判断。"
+    },
+    {
+      "value": "evidence_ready",
+      "meaning": "观察已经足够稳定，可以整理成证据包。"
+    }
+  ]
+}

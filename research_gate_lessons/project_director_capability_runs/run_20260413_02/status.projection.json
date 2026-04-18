@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "projection_id": "projection.project.director.capability.improvement.status",
+  "family": "status_projection",
+  "workflow_id": "workflow.project.director.capability.improvement",
+  "run_id": "run.project.director.capability.improvement.20260413181427",
+  "contract_version": "v1",
+  "source_last_event_id": "event.capability.007",
+  "current_node_id": "node.promote_or_rollback",
+  "gate_state": "ready",
+  "summary": "Current node `node.promote_or_rollback` with gate_state `ready`. This projection is derived from runner-written state and does not authorize any promotion by itself.",
+  "missing_evidence_refs": [],
+  "forbidden_output_refs": [],
+  "generated_at": "2026-04-13T18:29:53+08:00"
+}

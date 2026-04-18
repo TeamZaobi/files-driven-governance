@@ -64,6 +64,7 @@ class FilesEngineScaffoldTests(unittest.TestCase):
         self.assertIn("manage_files_engine.py", readme)
         self.assertIn("`manage` CLI", starter_doc)
         self.assertIn("starter profile", starter_doc)
+        self.assertIn("hooks policy", starter_doc)
 
     def test_bootstrap_creates_valid_starter_for_both_scaffold_and_pack(self) -> None:
         target = self.bootstrap()
@@ -78,6 +79,12 @@ class FilesEngineScaffoldTests(unittest.TestCase):
         self.assertEqual(profile["profile_id"], "starter.demo-project")
         self.assertEqual(registry["project_id"], "demo-project")
         self.assertEqual(routes["project_id"], "demo-project")
+        self.assertTrue((target / "governance" / "hooks.policy.md").exists())
+        self.assertTrue((target / "tooling" / "hooks" / "README.md").exists())
+        self.assertTrue((target / "tooling" / "hooks" / "templates" / "codex.hooks.json").exists())
+        self.assertTrue((target / "tooling" / "hooks" / "templates" / "claude.settings.hooks.json").exists())
+        self.assertTrue((target / "tooling" / "hooks" / "templates" / "copilot-cli-policy.json").exists())
+        self.assertTrue((target / "tooling" / "hooks" / "scripts" / "pre_tool_guard.sh").exists())
 
         scaffold = self.run_cmd(str(SCAFFOLD_VALIDATOR), str(target))
         pack = self.run_cmd(str(PACK_VALIDATOR), str(target))
@@ -269,6 +276,109 @@ class FilesEngineScaffoldTests(unittest.TestCase):
         self.assertGreaterEqual(payload["step_count"], 2)
         self.assertEqual(payload["steps"][0]["category"], "manifest")
         self.assertEqual(payload["steps"][1]["category"], "routes")
+
+    def test_audit_cli_reports_hook_findings_when_adapters_escape_governance(self) -> None:
+        target = self.bootstrap()
+
+        manifest_path = target / "governance" / "scaffold.manifest.json"
+        profile_path = target / "governance" / "starter.profile.json"
+        registry_path = target / "governance" / "files.registry.json"
+        routes_path = target / "governance" / "intent.routes.json"
+
+        manifest = self.read_json(manifest_path)
+        manifest["required_paths"] = [
+            item for item in manifest["required_paths"] if item != "governance/hooks.policy.md"
+        ]
+        self.write_json(manifest_path, manifest)
+
+        profile = self.read_json(profile_path)
+        profile["required_work_posts"] = [
+            item for item in profile["required_work_posts"] if item["path"] != "governance/hooks.policy.md"
+        ]
+        profile["required_entry_expectations"] = [
+            item
+            for item in profile["required_entry_expectations"]
+            if item["path"] != "governance/hooks.policy.md"
+        ]
+        self.write_json(profile_path, profile)
+
+        registry = self.read_json(registry_path)
+        registry["entries"] = [
+            item for item in registry["entries"] if item["file_id"] != "hooks.policy.project"
+        ]
+        self.write_json(registry_path, registry)
+
+        routes = self.read_json(routes_path)
+        for route in routes["routes"]:
+            route["required_file_ids"] = [
+                item for item in route["required_file_ids"] if item != "hooks.policy.project"
+            ]
+            route["write_targets"] = [
+                item for item in route["write_targets"] if item != "hooks.policy.project"
+            ]
+        self.write_json(routes_path, routes)
+
+        (target / "governance" / "hooks.policy.md").unlink()
+
+        scaffold = self.run_cmd(str(SCAFFOLD_VALIDATOR), str(target))
+        self.assertEqual(scaffold.returncode, 0, scaffold.stderr)
+
+        result = self.run_cmd(str(MANAGE), "audit", str(target), "--format", "json")
+
+        self.assertNotEqual(result.returncode, 0)
+        payload = json.loads(result.stdout)
+        self.assertIn("hooks", {finding["category"] for finding in payload["findings"]})
+        self.assertIn("governance/hooks.policy.md", json.dumps(payload, ensure_ascii=False))
+
+    def test_repair_cli_surfaces_hooks_step_when_hook_truth_is_missing(self) -> None:
+        target = self.bootstrap()
+
+        manifest_path = target / "governance" / "scaffold.manifest.json"
+        profile_path = target / "governance" / "starter.profile.json"
+        registry_path = target / "governance" / "files.registry.json"
+        routes_path = target / "governance" / "intent.routes.json"
+
+        manifest = self.read_json(manifest_path)
+        manifest["required_paths"] = [
+            item for item in manifest["required_paths"] if item != "governance/hooks.policy.md"
+        ]
+        self.write_json(manifest_path, manifest)
+
+        profile = self.read_json(profile_path)
+        profile["required_work_posts"] = [
+            item for item in profile["required_work_posts"] if item["path"] != "governance/hooks.policy.md"
+        ]
+        profile["required_entry_expectations"] = [
+            item
+            for item in profile["required_entry_expectations"]
+            if item["path"] != "governance/hooks.policy.md"
+        ]
+        self.write_json(profile_path, profile)
+
+        registry = self.read_json(registry_path)
+        registry["entries"] = [
+            item for item in registry["entries"] if item["file_id"] != "hooks.policy.project"
+        ]
+        self.write_json(registry_path, registry)
+
+        routes = self.read_json(routes_path)
+        for route in routes["routes"]:
+            route["required_file_ids"] = [
+                item for item in route["required_file_ids"] if item != "hooks.policy.project"
+            ]
+            route["write_targets"] = [
+                item for item in route["write_targets"] if item != "hooks.policy.project"
+            ]
+        self.write_json(routes_path, routes)
+
+        (target / "governance" / "hooks.policy.md").unlink()
+
+        result = self.run_cmd(str(MANAGE), "repair", str(target), "--format", "json")
+
+        self.assertNotEqual(result.returncode, 0)
+        payload = json.loads(result.stdout)
+        self.assertEqual(payload["status"], "repair_needed")
+        self.assertEqual(payload["steps"][0]["category"], "hooks")
 
     def test_family_layer_drift_is_rejected(self) -> None:
         target = self.bootstrap()
