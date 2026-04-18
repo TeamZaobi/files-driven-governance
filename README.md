@@ -1,5 +1,7 @@
 # files-driven
 
+中文名：**帷幄**
+
 当前公开版本：`v0.5.1`<br>
 未发布中的整理与修正见 [CHANGELOG.md](CHANGELOG.md) 的 `Unreleased`。
 当前版本说明见 [docs/v0.5.1_版本说明.md](docs/v0.5.1_版本说明.md)；若要看上一版收口，再读 [docs/v0.5.0_版本说明.md](docs/v0.5.0_版本说明.md)。
