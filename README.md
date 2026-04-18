@@ -272,6 +272,10 @@
 | --- | --- | --- |
 | [README.md](README.md) | 第一次接触这个项目的人 | 解释这是什么、什么时候该用、怎么开始 |
 | [docs/项目治理能力模型.md](docs/项目治理能力模型.md) | 维护底层模型的人或审计者 | 作为 `v1 / v2 / v2.1` 的统一底层真源 |
+| [docs/对外一页能力地图.md](docs/对外一页能力地图.md) | 需要对外宣讲或团队快速对齐的人 | 用业务语言一页讲清“解决什么、怎么启动、交付什么、边界是什么” |
+| [docs/能力边界速查.md](docs/能力边界速查.md) | 案例讲得多但仍说不清 skill 能力边界的人 | 用一页固定“能做 / 不能做 / 案例最小句式”，避免案例叙事替代能力定义 |
+| [references/规则入口共享层判定卡.md](references/规则入口共享层判定卡.md) | 总在“个人本地 rules / 项目共享 rules / pack 局部 rules”之间混写的人 | 用一页先分 `runtime_global / repo_project / subtree_or_pack`，避免把共享层问题直接压成“入口规则” |
+| [docs/流程工具方法经验全景盘点.md](docs/流程工具方法经验全景盘点.md) | 想把流程、工具、方法、经验一次性挖全的人 | 用全景台账盘清 process/tooling/method/experience 资产与成熟度 |
 | [docs/能力雷达与版本演进盘点.md](docs/能力雷达与版本演进盘点.md) | 想做系统盘点、版本回看或补完排序的人 | 盘点当前能力簇、两条版本轴和各版本能力增量 |
 | [docs/能力覆盖矩阵与历史差分.md](docs/能力覆盖矩阵与历史差分.md) | 想反向检查能力模型今天到底照进了哪些入口、脚本和回归的人 | 对照 `v1 / v2 / v2.1` 与 `v0.2.0 -> v0.5.0`，盘清能力覆盖和历史差分 |
 | [docs/宿主化知识工作场景矩阵.md](docs/宿主化知识工作场景矩阵.md) | 宿主名先行、但真正要判断真源与写权的人 | 把 `Obsidian / Notion / Docs / Sheets / Slides` 翻译回治理判断 |
@@ -435,6 +439,9 @@
 - 需要先判断问题在哪里、该上多强控制：读 [references/问题诊断与控制强度分级.md](references/问题诊断与控制强度分级.md)
 - 需要决定主线程 / `subagent` / `CLI` / runner 怎么分工：读 [references/执行面判定与CLI生产策略.md](references/执行面判定与CLI生产策略.md)
 - 需要把外部项目现有 workflow 改造成宿主优先、脚本补强，或显式分开 `human authority`、机读控制面和 hook policy：读 [docs/外部项目Workflow改造脚手架.md](docs/外部项目Workflow改造脚手架.md)
+- 需要做对外宣讲或团队 5 分钟快速对齐：读 [docs/对外一页能力地图.md](docs/对外一页能力地图.md)
+- 案例讲了很多，但还是说不清 skill 到底能干什么：先读 [docs/能力边界速查.md](docs/能力边界速查.md)，再回 [SKILL.md](SKILL.md)
+- 需要把流程、工具、方法、经验一次性挖全：读 [docs/流程工具方法经验全景盘点.md](docs/流程工具方法经验全景盘点.md)
 - 议题还没到 `task / decision`：读 [examples/discussion-decision-task/BOUNDARY.md](examples/discussion-decision-task/BOUNDARY.md)、[examples/discussion-decision-task/WORKFLOW.md](examples/discussion-decision-task/WORKFLOW.md)
 - 争议已经很大，需要逐点质询后再收敛：读 [examples/adversarial-convergence/README.md](examples/adversarial-convergence/README.md)
 - hooks 已经成为工具适配面的一部分：读 [references/hooks使用方法论与脚手架.md](references/hooks使用方法论与脚手架.md)、[references/工具适配对照表.md](references/工具适配对照表.md)、[references/关口硬化与稳定放行.md](references/关口硬化与稳定放行.md)

@@ -28,6 +28,7 @@ HOMOGENEOUS_TEAM_REF = ROOT / "references" / "AI-Native同构团队协作.md"
 STRUCTURE_FAMILY_REF = ROOT / "references" / "结构家族定位约定.md"
 READING_ORDER_REF = ROOT / "references" / "官方读取顺序.md"
 TOOL_ADAPTER_REF = ROOT / "references" / "工具适配对照表.md"
+RULE_ENTRY_CARD_REF = ROOT / "references" / "规则入口共享层判定卡.md"
 HOSTED_KNOWLEDGE_MATRIX = ROOT / "docs" / "宿主化知识工作场景矩阵.md"
 AUDIT_MATRIX = ROOT / "docs" / "体检分层矩阵.md"
 COVERAGE_DIFF = ROOT / "docs" / "能力覆盖矩阵与历史差分.md"
@@ -83,6 +84,20 @@ class EndToEndGovernanceAlignmentTests(unittest.TestCase):
         self.assertNotIn("### 4.1 先分四层", manual)
         self.assertNotIn("### 2. 先分结构家族，再谈文档层", cross_project)
         self.assertNotIn("先按结构家族判归属，再谈共享矩阵", shared)
+
+    def test_rule_entry_sharing_layer_card_is_wired_into_entrypoints(self) -> None:
+        readme = README.read_text(encoding="utf-8")
+        skill = SKILL.read_text(encoding="utf-8")
+        manual = MANUAL.read_text(encoding="utf-8")
+        card = RULE_ENTRY_CARD_REF.read_text(encoding="utf-8")
+
+        self.assertIn("references/规则入口共享层判定卡.md", readme)
+        self.assertIn("规则入口共享层判定卡", skill)
+        self.assertIn("规则入口共享层判定卡", manual)
+        self.assertIn("runtime_global_rules", card)
+        self.assertIn("repo_project_rules", card)
+        self.assertIn("subtree_or_pack_rules", card)
+        self.assertIn("只要 `Skill` 路由会改变共享协作结果", card)
 
     def test_beginner_entrypoints_offer_low_bandwidth_path(self) -> None:
         readme = README.read_text(encoding="utf-8")
