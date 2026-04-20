@@ -74,6 +74,22 @@ class FilesEngineActionTests(unittest.TestCase):
             check=False,
         )
 
+    def init_git_repo(self, root: Path) -> None:
+        subprocess.run(["git", "init"], cwd=root, check=True, capture_output=True, text=True)
+        subprocess.run(["git", "config", "user.email", "test@example.com"], cwd=root, check=True, capture_output=True, text=True)
+        subprocess.run(["git", "config", "user.name", "Test"], cwd=root, check=True, capture_output=True, text=True)
+        subprocess.run(["git", "add", "."], cwd=root, check=True, capture_output=True, text=True)
+        subprocess.run(["git", "commit", "-m", "init"], cwd=root, check=True, capture_output=True, text=True)
+        branch = subprocess.run(
+            ["git", "branch", "--show-current"],
+            cwd=root,
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+        if branch and branch != "main":
+            subprocess.run(["git", "branch", "-m", "main"], cwd=root, check=True, capture_output=True, text=True)
+
     def read_json(self, path: Path) -> dict:
         return json.loads(path.read_text(encoding="utf-8"))
 
@@ -395,6 +411,47 @@ class FilesEngineActionTests(unittest.TestCase):
         invalid_payload = json.loads(invalid.stdout)
         self.assertEqual(invalid_payload["status"], "invalid")
         self.assertTrue(any(item["category"] == "authority_surface" for item in invalid_payload["findings"]))
+
+    def test_governance_layer_warns_when_git_workspace_is_missing(self) -> None:
+        target = self.bootstrap()
+
+        result = self.run_cmd(
+            str(MANAGE),
+            "audit",
+            str(target),
+            "--layer",
+            "governance",
+            "--format",
+            "json",
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        payload = json.loads(result.stdout)
+        self.assertEqual(payload["status"], "valid")
+        categories = {item["category"] for item in payload.get("warnings", [])}
+        self.assertIn("git_workspace", categories)
+
+    def test_governance_layer_warns_on_dirty_stable_branch_without_upstream(self) -> None:
+        target = self.bootstrap()
+        self.init_git_repo(target)
+
+        readme_path = target / "README.md"
+        readme_path.write_text(readme_path.read_text(encoding="utf-8") + "\nDirty branch test.\n", encoding="utf-8")
+
+        result = self.run_cmd(
+            str(MANAGE),
+            "audit",
+            str(target),
+            "--layer",
+            "governance",
+            "--format",
+            "json",
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        payload = json.loads(result.stdout)
+        self.assertEqual(payload["status"], "valid")
+        categories = {item["category"] for item in payload.get("warnings", [])}
+        self.assertIn("git_branch_strategy", categories)
+        self.assertIn("git_tracking", categories)
 
     def test_governance_layer_validates_downstream_readme_scope_and_authority(self) -> None:
         target = self.bootstrap()

@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 CAPABILITY_RUNNER = ROOT / "scripts" / "run_project_director_capability_improvement.py"
 HOOK_POLICY_PATH = Path("governance/hooks.policy.md")
 AUDIT_LAYERS = ("scaffold", "pack", "runtime", "governance", "adoption")
+STABLE_BRANCH_NAMES = {"main", "master", "trunk", "stable", "release"}
 
 
 def parse_args() -> argparse.Namespace:
@@ -172,6 +173,104 @@ def read_text_if_exists(path: Path) -> str | None:
     if not path.exists() or not path.is_file():
         return None
     return path.read_text(encoding="utf-8")
+
+
+def run_git(project_root: Path, *args: str) -> subprocess.CompletedProcess[str] | None:
+    try:
+        return subprocess.run(
+            ["git", "-C", str(project_root), *args],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+    except FileNotFoundError:
+        return None
+
+
+def git_worktree_count(porcelain_text: str) -> int:
+    return sum(1 for line in porcelain_text.splitlines() if line.startswith("worktree "))
+
+
+def collect_git_governance_warnings(project_root: Path) -> list[dict]:
+    warnings: list[dict] = []
+    repo_root = run_git(project_root, "rev-parse", "--show-toplevel")
+    if repo_root is None:
+        warnings.append(
+            governance_finding(
+                "git_workspace",
+                "`git` 不可用；当前 governance audit 还不能检查 branch / worktree / upstream 卫生。",
+            )
+        )
+        return warnings
+    if repo_root.returncode != 0:
+        warnings.append(
+            governance_finding(
+                "git_workspace",
+                "当前目录不在 Git workspace 中；governance audit 还不能主动审查 branch / worktree / upstream 风险。",
+            )
+        )
+        return warnings
+
+    head = run_git(project_root, "symbolic-ref", "--quiet", "--short", "HEAD")
+    branch_name = head.stdout.strip() if head and head.returncode == 0 else None
+    if branch_name is None:
+        short_head = run_git(project_root, "rev-parse", "--short", "HEAD")
+        revision = short_head.stdout.strip() if short_head and short_head.returncode == 0 else "<unknown>"
+        warnings.append(
+            governance_finding(
+                "git_head",
+                f"当前 Git HEAD 处于 detached 状态（`{revision}`）；先回到命名分支，再把这里当共享基线继续推进。",
+            )
+        )
+
+    status = run_git(project_root, "status", "--short")
+    status_lines = [line for line in (status.stdout.splitlines() if status and status.returncode == 0 else []) if line]
+    worktree = run_git(project_root, "worktree", "list", "--porcelain")
+    worktree_count = (
+        git_worktree_count(worktree.stdout) if worktree and worktree.returncode == 0 else 1
+    )
+    if branch_name in STABLE_BRANCH_NAMES and status_lines:
+        isolation = "独立 feature branch 或 worktree" if worktree_count <= 1 else "独立 feature branch"
+        warnings.append(
+            governance_finding(
+                "git_branch_strategy",
+                f"稳定分支 `{branch_name}` 当前仍有 {len(status_lines)} 条本地改动；在进入多人 / 多 agent 推进前，建议先切到 {isolation}。",
+            )
+        )
+
+    if branch_name is not None:
+        upstream = run_git(project_root, "rev-parse", "--abbrev-ref", "--symbolic-full-name", "@{upstream}")
+        if upstream is None or upstream.returncode != 0:
+            warnings.append(
+                governance_finding(
+                    "git_tracking",
+                    f"分支 `{branch_name}` 还没有 upstream tracking；当前 governance audit 还不能判断 ahead / behind / diverged 压力。",
+                )
+            )
+        else:
+            upstream_name = upstream.stdout.strip()
+            counts = run_git(project_root, "rev-list", "--left-right", "--count", f"HEAD...{upstream_name}")
+            if counts and counts.returncode == 0:
+                parts = counts.stdout.strip().split()
+                if len(parts) == 2:
+                    ahead = int(parts[0])
+                    behind = int(parts[1])
+                    if ahead and behind:
+                        warnings.append(
+                            governance_finding(
+                                "git_tracking",
+                                f"分支 `{branch_name}` 相对 `{upstream_name}` 已经分叉（ahead {ahead} / behind {behind}）；先收口共享基线，再继续跨上下文协作。",
+                            )
+                        )
+                    elif behind:
+                        warnings.append(
+                            governance_finding(
+                                "git_tracking",
+                                f"分支 `{branch_name}` 落后 `{upstream_name}` {behind} 个提交；先同步共享基线，再依赖项目级审查结论。",
+                            )
+                        )
+
+    return warnings
 
 
 def read_events_if_exists(path: Path) -> list[dict] | None:
@@ -595,6 +694,7 @@ def downstream_skill_paths(project_root: Path) -> list[Path]:
 
 def run_governance_audit(project_root: Path, fmt: str) -> int:
     findings: list[dict] = []
+    warnings: list[dict] = []
     profile: str | None = None
 
     if self_hosting_governance_applicable(project_root):
@@ -822,6 +922,7 @@ def run_governance_audit(project_root: Path, fmt: str) -> int:
         print_payload(payload, fmt)
         return 0
 
+    warnings.extend(collect_git_governance_warnings(project_root))
     payload = {
         "status": "valid" if not findings else "invalid",
         "layer": "governance",
@@ -829,6 +930,8 @@ def run_governance_audit(project_root: Path, fmt: str) -> int:
         "profile": profile,
         "finding_count": len(findings),
         "findings": findings,
+        "warning_count": len(warnings),
+        "warnings": warnings,
         "implemented": True,
     }
     print_payload(payload, fmt)
@@ -1289,6 +1392,7 @@ def audit_routing_refs(layer: str) -> list[str]:
         "governance": [
             "docs/项目治理能力模型.md",
             "docs/三层信息架构复盘.md",
+            "references/Git治理审查与建议.md",
             "references/工具适配对照表.md",
             "docs/体检分层矩阵.md",
         ],
