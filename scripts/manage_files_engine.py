@@ -20,7 +20,7 @@ STABLE_BRANCH_NAMES = {"main", "master", "trunk", "stable", "release"}
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Operate files-driven meta-skill actions such as register, repair, audit, and capability improvement runs.",
+        description="Operate files-driven actions. Prefer ignore/merge/archive/freeze/reuse before register; delete only when an object is wrong, unused, and has no retention value. capability-improve is an experimental self-hosting recovery path.",
     )
     subparsers = parser.add_subparsers(dest="command", required=True)
 
@@ -56,7 +56,7 @@ def parse_args() -> argparse.Namespace:
 
     capability = subparsers.add_parser(
         "capability-improve",
-        help="Run the self-hosting project-director capability-improvement workflow through a script-controlled Codex CLI runner.",
+        help="Experimental L4 self-hosting recovery run for repeated prompt-only failure; uses a script-controlled Codex CLI runner.",
     )
     capability.add_argument("output_root", help="Directory where the governed run pack should be written.")
     capability.add_argument(

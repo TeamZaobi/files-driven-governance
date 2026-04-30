@@ -182,8 +182,8 @@ BENCHMARK_NOTES = (
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=(
-            "Run the project-director capability-improvement workflow as a script-controlled run pack, "
-            "calling Codex CLI as the node worker and writing governed runtime artifacts."
+            "Run the experimental L4 project-director capability-improvement workflow as a script-controlled recovery pack, "
+            "calling Codex CLI as the node worker and writing governed runtime artifacts only after lighter governance has failed."
         )
     )
     parser.add_argument(
